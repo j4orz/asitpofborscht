@@ -1,5 +1,7 @@
 # Bibliography
 
+<!--
+papers
 - https://dl.acm.org/doi/pdf/10.1145/355841.355847
 - https://dl.acm.org/doi/epdf/10.1145/42288.42291
 - https://hammarling.com/sven/pubs/Level2BLAS-2-TOMS14-88.pdf
@@ -35,4 +37,4 @@
 - sglang
 - nanotron
 - monarch
-- autovectorization papers
+- autovectorization papers -->
