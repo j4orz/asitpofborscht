@@ -3,6 +3,7 @@
 As a compiler writer for domain specific cloud languages (Terraform HCL),
 I became interested in compiler implementations for domain specific tensor languages
 such as PyTorch 2 after the software 3.0 unlock of natural language programming from large language models such as ChatGPT.
+
 However, I became frustrated with the *non-constructiveness* and *disjointedness* of
 my learning experience in the discipline of machine learning systems,
 as I preferred a style of pedagody similar to the introductory computer science canon created by Schemers

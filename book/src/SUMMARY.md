@@ -1,10 +1,12 @@
 [Front](./front.md)
 [Dedication](./dedi.md)
 [Preface](./pref.md)
+[Prologue](./pro.md)
 - [Elements of Networks](./1.md)
 - [Neural Networks](./2.md)
 - [Scaling Networks](./3.md)
 ---
 [Afterword](./after.md)
 [Appendix](./ap.md)
+[Acknowledgements](./ack.md)
 [Bibliography](./bib.md)

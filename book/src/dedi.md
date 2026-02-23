@@ -8,9 +8,3 @@ May you rest in pure land. We'll meet again dad.</br>
   </audio>
 
 ![](./assets/dad.jpg)
-
-## Acknowledgements
-*Reviewers*
-
-*Errata*
-- [Jashanpreet Singh](https://github.com/Jashanpreet2)
