@@ -1,12 +1,7 @@
-![](./assets/evolution.png)
-<small>*Evolution of man*</small></br>
+![](./assets/pref.jpeg)
+*Myself, presenting a draft of SITP at the [Toronto School of Foundation Modeling](https://tsfm.ca/schedule) Season 1*
 
 # Preface
-
-In some sense, the 21st century only truly began after the first 20-25 years past the year 2000,
-as it was not until the creation of ChatGPT where humanity traded in their so-called bicycles of mind for motorcycle upgrades,
-given that pouring data into transformers neural network architectures with massively parallel compute
-enabled biological humans and artificial machines to communicate with one another through the means of natural language.
 
 This book is aspirationally titled *The Structure and Interpretation of Tensor Programs*, (abbreviated as SITP)
 as it's goal is to serve the same role for software 2.0 as

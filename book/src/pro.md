@@ -1,11 +1,12 @@
-<!-- put some ai version of tower of babel -->
+
+![](./assets/babel.jpg)
 
 # Prologue
 
-In some sense, the 21st century truly began only after the first 20-25 years,
-as it was not until the creation of ChatGPT until humanity traded in their bicycles of mind for motorcycles,
-given that pouring data into the transformers neural network architecture with massively parallel compute
-enabled biological humans and artificial machines to communicate with another through natural language.
+In some sense, the 21st century only truly began after the first 20-25 years past the year 2000,
+as it was not until the creation of ChatGPT where humanity traded in their so-called bicycles of mind for motorcycle upgrades,
+given that pouring data into transformers neural network architectures with massively parallel compute
+enabled biological humans and artificial machines to communicate with one another through the means of natural language.
 
 This is a book about deep neural networks like ChatGPT, but also the deep learning systems that power such systems.
 It's aspirationally titled *The Structure and Interpretation of Tensor Programs*, (abbreviated as SITP)
@@ -24,7 +25,6 @@ a group of scientists in the middle of the 20th century realized that the thesis
 was the most suitable instrument in which the study of the mind should be conducted on.
 In a 1956 summer workshop at Dartmouth, they were to rebrand the discipline as the study of *artificial intelligence*.
 
-![](./assets/prologue.jpeg)
 *1956 Dartmouth Summer Research Project on Artificial Intelligence: Selfridge, Rochester, Solomonoff, Minsky, More, McCarthy and Shannon*
 
 Some people in that workshop..logical ai and lisp (in which scheme is a dialect of)
