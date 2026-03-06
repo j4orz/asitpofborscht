@@ -8,5 +8,4 @@
 ---
 [Afterword](./after.md)
 [Appendix](./ap.md)
-[Acknowledgements](./ack.md)
 [Bibliography](./bib.md)

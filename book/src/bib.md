@@ -38,6 +38,8 @@ Hwu, W.-M. W., Kirk, D. B., & Hajj, I. E. (2022). Programming Massively Parallel
 
 Jurafsky, D., & H. Martin, J. (2026). Speech and Language Processing. Stanford.edu. [https://web.stanford.edu/~jurafsky/slp3/](https://web.stanford.edu/~jurafsky/slp3/)
 
+Kwon, W., Li, Z., Zhuang, S., Sheng, Y., Zheng, L., Cody Hao Yu, Gonzalez, J. E., Zhang, H., & Stoica, I. (2023). Efficient Memory Management for Large Language Model Serving with PagedAttention. [https://doi.org/10.1145/3600006.3613165](https://doi.org/10.1145/3600006.3613165)
+
 Lambert, N. (2026). RLHF Book. Rlhfbook.com. [https://rlhfbook.com/](https://rlhfbook.com/)
 
 Lawson, C. L., Hanson, R. J., Kincaid, D. R., & Krogh, F. T. (1979). Basic Linear Algebra Subprograms for Fortran Usage. ACM Transactions on Mathematical Software, 5(3), 308–323. [https://doi.org/10.1145/355841.355847](https://doi.org/10.1145/355841.355847)
@@ -69,3 +71,5 @@ Strang, G. (2023). Introduction to Linear Algebra. Wellesley-Cambridge Press. [h
 Sutton, R. S., & Barto, A. (2018). Reinforcement learning: An introduction (2nd ed.). The Mit Press. [http://incompleteideas.net/book/the-book-2nd.html](http://incompleteideas.net/book/the-book-2nd.html)
 
 Tillet, P., Kung, H.-T., & Cox, D. G. (2019). Triton: An Intermediate Language and Compiler for Tiled Neural Network Computations. [https://doi.org/10.1145/3315508.3329973](https://doi.org/10.1145/3315508.3329973)
+
+Zheng, L., Yin, L., Xie, Z., Sun, C., Huang, J., Yu, C. H., Cao, S., Kozyrakis, C., Stoica, I., Gonzalez, J. E., Barrett, C., & Sheng, Y. (2023). SGLang: Efficient Execution of Structured Language Model Programs. ArXiv.org. [https://arxiv.org/abs/2312.07104](https://arxiv.org/abs/2312.07104)

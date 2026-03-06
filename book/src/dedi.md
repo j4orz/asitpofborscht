@@ -7,4 +7,4 @@ May you rest in pure land. We'll meet again dad.</br>
     Your browser doesn’t support the audio element.
   </audio>
 
-![](./assets/dad.jpg)
+<img src="./assets/dad.jpg" width="500px" />

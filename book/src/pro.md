@@ -1,4 +1,3 @@
-
 ![](./assets/babel.jpg)
 
 # Prologue
