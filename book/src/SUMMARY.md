@@ -1,5 +1,6 @@
 [Front](./front.md)
 [Dedication](./dedi.md)
+[Preface](./pref.md)
 [Prologue](./pro.md)
 - [Elements of Networks](./1.md)
 - [Neural Networks](./2.md)
