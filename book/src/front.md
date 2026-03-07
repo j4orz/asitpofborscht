@@ -13,11 +13,18 @@
 *Made possible by [Lambda Labs Research Grant](https://lambda.ai/research)*<br/>
 *First Edition (Draft).*<br/>
 
+
 [![GitHub Repo stars](https://img.shields.io/github/stars/j4orz/teenygrad)](https://github.com/j4orz/teenygrad)
 [![YouTube Channel Views](https://img.shields.io/youtube/channel/views/UChjlYGbn1bX7gXLq9c9dnBg)](https://www.youtube.com/@j4orz/videos)
 [![](https://dcbadge.limes.pink/api/server/gpumode?style=flat)](https://discord.com/channels/1189498204333543425/1373414141427191809)
 
 
+
+<div class="mobile-only">
+
+> You are viewing this on a mobile device, and is best viewed on a desktop. This book includes interactive multimedia artifacts, tufte-style sidenotes, and external hyperlinks to other resources.
+
+</div>
 
 ---
 
