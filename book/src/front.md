@@ -11,7 +11,7 @@
 
 *Made with 🖤  by [Jeffrey David Zhang](https://x.com/j4orz), [Waterloo Mathematics](https://academic-calendar-archive.uwaterloo.ca/undergraduate-studies/2022-2023/page/MATH-Degree-Requirements-for-Math-students.html#Table%20II)*<br/>
 *Made possible by [Lambda Labs Research Grant](https://lambda.ai/research)*<br/>
-*First Edition.*<br/>
+*First Edition (Draft).*<br/>
 
 [![GitHub Repo stars](https://img.shields.io/github/stars/j4orz/teenygrad)](https://github.com/j4orz/teenygrad)
 [![YouTube Channel Views](https://img.shields.io/youtube/channel/views/UChjlYGbn1bX7gXLq9c9dnBg)](https://www.youtube.com/@j4orz/videos)

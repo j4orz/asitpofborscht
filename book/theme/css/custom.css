@@ -79,6 +79,10 @@ p:has(> em:only-child) {
   line-height: 1.3;
 }
 
+blockquote .sidenote {
+  margin-right: calc(-44% - 20px);
+}
+
 .sidenote-number {
   counter-increment: sidenote-counter;
 }
