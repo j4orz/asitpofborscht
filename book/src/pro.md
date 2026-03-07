@@ -8,7 +8,7 @@ for it was not until the creation of ChatGPT where humanity traded in their so-c
 From 2020 to 2025, programmers (just like you) discovered [The Scaling Laws](https://gwern.net/scaling-hypothesis),
 where pouring internet-scale data into the weights of transformer neural networks with massively parallel and distributed compute
 produces large language models which in turn enable communication between biological humans and artificial machines through the means of natural language.
-This has always been a long standing dream in the science of the mind we call artificial intelligence.
+This has always been a long standing dream<span class="sidenote-number"></span><span class="sidenote">*argubally started with Descartes denial of [dualism](https://plato.stanford.edu/entries/dualism/), extended by La Mettrie's [Man A Machine](https://en.wikipedia.org/wiki/Man_a_Machine), initiated by Leibniz's [Universal Calculus](https://en.wikipedia.org/wiki/Characteristica_universalis), and applied computationally with Wittgenstein's [Tractatus Logico-Philosophicus](https://plato.stanford.edu/entries/wittgenstein/#EarlWitt) and [Philosophical Investigations](https://plato.stanford.edu/entries/wittgenstein/#LateWitt).*</span> in the science of the mind we call artificial intelligence.
 
 The story of artificial intelligence is tightly interconnected with computation,
 given that the field as we know it today started in earnest during the 20th century
@@ -28,9 +28,9 @@ being the *symbolists* and the *connectionists* which in some sense are the prim
 and in fact date back to *Aristotle* and *Laplace*, in which Baye's Theorem generalizes Aristotelian Logic as a corner case
 with the probability of some belief given evidence is 1.
 
-(embed eliza) <!-- <iframe loading="lazy" src="https://www.masswerk.at/elizabot/"></iframe> -->
+<!-- (embed eliza) <iframe loading="lazy" src="https://www.masswerk.at/elizabot/"></iframe>
+(reword the way in which the field played out. it's because people valued theoretical arguments over empirical experiments.) -->
 
-(reword the way in which the field played out. it's because people valued theoretical arguments over empirical experiments.)
 With the way in which the field played out,
 the logical approach with symbolic techniques to artificial intelligence started out as the favorite school of thought<span class="sidenote-number"></span><span class="sidenote">*thus known as "classical" AI or "good-old-fashioned" AI*</span>
 as opposed to the probabilistic approach largely due to the 1969 book Perceptrons by Marvin Minsky and Seymour Papert.
@@ -47,19 +47,9 @@ are able to learn representations...the true watershed moment
 was during 2012 when a neural network named [AlexNet](https://proceedings.neurips.cc/paper_files/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf) trained on
 a parallel graphics processor was released, scoring a loss on the [ImageNet](https://www.image-net.org/) dataset 10.8% better than the next runner-up.
 
-The 2012-2019 period in deep learning is now becoming known as the *era of research*,
+The 2012-2019 period in deep learning is now becoming known as *the era of research*,
 as diverse and various inductive biases were explored through the means of network architectures,
 resulting in different neural networks such as feedforward neural networks,
 convolutional neural networks, recurrent neural networks, long-short-term-memory neural networks, and so on,
 up until the scaling the attention mechanism and feedforward nets inside the transformer archicture started gaining dominance
-in the 2020-2025 period, now known as
-
-
-
-
-
-sicp to sitp. canon. tower of babel. canon. standard. rule of measure. library of alexandria. euclid. scribe(writes)/scholar(interprets)<span class="sidenote-number"></span><span class="sidenote">*which in fact was predicted somewhat prophetically by [Wittgenstein](https://plato.stanford.edu/entries/wittgenstein/)'s epistemic transition from his book Tractatus Logico-Philosophicus to that of Philsophical Investigations.*</span>
-https://en.wikipedia.org/wiki/Characteristica_universalis
-
-<!-- - symbolists minsky and mccarthy. minsky and papert. neural networks XOR. using the classic logical tools:  frege, tarski, brouwer, heything, gentzen, curry-howard, martin lof, girard
-- SICP -> SITP
+in the 2020-2025 period, now known as the *the era of scaling*, which brings us back to the present day.
