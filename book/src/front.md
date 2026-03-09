@@ -22,7 +22,7 @@
 
 <div class="mobile-only">
 
-> You are viewing this on a mobile device, and is best viewed on a desktop. This book includes interactive multimedia artifacts, tufte-style sidenotes, and external hyperlinks to other resources.
+> You are viewing this on a mobile device, whereas SITP is best viewed on a desktop — the book includes various multimedia lecture videos, visualizers, any tufte-style sidenotes with many external hyperlinks to other resources.
 
 </div>
 
