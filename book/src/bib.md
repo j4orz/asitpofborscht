@@ -73,3 +73,5 @@ Sutton, R. S., & Barto, A. (2018). Reinforcement learning: An introduction (2nd 
 Tillet, P., Kung, H.-T., & Cox, D. G. (2019). Triton: An Intermediate Language and Compiler for Tiled Neural Network Computations. [https://doi.org/10.1145/3315508.3329973](https://doi.org/10.1145/3315508.3329973)
 
 Zheng, L., Yin, L., Xie, Z., Sun, C., Huang, J., Yu, C. H., Cao, S., Kozyrakis, C., Stoica, I., Gonzalez, J. E., Barrett, C., & Sheng, Y. (2023). SGLang: Efficient Execution of Structured Language Model Programs. ArXiv.org. [https://arxiv.org/abs/2312.07104](https://arxiv.org/abs/2312.07104)
+
+Zadouri, T., Hoehnerbach, M., Shah, J., Liu, T., Thakkar, V., & Dao, T. (2026). FlashAttention-4: Algorithm and Kernel Pipelining Co-Design for Asymmetric Hardware Scaling. ArXiv.org. [https://arxiv.org/abs/2603.05451](https://arxiv.org/abs/2603.05451)
