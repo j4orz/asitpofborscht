@@ -14,13 +14,6 @@ The primary reason why this format is loved by many (and to be fair, equally dis
 is because of the somewhat challenging learning curve for beginners, as it's not a book which teaches *syntax* such as "How to Learn X in Y Minute Handbook",
 but rather the *semantics* of a programming with programming languages<span class="sidenote-number"></span><span class="sidenote">*The difficulty of teaching has always been semantics: [Matthias Felleisen's](https://felleisen.org/matthias/OnHtDP/what_is_ts.html) TeachScheme!, [Shriram Krishnamurthi's](https://cs.brown.edu/~sk/Publications/Papers/Published/sk-teach-pl-post-linnaean/) Standard Model of Programming Languages, [Will Crichton's](https://willcrichton.net/#sec-cognition) Profiling Programming Language Learning (something on SITP's roadmap).*</span>.
 
-This book is open source and the book text/code are released under the MIT License unless otherwise noted.
-Some chapters may include embedded third-party videos, images, tweets, or other media for educational reference. Such embedded content remains the property of its original creators and licensors and is **not** released under this book’s MIT License unless explicitly stated.
-Embedded media is shown from its original source and is not claimed as original work of this project.
-- https://d2l.ai/chapter_preface/index.html#one-medium-combining-code-math-and-html
-- https://willcrichton.net/#sec-communication
-- https://distill.pub/2021/distill-hiatus/
-
 Before the success of large
 language models<span class="sidenote-number"></span><span class="sidenote">*notably the supervised finetuning and reinforcement learning from human feedback on top of a pretrainted transformer*</span>
 the pedagogical return on investment in an introductory book on artificial intelligence following the same form as SICP was low,
@@ -44,6 +37,16 @@ Finally, in [part three](./3.md)<span class="sidenote-number"></span><span class
 *which if you are more experienced, you may benefit in jumping straight to, to better understand what something like `torch.compile()` is doing for you*</span> of the book,
 you will update [`teenygrad`](https://github.com/j4orz/teenygrad) for the last time for the *age of scaling* by developing a "graph mode" compilation and inference engine with tinygrad's RISCy IR,
 borrowing ideas from ThunderKitten's tile registers, MegaKernels, and Halide/TVM schedules. To continue deeping your knowledge, more resources are provided in the [afterword](./after.md).
+
+The book provides a single resource with code, math, and exposition<span class="sidenote-number"></span><span class="sidenote">*inspired by pedagogy such as [Dive into Deep Learning](https://d2l.ai/chapter_preface/index.html#one-medium-combining-code-math-and-html) (Zhang, Lipton, Li and Smola) and [Distill](https://distill.pub/) (Carter and Olah)*</span>
+for deep learning systems such as [pytorch](https://github.com/pytorch/pytorch) and [jax](https://github.com/jax-ml/jax), while also embedding visualizers, explainers, and lectures from other open source
+educators<span class="sidenote-number"></span><span class="sidenote">*from Andrej Karpathy, Grant Sanderson, Stephen Welch, Artem Kirsanov, and so on.*</span>
+to provide a rich multimodal dynamic
+document<span class="sidenote-number"></span><span class="sidenote">*as explored by Crichton with research in [technical foundations of technical communication](https://willcrichton.net/#sec-communication)*</span>
+experience for the reader.
+While the SITP book and the teenygrad codebase is licensed under the MIT License,
+such embedded content remains the property of its original creators and licensors and
+is not claimed as original work of this project nor released under the MIT License.
 
 If you empathize with some of my frustrations, you may benefit from the book too.</br>
 If you are looking for reading groups checkout the `#teenygrad` channel in [![](https://dcbadge.limes.pink/api/server/gpumode?style=flat)](https://discord.com/channels/1189498204333543425/1373414141427191809)</br>

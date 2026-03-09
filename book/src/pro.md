@@ -38,9 +38,9 @@ The logical approach used logical tools from logicians<span class="sidenote-numb
 Overtime however, and largely due to the continually increasing capability of hardware, the probabilistic approach with machine learning techniques
 started to see some more success.
 
-Ironically enough, although these people were united in the idea of using probabilistic learning 
+Ironically enough, although *these* people were united in the idea of using probabilistic learning 
 methods<span class="sidenote-number"></span><span class="sidenote">*following the same principle of modeling phenomena with mathematical models where the system minimizes free energy which experienced large success in the 19th century when physicists such as Helmholtz, Gibbs, and Boltzmann modeled energy, enthalpy, and entropy*</span>,
-they themselves were divided between which exact models $y=f_{\theta}(\mathbf{x})$ to employ.
+*they themselves* were divided between which exact models $y=f_{\theta}(\mathbf{x})$ to employ.
 The three prominent ones being *gaussian processes*, *kernel machines*, and *neural networks*.
 Theoretically, (kernel machines todo), but practically neural networks when made *deep*
 are able to learn representations...the true watershed moment
