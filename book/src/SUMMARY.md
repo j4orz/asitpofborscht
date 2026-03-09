@@ -6,6 +6,6 @@
 - [Neural Networks](./2.md)
 - [Scaling Networks](./3.md)
 ---
-[Afterword](./after.md)
+[Epilogue](./epi.md)
 [Appendix](./ap.md)
 [Bibliography](./bib.md)
