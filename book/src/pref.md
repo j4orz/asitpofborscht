@@ -9,10 +9,17 @@ as it's goal is to serve the same role for software 2.0 as
 (abbreviated as SICP) did for software 1.0.
 Written by Harold Abelson and Gerald Sussman with Julie Sussman, SICP has reached consensus amongst many to be integral to the programmer's classic canon,
 providing an introductory whirlwind tour on the essence of computation through a logically unbroken yet informal sequence from programming, to
-programming languages<span class="sidenote-number"></span><span class="sidenote">*SICP influenced other texts such as it's [dual](https://cs.brown.edu/~sk/Publications/Papers/Published/fffk-htdp-vs-sicp-journal/paper.pdf) [HtDP](https://htdp.org/) (introduced in Waterloo by [Prabhakar Ragde](https://cs.uwaterloo.ca/~plragde/flaneries/)) it's typed counterpart [OCEB](https://cs3110.github.io/textbook/cover.html), and the [recent](https://cs.brown.edu/~sk/Publications/Papers/Published/kf-data-centric/paper.pdf) addition of [DCIC](https://dcic-world.org/) spawning from it's phylogenetic cousin [PAPL](https://papl.cs.brown.edu/2020/).*</span>.
+programming languages<span class="sidenote-number"></span><span class="sidenote">*SICP influenced other texts such as it's [dual](https://cs.brown.edu/~sk/Publications/Papers/Published/fffk-htdp-vs-sicp-journal/paper.pdf) [HtDP](https://htdp.org/) (introduced at Waterloo by [Prabhakar Ragde](https://cs.uwaterloo.ca/~plragde/flaneries/FICS/Introduction.html)) it's typed counterpart [OCEB](https://cs3110.github.io/textbook/cover.html), and the [recent](https://cs.brown.edu/~sk/Publications/Papers/Published/kf-data-centric/paper.pdf) addition of [DCIC](https://dcic-world.org/) spawning from it's phylogenetic cousin [PAPL](https://papl.cs.brown.edu/2020/).*</span>.
 The primary reason why this format is loved by many (and to be fair, equally disliked by a few),
 is because of the somewhat challenging learning curve for beginners, as it's not a book which teaches *syntax* such as "How to Learn X in Y Minute Handbook",
 but rather the *semantics* of a programming with programming languages<span class="sidenote-number"></span><span class="sidenote">*The difficulty of teaching has always been semantics: [Matthias Felleisen's](https://felleisen.org/matthias/OnHtDP/what_is_ts.html) TeachScheme!, [Shriram Krishnamurthi's](https://cs.brown.edu/~sk/Publications/Papers/Published/sk-teach-pl-post-linnaean/) Standard Model of Programming Languages, [Will Crichton's](https://willcrichton.net/#sec-cognition) Profiling Programming Language Learning (something on SITP's roadmap).*</span>.
+
+This book is open source and the book text/code are released under the MIT License unless otherwise noted.
+Some chapters may include embedded third-party videos, images, tweets, or other media for educational reference. Such embedded content remains the property of its original creators and licensors and is **not** released under this book’s MIT License unless explicitly stated.
+Embedded media is shown from its original source and is not claimed as original work of this project.
+- https://d2l.ai/chapter_preface/index.html#one-medium-combining-code-math-and-html
+- https://willcrichton.net/#sec-communication
+- https://distill.pub/2021/distill-hiatus/
 
 Before the success of large
 language models<span class="sidenote-number"></span><span class="sidenote">*notably the supervised finetuning and reinforcement learning from human feedback on top of a pretrainted transformer*</span>
