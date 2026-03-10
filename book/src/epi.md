@@ -1,4 +1,4 @@
-# Afterword
+# Epilogue
 
 To continue deepening your knowledge on deep learning and it's systems,
 the following resources are a good next step.
