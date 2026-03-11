@@ -4,6 +4,8 @@ Amanzhol Salykov. (2025, January 12). Advanced Matrix Multiplication Optimizatio
 
 Ansel, J., Yang, E., He, H., Gimelshein, N., Jain, A., Voznesensky, M., Bao, B., Bell, P., Berard, D., Evgeni Burovski, Chauhan, G., Anjali Chourdia, Constable, W., Alban Desmaison, DeVito, Z., Ellison, E., Feng, W., Gong, J., Gschwind, M., & Hirsh, B. (2024). PyTorch 2: Faster Machine Learning Through Dynamic Python Bytecode Transformation and Graph Compilation. ACM, ASPLOS’2024. [https://doi.org/10.1145/3620665.3640366](https://doi.org/10.1145/3620665.3640366)
 
+Bach, F. (2024). Learning Theory from First Principles. MIT Press. [https://www.di.ens.fr/~fbach/ltfp_book.pdf](https://www.di.ens.fr/~fbach/ltfp_book.pdf)
+
 Boehm, S. (2022, December 31). How to Optimize a CUDA Matmul Kernel for cuBLAS-like Performance: a Worklog. Siboehm.com. [https://siboehm.com/articles/22/CUDA-MMM](https://siboehm.com/articles/22/CUDA-MMM)
 
 Bright, P., Edelman, A., & Johnson, S. G. (2025). Matrix Calculus (for Machine Learning and Beyond). ArXiv.org. [https://arxiv.org/abs/2501.14787](https://arxiv.org/abs/2501.14787)
@@ -44,6 +46,10 @@ Lambert, N. (2026). RLHF Book. Rlhfbook.com. [https://rlhfbook.com/](https://rlh
 
 Lawson, C. L., Hanson, R. J., Kincaid, D. R., & Krogh, F. T. (1979). Basic Linear Algebra Subprograms for Fortran Usage. ACM Transactions on Mathematical Software, 5(3), 308–323. [https://doi.org/10.1145/355841.355847](https://doi.org/10.1145/355841.355847)
 
+Minsky, M., Papert, S., & Léon Bottou. (2017). Perceptrons : An Introduction to Computational Geometry. The MIT Press.
+
+Mitchell, T. M. (1997). Machine learning. Mcgraw-Hill. [https://www.cs.cmu.edu/~tom/files/MachineLearningTomMitchell.pdf](https://www.cs.cmu.edu/~tom/files/MachineLearningTomMitchell.pdf)
+
 Murphy, K. P. (2022). Probabilistic Machine Learning: An Introduction. MIT Press.
 
 Paszke, A., Gross, S., Massa, F., Lerer, A., Bradbury, J., Chanan, G., Killeen, T., Lin, Z., Gimelshein, N., Antiga, L., Desmaison, A., Kopf, A., Yang, E., DeVito, Z., Raison, M., Tejani, A., Chilamkurthy, S., Steiner, B., Fang, L., & Bai, J. (2019). PyTorch: An Imperative Style, High-Performance Deep Learning Library. Neural Information Processing Systems. [https://papers.nips.cc/paper_files/paper/2019/hash/bdbca288fee7f92f2bfa9f7012727740-Abstract.html](https://papers.nips.cc/paper_files/paper/2019/hash/bdbca288fee7f92f2bfa9f7012727740-Abstract.html)
@@ -54,9 +60,14 @@ Raschka, S. (2024). Build a Large Language Model (From Scratch). Manning.
 
 Raschka, S. (2026). Build a Reasoning Model (From Scratch). Simon and Manning.
 
+Roberts, D. A., Yaida, S., & Hanin, B. (2022). The Principles of Deep Learning Theory: An Effective Theory Approach to Understanding Neural Networks. Cambridge University Press. [https://deeplearningtheory.com/](https://deeplearningtheory.com/)
+
 seb-v. (2025, January 20). Optimizing Matrix Multiplication on RDNA3: 50 TFlops and 60% Faster Than rocBLAS. Seb-v. [https://seb-v.github.io/optimization/update/2025/01/20/Fast-GPU-Matrix-multiplication.html](https://seb-v.github.io/optimization/update/2025/01/20/Fast-GPU-Matrix-multiplication.html)
 
 Shah, J., Bikshandi, G., Zhang, Y., Thakkar, V., Ramani, P., & Dao, T. (2024, July 24). FlashAttention-3: Fast and Accurate Attention with Asynchrony and Low-precision. ArXiv.org. [https://arxiv.org/abs/2407.08608](https://arxiv.org/abs/2407.08608)
+
+Shai Shalev-Shwartz, & Shai Ben-David. (2014). Understanding Machine Learning: From Foundations to Algorithms. Cambridge University Press.
+[https://www.cs.huji.ac.il/~shais/UnderstandingMachineLearning/](https://www.cs.huji.ac.il/~shais/UnderstandingMachineLearning/)
 
 Shankhdhar, P. (2024, November 29). Outperforming cuBLAS on H100: a Worklog. Substack.com. [https://cudaforfun.substack.com/p/outperforming-cublas-on-h100-a-worklog](https://cudaforfun.substack.com/p/outperforming-cublas-on-h100-a-worklog)
 
@@ -68,9 +79,11 @@ Spector, B., Singhal, A., Arora, S., & Re, C. (2024, May 12). GPUs Go Brrr. Stan
 
 Strang, G. (2023). Introduction to Linear Algebra. Wellesley-Cambridge Press. [https://math.mit.edu/~gs/linearalgebra/](https://math.mit.edu/~gs/linearalgebra/)
 
-Sutton, R. S., & Barto, A. (2018). Reinforcement learning: An introduction (2nd ed.). The Mit Press. [http://incompleteideas.net/book/the-book-2nd.html](http://incompleteideas.net/book/the-book-2nd.html)
+Sutton, R. S., & Barto, A. (2018). Reinforcement learning: An introduction (2nd ed.). The MIT Press. [http://incompleteideas.net/book/the-book-2nd.html](http://incompleteideas.net/book/the-book-2nd.html)
 
 Tillet, P., Kung, H.-T., & Cox, D. G. (2019). Triton: An Intermediate Language and Compiler for Tiled Neural Network Computations. [https://doi.org/10.1145/3315508.3329973](https://doi.org/10.1145/3315508.3329973)
+
+Valiant, L. (2014). Probably Approximately Correct: Nature’s Algorithms for Learning and Prospering in a Complex World. Basic Books, A Member Of The Perseus Books Group.
 
 Zheng, L., Yin, L., Xie, Z., Sun, C., Huang, J., Yu, C. H., Cao, S., Kozyrakis, C., Stoica, I., Gonzalez, J. E., Barrett, C., & Sheng, Y. (2023). SGLang: Efficient Execution of Structured Language Model Programs. ArXiv.org. [https://arxiv.org/abs/2312.07104](https://arxiv.org/abs/2312.07104)
 

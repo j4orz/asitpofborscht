@@ -17,15 +17,16 @@ but rather the *semantics* of a programming with programming languages<span clas
 Before the success of large
 language models<span class="sidenote-number"></span><span class="sidenote">*notably the supervised finetuning and reinforcement learning from human feedback on top of a pretrainted transformer*</span>
 the pedagogical return on investment in an introductory book on artificial intelligence following the same form as SICP was low,
-as readers would build their own pytorch from scratch just to classify MNIST or ImageNet.
+as readers would build their own pytorch from scratch "just" to classify MNIST or ImageNet.
 However now that deep learning systems are becoming as important if not more than the
 models themselves<span class="sidenote-number"></span><span class="sidenote">
 *especially in the period of research in artificial intelligence dubbed the era of scaling, characterized by the heavy engineering of pouring internet-scale data into the weights of transformer neural networks with massively parallel and distributed compute.*</span>,
 that return on investment is higher,
 as the frontier of deep learning systems increasingly becomes ever more out of reach from the grasp of the
 beginner<span class="sidenote-number"></span><span class="sidenote">*the massively parallel processors now have dedicated hardware units evaluating matrix instructions called tensor cores, which in turn have precipitated the need for fusion compilers. Even language-runtime codesign/cooptimization like profile-guided optimizations are repeating themselves with languages such as `torch.compile()` and runtimes like `vllm`/`sglang`.*</span>.
-This is at least how *I* personally felt as a professional engineer transitioning to the world of domain specific tensor compilers,
-coming from [domain specific cloud compilers](https://www.infoq.com/presentations/deploy-pipelines-coinbase/) and [distributed infrastructure provisioners](https://www.infoq.com/presentations/coinbase-terraform-earth/).
+At least this is how *I* personally felt as a professional engineer transitioning to the world of domain specific tensor compilers,
+coming from [domain specific cloud compilers](https://www.infoq.com/presentations/deploy-pipelines-coinbase/) and [distributed infrastructure provisioners](https://www.infoq.com/presentations/coinbase-terraform-earth/). While I enjoyed reading existing
+deep learning canon<span class="sidenote-number"></span><span class="sidenote">*such as [Deisenroth, Faisal, Ong (2020)]() [James, Witten, Hastie, Tibshirani, Taylor (2023)]() [Murphy 2022](), [Goodfellow, Bengio, Courville (2016)]()*</span>, I couldn't help but imagine how delightful a SICP-style top-down-just-in-time reading experience would be. Curiosity got the best of me, and what resulted therein is this book.
 
 So in [part one](./1.md) of the book,
 you will train your generalized linear models with `numpy`
