@@ -7,7 +7,7 @@ In some sense, the 21st century truly began only after the first 20 years past t
 for it was not until the creation of ChatGPT where humanity traded in their so-called bicycles of mind for motorcycle upgrades.
 From 2020 to 2025, programmers (just like you) discovered [The Scaling Laws](https://gwern.net/scaling-hypothesis),
 where pouring internet-scale data into the weights of transformer neural networks with massively parallel and distributed compute
-produces large language models which in turn enable communication between biological humans and artificial machines through the means of natural language.
+produces large language models which in turn enable communication between natural organisms and artificial machines through the means of natural language.
 This has always been a long standing dream<span class="sidenote-number"></span><span class="sidenote">*argubally started with Descartes, extended by La Mettrie's [Man A Machine](https://en.wikipedia.org/wiki/Man_a_Machine), initiated by Leibniz's [Universal Calculus](https://en.wikipedia.org/wiki/Characteristica_universalis), and applied computationally with Wittgenstein's [Tractatus Logico-Philosophicus](https://plato.stanford.edu/entries/wittgenstein/#EarlWitt) and [Philosophical Investigations](https://plato.stanford.edu/entries/wittgenstein/#LateWitt).*</span> in the science of the mind we call artificial intelligence.
 
 The story of artificial intelligence is tightly interconnected with computation,
