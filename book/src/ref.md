@@ -32,11 +32,15 @@ Goto, K., & Van De Geijn, R. (2008). High-Performance Implementation of the Leve
 
 Güneş Baydin, A., Pearlmutter, B., Siskind, J., Baydin, G., Radul, A., & Mark, J. (2018). Automatic Differentiation in Machine Learning: a Survey. Journal of Machine Learning Research, 18, 1–43. [https://www.jmlr.org/papers/volume18/17-468/17-468.pdf](https://www.jmlr.org/papers/volume18/17-468/17-468.pdf)
 
+Hastie, T., Tibshirani, R., & Friedman, J. (2009). The Elements of Statistical learning, Second Edition: Data mining, inference, and Prediction (2nd ed.). Springer. [https://hastie.su.domains/ElemStatLearn/](https://hastie.su.domains/ElemStatLearn/)
+
 Harris, C. R., Millman, K. J., van der Walt, S. J., Gommers, R., Virtanen, P., Cournapeau, D., Wieser, E., Taylor, J., Berg, S., Smith, N. J., Kern, R., Picus, M., Hoyer, S., van Kerkwijk, M. H., Brett, M., Haldane, A., del Río, J. F., Wiebe, M., Peterson, P., & Gérard-Marchant, P. (2020). Array Programming with numpy. Nature, 585(7825), 357–362. [https://doi.org/10.1038/s41586-020-2649-2](https://doi.org/10.1038/s41586-020-2649-2)
 
 Hennessy, J. L., Patterson, D. A., & Christos Kozyrakis. (2025). Computer Architecture. Morgan Kaufmann.
 
 Hwu, W.-M. W., Kirk, D. B., & Hajj, I. E. (2022). Programming Massively Parallel Processors: A Hands-on Approach. Morgan Kaufmann.
+
+James, G., Witten, D., Hastie, T., Tibshirani, R., & Taylor, J. (2023). An Introduction to Statistical Learning. Springer. [https://www.statlearning.com/](https://www.statlearning.com/)
 
 Jurafsky, D., & H. Martin, J. (2026). Speech and Language Processing. Stanford.edu. [https://web.stanford.edu/~jurafsky/slp3/](https://web.stanford.edu/~jurafsky/slp3/)
 
@@ -66,8 +70,9 @@ seb-v. (2025, January 20). Optimizing Matrix Multiplication on RDNA3: 50 TFlops 
 
 Shah, J., Bikshandi, G., Zhang, Y., Thakkar, V., Ramani, P., & Dao, T. (2024, July 24). FlashAttention-3: Fast and Accurate Attention with Asynchrony and Low-precision. ArXiv.org. [https://arxiv.org/abs/2407.08608](https://arxiv.org/abs/2407.08608)
 
-Shai Shalev-Shwartz, & Shai Ben-David. (2014). Understanding Machine Learning: From Foundations to Algorithms. Cambridge University Press.
-[https://www.cs.huji.ac.il/~shais/UnderstandingMachineLearning/](https://www.cs.huji.ac.il/~shais/UnderstandingMachineLearning/)
+Shalizi, C. R. (n.d.). Advanced Data Analysis from an Elementary Point of View. [https://www.stat.cmu.edu/~cshalizi/ADAfaEPoV/ADAfaEPoV.pdf](https://www.stat.cmu.edu/~cshalizi/ADAfaEPoV/ADAfaEPoV.pdf)
+
+Shalizi, C. R. (2015). Modern Regression Lecture Notes. Cmu.edu. [https://www.stat.cmu.edu/~cshalizi/mreg/15/](https://www.stat.cmu.edu/~cshalizi/mreg/15/)
 
 Shankhdhar, P. (2024, November 29). Outperforming cuBLAS on H100: a Worklog. Substack.com. [https://cudaforfun.substack.com/p/outperforming-cublas-on-h100-a-worklog](https://cudaforfun.substack.com/p/outperforming-cublas-on-h100-a-worklog)
 

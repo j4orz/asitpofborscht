@@ -2,10 +2,9 @@
 [Dedication](./dedi.md)
 [Preface](./pref.md)
 [Prologue](./pro.md)
-- [Elements of Networks](./1.md)
-- [Neural Networks](./2.md)
-- [Scaling Networks](./3.md)
----
+[I. Elements of Networks](./1.md)
+[II. Neural Networks](./2.md)
+[III. Scaling Networks](./3.md)
 [Epilogue](./epi.md)
 [Appendix](./ap.md)
 [References](./ref.md)
