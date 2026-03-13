@@ -1,4 +1,4 @@
-# Bibliography
+# References
 
 Amanzhol Salykov. (2025, January 12). Advanced Matrix Multiplication Optimization on NVIDIA GPUs. Salykova. [https://salykova.github.io/sgemm-gpu](https://salykova.github.io/sgemm-gpu)
 

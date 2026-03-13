@@ -10,7 +10,7 @@ but at the end of the day the world is your oyster.
 Good luck on your journey.</br>
 I'll see you at work.
 
-## Futher Reading
+<!-- ## Futher Reading
 
 ### 1. Deep Learning
 
@@ -63,7 +63,7 @@ I'll see you at work.
 
 *Compiler Engineering for Deep Learning*
 ##### Recommended Books
-- Machine Learning Compiler by Tianqi Chen
+- Machine Learning Compiler by Tianqi Chen -->
 
 
 <!-- ### 4. Classical Compiler Construction

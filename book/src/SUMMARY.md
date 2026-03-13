@@ -8,4 +8,4 @@
 ---
 [Epilogue](./epi.md)
 [Appendix](./ap.md)
-[Bibliography](./bib.md)
+[References](./ref.md)
