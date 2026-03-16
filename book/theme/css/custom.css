@@ -182,3 +182,15 @@ p + ul {
 .coal .playground-iframe {
   filter: invert(1) hue-rotate(180deg);
 }
+
+.light pre, .rust pre {
+  background: #f6f7f6;
+}
+
+.coal pre, .navy pre {
+  background: #1d1f21;
+}
+
+.ayu pre {
+  background: #191f26;
+}

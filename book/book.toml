@@ -14,7 +14,7 @@ default-theme = "navy"
 preferred-dark-theme = "navy"
 
 [preprocessor.repl]
-src = "https://mr-addict.github.io/mdbook-repl/embed/"
+src = "https://comfy-daifuku-df4422.netlify.app/"
 python.enable = true
 python.loading = "lazy"
 
