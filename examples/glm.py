@@ -19,6 +19,14 @@ def f_typechecked(
   return torch.dot(x_D, w_D)
 
 import torch
+@jaxtyped(typechecker=beartype)
+def f_batched(
+  X_ND: Float[torch.Tensor, "N D"],
+  w_D: Float[torch.Tensor, "D"]
+) -> Float[torch.Tensor, ""]:
+  return X_ND@w_D
+
+import torch
 if __name__ == "__main__":
   X_ND = torch.tensor([
     [1500, 10, 3, 0.8],  # house 1
@@ -32,10 +40,4 @@ if __name__ == "__main__":
     yihat_1 = f_typechecked(xi_D,w_D)
     print(f"expected: ${yi_1}, actual: ${yihat_1:.2f}")
 
-import torch
-@jaxtyped(typechecker=beartype)
-def f_batched(
-  X_ND: Float[torch.Tensor, "N D"],
-  w_D: Float[torch.Tensor, "D"]
-) -> Float[torch.Tensor, ""]:
-  return X_ND@w_D
+  yhat_N = f_batched(X_ND, w_D)
