@@ -10,11 +10,15 @@ Boehm, S. (2022, December 31). How to Optimize a CUDA Matmul Kernel for cuBLAS-l
 
 Bright, P., Edelman, A., & Johnson, S. G. (2025). Matrix Calculus (for Machine Learning and Beyond). ArXiv.org. [https://arxiv.org/abs/2501.14787](https://arxiv.org/abs/2501.14787)
 
+Chan, S. H. (2021). Introduction to Probability for Data Science. Michigan Publishing. [https://probability4datascience.com/](https://probability4datascience.com/)
+
 Chen, T., Moreau, T., Jiang, Z., Zheng, L., Yan, E., Cowan, M., Shen, H., Wang, L., Hu, Y., Ceze, L., Guestrin, C., & Krishnamurthy, A. (2018). TVM: An Automated End-to-End Optimizing Compiler for Deep Learning. [https://doi.org/10.48550/arxiv.1802.04799](https://doi.org/10.48550/arxiv.1802.04799)
 
 Dao, T. (2023, July 17). FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning. ArXiv.org. [https://arxiv.org/abs/2307.08691](https://arxiv.org/abs/2307.08691)
 
 Dao, T., Fu, D. Y., Ermon, S., Rudra, A., & Ré, C. (2022, June 23). FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness. ArXiv.org. [https://doi.org/10.48550/arXiv.2205.14135](https://doi.org/10.48550/arXiv.2205.14135)
+
+Darve, E., & Wootters, M. (2021). Numerical Linear Algebra with Julia. SIAM. [https://ericdarve.github.io/NLA](https://ericdarve.github.io/NLA)
 
 Dongarra, J., J. Du Croz, Sven Hammarling, & Duff, I. S. (1990). A Set of Level 3 Basic Linear Algebra Subprograms. ACM Transactions on Mathematical Software, 16(1), 1–17. [https://doi.org/10.1145/77626.79170](https://doi.org/10.1145/77626.79170)
 
@@ -44,6 +48,8 @@ James, G., Witten, D., Hastie, T., Tibshirani, R., & Taylor, J. (2023). An Intro
 
 Jurafsky, D., & H. Martin, J. (2026). Speech and Language Processing. Stanford.edu. [https://web.stanford.edu/~jurafsky/slp3/](https://web.stanford.edu/~jurafsky/slp3/)
 
+Klein, P. N. (2013). Coding the Matrix : Linear Algebra Through Applications to Computer Science. Newtonian Press. [https://codingthematrix.com/](https://codingthematrix.com/)
+
 Kwon, W., Li, Z., Zhuang, S., Sheng, Y., Zheng, L., Cody Hao Yu, Gonzalez, J. E., Zhang, H., & Stoica, I. (2023). Efficient Memory Management for Large Language Model Serving with PagedAttention. [https://doi.org/10.1145/3600006.3613165](https://doi.org/10.1145/3600006.3613165)
 
 Lambert, N. (2026). RLHF Book. Rlhfbook.com. [https://rlhfbook.com/](https://rlhfbook.com/)
@@ -55,6 +61,8 @@ Minsky, M., Papert, S., & Léon Bottou. (2017). Perceptrons : An Introduction t
 Mitchell, T. M. (1997). Machine learning. Mcgraw-Hill. [https://www.cs.cmu.edu/~tom/files/MachineLearningTomMitchell.pdf](https://www.cs.cmu.edu/~tom/files/MachineLearningTomMitchell.pdf)
 
 Murphy, K. P. (2022). Probabilistic Machine Learning: An Introduction. MIT Press.
+
+Nakatsukasa, Y. (n.d.). Numerical Linear Algebra. Retrieved March 17, 2026, from https://courses.maths.ox.ac.uk/pluginfile.php/105965/mod_resource/content/35/NLA_lecture_notes.pdf
 
 Ng, A., & Ma, T. (2023). CS229 Lecture Notes. [https://cs229.stanford.edu/main_notes.pdf](https://cs229.stanford.edu/main_notes.pdf)
 
@@ -89,6 +97,8 @@ Strang, G. (2023). Introduction to Linear Algebra. Wellesley-Cambridge Press. [h
 Sutton, R. S., & Barto, A. (2018). Reinforcement learning: An introduction (2nd ed.). The MIT Press. [http://incompleteideas.net/book/the-book-2nd.html](http://incompleteideas.net/book/the-book-2nd.html)
 
 Tillet, P., Kung, H.-T., & Cox, D. G. (2019). Triton: An Intermediate Language and Compiler for Tiled Neural Network Computations. [https://doi.org/10.1145/3315508.3329973](https://doi.org/10.1145/3315508.3329973)
+
+Trefethen, L. N., & Bau, D. (1997). Numerical Linear Algebra. Society For Industrial And Applied Mathematics.
 
 Valiant, L. (2014). Probably Approximately Correct: Nature’s Algorithms for Learning and Prospering in a Complex World. Basic Books, A Member Of The Perseus Books Group.
 

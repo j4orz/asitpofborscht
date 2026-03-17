@@ -1,4 +1,4 @@
-.katex-display {
+.katex-display, .box {
   background-color: var(--quote-bg);
   border-radius: 4px;
   padding: 0.75em 1em;
