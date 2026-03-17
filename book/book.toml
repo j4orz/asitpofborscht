@@ -10,8 +10,8 @@ after = ["links"]
 [output.html]
 additional-css = ["theme/css/custom.css"]
 additional-js = ["theme/js/custom.js"]
-default-theme = "navy"
-preferred-dark-theme = "navy"
+default-theme = "ayu"
+preferred-dark-theme = "ayu"
 
 [preprocessor.repl]
 src = "https://comfy-daifuku-df4422.netlify.app/"

@@ -56,6 +56,8 @@ Mitchell, T. M. (1997). Machine learning. Mcgraw-Hill. [https://www.cs.cmu.edu/~
 
 Murphy, K. P. (2022). Probabilistic Machine Learning: An Introduction. MIT Press.
 
+Ng, A., & Ma, T. (2023). CS229 Lecture Notes. [https://cs229.stanford.edu/main_notes.pdf](https://cs229.stanford.edu/main_notes.pdf)
+
 Paszke, A., Gross, S., Massa, F., Lerer, A., Bradbury, J., Chanan, G., Killeen, T., Lin, Z., Gimelshein, N., Antiga, L., Desmaison, A., Kopf, A., Yang, E., DeVito, Z., Raison, M., Tejani, A., Chilamkurthy, S., Steiner, B., Fang, L., & Bai, J. (2019). PyTorch: An Imperative Style, High-Performance Deep Learning Library. Neural Information Processing Systems. [https://papers.nips.cc/paper_files/paper/2019/hash/bdbca288fee7f92f2bfa9f7012727740-Abstract.html](https://papers.nips.cc/paper_files/paper/2019/hash/bdbca288fee7f92f2bfa9f7012727740-Abstract.html)
 
 Ragan-Kelley, J., Barnes, C., Adams, A., Paris, S., Durand, F., & Amarasinghe, S. (2013). Halide. Proceedings of the 34th ACM SIGPLAN Conference on Programming Language Design and Implementation. [https://doi.org/10.1145/2491956.2462176](https://doi.org/10.1145/2491956.2462176)
