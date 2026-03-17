@@ -20,6 +20,8 @@ Dao, T., Fu, D. Y., Ermon, S., Rudra, A., & Ré, C. (2022, June 23). FlashAttent
 
 Darve, E., & Wootters, M. (2021). Numerical Linear Algebra with Julia. SIAM. [https://ericdarve.github.io/NLA](https://ericdarve.github.io/NLA)
 
+Demmel, J. W. (1997). Applied numerical linear algebra. Society For Industrial And Applied Mathematics.
+
 Dongarra, J., J. Du Croz, Sven Hammarling, & Duff, I. S. (1990). A Set of Level 3 Basic Linear Algebra Subprograms. ACM Transactions on Mathematical Software, 16(1), 1–17. [https://doi.org/10.1145/77626.79170](https://doi.org/10.1145/77626.79170)
 
 Dongarra, J., J. Du Croz, Sven Hammarling, & Hanson, R. J. (1988a). Algorithm 656: An Extended Set of Basic Linear Algebra Subprograms: Model Implementation and Test Programs. ACM Transactions on Mathematical Software, 14(1), 18–32. [https://doi.org/10.1145/42288.42292](https://doi.org/10.1145/42288.42292)
@@ -55,6 +57,8 @@ Kwon, W., Li, Z., Zhuang, S., Sheng, Y., Zheng, L., Cody Hao Yu, Gonzalez, J. E.
 Lambert, N. (2026). RLHF Book. Rlhfbook.com. [https://rlhfbook.com/](https://rlhfbook.com/)
 
 Lawson, C. L., Hanson, R. J., Kincaid, D. R., & Krogh, F. T. (1979). Basic Linear Algebra Subprograms for Fortran Usage. ACM Transactions on Mathematical Software, 5(3), 308–323. [https://doi.org/10.1145/355841.355847](https://doi.org/10.1145/355841.355847)
+
+Marc Peter Deisenroth, A  Aldo Faisal, & Cheng Soon Ong. (2020). Mathematics for Machine Learning. Cambridge University Press. [https://mml-book.github.io/book/mml-book.pdf](https://mml-book.github.io/book/mml-book.pdf)
 
 Minsky, M., Papert, S., & Léon Bottou. (2017). Perceptrons : An Introduction to Computational Geometry. The MIT Press.
 
