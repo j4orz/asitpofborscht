@@ -257,6 +257,55 @@
     --copy-button-filter-hover: invert(77%) sepia(16%) saturate(1798%) hue-rotate(328deg) brightness(98%) contrast(83%);
 }
 
+.material-lighter, html:not(.js) {
+    --bg: #FAFAFA;
+    --fg: #546E7A;
+
+    --sidebar-bg: #E7E7E8;
+    --sidebar-fg: #546E7A;
+    --sidebar-non-existant: #90A4AE;
+    --sidebar-active: #59A1AA;
+    --sidebar-spacer: #D7D7D8;
+
+    --scrollbar: #90A4AE;
+
+    --icons: #90A4AE;
+    --icons-hover: #546E7A;
+
+    --links: #59A1AA;
+
+    --inline-code-color: #8FAE58;
+
+    --theme-popup-bg: #FAFAFA;
+    --theme-popup-border: #D7D7D8;
+    --theme-hover: #E7E7E8;
+
+    --quote-bg: #E0F7FA;
+    --quote-border: #80DEEA;
+
+    --warning-border: #F76D47;
+
+    --table-border-color: #E0E0E0;
+    --table-header-bg: #E7E7E8;
+    --table-alternate-bg: #F5F5F5;
+
+    --searchbar-border-color: #B0BEC5;
+    --searchbar-bg: #FAFAFA;
+    --searchbar-fg: #546E7A;
+    --searchbar-shadow-color: #90A4AE;
+    --searchresults-header-fg: #90A4AE;
+    --searchresults-border-color: #B0BEC5;
+    --searchresults-li-bg: #E0F7FA;
+    --search-mark-bg: #80CBC4;
+
+    --color-scheme: light;
+
+    /* Same as `--icons` (#90A4AE) */
+    --copy-button-filter: invert(68%) sepia(14%) saturate(417%) hue-rotate(160deg) brightness(97%) contrast(85%);
+    /* Same as `--sidebar-active` (#59A1AA) */
+    --copy-button-filter-hover: invert(56%) sepia(60%) saturate(450%) hue-rotate(145deg) brightness(90%) contrast(85%);
+}
+
 @media (prefers-color-scheme: dark) {
     html:not(.js) {
         --bg: hsl(200, 7%, 8%);

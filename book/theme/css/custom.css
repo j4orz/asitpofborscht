@@ -194,3 +194,128 @@ p + ul {
 .ayu pre {
   background: #191f26;
 }
+
+.material-lighter pre {
+  background: #E0F7FA;
+}
+
+/* Material Theme Lighter menu title */
+.material-lighter .menu-title {
+  color: #C83E36;
+}
+
+/* Material Theme Lighter headings */
+.material-lighter h1,
+.material-lighter h1 a.header:link,
+.material-lighter h1 a.header:visited {
+  color: #C83E36;
+}
+
+.material-lighter h2,
+.material-lighter h2 a.header:link,
+.material-lighter h2 a.header:visited {
+  color: #C83E36;
+}
+
+.material-lighter h3,
+.material-lighter h3 a.header:link,
+.material-lighter h3 a.header:visited,
+.material-lighter h4,
+.material-lighter h4 a.header:link,
+.material-lighter h4 a.header:visited,
+.material-lighter h5,
+.material-lighter h5 a.header:link,
+.material-lighter h5 a.header:visited,
+.material-lighter h6,
+.material-lighter h6 a.header:link,
+.material-lighter h6 a.header:visited {
+  color: #CE8B32;
+}
+
+/* Material Theme Lighter inline code */
+.material-lighter :not(pre) > code.hljs {
+  color: #8FAE58;
+}
+
+/* Material Theme Lighter syntax highlighting */
+.material-lighter .hljs {
+  background: #F5F5F5;
+  color: #546E7A;
+}
+
+.material-lighter .hljs-keyword,
+.material-lighter .hljs-selector-tag,
+.material-lighter .hljs-built_in,
+.material-lighter .hljs-name,
+.material-lighter .hljs-tag {
+  color: #59A1AA;
+}
+
+.material-lighter .hljs-string,
+.material-lighter .hljs-title,
+.material-lighter .hljs-section,
+.material-lighter .hljs-attribute,
+.material-lighter .hljs-literal,
+.material-lighter .hljs-template-tag,
+.material-lighter .hljs-template-variable,
+.material-lighter .hljs-type {
+  color: #8FAE58;
+}
+
+.material-lighter .hljs-number,
+.material-lighter .hljs-attr,
+.material-lighter .hljs-params {
+  color: #F76D47;
+}
+
+.material-lighter .hljs-comment,
+.material-lighter .hljs-quote {
+  color: #90A4AE;
+  font-style: italic;
+}
+
+.material-lighter .hljs-title.function_,
+.material-lighter .hljs-function,
+.material-lighter .hljs-selector-id,
+.material-lighter .hljs-selector-class {
+  color: #6182B8;
+}
+
+.material-lighter .hljs-class .hljs-title,
+.material-lighter .hljs-variable.language_ {
+  color: #E53935;
+}
+
+.material-lighter .hljs-regexp,
+.material-lighter .hljs-link {
+  color: #59A1AA;
+}
+
+.material-lighter .hljs-symbol,
+.material-lighter .hljs-bullet,
+.material-lighter .hljs-meta {
+  color: #7986CB;
+}
+
+.material-lighter .hljs-deletion {
+  color: #E53935;
+}
+
+.material-lighter .hljs-addition {
+  color: #8FAE58;
+}
+
+
+.material-lighter .hljs-emphasis {
+  font-style: italic;
+}
+
+.material-lighter .hljs-strong {
+  font-weight: bold;
+}
+
+/* Material Theme Lighter sidenotes */
+.material-lighter .sidenote-number::after,
+.material-lighter .sidenote::before {
+  color: #C83E36;
+}

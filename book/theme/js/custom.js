@@ -1,3 +1,44 @@
+// Fix mapTheme for material-lighter in REPL iframes
+const REPL_LIGHT_THEMES = ["light", "rust", "material-lighter"];
+
+function currentMdbookTheme() {
+  return localStorage.getItem("mdbook-theme") ||
+    [...document.documentElement.classList].find(c =>
+      ["ayu", "coal", "navy", "light", "rust", "material-lighter"].includes(c)
+    );
+}
+
+// Fix on initial iframe load: intercept the id==="" handshake
+window.addEventListener("message", (event) => {
+  const repl = event.data?.repl;
+  if (!repl || repl.id !== "") return;
+  const mdTheme = currentMdbookTheme();
+  if (mdTheme !== "material-lighter") return;
+  // Send corrected theme to all REPL iframes after the inline script responds
+  setTimeout(() => {
+    document.querySelectorAll(".repl").forEach((replElement) => {
+      const iframe = replElement.querySelector("iframe");
+      const id = replElement.getAttribute("data-id");
+      iframe?.contentWindow?.postMessage({ repl: { id, editor: { theme: "light", backgroundColor: "#E0F7FA" } } }, "*");
+    });
+  }, 0);
+});
+
+// Fix on theme switch
+document.querySelectorAll("button[role='menuitem'].theme").forEach((btn) => {
+  btn.addEventListener("click", (event) => {
+    if (event.target.id === "material-lighter") {
+      setTimeout(() => {
+        document.querySelectorAll(".repl").forEach((replElement) => {
+          const iframe = replElement.querySelector("iframe");
+          const id = replElement.getAttribute("data-id");
+          iframe?.contentWindow?.postMessage({ repl: { id, editor: { theme: "light", backgroundColor: "#E0F7FA" } } }, "*");
+        });
+      }, 0);
+    }
+  });
+});
+
 document.addEventListener("DOMContentLoaded", function () {
   const content = document.querySelector(".content main");
   if (!content) return;
