@@ -208,18 +208,21 @@ p + ul {
 .material-lighter h1,
 .material-lighter h1 a.header:link,
 .material-lighter h1 a.header:visited {
-  color: #C83E36;
+  color: #CE8B32;
 }
 
 .material-lighter h2,
 .material-lighter h2 a.header:link,
 .material-lighter h2 a.header:visited {
-  color: #C83E36;
+  color: #CE8B32;
 }
 
 .material-lighter h3,
 .material-lighter h3 a.header:link,
-.material-lighter h3 a.header:visited,
+.material-lighter h3 a.header:visited {
+  color: #59A1AA;
+}
+
 .material-lighter h4,
 .material-lighter h4 a.header:link,
 .material-lighter h4 a.header:visited,
@@ -312,6 +315,12 @@ p + ul {
 
 .material-lighter .hljs-strong {
   font-weight: bold;
+}
+
+/* Material Theme Lighter nav chevrons */
+.material-lighter .nav-chapters,
+.material-lighter .mobile-nav-chapters {
+  color: #843cce;
 }
 
 /* Material Theme Lighter sidenotes */
