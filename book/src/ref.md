@@ -66,6 +66,8 @@ Mitchell, T. M. (1997). Machine learning. Mcgraw-Hill. [https://www.cs.cmu.edu/~
 
 Murphy, K. P. (2022). Probabilistic Machine Learning: An Introduction. MIT Press.
 
+Myers, M., Van De Geijn, P., & Van De Geijn, R. (2021). Linear Algebra: Foundations to Frontiers. [https://www.cs.utexas.edu/~flame/laff/laff/LAFF-2.00M.pdf](https://www.cs.utexas.edu/~flame/laff/laff/LAFF-2.00M.pdf)
+
 Nakatsukasa, Y. (n.d.). Numerical Linear Algebra. Retrieved March 17, 2026, from https://courses.maths.ox.ac.uk/pluginfile.php/105965/mod_resource/content/35/NLA_lecture_notes.pdf
 
 Ng, A., & Ma, T. (2023). CS229 Lecture Notes. [https://cs229.stanford.edu/main_notes.pdf](https://cs229.stanford.edu/main_notes.pdf)
