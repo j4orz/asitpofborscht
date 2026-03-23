@@ -27,14 +27,14 @@ that return on investment is higher,
 as the frontier of deep learning systems increasingly becomes ever more out of reach from the grasp of the
 beginner<span class="sidenote-number"></span><span class="sidenote">*the massively parallel processors now have dedicated hardware units evaluating matrix instructions called tensor cores, which in turn have precipitated the need for fusion compilers. Even language-runtime codesign/cooptimization like profile-guided optimizations are repeating themselves with languages such as `torch.compile()` and runtimes like `vllm`/`sglang`.*</span>.
 At least this is how *I* personally felt as a professional engineer transitioning to the world of domain specific tensor compilers,
-coming from [domain specific cloud compilers](https://www.infoq.com/presentations/deploy-pipelines-coinbase/) and [distributed infrastructure provisioners](https://www.infoq.com/presentations/coinbase-terraform-earth/).
+coming from [domain specific cloud compilers](https://www.infoq.com/presentations/deploy-pipelines-coinbase/) and [distributed infrastructure provisioners and garbage collectors](https://www.infoq.com/presentations/coinbase-terraform-earth/).
 
 <!-- todo: narrow ai vs artificial general intelligence -->
 While I enjoyed reading existing
 deep learning canon<span class="sidenote-number"></span><span class="sidenote">*such as [[DFO20]]() for mathematics, [[JWHTT23]]() for machine learning, [[GBC16]]() for deep learning, [[HKH22]]() for parallel programming*</span>, I couldn't help but imagine how delightful a SICP-style top-down-just-in-time reading experience would be. If product management 
 and engineering transitions into vibecoding and training models respectively, then why aren't we teaching the parallel programming of deep nets to highschoolers and first year college students from the get-go? Curiosity got the best of me, and what resulted therein is the book you hold on your screens.
 
-<!-- todo, (aspirational linear algebra/optimization) and numerical linear algebra and numerical optimization -->
+<!-- part one: jurafsky, cho's reordering, LAFF from theory to algorithms "foundations to frontiers"-->
 So in [part one](./1.md) of the book,
 you will train your generalized linear models with `numpy`
 and then start developing [`teenygrad`](https://github.com/j4orz/teenygrad) by implementing your own multidimensional array abstraction
@@ -46,7 +46,9 @@ Finally, in [part three](./3.md)<span class="sidenote-number"></span><span class
 you will update [`teenygrad`](https://github.com/j4orz/teenygrad) for the last time for the *age of scaling* by developing a "graph mode" compilation and inference engine with tinygrad's RISCy IR,
 borrowing ideas from ThunderKitten's tile registers, MegaKernels, and Halide/TVM schedules. To continue deeping your knowledge, more resources are provided in the [afterword](./after.md).
 
-<!-- education for AI. and AI for education -->
+<!-- education for AI. and AI for education (myself being the conductor of an orchestra) -->
+
+<!-- naturally, if you're in academia, your incentive will be open source. that is science. (linux torvalds quote) -->
 
 <!-- The book provides a single resource with code, math, and exposition<span class="sidenote-number"></span><span class="sidenote">*inspired by pedagogy such as [Dive into Deep Learning](https://d2l.ai/chapter_preface/index.html#one-medium-combining-code-math-and-html) (Zhang, Lipton, Li and Smola) and [Distill](https://distill.pub/) (Carter and Olah)*</span>
 for deep learning systems such as [pytorch](https://github.com/pytorch/pytorch) and [jax](https://github.com/jax-ml/jax), while also embedding visualizers, explainers, and lectures from other open source

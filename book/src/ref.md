@@ -98,6 +98,8 @@ Spector, B. F., Arora, S., Singhal, A., Fu, D. Y., & Ré, C. (2024, October 27).
 
 Spector, B., Singhal, A., Arora, S., & Re, C. (2024, May 12). GPUs Go Brrr. Stanford.edu. [https://hazyresearch.stanford.edu/blog/2024-05-12-tk](https://hazyresearch.stanford.edu/blog/2024-05-12-tk)
 
+Stillwell, J. (2010). Mathematics and its history. Springer New York.
+
 Strang, G. (2023). Introduction to Linear Algebra. Wellesley-Cambridge Press. [https://math.mit.edu/~gs/linearalgebra/](https://math.mit.edu/~gs/linearalgebra/)
 
 Sutton, R. S., & Barto, A. (2018). Reinforcement learning: An introduction (2nd ed.). The MIT Press. [http://incompleteideas.net/book/the-book-2nd.html](http://incompleteideas.net/book/the-book-2nd.html)
