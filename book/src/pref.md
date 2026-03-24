@@ -34,7 +34,7 @@ While I enjoyed reading existing
 deep learning canon<span class="sidenote-number"></span><span class="sidenote">*such as [[DFO20]]() for mathematics, [[JWHTT23]]() for machine learning, [[GBC16]]() for deep learning, [[HKH22]]() for parallel programming*</span>, I couldn't help but imagine how delightful a SICP-style top-down-just-in-time reading experience would be. If product management 
 and engineering transitions into vibecoding and training models respectively, then why aren't we teaching the parallel programming of deep nets to highschoolers and first year college students from the get-go? Curiosity got the best of me, and what resulted therein is the book you hold on your screens.
 
-<!-- part one: jurafsky, cho's reordering, LAFF from theory to algorithms "foundations to frontiers"-->
+<!-- part one: jurafsky, cho's reordering (strang's "new vision" ensuring singular values and eigen values gets included with Ax=b), LAFF from theory to algorithms "foundations to frontiers"-->
 So in [part one](./1.md) of the book,
 you will train your generalized linear models with `numpy`
 and then start developing [`teenygrad`](https://github.com/j4orz/teenygrad) by implementing your own multidimensional array abstraction
@@ -48,7 +48,23 @@ borrowing ideas from ThunderKitten's tile registers, MegaKernels, and Halide/TVM
 
 <!-- education for AI. and AI for education (myself being the conductor of an orchestra) -->
 
-<!-- naturally, if you're in academia, your incentive will be open source. that is science. (linux torvalds quote) -->
+<!-- naturally, if you're in academia, your incentive will be open source. that is science. (linux torvalds quote). linux and clang. tinyos tinyc. karpathy $100 instead of deepseek.
+
+value add is the infusing the few bits (seed curriculum, progression)
+embed an agent with the book.
+
+taste. (intuition. non-verifiable. gut feel)
+instantiating something new.
+-->
+
+<!-- quotes
+
+civilization advances by increasing number of things without thinking
+computer (calculate)
+internet (communicate)
+intelligence (conject/problem solve)
+
+-->
 
 <!-- The book provides a single resource with code, math, and exposition<span class="sidenote-number"></span><span class="sidenote">*inspired by pedagogy such as [Dive into Deep Learning](https://d2l.ai/chapter_preface/index.html#one-medium-combining-code-math-and-html) (Zhang, Lipton, Li and Smola) and [Distill](https://distill.pub/) (Carter and Olah)*</span>
 for deep learning systems such as [pytorch](https://github.com/pytorch/pytorch) and [jax](https://github.com/jax-ml/jax), while also embedding visualizers, explainers, and lectures from other open source
