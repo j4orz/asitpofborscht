@@ -46,7 +46,12 @@ Finally, in [part three](./3.md)<span class="sidenote-number"></span><span class
 you will update [`teenygrad`](https://github.com/j4orz/teenygrad) for the last time for the *age of scaling* by developing a "graph mode" compilation and inference engine with tinygrad's RISCy IR,
 borrowing ideas from ThunderKitten's tile registers, MegaKernels, and Halide/TVM schedules. To continue deeping your knowledge, more resources are provided in the [afterword](./after.md).
 
-<!-- education for AI. and AI for education (myself being the conductor of an orchestra) -->
+<!--
+- education for AI
+- AI for math education
+- AI for programming education
+education for AI. and AI for education (myself being the conductor of an orchestra)
+-->
 
 <!-- naturally, if you're in academia, your incentive will be open source. that is science. (linux torvalds quote). linux and clang. tinyos tinyc. karpathy $100 instead of deepseek.
 
