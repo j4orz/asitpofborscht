@@ -40,6 +40,12 @@ document.querySelectorAll("button[role='menuitem'].theme").forEach((btn) => {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("code.language-lean").forEach(function (block) {
+    if (typeof hljs !== "undefined") hljs.highlightBlock(block);
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
   const content = document.querySelector(".content main");
   if (!content) return;
 

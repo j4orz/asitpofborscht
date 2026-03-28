@@ -9,7 +9,7 @@ after = ["links"]
 
 [output.html]
 additional-css = ["theme/css/custom.css"]
-additional-js = ["theme/js/custom.js"]
+additional-js = ["theme/js/highlight-lean.min.js", "theme/js/custom.js"]
 default-theme = "ayu"
 preferred-dark-theme = "ayu"
 
