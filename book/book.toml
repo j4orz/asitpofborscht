@@ -4,6 +4,8 @@ language = "en"
 src = "src"
 title = "SITP"
 
+[preprocessor.aquascope]
+
 [preprocessor.katex]
 after = ["links"]
 

@@ -2,6 +2,7 @@ scratch*
 .DS_Store
 .vscode/
 book/book
+book/.aquascope-cache
 
 target
 .python-version
