@@ -19,14 +19,3 @@ preferred-dark-theme = "ayu"
 src = "https://comfy-daifuku-df4422.netlify.app/"
 python.enable = true
 python.loading = "lazy"
-
-[preprocessor.embedify]
-giscus.enable = true
-giscus.repo = "j4orz/teenygrad"
-giscus.repo-id = "R_XXXXXXXXXX"
-giscus.category = "General"
-giscus.category-id = "DIC_XXXXXXXXXXXXXXXX"
-giscus.reactions-enabled = "1"
-giscus.theme = "book"
-giscus.lang = "en"
-giscus.loading = "eager"
