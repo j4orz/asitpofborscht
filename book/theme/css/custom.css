@@ -343,6 +343,101 @@ p + ul {
   color: #843cce;
 }
 
+/* ── OoT title-screen video background (material-lighter, front page only) ── */
+#front-bg-video {
+  display: none;
+}
+
+.material-lighter #front-bg-video {
+  display: block;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.material-lighter:has(#front-bg-video),
+.material-lighter:has(#front-bg-video) body,
+.material-lighter:has(#front-bg-video) #body-container,
+.material-lighter:has(#front-bg-video) .page-wrapper,
+.material-lighter:has(#front-bg-video) .page {
+  background: transparent !important;
+}
+
+.material-lighter:has(#front-bg-video) #sidebar,
+.material-lighter:has(#front-bg-video) #menu-bar,
+.material-lighter:has(#front-bg-video) #content {
+  background: transparent !important;
+}
+
+.material-lighter:has(#front-bg-video) #sidebar,
+.material-lighter:has(#front-bg-video) #sidebar a {
+  color: #fff !important;
+}
+
+.material-lighter:has(#front-bg-video) h1,
+.material-lighter:has(#front-bg-video) h1 a.header:link,
+.material-lighter:has(#front-bg-video) h1 a.header:visited {
+  color: #CE8B32;
+}
+
+.material-lighter:has(#front-bg-video) code,
+.material-lighter:has(#front-bg-video) code.hljs {
+  background: transparent !important;
+}
+
+.material-lighter:has(#front-bg-video) #content p,
+.material-lighter:has(#front-bg-video) #content small {
+  color: #fff;
+}
+
+.material-lighter:has(#front-bg-video) #content p a,
+.material-lighter:has(#front-bg-video) #content small a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.material-lighter:has(#front-bg-video) #content p a:hover,
+.material-lighter:has(#front-bg-video) #content small a:hover {
+  opacity: 0.75;
+}
+
+#front-start-overlay {
+  display: none;
+}
+
+.material-lighter #front-start-overlay {
+  display: flex;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: transparent;
+  pointer-events: all;
+}
+
+.material-lighter #front-start-overlay span {
+  color: #fff;
+  font-family: var(--mono-font);
+  font-size: 6rem;
+  letter-spacing: 0.2em;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+  animation: oot-blink 1.2s step-start infinite;
+}
+
+@keyframes oot-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.material-lighter #front-start-overlay.dismissed {
+  display: none;
+}
+
 /* Material Theme Lighter sidenotes */
 .material-lighter .sidenote-number::after,
 .material-lighter .sidenote::before {

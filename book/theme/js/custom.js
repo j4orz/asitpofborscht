@@ -1,3 +1,20 @@
+// OoT title screen — require user gesture before playing audio
+document.addEventListener("DOMContentLoaded", function () {
+  const video = document.getElementById("front-bg-video");
+  const overlay = document.getElementById("front-start-overlay");
+  if (!video || !overlay) return;
+
+  function start() {
+    video.muted = false;
+    video.play();
+    overlay.classList.add("dismissed");
+    document.removeEventListener("keydown", start);
+  }
+
+  overlay.addEventListener("click", start);
+  document.addEventListener("keydown", start);
+});
+
 // Fix mapTheme for material-lighter in REPL iframes
 const REPL_LIGHT_THEMES = ["light", "rust", "material-lighter"];
 

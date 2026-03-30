@@ -1,3 +1,8 @@
+<video id="front-bg-video" muted loop playsinline>
+  <source src="./assets/epilogue-bg.mp4" type="video/mp4">
+</video>
+<div id="front-start-overlay"><span>PRESS START</span></div>
+
 # Epilogue
 
 To continue deepening your knowledge on deep learning and it's systems,
