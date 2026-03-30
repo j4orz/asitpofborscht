@@ -23,7 +23,3 @@
 > You are viewing this on a mobile device, whereas SITP is best viewed on a desktop — the book includes various multimedia lecture videos, visualizers, any tufte-style sidenotes with many external hyperlinks to other resources.
 
 </div>
-
----
-
-[^0]: *The bridge from [micrograd](https://github.com/karpathy/micrograd) to [tinygrad](https://github.com/tinygrad/tinygrad)*
