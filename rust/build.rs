@@ -1,24 +1,22 @@
 fn main() {
-    println!("cargo::rerun-if-changed=build.rs");
+  println!("cargo::rerun-if-changed=build.rs");
 
-    #[cfg(feature = "cuda")] {
-        use std::env;
-        use std::path;
-        use cuda_builder::CudaBuilder;
+  #[cfg(feature = "gpu")] {
+  use std::env;
+  use std::path;
+  use cuda_builder::CudaBuilder;
 
-        println!("cargo::rerun-if-changed=device_kernels");
+  println!("cargo::rerun-if-changed=device_kernels");
 
-        let out_dir = path::PathBuf::from(env::var("OUT_DIR").unwrap());
-        let manifest_dir = path::PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap());
+  let out_dir = path::PathBuf::from(env::var("OUT_DIR").unwrap());
+  let manifest_dir = path::PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap());
 
-        // Compile the `kernels` crate to `$OUT_DIR/kernels.ptx`.
-        CudaBuilder::new(manifest_dir.join("device_kernels"))
-            .copy_to(out_dir.join("device_kernels.ptx"))
-            .build()
-            .unwrap();
-    }
+  // Compile the `kernels` crate to `$OUT_DIR/kernels.ptx`.
+  CudaBuilder::new(manifest_dir.join("device_kernels"))
+    .copy_to(out_dir.join("device_kernels.ptx"))
+    .build()
+    .unwrap();
+  }
 
-    #[cfg(not(feature = "cuda"))] {
-        println!("cargo:warning=Building without CUDA support. Enable with --features cuda");
-    }
+  #[cfg(not(feature = "gpu"))] { println!("cargo:warning=Building without CUDA support. Enable with --features cuda"); }
 }

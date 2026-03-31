@@ -1,6 +1,6 @@
 use pyo3::prelude::*;
 pub mod cpu;
-#[cfg(feature = "cuda")] pub mod gpu;
+#[cfg(feature = "gpu")] pub mod gpu;
 
 #[pymodule] /// A Python module implemented in Rust. todo: rename to rustykernels
 fn rs(m: &Bound<'_, PyModule>) -> PyResult<()> {
