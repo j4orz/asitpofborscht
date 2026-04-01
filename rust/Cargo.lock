@@ -309,6 +309,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "eagkers"
+version = "0.1.0"
+dependencies = [
+ "cuda_builder",
+ "cudarc",
+ "cust",
+ "device_kernels",
+ "pyo3",
+ "rayon",
+]
+
+[[package]]
 name = "either"
 version = "1.15.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -865,18 +877,6 @@ name = "regex-syntax"
 version = "0.8.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7a2d987857b319362043e95f5353c0535c1f58eec5336fdfcf626430af7def58"
-
-[[package]]
-name = "rs"
-version = "0.1.0"
-dependencies = [
- "cuda_builder",
- "cudarc",
- "cust",
- "device_kernels",
- "pyo3",
- "rayon",
-]
 
 [[package]]
 name = "rustc-demangle"

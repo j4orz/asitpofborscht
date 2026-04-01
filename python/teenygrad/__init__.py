@@ -21,5 +21,5 @@ from .frontend.tensor import InterpretedTensor, CompiledTensor
 __all__ = ["optim", "nn", "InterpretedTensor", "CompiledTensor"]
 
 from importlib import import_module as _import_module
-teenygradrs = _import_module("teenygrad.rs")
+teenygradrs = _import_module("teenygrad.eagkers")
 # print("moose", teenygradrs)

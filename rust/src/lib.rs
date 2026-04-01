@@ -3,7 +3,7 @@ pub mod cpu;
 #[cfg(feature = "gpu")] pub mod gpu_host;
 
 #[pymodule] /// A Python module implemented in Rust. todo: rename to rustykernels
-fn rs(m: &Bound<'_, PyModule>) -> PyResult<()> {
+fn eagkers(m: &Bound<'_, PyModule>) -> PyResult<()> {
   println!("initializing teenygrad.eagkers python module from rust");
 
   let cpu = PyModule::new(m.py(), "cpu")?;
