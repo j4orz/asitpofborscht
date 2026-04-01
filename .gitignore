@@ -1,35 +1,5 @@
 .claude
 .DS_Store
 .vscode/
-book/book
-book/.aquascope-cache
-
-target
-.python-version
-*.so
-
-# Byte-compiled / optimized / DLL files
-__pycache__/
-.pytest_cache/
-*.py[cod]
-
-# Distribution / packaging
-.Python
-.venv/
-env/
-bin/
-build/
-develop-eggs/
-dist/
-eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-include/
-man/
-venv/
-*.egg-info/
-.installed.cfg
-*.egg
+sitp/book
+sitp/.aquascope-cache
