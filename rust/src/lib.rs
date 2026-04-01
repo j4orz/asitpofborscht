@@ -2,7 +2,7 @@ use pyo3::prelude::*;
 pub mod cpu;
 #[cfg(feature = "gpu")] pub mod gpu_host;
 
-#[pymodule] /// A Python module implemented in Rust. todo: rename to rustykernels
+#[pymodule]
 fn eagkers(m: &Bound<'_, PyModule>) -> PyResult<()> {
   println!("initializing teenygrad.eagkers python module from rust");
 
@@ -12,6 +12,9 @@ fn eagkers(m: &Bound<'_, PyModule>) -> PyResult<()> {
   cpu.add_function(wrap_pyfunction!(cpu::stanhpy, &cpu)?)?;
   cpu.add_function(wrap_pyfunction!(cpu::sgemmpy, &cpu)?)?;
   m.add_submodule(&cpu)?;
+
+  let gpu = PyModule::new(m.py(), "gpu")?;
+  cpu.add_function(wrap_pyfunction!(gpu_host::cudars_helloworld_py, &gpu)?)?;
 
   Ok(())
 }

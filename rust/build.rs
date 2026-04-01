@@ -6,14 +6,14 @@ fn main() {
   use std::path;
   use cuda_builder::CudaBuilder;
 
-  println!("cargo::rerun-if-changed=device_kernels");
+  println!("cargo::rerun-if-changed=gpu_device");
 
   let out_dir = path::PathBuf::from(env::var("OUT_DIR").unwrap());
   let manifest_dir = path::PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap());
 
   // Compile the `kernels` crate to `$OUT_DIR/kernels.ptx`.
-  CudaBuilder::new(manifest_dir.join("device_kernels"))
-    .copy_to(out_dir.join("device_kernels.ptx"))
+  CudaBuilder::new(manifest_dir.join("gpu_device"))
+    .copy_to(out_dir.join("gpu_device.ptx"))
     .build()
     .unwrap();
   }

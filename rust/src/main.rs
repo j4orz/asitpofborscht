@@ -1,5 +1,5 @@
 #[cfg(feature = "gpu")]
-use rs::gpu_host;
+use eagkers::gpu_host;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
   #[cfg(feature = "gpu")]

@@ -1,8 +1,16 @@
+use pyo3::{prelude::*};
 use cust::prelude::*;
-use device_kernels::T;
+use gpu_device::T;
 
 // Embed the PTX code as a static string.
 static PTX: &str = include_str!(concat!(env!("OUT_DIR"), "/device_kernels.ptx"));
+
+#[pyfunction]
+#[pyo3(name = "cudars_helloworld")]
+pub fn cudars_helloworld_py() -> PyResult<()> {
+  let foo = cudars_helloworld();
+  Ok(())
+}
 
 pub fn cudars_helloworld() -> Result<(), Box<dyn std::error::Error>> {
     let _ctx = cust::quick_init()?; // Initialize the CUDA Driver API. `_ctx` must be kept alive until the end.
