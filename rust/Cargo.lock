@@ -245,43 +245,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cust"
-version = "0.3.2"
-source = "git+https://github.com/rust-gpu/rust-cuda?rev=7fa76f3d717038a92c90bf4a482b0b8dd3259344#7fa76f3d717038a92c90bf4a482b0b8dd3259344"
-dependencies = [
- "bitflags",
- "bytemuck",
- "cust_core",
- "cust_derive",
- "cust_raw",
- "glam",
- "mint",
- "serde_json",
- "vek",
-]
-
-[[package]]
-name = "cust_core"
-version = "0.1.1"
-source = "git+https://github.com/rust-gpu/rust-cuda?rev=7fa76f3d717038a92c90bf4a482b0b8dd3259344#7fa76f3d717038a92c90bf4a482b0b8dd3259344"
-dependencies = [
- "cust_derive",
- "glam",
- "mint",
- "vek",
-]
-
-[[package]]
-name = "cust_derive"
-version = "0.2.0"
-source = "git+https://github.com/rust-gpu/rust-cuda?rev=7fa76f3d717038a92c90bf4a482b0b8dd3259344#7fa76f3d717038a92c90bf4a482b0b8dd3259344"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn",
-]
-
-[[package]]
 name = "cust_raw"
 version = "0.11.3"
 source = "git+https://github.com/rust-gpu/rust-cuda?rev=7fa76f3d717038a92c90bf4a482b0b8dd3259344#7fa76f3d717038a92c90bf4a482b0b8dd3259344"
@@ -307,7 +270,6 @@ version = "0.1.0"
 dependencies = [
  "cuda_builder",
  "cudarc",
- "cust",
  "gpu_device",
  "pyo3",
  "rayon",
@@ -611,12 +573,6 @@ dependencies = [
  "adler2",
  "simd-adler32",
 ]
-
-[[package]]
-name = "mint"
-version = "0.5.9"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e53debba6bda7a793e5f99b8dacf19e626084f525f7829104ba9898f367d85ff"
 
 [[package]]
 name = "nom"

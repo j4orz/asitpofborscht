@@ -10,12 +10,11 @@ crate-type = ["cdylib", "rlib"] # creates a .so for python to import from and al
 
 [features]
 default = []
-gpu = ["dep:cust", "dep:cudarc", "dep:gpu_device", "dep:cuda_builder"]
+gpu = ["dep:cudarc", "dep:gpu_device", "dep:cuda_builder"]
 
 [dependencies]
 pyo3 = "0.25.0"
 rayon = "1.11.0"
-cust = { git = "https://github.com/rust-gpu/rust-cuda", rev = "7fa76f3d717038a92c90bf4a482b0b8dd3259344", optional = true }
 gpu_device = { path = "gpu_device", optional = true }
 cudarc = { version = "0.19.4", features = ["cuda-version-from-build-system"], optional = true }
 
