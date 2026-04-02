@@ -5,10 +5,10 @@ With traditional software 1.0, the languages and runtimes that makeup production
 have way too much tail-end complexity (both fundamental and accidental) which make them inappropriate as learning vehicles.
 Instead, there exists teaching compilers and operating systems — to name a few,
 - a mini Lisp-like interpreter, a [metacircular evaluator](https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/full-text/book/book-Z-H-26.html#%_sec_4.1)
-- a mini C compiler [chibicc](https://github.com/rui314/chibicc) (in turn inspired by tcc and lcc),
-- a mini LLVM-based SSA instruction set [Bril](https://www.cs.cornell.edu/~asampson/blog/bril.html)
+- a mini C-like compiler [chibicc](https://github.com/rui314/chibicc) (in turn inspired by tcc and lcc),
+- a mini LLVM-like SSA instruction set [Bril](https://www.cs.cornell.edu/~asampson/blog/bril.html)
 - a mini Unix-like operating system [xv6](https://pdos.csail.mit.edu/6.828/2025/xv6/book-riscv-rev5.pdf)
-- a mini x86 like instruction set [LC3](https://en.wikipedia.org/wiki/Little_Computer_3)
+- a mini x86-like instruction set [LC3](https://en.wikipedia.org/wiki/Little_Computer_3)
 
 For deep learning systems, given that the discpline is relatively new (the 2020-2025? era of scaling has just passed), the pedagogical material is quite nascent.
 While there are some great resources such as Sasha Rush's [minitorch](https://minitorch.github.io/) course at Cornell and
@@ -57,7 +57,7 @@ are reused for `teenygrad` development.
     ```json
     {
       <!-- other fields in settings.json -->
-      "rust-analyzer.linkedProjects": ["rust/Cargo.toml"],
+      "rust-analyzer.linkedProjects": ["teeny/rust/Cargo.toml"],
       "rust-analyzer.cargo.features": ["gpu"],
     }
     ```
