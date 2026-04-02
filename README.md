@@ -1,4 +1,15 @@
-# Motivation
+![](https://sitp.ai/assets/flammarion.webp)
+# `teenygrad`
+[`The Structure and Interpretation of Tensor Programs`](https://sitp.ai/)' capstone project
+
+
+
+**Contents**
+- [Motivation](#motivation)
+- [SITP Installation (Book)](#sitp-installation-book)
+- [`teenygrad` Installation (Codebase)](#teenygrad-installation-codebase)
+
+## Motivation
 
 The SITP and `teenygrad` project is trying to fill a pedagogical gap in the discipline of deep learning systems.
 With traditional software 1.0, the languages and runtimes that makeup production-grade systems such as LLVM and Linux
@@ -15,17 +26,29 @@ While there are some great resources such as Sasha Rush's [minitorch](https://mi
 Tianqi Chen's [needl](https://dlsyscourse.org/) course at Carnegie Mellon,
 there are a few gaps that I personally would like to see filled, which is what SITP and `teenygrad` trying to do.
 
-# Installation
+## SITP Installation (Book)
 
-## Eager Mode
-`teenygrad` eager mode (developed in part [1](https://book.j4orz.ai/1.html) and [2](https://book.j4orz.ai/2.html) of the book)
+1. Install [mdbook](https://rust-lang.github.io/mdBook/guide/installation.html)
+2. ```sh
+   cd sitp/
+   mdbook serve
+   ```
+
+## `teenygrad` Installation (Codebase)
+
+Follow these instructions for a quick setup.
+To understand the physical layout of the project repo, refer to the [`ARCHITECTURE.md`](./ARCHITECTURE.md)
+
+### Eager Mode
+`teenygrad` eager mode (developed in part [1](https://sitp.ai/1.html) and [2](https://sitp.ai/2.html) of the book)
 has a mixed source of Python, Rust, and CUDA Rust in order to support CPU and GPU acceleration.
 The Python to Rust interop is implemented using CPython Extension Modules via [`PyO3`](https://pyo3.rs/),
-with the shared object files compiled by driving `cargo` via PyO3's build tool [`maturin`](https://www.maturin.rs/).
+with the shared object files compiled by driving `cargo` via `PyO3`'s build tool [`maturin`](https://www.maturin.rs/).
 
 **CPU kernels (RISC-V)**
 1. CPU kernels do not use the docker container (for now).
     ```sh
+    cd teeny/
     uv pip install maturin                             # install maturin (which drives pyo3)
     cd rust && cargo run                               # run cpu acccelerated gemm kernel
     maturin develop                                    # build shared object for cpython's extension modules
@@ -33,15 +56,17 @@ with the shared object files compiled by driving `cargo` via PyO3's build tool [
     ```
 
 **GPU kernels (PTX)**
+
 To enable GPU acceleration, teenygrad uses [CUDA Rust](https://github.com/Rust-GPU/rust-cuda),
 which in turn requires a specific version matrix required (notably the LLVM subset NVVM pinned to LLVM 7.x,
-because [CUDA Rust targets NVVM rather than using LLVM's PTX codegen](https://rust-gpu.github.io/rust-cuda/faq.html))
-and so [docker containers and shell scripts provided by CUDA Rust](https://rust-gpu.github.io/rust-cuda/guide/getting_started.html#docker)
+because [CUDA Rust targets NVVM rather than using LLVM's PTX codegen](https://rust-gpu.github.io/rust-cuda/faq.html#why-not-use-rustc-with-the-llvm-ptx-backend))
+and so [docker containers and shell scripts provided by CUDA Rust](https://rust-gpu.github.io/rust-cuda/guide/getting_started.html#required-libraries)
 are reused for `teenygrad` development.
 
 1. Install [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) on your machine
 2. Then run the following in your shell:
     ```sh
+    cd teeny/
     sudo nvidia-ctk runtime configure --runtime=docker # set nvidia's container runtime to docker
     sudo systemctl restart docker                      # restart docker
     ./dcr.sh                                           # create container with old version of llvm for cuda rust
@@ -64,5 +89,5 @@ are reused for `teenygrad` development.
     Note that when VSCode opening the project's development container, none of the `./dex.sh` commands from step 2 will work, since the development container doesn't have docker.
     For that, either enter those commands in the shell of a second VSCode editor, or simply different shell software.
 
-## Graph Mode
-`teenygrad` graph mode (developed in part [3](https://book.j4orz.ai/3.html) of the book) is a pure Python Tensor compiler.
+### Graph Mode
+`teenygrad` graph mode (developed in part [3](https://sitp.ai/3.html) of the book) is a pure Python Tensor compiler.
