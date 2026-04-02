@@ -4,7 +4,7 @@ use cudarc::nvrtc::Ptx;
 use gpu_device::T;
 
 // Embed the PTX code as a static string.
-static PTX: &str = include_str!(concat!(env!("OUT_DIR"), "/device_kernels.ptx"));
+static PTX: &str = include_str!(concat!(env!("OUT_DIR"), "/gpu_device.ptx"));
 
 #[pyfunction]
 #[pyo3(name = "cudars_helloworld")]
