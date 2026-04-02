@@ -13,8 +13,11 @@ fn eagkers(m: &Bound<'_, PyModule>) -> PyResult<()> {
   cpu.add_function(wrap_pyfunction!(cpu::sgemmpy, &cpu)?)?;
   m.add_submodule(&cpu)?;
 
-  let gpu = PyModule::new(m.py(), "gpu")?;
-  cpu.add_function(wrap_pyfunction!(gpu_host::cudars_helloworld_py, &gpu)?)?;
+  #[cfg(feature = "gpu")] {
+    let gpu = PyModule::new(m.py(), "gpu")?;
+    gpu.add_function(wrap_pyfunction!(gpu_host::cudars_helloworld_py, &gpu)?)?;
+    m.add_submodule(&gpu)?;
+  }
 
   Ok(())
 }
