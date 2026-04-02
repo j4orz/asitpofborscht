@@ -67,9 +67,14 @@ with Python for productivity, Rust for native CPU performance, and CUDA Rust/cuT
 
 ## Code Map
 
-Let's iteratively deepen our physical understanding of the block diagram above with the project's code `tree`.
 
 ### Level 0 (The SITP Book and `teenygrad` Codebase)
+
+Let's iteratively deepen our physical understanding of the block diagram above with the project's code `tree`.
+The project's root directory for the `teenygrad` repository has roughly speaking three primary functions in which all files at the fall under:
+- **`(1), (2)` makeup the SITP book and `teenygrad` codebase**
+- **`(A), (B), (C)` makeup the the repository's metadata**
+- **`(X), (Y)` makeup local development and CI/CD**
 
 ```
 └── teenygrad
@@ -86,7 +91,8 @@ Let's iteratively deepen our physical understanding of the block diagram above w
     │    ... (OMITTED)
 ```
 
-The project's root directory for the `teenygrad` repository has roughly speaking three primary functions in which all files at the fall under:
+
+In more detail,
 1. **`(1), (2)` makeup the SITP book and `teenygrad` codebase**</br>
     - The SITP book uses Rust's [mdbook](https://rust-lang.github.io/mdBook/), which is the Rust version of jupyter notebooks.
       For instance, [here is a list of both official and unofficial Rust books](https://lborb.github.io/book/official.html) which all use the mdbook software.
