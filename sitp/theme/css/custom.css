@@ -377,6 +377,11 @@ p + ul {
   color: #fff !important;
 }
 
+.material-lighter:has(#front-bg-video[data-page="prologue"]) blockquote {
+  background: transparent !important;
+  border-color: transparent !important;
+}
+
 .material-lighter:has(#front-bg-video) h1,
 .material-lighter:has(#front-bg-video) h1 a.header:link,
 .material-lighter:has(#front-bg-video) h1 a.header:visited {

@@ -1,3 +1,8 @@
+<video id="front-bg-video" muted loop playsinline>
+  <source src="./assets/preface-bg.mp4" type="video/mp4">
+</video>
+<div id="front-start-overlay"><span>PRESS START</span></div>
+
 ![](./assets/pref.jpeg)
 *Myself, presenting an early outline of SITP at [Toronto School of Foundation Modeling Season 1](https://tsfm.ca/schedule)*
 

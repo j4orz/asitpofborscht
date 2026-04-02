@@ -1,3 +1,8 @@
+<video id="front-bg-video" data-page="prologue" muted loop playsinline>
+  <source src="./assets/prologue-bg.mp4" type="video/mp4">
+</video>
+<div id="front-start-overlay"><span>PRESS START</span></div>
+
 ![](./assets/babel.jpg)
 <small>*Tower of Babel, Genesis 11:1–9*</small></br>
 
