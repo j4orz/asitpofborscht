@@ -14,10 +14,16 @@ fn eagkers(m: &Bound<'_, PyModule>) -> PyResult<()> {
   m.add_submodule(&cpu)?;
 
   #[cfg(feature = "gpu")] {
-    let gpu = PyModule::new(m.py(), "gpu")?;
-    gpu.add_function(wrap_pyfunction!(gpu_host::cudars_helloworld_py, &gpu)?)?;
-    m.add_submodule(&gpu)?;
-  }
+  let gpu = PyModule::new(m.py(), "gpu")?;
+  gpu.add_function(wrap_pyfunction!(cudars_helloworld_py, &gpu)?)?;
+  m.add_submodule(&gpu)?; }
 
+  Ok(())
+}
+
+#[pyfunction]
+#[pyo3(name = "cudars_helloworld")]
+pub fn cudars_helloworld_py() -> PyResult<()> {
+  let _ = gpu_host::cudars_helloworld();
   Ok(())
 }
