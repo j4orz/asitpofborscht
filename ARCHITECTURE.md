@@ -53,14 +53,14 @@ with Python for productivity, Rust for native CPU performance, and CUDA Rust/cuT
 └────────────────┬──────────────────┘
                  │ PyO3
         ┌────────▼────────────┐
-        │  /rust/src/lib.rs   │
+        │ /eagkers/src/lib.rs │
         └───────┬─────────┬───┘
                 │         │
-┌───────────────▼───┐  ┌──▼──────────────────────────┐       ┌────────────────────────────────────┐
-│                   │  │                              │       │                                    │
-│  /rust/src/cpu.rs │  │  /rust/src/gpu_host.rs       ├──────►│  /rust/gpu_device/src/lib.rs       │
-│                   │  │                              │       │  cuTile TODO                       │
-└───────────────────┘  └──────────────────────────────┘       └────────────────────────────────────┘
+┌───────────────▼─────┐  ┌──▼──────────────────────────┐       ┌────────────────────────────────────┐
+│                     │  │                              │       │                                    │
+│ /eagkers/src/cpu.rs │  │   /eagkers/src/gpu_host.rs   ├──────►│  /eagkers/gpu_device/src/lib.rs    │
+│                     │  │                              │       │  cuTile TODO                       │
+└─────────────────────┘  └──────────────────────────────┘       └────────────────────────────────────┘
   Rust CPU Kernels        Rust GPU Kernels (Host)                 Rust GPU Device (Device)
 
 ```
@@ -125,7 +125,7 @@ In `teeny/`, roughly speaking there are three primary functions in which all fil
     ├── pyproject.toml              (A)
     ├── python                  (2)
     │    ... (OMITTED)
-    ├── rust                    (3)
+    ├── eagkers                 (3)
     │    ... (OMITTED)
     ├── rust-toolchain.toml         (B)
     └── uv.lock                     (C)
@@ -160,7 +160,7 @@ In more detail,
   ```sh
     cd teeny                                           # cd into teeny/
     ./dcr.sh                                           # create container with old version of llvm for cuda rust
-    ./dex.sh "cd rust && cargo run --features gpu"     # run gpu accelerated gemm kernel
+    ./dex.sh "cd eagkers && cargo run --features gpu"     # run gpu accelerated gemm kernel
     ./dex.sh "maturin develop"                         # build the shared object for cpython's extension modules
     ./dex.sh "uv run examples/abstractions.py"         # run gpu accelerated gemm kernel from python
   ```
@@ -215,7 +215,7 @@ which will cover distributed training and inference. For now, all development wi
     │   │       └── test_speed.py
     │   └── tests
     │       └── test_tensor.py
-    ├── rust
+    ├── eagkers
     │    ... (OMITTED)
 ```
 
@@ -231,7 +231,7 @@ which will cover distributed training and inference. For now, all development wi
     │    ... (OMITTED)
     ├── python
     │    ... (OMITTED)
-    ├── rust                                         (3) <------------------------------
+    ├── eagkers                                      (3) <------------------------------
     │   ├── Cargo.lock
     │   ├── Cargo.toml
     │   ├── benches

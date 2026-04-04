@@ -70,7 +70,7 @@ are reused for `teenygrad` development.
     sudo nvidia-ctk runtime configure --runtime=docker # set nvidia's container runtime to docker
     sudo systemctl restart docker                      # restart docker
     ./dcr.sh                                           # create container with old version of llvm for cuda rust
-    ./dex.sh "cd rust && cargo run --features gpu"     # run gpu accelerated gemm kernel
+    ./dex.sh "cd eagkers && cargo run --features gpu"  # run gpu accelerated gemm kernel
     ./dex.sh "maturin develop"                         # build the shared object for cpython's extension modules
     ./dex.sh "uv run examples/abstractions.py"         # run gpu accelerated gemm kernel from python
     ```
@@ -82,7 +82,7 @@ are reused for `teenygrad` development.
     ```json
     {
       <!-- other fields in settings.json -->
-      "rust-analyzer.linkedProjects": ["teeny/rust/Cargo.toml"],
+      "rust-analyzer.linkedProjects": ["teeny/eagkers/Cargo.toml"],
       "rust-analyzer.cargo.features": ["gpu"],
     }
     ```

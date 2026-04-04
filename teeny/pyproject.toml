@@ -13,7 +13,7 @@ dependencies = [
 
 [tool.maturin]
 features = ["pyo3/extension-module"]
-manifest-path = "rust/Cargo.toml"
+manifest-path = "eagkers/Cargo.toml"
 python-source = "python"
 python-packages = ["teenygrad"]
 module-name = "teenygrad.eagkers"

@@ -23,6 +23,17 @@ fn eagkers(m: &Bound<'_, PyModule>) -> PyResult<()> {
   Ok(())
 }
 
+// gpu ######################################################################################
+
+#[pyfunction]
+#[pyo3(name = "cudars_helloworld")]
+pub fn cudars_helloworld_py() -> PyResult<()> {
+  let _ = gpu_host::cudars_helloworld();
+  Ok(())
+}
+
+// cpu ######################################################################################
+
 #[pyfunction]
 #[pyo3(name = "saxpy")]
 pub fn saxpypy(n: usize, alpha: f32, x: PyBuffer<f32>, y: PyBuffer<f32>) -> PyResult<()> {
@@ -68,12 +79,5 @@ pub fn sgemmpy(
   let b = unsafe { std::slice::from_raw_parts(b.buf_ptr() as *const f32, b_len) };
   let c = unsafe { std::slice::from_raw_parts_mut(c.buf_ptr() as *mut f32, m * ldc) };
   cpu::sgemmrs(transa, transb, m, n, p, alpha, beta, a, lda, b, ldb, c, ldc);
-  Ok(())
-}
-
-#[pyfunction]
-#[pyo3(name = "cudars_helloworld")]
-pub fn cudars_helloworld_py() -> PyResult<()> {
-  let _ = gpu_host::cudars_helloworld();
   Ok(())
 }
