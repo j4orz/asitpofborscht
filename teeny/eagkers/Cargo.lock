@@ -260,9 +260,9 @@ version = "0.1.0"
 dependencies = [
  "cuda_builder",
  "cudarc",
- "gpu_device",
  "pyo3",
  "rayon",
+ "src_device",
 ]
 
 [[package]]
@@ -359,13 +359,6 @@ name = "glob"
 version = "0.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0cc23270f6e1808e30a928bdc84dea0b9b4136a8bc82338574f23baf47bbd280"
-
-[[package]]
-name = "gpu_device"
-version = "0.1.0"
-dependencies = [
- "cuda_std",
-]
 
 [[package]]
 name = "half"
@@ -1009,6 +1002,13 @@ checksum = "17129e116933cf371d018bb80ae557e889637989d8638274fb25622827b03881"
 dependencies = [
  "libc",
  "windows-sys 0.60.2",
+]
+
+[[package]]
+name = "src_device"
+version = "0.1.0"
+dependencies = [
+ "cuda_std",
 ]
 
 [[package]]

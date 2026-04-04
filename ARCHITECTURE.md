@@ -58,7 +58,7 @@ with Python for productivity, Rust for native CPU performance, and CUDA Rust/cuT
                 │         │
 ┌───────────────▼─────┐  ┌──▼──────────────────────────┐       ┌────────────────────────────────────┐
 │                     │  │                              │       │                                    │
-│ /eagkers/src/cpu.rs │  │   /eagkers/src/gpu_host.rs   ├──────►│  /eagkers/gpu_device/src/lib.rs    │
+│ /eagkers/src/cpu.rs │  │   /eagkers/src/gpu_host.rs   ├──────►│  /eagkers/src_device/src/lib.rs    │
 │                     │  │                              │       │  cuTile TODO                       │
 └─────────────────────┘  └──────────────────────────────┘       └────────────────────────────────────┘
   Rust CPU Kernels        Rust GPU Kernels (Host)                 Rust GPU Device (Device)
@@ -238,7 +238,7 @@ which will cover distributed training and inference. For now, all development wi
     │   │   ├── bench_cpu.rs
     │   │   └── bench_gpu.rs
     │   ├── build.rs
-    │   ├── gpu_device
+    │   ├── src_device
     │   │   ├── Cargo.lock
     │   │   ├── Cargo.toml
     │   │   └── src

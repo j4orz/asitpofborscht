@@ -1,5 +1,5 @@
 use cudarc::{driver::{self, PushKernelArg}, nvrtc};
-use gpu_device::T; // shared type with device code
+use src_device::T; // shared type with device code
 static PTX: &str = include_str!(concat!(env!("OUT_DIR"), "/gpu_device.ptx")); // Embed the PTX code as a static string.
 
 pub fn cudars_helloworld() -> Result<(), Box<dyn std::error::Error>> {

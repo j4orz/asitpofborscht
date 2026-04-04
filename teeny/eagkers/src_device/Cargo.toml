@@ -1,5 +1,5 @@
 [package]
-name = "gpu_device"
+name = "src_device"
 version = "0.1.0"
 edition = "2024"
 

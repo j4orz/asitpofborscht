@@ -89,13 +89,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "gpu_device"
-version = "0.1.0"
-dependencies = [
- "cuda_std",
-]
-
-[[package]]
 name = "half"
 version = "2.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -169,6 +162,13 @@ name = "semver"
 version = "1.0.27"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d767eb0aabc880b29956c35734170f26ed551a859dbd361d140cdbeca61ab1e2"
+
+[[package]]
+name = "src_device"
+version = "0.1.0"
+dependencies = [
+ "cuda_std",
+]
 
 [[package]]
 name = "syn"
