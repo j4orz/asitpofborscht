@@ -1,8 +1,3 @@
-<video id="front-bg-video" muted loop playsinline>
-  <source src="./assets/oot-title.mp4" type="video/mp4">
-</video>
-<div id="front-start-overlay"><span>PRESS START</span></div>
-
 ![](./assets/flammarion.webp)
 
 <small>*Ἀγεωμέτρητος μηδεὶς εἰσίτω.*</small></br>

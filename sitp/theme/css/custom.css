@@ -197,6 +197,24 @@ p + ul {
   }
 }
 
+.dual {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+  margin: 1em 0;
+}
+
+.dual > * {
+  margin: 0 !important;
+}
+
+@media (max-width: 1000px) {
+  .dual {
+    grid-template-columns: 1fr;
+  }
+}
+
 .ayu .playground-iframe,
 .navy .playground-iframe,
 .coal .playground-iframe {
@@ -213,238 +231,4 @@ p + ul {
 
 .ayu pre {
   background: #191f26;
-}
-
-.material-lighter pre {
-  background: #E0F7FA;
-}
-
-/* Material Theme Lighter menu title */
-.material-lighter .menu-title {
-  color: #C83E36;
-}
-
-/* Material Theme Lighter headings */
-.material-lighter h1,
-.material-lighter h1 a.header:link,
-.material-lighter h1 a.header:visited {
-  color: #CE8B32;
-}
-
-.material-lighter h2,
-.material-lighter h2 a.header:link,
-.material-lighter h2 a.header:visited {
-  color: #CE8B32;
-}
-
-.material-lighter h3,
-.material-lighter h3 a.header:link,
-.material-lighter h3 a.header:visited {
-  color: #59A1AA;
-}
-
-.material-lighter h4,
-.material-lighter h4 a.header:link,
-.material-lighter h4 a.header:visited,
-.material-lighter h5,
-.material-lighter h5 a.header:link,
-.material-lighter h5 a.header:visited,
-.material-lighter h6,
-.material-lighter h6 a.header:link,
-.material-lighter h6 a.header:visited {
-  color: #CE8B32;
-}
-
-/* Material Theme Lighter inline code */
-.material-lighter :not(pre) > code.hljs {
-  color: #8FAE58;
-}
-
-/* Material Theme Lighter syntax highlighting */
-.material-lighter .hljs {
-  background: #F5F5F5;
-  color: #546E7A;
-}
-
-.material-lighter .hljs-keyword,
-.material-lighter .hljs-selector-tag,
-.material-lighter .hljs-built_in,
-.material-lighter .hljs-name,
-.material-lighter .hljs-tag {
-  color: #59A1AA;
-}
-
-.material-lighter .hljs-string,
-.material-lighter .hljs-title,
-.material-lighter .hljs-section,
-.material-lighter .hljs-attribute,
-.material-lighter .hljs-literal,
-.material-lighter .hljs-template-tag,
-.material-lighter .hljs-template-variable,
-.material-lighter .hljs-type {
-  color: #8FAE58;
-}
-
-.material-lighter .hljs-number,
-.material-lighter .hljs-attr,
-.material-lighter .hljs-params {
-  color: #F76D47;
-}
-
-.material-lighter .hljs-comment,
-.material-lighter .hljs-quote {
-  color: #90A4AE;
-  font-style: italic;
-}
-
-.material-lighter .hljs-title.function_,
-.material-lighter .hljs-function,
-.material-lighter .hljs-selector-id,
-.material-lighter .hljs-selector-class {
-  color: #6182B8;
-}
-
-.material-lighter .hljs-class .hljs-title,
-.material-lighter .hljs-variable.language_ {
-  color: #E53935;
-}
-
-.material-lighter .hljs-regexp,
-.material-lighter .hljs-link {
-  color: #59A1AA;
-}
-
-.material-lighter .hljs-symbol,
-.material-lighter .hljs-bullet,
-.material-lighter .hljs-meta {
-  color: #7986CB;
-}
-
-.material-lighter .hljs-deletion {
-  color: #E53935;
-}
-
-.material-lighter .hljs-addition {
-  color: #8FAE58;
-}
-
-
-.material-lighter .hljs-emphasis {
-  font-style: italic;
-}
-
-.material-lighter .hljs-strong {
-  font-weight: bold;
-}
-
-/* Material Theme Lighter nav chevrons */
-.material-lighter .nav-chapters,
-.material-lighter .mobile-nav-chapters {
-  color: #843cce;
-}
-
-/* ── OoT title-screen video background (material-lighter, front page only) ── */
-#front-bg-video {
-  display: none;
-}
-
-.material-lighter #front-bg-video {
-  display: block;
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-  z-index: -1;
-}
-
-.material-lighter:has(#front-bg-video),
-.material-lighter:has(#front-bg-video) body,
-.material-lighter:has(#front-bg-video) #body-container,
-.material-lighter:has(#front-bg-video) .page-wrapper,
-.material-lighter:has(#front-bg-video) .page {
-  background: transparent !important;
-}
-
-.material-lighter:has(#front-bg-video) #sidebar,
-.material-lighter:has(#front-bg-video) #menu-bar,
-.material-lighter:has(#front-bg-video) #content {
-  background: transparent !important;
-}
-
-.material-lighter:has(#front-bg-video) #sidebar,
-.material-lighter:has(#front-bg-video) #sidebar a {
-  color: #fff !important;
-}
-
-.material-lighter:has(#front-bg-video[data-page="prologue"]) blockquote {
-  background: transparent !important;
-  border-color: transparent !important;
-}
-
-.material-lighter:has(#front-bg-video) h1,
-.material-lighter:has(#front-bg-video) h1 a.header:link,
-.material-lighter:has(#front-bg-video) h1 a.header:visited {
-  color: #CE8B32;
-}
-
-.material-lighter:has(#front-bg-video) code,
-.material-lighter:has(#front-bg-video) code.hljs {
-  background: transparent !important;
-}
-
-.material-lighter:has(#front-bg-video) #content p,
-.material-lighter:has(#front-bg-video) #content small {
-  color: #fff;
-}
-
-.material-lighter:has(#front-bg-video) #content p a,
-.material-lighter:has(#front-bg-video) #content small a {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.material-lighter:has(#front-bg-video) #content p a:hover,
-.material-lighter:has(#front-bg-video) #content small a:hover {
-  opacity: 0.75;
-}
-
-#front-start-overlay {
-  display: none;
-}
-
-.material-lighter #front-start-overlay {
-  display: flex;
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  background: transparent;
-  pointer-events: all;
-}
-
-.material-lighter #front-start-overlay span {
-  color: #fff;
-  font-family: var(--mono-font);
-  font-size: 6rem;
-  letter-spacing: 0.2em;
-  text-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
-  animation: oot-blink 1.2s step-start infinite;
-}
-
-@keyframes oot-blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-.material-lighter #front-start-overlay.dismissed {
-  display: none;
-}
-
-/* Material Theme Lighter sidenotes */
-.material-lighter .sidenote-number::after,
-.material-lighter .sidenote::before {
-  color: #C83E36;
 }
