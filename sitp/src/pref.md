@@ -1,92 +1,86 @@
-<video id="front-bg-video" muted loop playsinline>
-  <source src="./assets/preface-bg.mp4" type="video/mp4">
-</video>
-<div id="front-start-overlay"><span>PRESS START</span></div>
-
 ![](./assets/pref.jpeg)
 *Myself, presenting an early outline of SITP at [Toronto School of Foundation Modeling Season 1](https://tsfm.ca/schedule)*
 
 # Preface
 
-This book is aspirationally titled *The Structure and Interpretation of Tensor Programs*, (abbreviated as SITP)
-as it's goal is to serve the same role for software 2.0 as
+This book is aspirationally titled [*The Structure and Interpretation of Tensor Programs*](./front.md), (from here on in abbreviated as SITP)
+as it's goal is to serve a similar role for software 2.0 as
 [*The Structure and Interpretation of Computer Programs*](https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/full-text/book/book.html)
-(abbreviated as SICP) did for software 1.0.
+(from here on in abbreviated as SICP) did for software 1.0.
 Written by Harold Abelson and Gerald Sussman with Julie Sussman, SICP has reached consensus amongst many to be integral to the programmer canon,
-providing an introductory whirlwind tour on the essence of computation through a logically unbroken yet informal sequence from programming, to
-programming languages<span class="sidenote-number"></span><span class="sidenote">*SICP influenced other texts such as it's [dual](https://cs.brown.edu/~sk/Publications/Papers/Published/fffk-htdp-vs-sicp-journal/paper.pdf) [HtDP](https://htdp.org/) (introduced at Waterloo by [Prabhakar Ragde](https://cs.uwaterloo.ca/~plragde/flaneries/FICS/Introduction.html)) it's typed counterpart [OCEB](https://cs3110.github.io/textbook/cover.html), and the [recent](https://cs.brown.edu/~sk/Publications/Papers/Published/kf-data-centric/paper.pdf) addition of [DCIC](https://dcic-world.org/) spawning from it's phylogenetic cousin [PAPL](https://papl.cs.brown.edu/2020/).*</span>.
-The primary reason why this format is loved by many (and to be fair, equally disliked by a few),
-is because of the somewhat challenging learning curve for beginners, as it's not a book which simply teaches *syntax*
-such as the many "Learn X in Y Minute" books<span class="sidenote-number"></span><span class="sidenote">*Which at this point LLM's adequately replace.*</span>,
-but rather the *semantics* of a programming with programming languages<span class="sidenote-number"></span><span class="sidenote">*The difficulty of teaching has always been semantics: [Matthias Felleisen's](https://felleisen.org/matthias/OnHtDP/what_is_ts.html) TeachScheme!, [Shriram Krishnamurthi's](https://cs.brown.edu/~sk/Publications/Papers/Published/sk-teach-pl-post-linnaean/) Standard Model of Programming Languages, [Will Crichton's](https://willcrichton.net/#sec-cognition) Profiling Programming Language Learning (something on SITP's roadmap).*</span>.
+providing a whirlwind tour on the essence of computation through a logically unbroken yet informal sequence, starting from programming, to programming languages
+themselves<span class="sidenote-number"></span><span class="sidenote">*this curriculum went on to influence other texts such as it's [dual](https://cs.brown.edu/~sk/Publications/Papers/Published/fffk-htdp-vs-sicp-journal/paper.pdf) [HtDP](https://htdp.org/) (introduced at Waterloo by [Prabhakar Ragde](https://cs.uwaterloo.ca/~plragde/flaneries/FICS/Introduction.html)) it's typed counterpart [OCEB](https://cs3110.github.io/textbook/cover.html), and the [recent](https://cs.brown.edu/~sk/Publications/Papers/Published/kf-data-centric/paper.pdf) addition of [DCIC](https://dcic-world.org/) spawning from it's phylogenetic cousin [PAPL](https://papl.cs.brown.edu/2020/).*</span>.
 
-<!-- todo, julia's paper on programming languages for machine learning -->
-Before the success of large
-language models<span class="sidenote-number"></span><span class="sidenote">*notably the supervised finetuning and reinforcement learning from human feedback on top of a pretrainted transformer*</span>,
-the pedagogical return on investment in an introductory book on artificial intelligence following the same form as SICP was low,
-as readers would build their own pytorch from scratch "just" to classify MNIST or ImageNet.
-However now that deep learning systems are becoming as important if not more than the
-models themselves<span class="sidenote-number"></span><span class="sidenote">
-*especially in the period of research in artificial intelligence dubbed the era of scaling, characterized by the heavy engineering of pouring internet-scale data into the weights of transformer neural networks with massively parallel and distributed compute.*</span>,
-that return on investment is higher,
-as the frontier of deep learning systems increasingly becomes ever more out of reach from the grasp of the
-beginner<span class="sidenote-number"></span><span class="sidenote">*the massively parallel processors now have dedicated hardware units evaluating matrix instructions called tensor cores, which in turn have precipitated the need for fusion compilers. Even language-runtime codesign/cooptimization like profile-guided optimizations are repeating themselves with languages such as `torch.compile()` and runtimes like `vllm`/`sglang`.*</span>.
-At least this is how *I* personally felt as a professional engineer transitioning to the world of domain specific tensor compilers,
-coming from [domain specific cloud compilers](https://www.infoq.com/presentations/deploy-pipelines-coinbase/) and [distributed infrastructure provisioners and garbage collectors](https://www.infoq.com/presentations/coinbase-terraform-earth/).
+The programmers who loved to dive deeper into the soul of the machine by peeking under the hood of these low-level systems
+went on to develop industrial languages and
+runtimes<span class="sidenote-number"></span><span class="sidenote">*"There is only one project, architecture, operating system and languages, compiler, it's only one project. It's all together." -- Boris Babayan*</span>.
+For myself, that looked like working on [domain specific cloud compilers](https://www.infoq.com/presentations/deploy-pipelines-coinbase/)
+as well as [cloud provisioners and garbage collectors](https://www.infoq.com/presentations/coinbase-terraform-earth/).
+After ChatGPT, I set out to transition from domain specific cloud compilers to domain specific tensor compilers, which began in earnest during 2025 with a
+[tweet](https://x.com/j4orz/status/1907452857248350421/) showcasing a deep learning framework written from scratch to run the nets from Karpathy's [Neural Networks: Zero to Hero](https://karpathy.ai/zero-to-hero.html) series. This work turned out in retrospect to be the seeds of SITP's core with [Part II. Neural Networks]()
+which covers the 2012-2020 "era of research" and consists of two chapters:
+- [Chapter 4. Learning *Sequences* from Data with Deep Neural Networks in `torch`](./2.md#4-learning-sequences-from-data-with-deep-neural-networks-in-torch)
+- [Chapter 5. Accelerating *Sequence Models* on `GPU` in `teenygrad`](./2.md#5-accelerating-sequence-models-on-gpu-in-teenygrad-with-cuda-rust)
 
-<!-- todo: narrow ai vs artificial general intelligence -->
-While I enjoyed reading existing
-deep learning canon<span class="sidenote-number"></span><span class="sidenote">*such as [[DFO20]]() for mathematics, [[JWHTT23]]() for machine learning, [[GBC16]]() for deep learning, [[HKH22]]() for parallel programming*</span>, I couldn't help but imagine how delightful a SICP-style top-down-just-in-time reading experience would be. If product management 
-and engineering transitions into vibecoding and training models respectively, then why aren't we teaching the parallel programming of deep nets to highschoolers and first year college students from the get-go? Curiosity got the best of me, and what resulted therein is the book you hold on your screens.
+While it was illuminating to implement each individual torch call that the nets from `makemore` were making, my knowledge felt
+fragmented<span class="sidenote-number"></span><span class="sidenote">*More coloquially, I was a neural network script kiddie.*</span> with respect to the foundations and frontiers.
+It was at this point in time that my aspirations grew to write a book which replicated the *form* of SICP but with the *substance* of deep learning and deep learning systems.
+That is, to prepend a [Part I. Elements of Networks](./1.md) and append a [Part III. Scaling Networks]() which covers preliminary machine learning, as well as deep learning languages and runtimes respectively.
+But arguably most important of all, to understand and teach the
+**semantics<span class="sidenote-number"></span><span class="sidenote">*The difficulty of teaching programming has always been semantics. See Felleisen's [TeachScheme!](https://felleisen.org/matthias/OnHtDP/what_is_ts.html), Krishnamurthi's [Standard Model of Programming Languages](https://cs.brown.edu/~sk/Publications/Papers/Published/sk-teach-pl-post-linnaean/), Crichton's [Profiling Programing Language Learning](https://willcrichton.net/#sec-cognition)*</span> of software 2.0 to programmers of software 1.0**.
+Because although SITP as a book develops the `teenygrad` framework with a myriad of languages with `Python`, `Rust`, `CUDA Rust`, and `cuTile Rust`,
+tomorrow for all we know everything can be rewritten in Julia or Mojo. I wanted to write a deep learning book for myself and others which prioritized semantics.
 
-<!-- part one: jurafsky, cho's reordering (strang's "new vision" ensuring singular values and eigen values gets included with Ax=b), LAFF from theory to algorithms "foundations to frontiers"-->
-So in [part one](./1.md) of the book,
-you will train your generalized linear models with `numpy`
-and then start developing [`teenygrad`](https://github.com/j4orz/teenygrad) by implementing your own multidimensional array abstraction
-to train those models once again.
-Then, in [part two](./2.md) of the book, you will train deep neural networks with `pytorch` following the *age of research* and then update
-the implementation of [`teenygrad`](https://github.com/j4orz/teenygrad) to support gpu-accelerated "eager mode" evaluation for neural network primitives for both forward and backward passes.
-Finally, in [part three](./3.md)<span class="sidenote-number"></span><span class="sidenote">
-*which if you are more experienced, you may benefit in jumping straight to, to better understand what something like `torch.compile()` is doing for you*</span> of the book,
-you will update [`teenygrad`](https://github.com/j4orz/teenygrad) for the last time for the *age of scaling* by developing a "graph mode" compilation and inference engine with tinygrad's RISCy IR,
-borrowing ideas from ThunderKitten's tile registers, MegaKernels, and Halide/TVM schedules. To continue deeping your knowledge, more resources are provided in the [afterword](./after.md).
+So in [Part I. Elements of Networks](./1.md), readers learn "pre-historic" machine learning<span class="sidenote-number"></span><span class="sidenote">*The exposition in Part I heavily relies on existing canon such as [Strang (1993)](), [Axler (1995)]() for preliminary linear algebra, [Hastie, Tibshirani, Friedman (2001)]() for machine learning, and [Trefethen and Bau (1997)](), [Demmel (1997)]() for numerical linear algebra, but it adds a few stylistic elements.</br></br>Namely that of infusing guiding motivation more relevant to the current regime of autoregressive sequence models inspired by [Jurafsky (2026)](), and frontloading the unsupervised learning of lower dimensional subspaces with principal component analysis inspired by [Kang and Cho (2024)]() before fitting any linear or logistic regression model.*</span>:
+- [Chapter 1. Representing *Data* with High Dimensional Stochasticity in `numpy`](./1.md#1-representing-data-with-high-dimensional-stochasticity-in-torch)
+- [Chapter 2. Learning *Functions* from *Data* with Parameter Estimation in `numpy`](./1.md#2-learning-functions-from-data-with-optimization-in-torch)
+- [Chapter 3. Accelerating *Functions* and *Data* on `CPU` in `teenygrad`](./1.md#3-accelerating-functions-and-data-with-basic-linear-algebra-subroutines-in-teenygrad)
 
-<!--
-- education for AI
-- AI for math education
-- AI for programming education
-education for AI. and AI for education (myself being the conductor of an orchestra)
--->
+And in [Part III. Scaling Networks](./3.md), readers learn about the 2020-2025 era of scaling:
+- [Chapter 6. Large Language Models]()
+- [Chapter 7. Reasoning Models]()
+- [Chapter 8. Fusion Compilers]()
+- [Chapter 9. Inference Engines ]()
 
-<!-- naturally, if you're in academia, your incentive will be open source. that is science. (linux torvalds quote). linux and clang. tinyos tinyc. karpathy $100 instead of deepseek.
+For those interested in other books about deep learning systems, you can check out the excellent courses
+of [minitorch](https://minitorch.github.io/) developed by Sasha Rush at Cornell and [needl](https://dlsyscourse.org/) developed by Tianqi Chen at Carnegie Mellon.
 
-value add is the infusing the few bits (seed curriculum, progression)
-embed an agent with the book.
+Lastly, because SITP is a book *on* artificial intelligence, the preface would be remiss if it did not discuss the questions which everyone is currently grappling such as the impact of artificial intelligence *on* education, and closely related, the impact of artificial intelligence *on* the economy.
+That is, for the student in academia, why not just ask ChatGPT to *teach you about deep learning systems*?
+Or for the engineer in industry, why not just ask ChatGPT to *implement a deep learning system for you?*<span class="sidenote-number"></span><span class="sidenote">*Experiments of such kind are already happening! See the VibeTensor paper from NVIDIA by [Xu et al 2026](https://arxiv.org/pdf/2601.16238). Or for the more traditional systems, see Claude's C Compiler from [Anthropic (2026)](https://www.anthropic.com/engineering/building-c-compiler)*</span> This is an open question which we'll see answered throughout the next few decades, but I will briefly indulge in the armchairing and provide some my personal speculations.
 
+First, with respect to the broader economy, vibecoding becomes the new product management, research engineering becomes the new engineering, and working on deep nets becomes the new infrastructure engineering.
+- The former is quite clear, given how the exact same prompts which previous product managers have tasked engineers through ticketing systems can now directly be communicated to a large language model.
+- with research engineering.. However, with the latter, by "research engineer" I mean . To operationalize, this can mean like "go to mars"
+- with training deep nets...
+
+What all three have in common is instantiating a new configuration of atoms or bits with reality.
+I guess if we were able to make sand do this for us we could then go all go to the beach, but then the next question becomes why not merge with them?
+I suspect we will see the question answered this century, whether biological humans and artificial intelligence will
+coexist in limbic system prefrontal cortex symbiotic fashion, or whether it's a 1:1 replacement like the horse and the steam engine.
+
+Assuming that reality follows the path of the former, then we still need to educate and equip our future generations with the appropriate understanding
+<span class="sidenote-number"></span><span class="sidenote">*Although an overused cliché, it's just like Richard Hamming said, "The purpose of computing is insight, not numbers"*</span>
+to "drive" artificial intelligence on behalf of humanity. However the next question then becomes, why not just ask ChatGPT to *teach you about deep learning systems*? You can definitely do that, and in fact, are recommended to do so<span class="sidenote-number"></span><span class="sidenote">*The book ships a fine-tuned Qwen for you!*</span>.
+
+However, I suspect that your experience with a language model will be complementary with the SITP reading experience.
+Perhaps I am being humanistically chauvanist because of the bias I bring being the author of the book itself, however,
+I suspect that the following resources (like teenygrad) will still be complementary used alongside language models:
+- a mini ChatGPT-like language model [nanochat](http://github.com/karpathy/nanochat)
+- a mini Lisp-like interpreter [metacircular evaluator](https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/full-text/book/book-Z-H-26.html#%_sec_4.1)
+- a mini C-like compiler [chibicc](https://github.com/rui314/chibicc)<span class="sidenote-number"></span><span class="sidenote">*in turn inspired by the one-pass [tcc](https://bellard.org/tcc/) by Fabrice Bellard*</span>
+- a mini LLVM-like SSA instruction set [Bril](https://www.cs.cornell.edu/~asampson/blog/bril.html)
+- a mini Unix-like operating system [xv6](https://pdos.csail.mit.edu/6.828/2025/xv6/book-riscv-rev5.pdf)
+- a mini x86-like instruction set [LC3](https://en.wikipedia.org/wiki/Little_Computer_3)
+- a mini in-order microarchitecture [sodor](https://github.com/ucb-bar/riscv-sodor)
+- a mini out-of-order microarchitecture [boom](https://carrv.github.io/2020/papers/CARRV2020_paper_15_Zhao.pdf)
+
+The reason being
+<!-- value add is the infusing the few bits (seed curriculum, progression)
 taste. (intuition. non-verifiable. gut feel)
-instantiating something new.
--->
+instantiating something new. -->
 
-<!-- quotes
-
-civilization advances by increasing number of things without thinking
-computer (calculate)
-internet (communicate)
-intelligence (conject/problem solve)
-
--->
-
-<!-- The book provides a single resource with code, math, and exposition<span class="sidenote-number"></span><span class="sidenote">*inspired by pedagogy such as [Dive into Deep Learning](https://d2l.ai/chapter_preface/index.html#one-medium-combining-code-math-and-html) (Zhang, Lipton, Li and Smola) and [Distill](https://distill.pub/) (Carter and Olah)*</span>
-for deep learning systems such as [pytorch](https://github.com/pytorch/pytorch) and [jax](https://github.com/jax-ml/jax), while also embedding visualizers, explainers, and lectures from other open source
-educators<span class="sidenote-number"></span><span class="sidenote">*from Andrej Karpathy, Grant Sanderson, Stephen Welch, Artem Kirsanov, and so on.*</span>
-to provide a rich multimodal dynamic
-document<span class="sidenote-number"></span><span class="sidenote">*as explored by Crichton with research in [technical foundations of technical communication](https://willcrichton.net/#sec-communication)*</span>
-experience for the reader.
-While the SITP book and the teenygrad codebase is licensed under the MIT License,
-such embedded content remains the property of its original creators and licensors and
-is not claimed as original work of this project nor released under the MIT License. -->
-
-If you empathize with some of my frustrations, you may benefit from the book too.</br>
+With that said, if you empathize with some of my frustrations, you may benefit from the book too.</br>
 If you are looking for reading groups checkout the `#teenygrad` channel in [![](https://dcbadge.limes.pink/api/server/gpumode?style=flat)](https://discord.com/channels/1189498204333543425/1373414141427191809)</br>
 Good luck on your journey.</br>
 Are you ready to begin?</br>
