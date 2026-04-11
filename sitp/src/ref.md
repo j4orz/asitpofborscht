@@ -1,10 +1,16 @@
 # References
 
+Fog, A. (n.d.). Software Optimization: C++ and Assembly. Agner.org. [https://agner.org/optimize/](https://agner.org/optimize/)
+
 Amanzhol Salykov. (2025, January 12). Advanced Matrix Multiplication Optimization on NVIDIA GPUs. Salykova. [https://salykova.github.io/sgemm-gpu](https://salykova.github.io/sgemm-gpu)
 
 Ansel, J., Yang, E., He, H., Gimelshein, N., Jain, A., Voznesensky, M., Bao, B., Bell, P., Berard, D., Evgeni Burovski, Chauhan, G., Anjali Chourdia, Constable, W., Alban Desmaison, DeVito, Z., Ellison, E., Feng, W., Gong, J., Gschwind, M., & Hirsh, B. (2024). PyTorch 2: Faster Machine Learning Through Dynamic Python Bytecode Transformation and Graph Compilation. ACM, ASPLOS’2024. [https://doi.org/10.1145/3620665.3640366](https://doi.org/10.1145/3620665.3640366)
 
 Bach, F. (2024). Learning Theory from First Principles. MIT Press. [https://www.di.ens.fr/~fbach/ltfp_book.pdf](https://www.di.ens.fr/~fbach/ltfp_book.pdf)
+
+Bakhvalov, D. (2024). Performance Analysis and Tuning on Modern CPUs. [https://github.com/dendibakh/perf-book](https://github.com/dendibakh/perf-book)
+
+Bryant, R. E., & O’hallaron, D. R. (2016). Computer Systems : a Programmer’s Perspective. Pearson.
 
 Boehm, S. (2022, December 31). How to Optimize a CUDA Matmul Kernel for cuBLAS-like Performance: a Worklog. Siboehm.com. [https://siboehm.com/articles/22/CUDA-MMM](https://siboehm.com/articles/22/CUDA-MMM)
 
@@ -81,6 +87,8 @@ Raschka, S. (2024). Build a Large Language Model (From Scratch). Manning.
 Raschka, S. (2026). Build a Reasoning Model (From Scratch). Simon and Manning.
 
 Roberts, D. A., Yaida, S., & Hanin, B. (2022). The Principles of Deep Learning Theory: An Effective Theory Approach to Understanding Neural Networks. Cambridge University Press. [https://deeplearningtheory.com/](https://deeplearningtheory.com/)
+
+Slotin, S. (n.d.). Algorithms for Modern Hardware - Algorithmica. En.algorithmica.org. [https://en.algorithmica.org/hpc/](https://en.algorithmica.org/hpc/)
 
 seb-v. (2025, January 20). Optimizing Matrix Multiplication on RDNA3: 50 TFlops and 60% Faster Than rocBLAS. Seb-v. [https://seb-v.github.io/optimization/update/2025/01/20/Fast-GPU-Matrix-multiplication.html](https://seb-v.github.io/optimization/update/2025/01/20/Fast-GPU-Matrix-multiplication.html)
 
