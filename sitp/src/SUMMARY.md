@@ -6,5 +6,4 @@
 [II. Neural Networks](./2.md)
 [III. Scaling Networks](./3.md)
 [Epilogue](./epi.md)
-[Appendix](./ap.md)
 [References](./ref.md)

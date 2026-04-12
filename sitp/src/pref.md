@@ -11,6 +11,8 @@ Written by Harold Abelson and Gerald Sussman with Julie Sussman, SICP has reache
 providing a whirlwind tour on the essence of computation through a logically unbroken yet informal sequence, starting from programming, to programming languages
 themselves<span class="sidenote-number"></span><span class="sidenote">*this curriculum went on to influence other texts such as it's [dual](https://cs.brown.edu/~sk/Publications/Papers/Published/fffk-htdp-vs-sicp-journal/paper.pdf) [HtDP](https://htdp.org/) (introduced at Waterloo by [Prabhakar Ragde](https://cs.uwaterloo.ca/~plragde/flaneries/FICS/Introduction.html)) it's typed counterpart [OCEB](https://cs3110.github.io/textbook/cover.html), and the [recent](https://cs.brown.edu/~sk/Publications/Papers/Published/kf-data-centric/paper.pdf) addition of [DCIC](https://dcic-world.org/) spawning from it's phylogenetic cousin [PAPL](https://papl.cs.brown.edu/2020/).*</span>.
 
+(todo: SITP is really SICP + CS:APP because of the newfound importance of systems in deep learning)
+
 The programmers who loved to dive deeper into the soul of the machine by peeking under the hood of these low-level systems
 went on to develop industrial languages and
 runtimes<span class="sidenote-number"></span><span class="sidenote">*"There is only one project, architecture, operating system and languages, compiler, it's only one project. It's all together." -- Boris Babayan*</span>.
@@ -85,3 +87,7 @@ With that said, if you empathize with some of my frustrations, you may benefit f
 If you are looking for reading groups checkout the `#teenygrad` channel in [![](https://dcbadge.limes.pink/api/server/gpumode?style=flat)](https://discord.com/channels/1189498204333543425/1373414141427191809)</br>
 Good luck on your journey.</br>
 Are you ready to begin?</br>
+
+## Acknowledgements
+*Errata*
+- [Jashanpreet Singh](https://github.com/Jashanpreet2)
