@@ -27,13 +27,22 @@ The Python to Rust interop is implemented using CPython Extension Modules via [`
 with the shared object files compiled by driving `cargo` via `PyO3`'s build tool [`maturin`](https://www.maturin.rs/).
 
 **CPU kernels (RISC-V)**
-1. CPU kernels do not use the docker container (for now).
+1. CPU kernels do not require the docker container
     ```sh
     cd teeny/
+    uv venv && source .venv/bin/activate               # create a venv through uv
     uv pip install maturin                             # install maturin (which drives pyo3)
-    cd rust && cargo run                               # run cpu acccelerated gemm kernel
-    maturin develop                                    # build shared object for cpython's extension modules
+    cd eagkers && cargo run --features cpu             # run cpu acccelerated gemm kernel
+    cd ../ && maturin develop                          # build shared object for cpython's extension modules
     uv run examples/abstractions.py                    # run cpu accelerated gemm kernel from python
+    ```
+2. Point `rustanalyzer` to the Rust source in `settings.json` with the `cpu` feature enabled: 
+    ```json
+    {
+      <!-- other fields in settings.json -->
+      "rust-analyzer.linkedProjects": ["teeny/eagkers/Cargo.toml"],
+      "rust-analyzer.cargo.features": ["cpu"],
+    }
     ```
 
 **GPU kernels (PTX)**
@@ -52,7 +61,7 @@ are reused for `teenygrad` development.
     sudo systemctl restart docker                      # restart docker
     ./dcr.sh                                           # create container with old version of llvm for cuda rust
     ./dex.sh "cd eagkers && cargo run --features gpu"  # run gpu accelerated gemm kernel
-    ./dex.sh "maturin develop"                         # build the shared object for cpython's extension modules
+    ./dex.sh "cd ../ && maturin develop"               # build the shared object for cpython's extension modules
     ./dex.sh "uv run examples/abstractions.py"         # run gpu accelerated gemm kernel from python
     ```
     Also note that `./dcr.sh` is the production container, so that any commands to run the Rust with `cargo`, build the Rust with `maturin`, or run the Python with `uv` must be qualified with `./dex.sh`.
