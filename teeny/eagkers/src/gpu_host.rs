@@ -2,6 +2,16 @@ use cudarc::{driver::{self, PushKernelArg}, nvrtc};
 use src_device::T; // shared type with device code
 static PTX: &str = include_str!(concat!(env!("OUT_DIR"), "/gpu_device.ptx")); // Embed the PTX code as a static string.
 
+// gpu ######################################################################################
+
+#[pyfunction]
+#[pyo3(name = "cudars_helloworld")]
+pub fn cudars_helloworld_py() -> PyResult<()> {
+  let _ = cudars_helloworld();
+  Ok(())
+}
+
+
 pub fn cudars_helloworld() -> Result<(), Box<dyn std::error::Error>> {
   // initialize device context and stream via driver api
   let process = driver::CudaContext::new(0)?; // device 0

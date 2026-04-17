@@ -18,20 +18,11 @@ fn eagkers(m: &Bound<'_, PyModule>) -> PyResult<()> {
   #[cfg(feature = "gpu")] {
   let gpu = PyModule::new(m.py(), "gpu")?;
   gpu.add_function(wrap_pyfunction!(cudars_helloworld_py, &gpu)?)?;
-  m.add_submodule(&gpu)?; }
+  m.add_submodule(&gpu)?;
+  }
 
   Ok(())
 }
-
-// gpu ######################################################################################
-
-#[pyfunction]
-#[pyo3(name = "cudars_helloworld")]
-pub fn cudars_helloworld_py() -> PyResult<()> {
-  let _ = gpu_host::cudars_helloworld();
-  Ok(())
-}
-
 // cpu ######################################################################################
 
 #[pyfunction]

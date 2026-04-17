@@ -10,6 +10,7 @@ crate-type = ["cdylib", "rlib"] # creates a .so for python to import from and al
 
 [features]
 default = []
+cpu = []
 gpu = ["dep:cudarc", "dep:src_device", "dep:cuda_builder"]
 
 [dependencies]
