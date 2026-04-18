@@ -8,7 +8,6 @@ name: CI
 on:
   push:
     branches:
-      - main
       - master
     tags:
       - '*'
@@ -19,6 +18,30 @@ permissions:
   contents: read
 
 jobs:
+  linuxriscv:
+    # routes job to github runner on k8 pod with riscv node provisioned by RISE (cloud-v and scaleway)
+    # see: https://github.com/apps/rise-risc-v-runners-personal
+    # see: https://riseproject-dev.github.io/riscv-runner/
+    runs-on: ubuntu-24.04-riscv
+    steps:
+      - name: 1. Checkout
+        uses: actions/checkout@v4
+      - name: 2. Run uname # https://man7.org/linux/man-pages/man2/uname.2.html
+        run: uname -m   # prints riscv64
+
+      - name: 3. Install Rust nightly
+        uses: dtolnay/rust-toolchain@nightly
+      - name: 4. Install OpenBLAS
+        run: sudo apt-get install -y libopenblas-dev
+      - name: 5. Run CPU benchmarks
+        working-directory: teeny/eagkers
+        run: cargo +nightly bench --features cpu,cpudev 2>&1 | tee bench_results.txt
+      - name: 6. Upload CPU benchmarks
+        uses: actions/upload-artifact@v4
+        with:
+          name: bench-riscv64
+          path: teeny/eagkers/bench_results.txt
+
   linux:
     runs-on: ${{ matrix.platform.runner }}
     strategy:
