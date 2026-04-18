@@ -41,7 +41,7 @@ with the shared object files compiled by driving `cargo` via `PyO3`'s build tool
     {
       <!-- other fields in settings.json -->
       "rust-analyzer.linkedProjects": ["teeny/eagkers/Cargo.toml"],
-      "rust-analyzer.cargo.features": ["cpu"],
+      "rust-analyzer.cargo.features": ["cpu", "cpudev"],
     }
     ```
 
