@@ -14,16 +14,22 @@ cpu = []
 cpudev = ["dep:cblas"]
 gpu = ["dep:cudarc", "dep:src_device", "dep:cuda_builder"]
 
+[build-dependencies]
+cuda_builder = { git = "https://github.com/rust-gpu/rust-cuda", features = ["rustc_codegen_nvvm"], optional = true }
+
 [dependencies]
 pyo3 = "0.25.0"
 
-# optional dependencies
+# optional/development dependencies
 cblas = { version = "0.4", optional = true }
 src_device = { path = "src_device", optional = true }
 cudarc = { version = "0.19.4", features = ["cuda-version-from-build-system"], optional = true }
+[dev-dependencies]
+divan = "0.1"
 
-[build-dependencies]
-cuda_builder = { git = "https://github.com/rust-gpu/rust-cuda", features = ["rustc_codegen_nvvm"], optional = true }
+[[bench]]
+name = "bench_divan"
+harness = false
 
 [profile.bench]
 opt-level = 0
