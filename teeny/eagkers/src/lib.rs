@@ -30,7 +30,7 @@ fn eagkers(m: &Bound<'_, PyModule>) -> PyResult<()> {
 pub fn saxpypy(n: usize, alpha: f32, x: PyBuffer<f32>, y: PyBuffer<f32>) -> PyResult<()> {
   let x = unsafe { std::slice::from_raw_parts(x.buf_ptr() as *const f32, n) };
   let y = unsafe { std::slice::from_raw_parts_mut(y.buf_ptr() as *mut f32, n) };
-  cpu::saxpy(n, alpha, x, y);
+  cpu::saxpy(n as i32, alpha, x, 1, y, 1);
   Ok(())
 }
 
@@ -60,15 +60,13 @@ pub fn sgemmpy(
   transa: bool, transb: bool, m: usize, n: usize, p: usize, alpha: f32, beta: f32,
   a: PyBuffer<f32>, lda: usize, b: PyBuffer<f32>, ldb: usize, c: PyBuffer<f32>, ldc: usize,
 ) -> PyResult<()> {
-  // SAFETY: a, b, c are array.array('f') buffers from Python.
-  // The buffer protocol guarantees the pointer is valid and the data is contiguous f32.
-  // SAFETY: a, b, c are array.array('f') buffers from Python.
-  // The buffer protocol guarantees the pointer is valid and the data is contiguous f32.
-  let a_len = if transa { p * lda } else { m * lda }; // stored as (p,lda) or (m,lda)
-  let b_len = if transb { n * ldb } else { p * ldb }; // stored as (n,ldb) or (p,ldb)
+  let a_len = if transa { p * lda } else { m * lda };
+  let b_len = if transb { n * ldb } else { p * ldb };
   let a = unsafe { std::slice::from_raw_parts(a.buf_ptr() as *const f32, a_len) };
   let b = unsafe { std::slice::from_raw_parts(b.buf_ptr() as *const f32, b_len) };
   let c = unsafe { std::slice::from_raw_parts_mut(c.buf_ptr() as *mut f32, m * ldc) };
-  cpu::sgemmrs(transa, transb, m, n, p, alpha, beta, a, lda, b, ldb, c, ldc);
+  let ta = if transa { cpu::Transpose::Ordinary } else { cpu::Transpose::None };
+  let tb = if transb { cpu::Transpose::Ordinary } else { cpu::Transpose::None };
+  cpu::sgemm(cpu::Layout::RowMajor, ta, tb, m as i32, n as i32, p as i32, alpha, a, lda as i32, b, ldb as i32, beta, c, ldc as i32);
   Ok(())
 }

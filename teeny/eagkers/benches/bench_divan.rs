@@ -1,4 +1,5 @@
 use divan::counter::ItemsCount;
+use eagkers::cpu::{Layout, Transpose};
 // roughly speaking,
 // rust's divan is to criterion as
 // cpp's nanobench is to google benchmark as
@@ -15,7 +16,7 @@ fn eagkers_gemm_256(b: divan::Bencher) {
   const N: usize = 256;
   let (a, bm, mut c) = inputs(N);
   b.counter(ItemsCount::new(2 * N * N * N))
-   .bench_local(|| eagkers::cpu::sgemmrs(false, false, N, N, N, 1.0, 0.0, &a, N, &bm, N, &mut c, N));
+   .bench_local(|| eagkers::cpu::sgemm(Layout::RowMajor, Transpose::None, Transpose::None, N as i32, N as i32, N as i32, 1.0, &a, N as i32, &bm, N as i32, 0.0, &mut c, N as i32));
 }
 
 #[cfg(feature = "cpudev")]

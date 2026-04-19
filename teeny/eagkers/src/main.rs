@@ -7,7 +7,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
   #[cfg(feature = "cpu")] {
     let n = 8;
     let (alpha, x, mut y) = (1.0f32, vec![1.0f32; n], vec![1.0f32; n]);
-    eagkers::cpu::saxpy(n, alpha, &x, &mut y);
+    eagkers::cpu::saxpy(n as i32, alpha, &x, 1, &mut y, 1);
     println!("{:?}", y);
   }
 
