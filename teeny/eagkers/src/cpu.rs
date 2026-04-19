@@ -77,24 +77,7 @@ pub fn dtrsv(layout: Layout, uplo: Part, trans: Transpose, diag: Diagonal, n: i3
 // ── Level 3 — s (f32) ───────────────────────────────────────────────────────
 
 pub fn sgemm(layout: Layout, transa: Transpose, transb: Transpose, m: i32, n: i32, k: i32, alpha: f32, a: &[f32], lda: i32, b: &[f32], ldb: i32, beta: f32, c: &mut [f32], ldc: i32) {
-  // column-major C=A*B ≡ row-major C^T=B^T*A^T, so swap a/b and invert transpose flags
-  let (ta, tb, m, n, a, lda, b, ldb) = match layout {
-    Layout::RowMajor    => (transa, transb, m as usize, n as usize, a, lda as usize, b, ldb as usize),
-    Layout::ColumnMajor => (transb, transa, n as usize, m as usize, b, ldb as usize, a, lda as usize),
-  };
-  let (k, ldc) = (k as usize, ldc as usize);
-  let ta = matches!(ta, Transpose::Ordinary | Transpose::Conjugate);
-  let tb = matches!(tb, Transpose::Ordinary | Transpose::Conjugate);
-  for i in 0..m {
-    for j in 0..n {
-      let mut ab = 0.0f32;
-      for kk in 0..k {
-        ab += (if ta { a[kk*lda+i] } else { a[i*lda+kk] })
-            * (if tb { b[j*ldb+kk] } else { b[kk*ldb+j] });
-      }
-      c[i*ldc+j] = alpha * ab + beta * c[i*ldc+j];
-    }
-  }
+  sgemm1(layout, transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
 }
 pub fn ssymm (layout: Layout, side: Side, uplo: Part, m: i32, n: i32, alpha: f32, a: &[f32], lda: i32, b: &[f32], ldb: i32, beta: f32, c: &mut [f32], ldc: i32)               { todo!() }
 pub fn ssyr2k(layout: Layout, uplo: Part, trans: Transpose, n: i32, k: i32, alpha: f32, a: &[f32], lda: i32, b: &[f32], ldb: i32, beta: f32, c: &mut [f32], ldc: i32)         { todo!() }
@@ -115,3 +98,30 @@ pub fn dtrsm (layout: Layout, side: Side, uplo: Part, transa: Transpose, diag: D
 
 pub fn smul (n: usize, x: &[f32], y: &[f32], z: &mut [f32]) { for i in 0..n { z[i] = x[i] * y[i] } }
 pub fn stanh(n: usize, x: &[f32], y: &mut [f32])             { for i in 0..n { y[i] = x[i].tanh() } }
+
+fn sgemm1(layout: Layout, transa: Transpose, transb: Transpose, m: i32, n: i32, k: i32, alpha: f32, a: &[f32], lda: i32, b: &[f32], ldb: i32, beta: f32, c: &mut [f32], ldc: i32) {
+    // column-major C=A*B ≡ row-major C^T=B^T*A^T, so swap a/b and invert transpose flags
+  let (ta, tb, m, n, a, lda, b, ldb) = match layout {
+    Layout::RowMajor    => (transa, transb, m as usize, n as usize, a, lda as usize, b, ldb as usize),
+    Layout::ColumnMajor => (transb, transa, n as usize, m as usize, b, ldb as usize, a, lda as usize),
+  };
+  let (k, ldc) = (k as usize, ldc as usize);
+  let ta = matches!(ta, Transpose::Ordinary | Transpose::Conjugate);
+  let tb = matches!(tb, Transpose::Ordinary | Transpose::Conjugate);
+
+  for i in 0..m {
+    for j in 0..n {
+      let mut ab = 0.0f32;
+      for kk in 0..k {
+        ab += (if ta { a[kk*lda+i] } else { a[i*lda+kk] })
+            * (if tb { b[j*ldb+kk] } else { b[kk*ldb+j] });
+      }
+      c[i*ldc+j] = alpha * ab + beta * c[i*ldc+j];
+    }
+  }
+}
+
+fn sgemm2(layout: Layout, transa: Transpose, transb: Transpose, m: i32, n: i32, k: i32, alpha: f32, a: &[f32], lda: i32, b: &[f32], ldb: i32, beta: f32, c: &mut [f32], ldc: i32) { todo!() }
+fn sgemm3(layout: Layout, transa: Transpose, transb: Transpose, m: i32, n: i32, k: i32, alpha: f32, a: &[f32], lda: i32, b: &[f32], ldb: i32, beta: f32, c: &mut [f32], ldc: i32) { todo!() }
+fn sgemm4(layout: Layout, transa: Transpose, transb: Transpose, m: i32, n: i32, k: i32, alpha: f32, a: &[f32], lda: i32, b: &[f32], ldb: i32, beta: f32, c: &mut [f32], ldc: i32) { todo!() }
+fn sgemm5(layout: Layout, transa: Transpose, transb: Transpose, m: i32, n: i32, k: i32, alpha: f32, a: &[f32], lda: i32, b: &[f32], ldb: i32, beta: f32, c: &mut [f32], ldc: i32) { todo!() }
