@@ -17,9 +17,7 @@ mod gemm {
     b.counter(ItemsCount::new(2 * n * n * n))
      .bench_local(||
       eagkers::cpu::sgemm(
-        Layout::RowMajor, 
-        Transpose::None, 
-        Transpose::None, 
+        Layout::RowMajor, Transpose::None, Transpose::None, 
         n as i32, n as i32, n as i32, 
         1.0, &a, n as i32, &bm, n as i32, 
         0.0, &mut c, n as i32
@@ -34,8 +32,7 @@ mod gemm {
     b.counter(ItemsCount::new(2 * n * n * n))
      .bench_local(|| unsafe {
        cblas::sgemm(
-         cblas::Layout::RowMajor,
-         cblas::Transpose::None, cblas::Transpose::None,
+         cblas::Layout::RowMajor, cblas::Transpose::None, cblas::Transpose::None,
          n as i32, n as i32, n as i32,
          1.0, &a, n as i32, &bm, n as i32,
          0.0, &mut c, n as i32,
