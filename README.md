@@ -33,6 +33,8 @@ with the shared object files compiled by driving `cargo` via `PyO3`'s build tool
     uv venv && source .venv/bin/activate               # create a venv through uv
     uv pip install maturin                             # install maturin (which drives pyo3)
     cd eagkers && cargo run --features cpu             # run cpu acccelerated gemm kernel
+    cargo test --features cpu                          # run tests for cpu accelerated blas
+    cargo bench --features cpu                         # run benchmarks cpu accelerated blas
     cd ../ && maturin develop                          # build shared object for cpython's extension modules
     uv run examples/abstractions.py                    # run cpu accelerated gemm kernel from python
     ```
