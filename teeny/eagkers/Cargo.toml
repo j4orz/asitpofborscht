@@ -30,7 +30,7 @@ divan = "0.1" # minimal benchmarking, similar to nanobench in spirit
 
 
 [[bench]]
-name = "bench_divan"
+name = "bench_cpu"
 harness = false
 
 [profile.bench]
