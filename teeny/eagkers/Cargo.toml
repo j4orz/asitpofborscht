@@ -2,30 +2,32 @@
 name = "eagkers"
 version = "0.1.0"
 edition = "2021"
-
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [lib]
 name = "eagkers"
 crate-type = ["cdylib", "rlib"] # creates a .so for python to import from and allows binary to link
-
 [features]
 default = []
 cpu = []
 cpudev = ["dep:cblas"]
 gpu = ["dep:cudarc", "dep:src_device", "dep:cuda_builder"]
 
+
+
 [build-dependencies]
-cuda_builder = { git = "https://github.com/rust-gpu/rust-cuda", features = ["rustc_codegen_nvvm"], optional = true }
-
+cuda_builder = { git = "https://github.com/rust-gpu/rust-cuda", features = ["rustc_codegen_nvvm"], optional = true } # cuda rust's rs -> nvvm codegen for device kernels
 [dependencies]
-pyo3 = "0.25.0"
+pyo3 = "0.25.0" # python bindings
+src_device = { path = "src_device", optional = true } # internal crate for device kernels
+cudarc = { version = "0.19.4", features = ["cuda-version-from-build-system"], optional = true } # host uses cudarc::driver to launch device kernels
 
-# optional/development dependencies
-cblas = { version = "0.4", optional = true }
-src_device = { path = "src_device", optional = true }
-cudarc = { version = "0.19.4", features = ["cuda-version-from-build-system"], optional = true }
+# Development dependencies
+cblas = { version = "0.4", optional = true } # to benchmark against openblas, blis, and intelmkl
 [dev-dependencies]
-divan = "0.1"
+divan = "0.1" # minimal benchmarking, similar to nanobench in spirit
+
+
+
 
 [[bench]]
 name = "bench_divan"
