@@ -9,7 +9,7 @@ crate-type = ["cdylib", "rlib"] # creates a .so for python to import from and al
 [features]
 default = []
 cpu = []
-cpudev = ["dep:cblas"]
+cpudev = []
 gpu = ["dep:cudarc", "dep:src_device", "dep:cuda_builder"]
 
 
@@ -21,16 +21,15 @@ pyo3 = "0.25.0" # python bindings
 src_device = { path = "src_device", optional = true } # internal crate for device kernels
 cudarc = { version = "0.19.4", features = ["cuda-version-from-build-system"], optional = true } # host uses cudarc::driver to launch device kernels
 
-# Development dependencies
-cblas = { version = "0.4", optional = true } # to benchmark against openblas, blis, and intelmkl
 [dev-dependencies]
 divan = "0.1" # minimal benchmarking, similar to nanobench in spirit
+cblas = "0.4" # oracle for correctness tests and openblas comparison benches
 
 
 
 
 [[bench]]
-name = "bench_cpu"
+name = "bench_cblas"
 harness = false
 
 [profile.bench]

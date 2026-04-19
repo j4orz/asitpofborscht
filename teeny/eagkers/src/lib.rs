@@ -1,7 +1,7 @@
 //! eagkers
 
 use pyo3::{buffer::PyBuffer, prelude::*};
-pub mod cpu;
+pub mod cblas;
 #[cfg(feature = "gpu")] pub mod gpu_host;
 
 #[pymodule]
@@ -30,7 +30,7 @@ fn eagkers(m: &Bound<'_, PyModule>) -> PyResult<()> {
 pub fn saxpypy(n: usize, alpha: f32, x: PyBuffer<f32>, y: PyBuffer<f32>) -> PyResult<()> {
   let x = unsafe { std::slice::from_raw_parts(x.buf_ptr() as *const f32, n) };
   let y = unsafe { std::slice::from_raw_parts_mut(y.buf_ptr() as *mut f32, n) };
-  cpu::saxpy(n as i32, alpha, x, 1, y, 1);
+  cblas::saxpy(n as i32, alpha, x, 1, y, 1);
   Ok(())
 }
 
@@ -40,7 +40,7 @@ pub fn smulpy(n: usize, x: PyBuffer<f32>, y: PyBuffer<f32>, z: PyBuffer<f32>) ->
   let x = unsafe { std::slice::from_raw_parts(x.buf_ptr() as *const f32, n) };
   let y = unsafe { std::slice::from_raw_parts(y.buf_ptr() as *mut f32, n) };
   let z = unsafe { std::slice::from_raw_parts_mut(z.buf_ptr() as *mut f32, n) };
-  cpu::smul(n, x, y, z);
+  cblas::smul(n, x, y, z);
   Ok(())
 }
 
@@ -50,7 +50,7 @@ pub fn stanhpy(n: usize, x: PyBuffer<f32>, y: PyBuffer<f32>) -> PyResult<()> {
   // SAFETY: x, y are array.array('f') buffers from Python with length n.
   let x = unsafe { std::slice::from_raw_parts(x.buf_ptr() as *const f32, n) };
   let y = unsafe { std::slice::from_raw_parts_mut(y.buf_ptr() as *mut f32, n) };
-  cpu::stanh(n, x, y);
+  cblas::stanh(n, x, y);
   Ok(())
 }
 
@@ -65,8 +65,8 @@ pub fn sgemmpy(
   let a = unsafe { std::slice::from_raw_parts(a.buf_ptr() as *const f32, a_len) };
   let b = unsafe { std::slice::from_raw_parts(b.buf_ptr() as *const f32, b_len) };
   let c = unsafe { std::slice::from_raw_parts_mut(c.buf_ptr() as *mut f32, m * ldc) };
-  let ta = if transa { cpu::Transpose::Ordinary } else { cpu::Transpose::None };
-  let tb = if transb { cpu::Transpose::Ordinary } else { cpu::Transpose::None };
-  cpu::sgemm(cpu::Layout::RowMajor, ta, tb, m as i32, n as i32, p as i32, alpha, a, lda as i32, b, ldb as i32, beta, c, ldc as i32);
+  let ta = if transa { cblas::Transpose::Ordinary } else { cblas::Transpose::None };
+  let tb = if transb { cblas::Transpose::Ordinary } else { cblas::Transpose::None };
+  cblas::sgemm(cblas::Layout::RowMajor, ta, tb, m as i32, n as i32, p as i32, alpha, a, lda as i32, b, ldb as i32, beta, c, ldc as i32);
   Ok(())
 }

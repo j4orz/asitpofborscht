@@ -1,5 +1,5 @@
 use divan::counter::ItemsCount;
-use eagkers::cpu::{Layout, Transpose};
+use eagkers::cblas::{Layout, Transpose};
 
 fn main() { divan::main(); }
 
@@ -16,7 +16,7 @@ mod gemm {
     let (a, bm, mut c) = inputs(n);
     b.counter(ItemsCount::new(2 * n * n * n))
      .bench_local(||
-      eagkers::cpu::sgemm(
+      eagkers::cblas::sgemm(
         Layout::RowMajor, Transpose::None, Transpose::None, 
         n as i32, n as i32, n as i32, 
         1.0, &a, n as i32, &bm, n as i32, 
