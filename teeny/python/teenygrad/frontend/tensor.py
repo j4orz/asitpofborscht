@@ -71,7 +71,7 @@ class InterpretedTensor:
   def __add__(self, other: Self) -> Self:
     n, alpha = self.numel, 1
     x, y, z = array.array('f', self.storage), array.array('f', other.storage), array.array('f', [0.0]*(n))
-    teenygrad.eagkers.cpu.saxpy(n, alpha, x, y) # y=axpy
+    teenygrad.eagkers.blas.saxpy(n, alpha, x, y) # y=axpy
     requires_grad = self.grad is not None or other.grad is not None
     output_tensor = InterpretedTensor(self.shape, list(y), (self, other), requires_grad=requires_grad)
     def _backward():
@@ -84,7 +84,7 @@ class InterpretedTensor:
   def __mul__(self, other: Self) -> Self:
     n = self.numel
     x, y, z = array.array('f', self.storage), array.array('f', other.storage), array.array('f', [0.0]*n)
-    teenygrad.eagkers.cpu.smul(n, x, y, z)
+    teenygrad.eagkers.blas.smul(n, x, y, z)
     requires_grad = self.grad is not None or other.grad is not None
     output_tensor = InterpretedTensor(self.shape, list(z), (self, other), requires_grad=requires_grad)
     def _backward():
@@ -96,7 +96,7 @@ class InterpretedTensor:
   def __neg__(self) -> Self:
     n = self.numel
     x, y = array.array('f', self.storage), array.array('f', [0.0]*n)
-    teenygrad.eagkers.cpu.saxpy(n, -1, x, y)
+    teenygrad.eagkers.blas.saxpy(n, -1, x, y)
     requires_grad = self.grad is not None
     output_tensor = InterpretedTensor(self.shape, list(y), (self,), requires_grad=requires_grad)
     def _backward():
@@ -107,7 +107,7 @@ class InterpretedTensor:
   def __sub__(self, other: Self) -> Self:
     n = self.numel
     x, y = array.array('f', other.storage), array.array('f', self.storage)
-    teenygrad.eagkers.cpu.saxpy(n, -1, x, y)
+    teenygrad.eagkers.blas.saxpy(n, -1, x, y)
     requires_grad = self.grad is not None or other.grad is not None
     output_tensor = InterpretedTensor(self.shape, list(y), (self, other), requires_grad=requires_grad)
     def _backward():
@@ -119,7 +119,7 @@ class InterpretedTensor:
   def tanh(self) -> Self:
     n = self.numel
     x, y = array.array('f', self.storage), array.array('f', [0.0]*n)
-    teenygrad.eagkers.cpu.stanh(n, x, y)
+    teenygrad.eagkers.blas.stanh(n, x, y)
     requires_grad = self.grad is not None
     output_tensor = InterpretedTensor(self.shape, list(y), (self,), requires_grad=requires_grad)
     def _backward():
@@ -135,7 +135,7 @@ class InterpretedTensor:
       m, n = self.shape[0], self.shape[1]
       alpha, beta = 1, 1
       a, x, y = array.array('f', self.storage), array.array('f', other.storage), array.array('f', [0.0]*m)
-      teenygrad.eagkers.cpu_kernels.sgemv(m, n, alpha, beta, a, x, y)
+      teenygrad.eagkers.blas_kernels.sgemv(m, n, alpha, beta, a, x, y)
       sys.stdout.flush()
       requires_grad = self.grad is not None or other.grad is not None
       return InterpretedTensor((m,), list(y), (self, other), requires_grad=requires_grad)
@@ -144,7 +144,7 @@ class InterpretedTensor:
       atr, btr = self.stride[1] != 1, other.stride[1] != 1
       lda, ldb = self.stride[1] if atr else self.stride[0], other.stride[1] if btr else other.stride[0]
       a, b, c = array.array('f', self.storage), array.array('f', other.storage), array.array('f', [0.0]*(m * n))
-      teenygrad.eagkers.cpu.sgemm(atr, btr, m, n, p, 1, 0, a, lda, b, ldb, c, n)
+      teenygrad.eagkers.blas.sgemm(atr, btr, m, n, p, 1, 0, a, lda, b, ldb, c, n)
       requires_grad = self.grad is not None or other.grad is not None
       output_tensor = InterpretedTensor((m,n), list(c), (self, other), requires_grad=requires_grad)
       def _backward():

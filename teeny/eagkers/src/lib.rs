@@ -9,12 +9,12 @@ fn eagkers(m: &Bound<'_, PyModule>) -> PyResult<()> {
   println!("initializing teenygrad.eagkers python module from rust");
 
   #[cfg(feature = "cpu")] {
-    let cpu = PyModule::new(m.py(), "cpu")?;
-    cpu.add_function(wrap_pyfunction!(saxpypy, &cpu)?)?;
-    cpu.add_function(wrap_pyfunction!(smulpy, &cpu)?)?;
-    cpu.add_function(wrap_pyfunction!(stanhpy, &cpu)?)?;
-    cpu.add_function(wrap_pyfunction!(sgemmpy, &cpu)?)?;
-    m.add_submodule(&cpu)?;
+    let cblas = PyModule::new(m.py(), "blas")?;
+    cblas.add_function(wrap_pyfunction!(saxpypy, &cblas)?)?;
+    cblas.add_function(wrap_pyfunction!(smulpy, &cblas)?)?;
+    cblas.add_function(wrap_pyfunction!(stanhpy, &cblas)?)?;
+    cblas.add_function(wrap_pyfunction!(sgemmpy, &cblas)?)?;
+    m.add_submodule(&cblas)?;
   }
 
   #[cfg(feature = "gpu")] {
@@ -26,6 +26,7 @@ fn eagkers(m: &Bound<'_, PyModule>) -> PyResult<()> {
   Ok(())
 }
 
+#[cfg(feature = "cpu")]
 #[pyfunction]
 #[pyo3(name = "saxpy")]
 pub fn saxpypy(n: usize, alpha: f32, x: PyBuffer<f32>, y: PyBuffer<f32>) -> PyResult<()> {
@@ -35,6 +36,7 @@ pub fn saxpypy(n: usize, alpha: f32, x: PyBuffer<f32>, y: PyBuffer<f32>) -> PyRe
   Ok(())
 }
 
+#[cfg(feature = "cpu")]
 #[pyfunction]
 #[pyo3(name = "smul")]
 pub fn smulpy(n: usize, x: PyBuffer<f32>, y: PyBuffer<f32>, z: PyBuffer<f32>) -> PyResult<()> {
@@ -45,6 +47,7 @@ pub fn smulpy(n: usize, x: PyBuffer<f32>, y: PyBuffer<f32>, z: PyBuffer<f32>) ->
   Ok(())
 }
 
+#[cfg(feature = "cpu")]
 #[pyfunction]
 #[pyo3(name = "stanh")]
 pub fn stanhpy(n: usize, x: PyBuffer<f32>, y: PyBuffer<f32>) -> PyResult<()> {
@@ -55,6 +58,7 @@ pub fn stanhpy(n: usize, x: PyBuffer<f32>, y: PyBuffer<f32>) -> PyResult<()> {
   Ok(())
 }
 
+#[cfg(feature = "cpu")]
 #[pyfunction]
 #[pyo3(name = "sgemm")]
 pub fn sgemmpy(
