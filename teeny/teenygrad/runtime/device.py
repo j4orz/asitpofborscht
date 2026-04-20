@@ -2,9 +2,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Generic, Self, TypeVar
 import functools,  atexit, re, pathlib, importlib, inspect, os, ctypes
-from teenygrad.dtype import DType, PtrDType
-from teenygrad.compiler.compiler import Generator
-from teenygrad.helpers import ALLOW_DEVICE_USAGE, DEBUG, MAX_BUFFER_SIZE, ContextVar, unwrap_class_type
+from teeny.teenygrad.dtype import DType, PtrDType
+from teeny.teenygrad.compiler.compiler import Generator
+from teeny.teenygrad.helpers import ALLOW_DEVICE_USAGE, DEBUG, MAX_BUFFER_SIZE, ContextVar, unwrap_class_type
 
 # teenygrad to tinygrad bridge
 # - removed Device.Default

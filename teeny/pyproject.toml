@@ -1,31 +1,24 @@
-[build-system]
-requires = ["maturin>=1.9,<2.0"]
-build-backend = "maturin"
-
 [project]
 name = "teenygrad"
 requires-python = ">=3.14"
 classifiers = []
 dynamic = ["version"]
-dependencies = [
-    "gpuctypes>=0.3.0",
-]
+dependencies = ["gpuctypes>=0.3.0",]
+
+[build-system]
+requires = ["maturin>=1.9,<2.0"]
+build-backend = "maturin"
 
 [tool.maturin]
-features = ["pyo3/extension-module"]
+features = ["pyo3/extension-module", "cpu"]
 manifest-path = "eagkers/Cargo.toml"
-python-source = "python"
+python-source = "."
 python-packages = ["teenygrad"]
 module-name = "teenygrad.eagkers"
 
+
 [tool.uv.workspace]
-members = [
-    "examples",
-]
+members = ["examples"]
 
 [dependency-groups]
-dev = [
-    "numpy>=1.24.4",
-    "tinygrad>=0.9.2",
-    "torch>=2.5.1",
-]
+dev = ["numpy>=1.24.4", "tinygrad>=0.9.2", "torch>=2.5.1"]

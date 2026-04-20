@@ -1,7 +1,7 @@
 import functools, ctypes, pathlib, hashlib, tempfile, subprocess
 import gpuctypes.hip as hip
-from teenygrad.helpers import DEBUG, OSX, system
-from teenygrad.runtime.device import Allocator, BufferSpec, CompileError, Compiler, LRUAllocator, Runtime
+from teeny.teenygrad.helpers import DEBUG, OSX, system
+from teeny.teenygrad.runtime.device import Allocator, BufferSpec, CompileError, Compiler, LRUAllocator, Runtime
 # from teenygrad.runtime.cpu import LLVMCompiler
 
 # **************** Python/C Foreign Function Helpers  ****************

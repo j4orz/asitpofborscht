@@ -1,6 +1,6 @@
 import numpy as np
 import torch
-from teenygrad import InterpretedTensor
+from teeny.teenygrad import InterpretedTensor
 
 def test_add():
   a, b = InterpretedTensor.ones((3, 4)), InterpretedTensor.ones((3, 4))
@@ -59,7 +59,7 @@ def test_linear_forward():
   x_BNpt = torch.randn(b,n)
   y_BMpt = linear_NMpt(x_BNpt)
 
-  from teenygrad.frontend.nn import Linear
+  from teeny.teenygrad.frontend.nn import Linear
   weight = InterpretedTensor((m,n), linear_NMpt.weight.detach().numpy().flatten().tolist())
   linear_NM = Linear(n,m,weight=weight, bias=False)
   x_BN = InterpretedTensor((b,n), x_BNpt.detach().numpy().flatten().tolist())

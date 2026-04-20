@@ -2,10 +2,10 @@
 from typing import Any
 import itertools, time, base64, pickle
 
-from teenygrad.dtype import DType
-from teenygrad.compiler.dslir import OpCode
-from teenygrad.compiler.compiler import Generator
-from teenygrad.runtime.device import Allocator, Compiler, CompilerPair, CompilerSet, Runtime
+from teeny.teenygrad.dtype import DType
+from teeny.teenygrad.compiler.dslir import OpCode
+from teeny.teenygrad.compiler.compiler import Generator
+from teeny.teenygrad.runtime.device import Allocator, Compiler, CompilerPair, CompilerSet, Runtime
 
 class HostDevice(Runtime):
   def __init__(self, device:str):

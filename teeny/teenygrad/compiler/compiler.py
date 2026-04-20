@@ -2,7 +2,7 @@ from dataclasses import dataclass
 import math
 from typing import Any
 
-from teenygrad.dtype import DType
+from teeny.teenygrad.dtype import DType
 from .dslir import OpCode
 from .opnode import OpNode
 

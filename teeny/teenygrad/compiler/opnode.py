@@ -3,12 +3,12 @@ from typing import TYPE_CHECKING, Any, List, Self
 from dataclasses import dataclass
 import math, itertools, weakref
 
-from teenygrad import helpers
-from teenygrad.helpers import DEBUG, MAX_BUFFER_SIZE
-from teenygrad.compiler.dslir import GroupedOpCode, OpCode, TensorDSL
+from teeny.teenygrad import helpers
+from teeny.teenygrad.helpers import DEBUG, MAX_BUFFER_SIZE
+from teeny.teenygrad.compiler.dslir import GroupedOpCode, OpCode, TensorDSL
 if TYPE_CHECKING:
-  from teenygrad.runtime.device import Buffer, Device
-from teenygrad.dtype import Const, ConstLike, DType, ImageDType, PtrDType, dtypes
+  from teeny.teenygrad.runtime.device import Buffer, Device
+from teeny.teenygrad.dtype import Const, ConstLike, DType, ImageDType, PtrDType, dtypes
 
 # teenygrad to tinygrad bridge
 # - removed buf_op and as_buf used by haldie/tvm schedule/rangify to map high level ops back to buffers
@@ -184,7 +184,7 @@ class OpNode(TensorDSL):
 
   @property
   def buffer(self) -> Buffer:
-    from teenygrad.runtime.device import Buffer
+    from teeny.teenygrad.runtime.device import Buffer
     if self is not self.base: assert self.opcode is OpCode.RESHAPE, f"expected: OpCode.RESHAPE, actual: {self}"; return self.inputs[0].buffer
     assert self.opcode is OpCode.BUFFER, f"expected: OpCode.BUFFER, actual: {self.opcode}"  
 

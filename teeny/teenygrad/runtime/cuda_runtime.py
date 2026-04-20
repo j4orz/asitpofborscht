@@ -2,8 +2,8 @@ from __future__ import annotations
 import re
 import functools, ctypes, hashlib, pathlib, subprocess, tempfile
 import gpuctypes.cuda as cuda
-from teenygrad.runtime.device import Allocator, Compiler, Runtime
-from teenygrad.helpers import DEBUG, colored, suppress_finalizing, system
+from teeny.teenygrad.runtime.device import Allocator, Compiler, Runtime
+from teeny.teenygrad.helpers import DEBUG, colored, suppress_finalizing, system
 
 # **************** Python/C Foreign Function Helpers  ****************
 """

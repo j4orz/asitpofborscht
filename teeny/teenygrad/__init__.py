@@ -10,9 +10,10 @@ mmMMmm .gP"Ya   .gP"Ya `7MMpMMMb.`7M'   `MF'.P"Ybmmm `7Mb,od8 ,6"Yb.   ,M""bMM
                                     ,V     6'     dP                            
                                  OOb"      Ybmmmd'
 """
-from .frontend import nn, optim
-from .frontend.tensor import InterpretedTensor, CompiledTensor
-__all__ = ["optim", "nn", "InterpretedTensor", "CompiledTensor"]
+from .frontend import nn
+from .frontend import optim
+from .frontend.tensor import InterpretedTensor
+__all__ = ["optim", "nn", "InterpretedTensor"]
 
 from importlib import import_module as _import_module
 eagkers = _import_module("teenygrad.eagkers")
