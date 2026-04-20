@@ -47,7 +47,7 @@ And in [Part III. Scaling Networks](./3.md), readers learn about the 2020-2025 e
 For those interested in other books about deep learning systems, you can check out the excellent courses
 of [minitorch](https://minitorch.github.io/) developed by Sasha Rush at Cornell and [needl](https://dlsyscourse.org/) developed by Tianqi Chen at Carnegie Mellon.
 
-Lastly, because SITP is a book *on* artificial intelligence, the preface would be remiss if it did not discuss the questions which everyone is currently grappling such as the impact of artificial intelligence *on* education, and closely related, the impact of artificial intelligence *on* the economy.
+<!-- Lastly, because SITP is a book *on* artificial intelligence, the preface would be remiss if it did not discuss the questions which everyone is currently grappling such as the impact of artificial intelligence *on* education, and closely related, the impact of artificial intelligence *on* the economy.
 That is, for the student in academia, why not just ask ChatGPT to *teach you about deep learning systems*?
 Or for the engineer in industry, why not just ask ChatGPT to *implement a deep learning system for you?*<span class="sidenote-number"></span><span class="sidenote">*Experiments of such kind are already happening! See the VibeTensor paper from NVIDIA by [Xu et al 2026](https://arxiv.org/pdf/2601.16238). Or for the more traditional systems, see Claude's C Compiler from [Anthropic (2026)](https://www.anthropic.com/engineering/building-c-compiler)*</span> This is an open question which we'll see answered throughout the next few decades, but I will briefly indulge in the armchairing and provide some my personal speculations.
 
@@ -75,10 +75,10 @@ I suspect that the following resources (like teenygrad) will still be complement
 - a mini Unix-like operating system [xv6](https://pdos.csail.mit.edu/6.828/2025/xv6/book-riscv-rev5.pdf)
 - a mini x86-like instruction set [LC3](https://en.wikipedia.org/wiki/Little_Computer_3)
 - a mini in-order microarchitecture [sodor](https://github.com/ucb-bar/riscv-sodor)
-- a mini out-of-order microarchitecture [boom](https://carrv.github.io/2020/papers/CARRV2020_paper_15_Zhao.pdf)
+- a mini out-of-order microarchitecture [boom](https://carrv.github.io/2020/papers/CARRV2020_paper_15_Zhao.pdf) -->
 
-The reason being
-<!-- value add is the infusing the few bits (seed curriculum, progression)
+<!-- The reason being
+value add is the infusing the few bits (seed curriculum, progression)
 taste. (intuition. non-verifiable. gut feel)
 https://x.com/getjonwithit/status/2032853995790692793
 instantiating something new. -->
