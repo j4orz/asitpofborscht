@@ -1,4 +1,4 @@
-use eagkers::cblas::{sgemm, Layout, Transpose};
+use eagkers::blas::{sgemm, Layout, Transpose};
 
 fn cblas_sgemm_ref(transa: Transpose, transb: Transpose, m: usize, n: usize, k: usize, alpha: f32, a: &[f32], b: &[f32], beta: f32, c: &mut [f32]) {
   let ta = if matches!(transa, Transpose::Ordinary | Transpose::Conjugate) { cblas::Transpose::Ordinary } else { cblas::Transpose::None };
