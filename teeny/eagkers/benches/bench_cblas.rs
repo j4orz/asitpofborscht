@@ -8,6 +8,12 @@ fn inputs(n: usize) -> (Vec<f32>, Vec<f32>, Vec<f32>) {
 }
 
 #[divan::bench_group]
+mod saxpy {}
+
+#[divan::bench_group]
+mod gemv {}
+
+#[divan::bench_group]
 mod gemm {
   use super::*;
 
@@ -25,7 +31,6 @@ mod gemm {
     );
   }
 
-  #[cfg(feature = "cpudev")]
   #[divan::bench(args = [16, 32, 64, 128, 256, 512, 1024])] //, 2048, 4096, 8192])]
   fn cblas(b: divan::Bencher, n: usize) {
     let (a, bm, mut c) = inputs(n);

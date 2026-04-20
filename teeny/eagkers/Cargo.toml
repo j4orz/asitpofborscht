@@ -22,7 +22,8 @@ cudarc = { version = "0.19.4", features = ["cuda-version-from-build-system"], op
 
 [dev-dependencies]
 divan = "0.1" # minimal benchmarking, similar to nanobench in spirit
-cblas = "0.4" # oracle for correctness tests and openblas comparison benches
+cblas = "0.4" # oracle for blas tests and benches
+lapacke = "0.5.0" # oracle for lapack tests and benches
 
 
 

@@ -1,6 +1,6 @@
 //! eagkers
-
 use pyo3::{prelude::*};
+#[cfg(feature = "cpu")] pub mod lapack;
 #[cfg(feature = "cpu")] pub mod cblas;
 #[cfg(feature = "gpu")] pub mod gpu_host;
 

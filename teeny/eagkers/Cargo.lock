@@ -320,6 +320,7 @@ dependencies = [
  "cuda_builder",
  "cudarc",
  "divan",
+ "lapacke",
  "pyo3",
  "src_device",
 ]
@@ -489,6 +490,26 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9afb3de4395d6b3e67a780b6de64b51c978ecf11cb9a462c66be7d4ca9039d33"
 dependencies = [
  "getrandom",
+ "libc",
+]
+
+[[package]]
+name = "lapacke"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8425aee3cfc69f1e907f8487a291d1ddebfd0db2d74493b4e443be0618648744"
+dependencies = [
+ "lapacke-sys",
+ "libc",
+ "num-complex",
+]
+
+[[package]]
+name = "lapacke-sys"
+version = "0.1.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2f7d0817c6f4a6029f3b153de01d6498dcf9df659a7536c58bd8df5cd3ccaa6e"
+dependencies = [
  "libc",
 ]
 
