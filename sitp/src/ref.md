@@ -102,9 +102,16 @@ Shankhdhar, P. (2024, November 29). Outperforming cuBLAS on H100: a Worklog. Sub
 
 Smith, T. M., Geijn, R. van de, Smelyanskiy, M., Hammond, J. R., & Zee, F. G. V. (2014, May 1). Anatomy of High-Performance Many-Threaded Matrix Multiplication. IEEE Xplore. [https://doi.org/10.1109/IPDPS.2014.110](https://doi.org/10.1109/IPDPS.2014.110)
 
-Spector, B. F., Arora, S., Singhal, A., Fu, D. Y., & Ré, C. (2024, October 27). ThunderKittens: Simple, Fast, and Adorable AI Kernels. ArXiv.org. [https://arxiv.org/abs/2410.20399](https://arxiv.org/abs/2410.20399)
 
 Spector, B., Singhal, A., Arora, S., & Re, C. (2024, May 12). GPUs Go Brrr. Stanford.edu. [https://hazyresearch.stanford.edu/blog/2024-05-12-tk](https://hazyresearch.stanford.edu/blog/2024-05-12-tk)
+
+Spector, B. F., Arora, S., Singhal, A., Fu, D. Y., & Ré, C. (2024, October 27). ThunderKittens: Simple, Fast, and Adorable AI Kernels. ArXiv.org. [https://arxiv.org/abs/2410.20399](https://arxiv.org/abs/2410.20399)
+
+Sul, S., & Ré, C. (2026). ThunderKittens 2.0: Even Faster Kernels for Your GPUs. Stanford.edu. https://hazyresearch.stanford.edu/blog/2026-02-19-tk-2
+
+Spector, B., Juravsky, J., Sul, S., Dugan, O., Lim, D., Fu, D., Arora, S., & Ré, C. (2025). Look Ma, No Bubbles! Designing a Low-Latency Megakernel for Llama-1B. Stanford.edu. [https://hazyresearch.stanford.edu/blog/2025-05-27-no-bubbles](https://hazyresearch.stanford.edu/blog/2025-05-27-no-bubbles)
+
+Spector, B., Juravsky, J., Sul, S., Lim, D., Dugan, O., Arora, S., & Ré, C. (2025). We Bought the Whole GPU, So We’re Damn Well Going to Use the Whole GPU. Stanford.edu. [https://hazyresearch.stanford.edu/blog/2025-09-28-tp-llama-main](https://hazyresearch.stanford.edu/blog/2025-09-28-tp-llama-main)
 
 Stillwell, J. (2010). Mathematics and its history. Springer New York.
 
