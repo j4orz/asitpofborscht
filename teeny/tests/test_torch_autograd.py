@@ -1,79 +1,86 @@
+import sys, os, unittest
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+
 import numpy as np
 import torch
-from teeny.teenygrad import InterpretedTensor
+from teenygrad.eager.tensor import InterpretedTensor
+from teenygrad.eager.nn import Linear
 
-def test_add():
-  a, b = InterpretedTensor.ones((3, 4)), InterpretedTensor.ones((3, 4))
-  a_np, b_np = np.ones((3, 4)), np.ones((3, 4))
-  c, c_np = a + b, a_np+b_np
+class TestForward(unittest.TestCase):
+  def test_add(self):
+    a, b = InterpretedTensor.ones((3, 4)), InterpretedTensor.ones((3, 4))
+    a_np, b_np = np.ones((3, 4)), np.ones((3, 4))
+    c, c_np = a + b, a_np + b_np
 
-  assert c.shape == (3, 4)
-  assert c.storage == [float(x) for x in c_np.flatten()]
+    self.assertEqual(c.shape, (3, 4))
+    self.assertEqual(c.storage, [float(x) for x in c_np.flatten()])
 
-def test_backward_scalar():
-  x_pt = torch.tensor(3.0, requires_grad=True)
-  y_pt = x_pt*x_pt
-  y_pt.backward()
+  def test_gemm_forward(self):
+    a, b = InterpretedTensor.arange(12).reshape((3,4)), InterpretedTensor.arange(20).reshape((4,5))
+    a_np, b_np = np.arange(12.0).reshape((3,4)), np.arange(20.0).reshape((4,5))
+    c, c_np = a @ b, a_np @ b_np
 
-  x = InterpretedTensor((1,), [3.0], requires_grad=True)
-  y = x * x
-  y.backward()
+    self.assertEqual(c.shape, (3, 5))
+    self.assertEqual(c.storage, [float(x) for x in c_np.flatten()])
 
-  # f:R->R       f':R->R
-  # f(x)=x^2 ==> f'(x)=2x
-  #   x =3   ==> f'(x)=6
-  assert x.grad.storage == [x_pt.grad.item()]
+  def test_tanh(self):
+    x, x_np = InterpretedTensor.arange(12).reshape((3,4)), np.arange(12.0, dtype=np.float32).reshape((3,4))
+    y, y_np = x.tanh(), np.tanh(x_np)
 
-def test_gemm_forward():
-  a, b = InterpretedTensor.arange(12).reshape((3,4)), InterpretedTensor.arange(20).reshape((4,5))
-  a_np, b_np = np.arange(12.0).reshape((3,4)), np.arange(20.0).reshape((4,5))
-  c, c_np = a @ b, a_np @ b_np
+    self.assertEqual(y.storage, [float(x) for x in y_np.flatten()])
 
-  assert c.shape == (3, 5)
-  assert c.storage == [float(x) for x in c_np.flatten()]
+  def test_linear_forward(self):
+    torch.manual_seed(42)
+    n, m, b = 4, 3, 2
 
-def test_tanh():
-  x, x_np = InterpretedTensor.arange(12).reshape((3,4)), np.arange(12.0, dtype=np.float32).reshape((3,4))
-  y, y_np = x.tanh(), np.tanh(x_np)
+    linear_NMpt = torch.nn.Linear(n, m, bias=False)
+    x_BNpt = torch.randn(b, n)
+    y_BMpt = linear_NMpt(x_BNpt)
 
-  assert y.storage == [float(x) for x in y_np.flatten()]
+    weight = InterpretedTensor((m,n), linear_NMpt.weight.detach().numpy().flatten().tolist())
+    linear_NM = Linear(n, m, weight=weight, bias=False)
+    x_BN = InterpretedTensor((b,n), x_BNpt.detach().numpy().flatten().tolist())
+    y_BM = linear_NM(x_BN)
 
-def test_gemm_backward():
-  a_pt, b_pt = torch.arange(12.0).reshape(3,4).requires_grad_(True), torch.arange(20.0).reshape(4,5).requires_grad_(True)
-  c_pt = a_pt @ b_pt # f: R^n->R^m, f(x):= GEMM(x)
-  l = c_pt.sum() # f○g: R^n->R, g(x):= sum(x)
-  l.backward() # .backward() evaluates grad, and requires output y∈R
+    np.testing.assert_allclose(y_BM.storage, [float(v) for v in y_BMpt.detach().numpy().flatten()], rtol=1e-5, atol=1e-5)
 
-  a, b = InterpretedTensor.arange(12, requires_grad=True).reshape((3,4)), InterpretedTensor.arange(20, requires_grad=True).reshape((4,5))
-  c = a @ b
-  c.backward()
 
-  assert a.grad.storage == [float(x) for x in a_pt.grad.flatten()] # dL/dA = dL/dC @ B^T
-  assert b.grad.storage == [float(x) for x in b_pt.grad.flatten()] # dL/dB = A^T @ dL/dC
+class TestBackward(unittest.TestCase):
+  def test_backward_scalar(self):
+    x_pt = torch.tensor(3.0, requires_grad=True)
+    y_pt = x_pt * x_pt
+    y_pt.backward()
 
-def test_linear_forward():
-  torch.manual_seed(42)
-  n,m,b = 4, 3, 2
+    x = InterpretedTensor((1,), [3.0], requires_grad=True)
+    y = x * x
+    y.backward()
 
-  linear_NMpt = torch.nn.Linear(n,m,bias=False)
-  x_BNpt = torch.randn(b,n)
-  y_BMpt = linear_NMpt(x_BNpt)
+    self.assertEqual(x.grad.storage, [x_pt.grad.item()])
 
-  from teeny.teenygrad.frontend.nn import Linear
-  weight = InterpretedTensor((m,n), linear_NMpt.weight.detach().numpy().flatten().tolist())
-  linear_NM = Linear(n,m,weight=weight, bias=False)
-  x_BN = InterpretedTensor((b,n), x_BNpt.detach().numpy().flatten().tolist())
-  y_BM = linear_NM(x_BN)
+  def test_gemm_backward(self):
+    a_pt = torch.arange(12.0).reshape(3,4).requires_grad_(True)
+    b_pt = torch.arange(20.0).reshape(4,5).requires_grad_(True)
+    c_pt = a_pt @ b_pt
+    c_pt.sum().backward()
 
-  np.testing.assert_allclose(y_BM.storage, [float(v) for v in y_BMpt.detach().numpy().flatten()], rtol=1e-5, atol=1e-5)
+    a, b = InterpretedTensor.arange(12, requires_grad=True).reshape((3,4)), InterpretedTensor.arange(20, requires_grad=True).reshape((4,5))
+    c = a @ b
+    c.backward()
 
-def test_tanh_backward():
-  x_pt = torch.arange(12.0, dtype=torch.float32).reshape(3,4).requires_grad_(True)
-  y_pt = x_pt.tanh()
-  y_pt.sum().backward()
+    self.assertEqual(a.grad.storage, [float(x) for x in a_pt.grad.flatten()])
+    self.assertEqual(b.grad.storage, [float(x) for x in b_pt.grad.flatten()])
 
-  x = InterpretedTensor.arange(12, requires_grad=True).reshape((3,4))
-  y = x.tanh()
-  y.backward()
+  def test_tanh_backward(self):
+    x_pt = torch.arange(12.0, dtype=torch.float32).reshape(3,4).requires_grad_(True)
+    y_pt = x_pt.tanh()
+    y_pt.sum().backward()
 
-  np.testing.assert_allclose(x.grad.storage, [float(v) for v in x_pt.grad.flatten()], rtol=1e-5, atol=1e-6) # d/dx tanh(x) = 1 - tanh(x)^2
+    x = InterpretedTensor.arange(12, requires_grad=True).reshape((3,4))
+    y = x.tanh()
+    y.backward()
+
+    np.testing.assert_allclose(x.grad.storage, [float(v) for v in x_pt.grad.flatten()], rtol=1e-5, atol=1e-6)
+
+
+if __name__ == "__main__":
+  unittest.main()
