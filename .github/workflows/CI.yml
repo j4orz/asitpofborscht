@@ -31,12 +31,24 @@ jobs:
 
       - name: 3. Install Rust nightly
         uses: dtolnay/rust-toolchain@nightly
-      - name: 4. Install OpenBLAS
+      - name: 4. Run Rust tests
+        working-directory: teeny/eagkers
+        run: cargo +nightly test --features cpu
+      - name: 5. Install uv
+        uses: astral-sh/setup-uv@v5
+      - name: 6. Build and install Python package
+        working-directory: teeny
+        run: uv run maturin develop
+      - name: 7. Run Python tests
+        working-directory: teeny
+        run: uv run python -m unittest discover -s tests -v
+
+      - name: 8. Install OpenBLAS
         run: sudo apt-get install -y libopenblas-dev
-      - name: 5. Run CPU benchmarks
+      - name: 9. Run CPU benchmarks
         working-directory: teeny/eagkers
         run: cargo +nightly bench --features cpu,cpudev 2>&1 | tee bench_results.txt
-      - name: 6. Upload CPU benchmarks
+      - name: 10. Upload CPU benchmarks
         uses: actions/upload-artifact@v4
         with:
           name: bench-riscv64
@@ -77,6 +89,7 @@ jobs:
           name: wheels-linux-${{ matrix.platform.target }}
           path: dist
 
+  musllinux:
     runs-on: ${{ matrix.platform.runner }}
     strategy:
       matrix:
@@ -113,10 +126,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build sdist
         uses: PyO3/maturin-action@v1
-        working-directory: teeny/
         with:
           command: sdist
           args: --out dist
+          working-directory: teeny
       - name: Upload sdist
         uses: actions/upload-artifact@v4
         with:
@@ -127,7 +140,7 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     if: ${{ startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_dispatch' }}
-    needs: [linux, musllinux, windows, macos, sdist]
+    needs: [linux, musllinux, sdist]
     permissions:
       # Use to sign the release artifacts
       id-token: write
