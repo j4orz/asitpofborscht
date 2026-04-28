@@ -31,6 +31,7 @@ mod gemm {
     );
   }
 
+  #[cfg(feature = "cpubench")]
   #[divan::bench(args = [16, 32, 64, 128, 256, 512, 1024])] //, 2048, 4096, 8192])]
   fn cblas(b: divan::Bencher, n: usize) {
     let (a, bm, mut c) = inputs(n);

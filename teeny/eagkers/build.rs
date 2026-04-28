@@ -1,7 +1,8 @@
 fn main() {
   println!("cargo::rerun-if-changed=build.rs");
-  if cfg!(target_os = "macos") { println!("cargo:rustc-link-search=/opt/homebrew/opt/openblas/lib"); } // https://doc.rust-lang.org/cargo/reference/build-scripts.html#rustc-link-search
-  println!("cargo:rustc-link-lib=openblas"); // https://doc.rust-lang.org/cargo/reference/build-scripts.html#rustc-link-lib
+
+  // if cfg!(target_os = "macos") { println!("cargo:rustc-link-search=/opt/homebrew/opt/openblas/lib"); } // https://doc.rust-lang.org/cargo/reference/build-scripts.html#rustc-link-search
+  // println!("cargo:rustc-link-lib=openblas"); // https://doc.rust-lang.org/cargo/reference/build-scripts.html#rustc-link-lib
 
   #[cfg(feature = "gpu")] {
   use std::env;

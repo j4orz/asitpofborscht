@@ -9,6 +9,7 @@ crate-type = ["cdylib", "rlib"] # creates a .so for python to import from and al
 [features]
 default = []
 cpu = []
+cpubench = ["dep:cblas", "dep:lapacke"]
 gpu = ["dep:cudarc", "dep:src_device", "dep:cuda_builder"]
 
 
@@ -19,11 +20,11 @@ cuda_builder = { git = "https://github.com/rust-gpu/rust-cuda", features = ["rus
 pyo3 = "0.25.0" # python bindings
 src_device = { path = "src_device", optional = true } # internal crate for device kernels
 cudarc = { version = "0.19.4", features = ["cuda-version-from-build-system"], optional = true } # host uses cudarc::driver to launch device kernels
+cblas = { version = "0.4", optional = true }
+lapacke = { version = "0.5.0", optional = true }
 
 [dev-dependencies]
 divan = "0.1" # minimal benchmarking, similar to nanobench in spirit
-cblas = "0.4" # oracle for blas tests and benches
-lapacke = "0.5.0" # oracle for lapack tests and benches
 
 
 
