@@ -7,6 +7,11 @@ from teenygrad.eager.tensor import InterpretedTensor
 from teenygrad.eager.nn import Linear
 
 class TestForward(unittest.TestCase):
+  def test_zeros(self):
+    t, t_np = InterpretedTensor.zeros((2, 3)), np.zeros((2, 3))
+    self.assertEqual(t.shape, (2, 3))
+    self.assertEqual(t.storage, [float(x) for x in t_np.flatten()])
+
   def test_add(self):
     a, b = InterpretedTensor.ones((3, 4)), InterpretedTensor.ones((3, 4))
     a_np, b_np = np.ones((3, 4)), np.ones((3, 4))
