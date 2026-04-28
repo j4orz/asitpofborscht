@@ -47,3 +47,31 @@ print("2D (char,char) histogram using python's dict:\n", sorted_conditional_coun
 
 
 
+# We will now construct the same 2d histogram, but with numpy's ndarray instead of python's dict
+import numpy as np # we use numpy rather than torch to emphasize that the bigram model does NOT required any deep learning functionality
+vocab = sorted(list(set(''.join(dataset)))) # construct vocab
+c2i = {c:i+1 for i,c in enumerate(vocab)}   # construct map<char,ord>
+c2i['.'] = 0                                # with . as the start token and end token, to remove counting freq of (<E>*) and (*<S>) which are all 0
+V = len(c2i)                                # evaluate the vocab len V
+D_VV = np.zeros((V,V), dtype=np.int32)      # and use V to construct D_VV
+
+for di in dataset:
+  di_normalized = ['.'] + list(di) + ['.']
+  for x_char,y_char in zip(di_normalized, di_normalized[1:]):
+    x_index, y_index = c2i[x_char], c2i[y_char] # use map<char, ord> to lookup the coordinate index needed for D_VV
+    D_VV[x_index, y_index] += 1                 # update D_VV
+
+i2c = {i:c for c,i in c2i.items()}  # invert map<char, ord> to map<ord, char> because looping with enumerate provides access to indices
+header = '    ' + ' '.join(f'{i2c[y_index]:>4}' for y_index in range(V))
+
+# because the data matrix D_VV is 2 dimensional, we can print it. the way to semantically interpret the table is that
+# the numbers are counts of bigrams (character pairs) of the characters on the vertical (x) axis *followed by* the chracters on the horizontal (y) axis
+
+# (since numpy.ndarray's are row major order, the first dimension is printed from up to down)
+# (this might be somewhat confusing if you have the xy-cartesian plane in mind)
+# (if it helps, replace x_index with row_index and y_index with col_index)
+print("2D (ord, ord) histogram using numpy ndarray")
+print(header)
+for x_index, row in enumerate(D_VV):
+  x_char = f'{i2c[x_index]:>4}'
+  print(x_char, ' '.join(f'{count:>4}' for count in row))
