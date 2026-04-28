@@ -75,3 +75,24 @@ print(header)
 for x_index, row in enumerate(D_VV):
   x_char = f'{i2c[x_index]:>4}'
   print(x_char, ' '.join(f'{count:>4}' for count in row))
+
+
+# inference loop
+rng = np.random.default_rng(1337)
+sample_count = 50
+
+for _ in range(sample_count):
+  output, sample_index = [], 0
+  while True:
+    # 1. get p(Y|X)
+    counts = D_VV[sample_index].astype(np.float32)
+    pYcondX = (counts / counts.sum()).squeeze()
+
+    # 2. sample p(Y|X)
+    sample_index = rng.choice(len(pYcondX), size=1, replace=True, p=pYcondX)
+    sample_char = i2c[sample_index.item()]
+    output.append(sample_char)
+
+    # 3. if sampled end token, break
+    if sample_index == 0: break
+  print(''.join(output))
