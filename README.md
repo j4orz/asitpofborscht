@@ -1,13 +1,8 @@
 ![](https://sitp.ai/assets/flammarion.webp)
 # `teenygrad`
-The capstone project for [`The Structure and Interpretation of Tensor Programs`](https://sitp.ai/)' book.
+**The capstone project for [`The Structure and Interpretation of Tensor Programs`](https://sitp.ai/)**
 
-
-**Contents**
-- [SITP Installation (Book)](#sitp-installation-book)
-- [`teenygrad` Installation (Codebase)](#teenygrad-installation-codebase)
-
-## SITP Installation (Book)
+## Book Installation (SITP)
 
 1. Install [mdbook](https://rust-lang.github.io/mdBook/guide/installation.html)
 2. ```sh
@@ -15,7 +10,7 @@ The capstone project for [`The Structure and Interpretation of Tensor Programs`]
    mdbook serve
    ```
 
-## `teenygrad` Installation (Codebase)
+## Autograd Installation (`teenygrad`)
 
 Follow these instructions for a quick setup.
 To understand the physical layout of the project repo, refer to the [`ARCHITECTURE.md`](./ARCHITECTURE.md)
