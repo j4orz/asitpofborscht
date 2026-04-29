@@ -54,13 +54,13 @@ vocab = sorted(list(set(''.join(dataset)))) # construct vocab
 c2i = {c:i+1 for i,c in enumerate(vocab)}   # construct map<char,ord>
 c2i['.'] = 0                                # with . as the start token and end token, to remove counting freq of (<E>*) and (*<S>) which are all 0
 V = len(c2i)                                # evaluate the vocab len V
-C_VV = np.zeros((V,V), dtype=np.int32)      # and use V to construct D_VV
+C_VV = np.zeros((V,V), dtype=np.int32)      # and use V to construct C_VV
 
 for di in dataset:
   di_normalized = ['.'] + list(di) + ['.']
   for x_char,y_char in zip(di_normalized, di_normalized[1:]):
-    x_index, y_index = c2i[x_char], c2i[y_char] # use map<char, ord> to lookup the coordinate index needed for D_VV
-    C_VV[x_index, y_index] += 1                 # update D_VV
+    x_index, y_index = c2i[x_char], c2i[y_char] # use map<char, ord> to lookup the coordinate index needed for C_VV
+    C_VV[x_index, y_index] += 1                 # update C_VV
 
 # normalize counts C_VV to probs P_VV
 C_VVf32 = (C_VV+1).astype(np.float32)    # inductive bias (locally smooth)
@@ -109,19 +109,17 @@ for di in dataset:
   di_normalized = ['.'] + list(di) + ['.']
   for x_char,y_char in zip(di_normalized, di_normalized[1:]):
     x_index, y_index = c2i[x_char], c2i[y_char] # use map<char, ord> to lookup the coordinate index needed for D_VV
-    pycondx = P_VV[x_index, y_index]
-    logpycondx = np.log(pycondx)
+    pycondx = P_VV[x_index, y_index] # maximize likelihood
+    logpycondx = np.log(pycondx)     # maximize loglikelihood
 
     loglikelihooddataset += logpycondx
     n += 1
     # print(f'{x_char}{y_char}: {pycondx:.4f} {logpycondx:.4f}')
 
-# maximize likelihood
-# maximize loglikelihood
-# minimize -loglikelihood
-# minimize -1/n loglikelihood
-nlldataset = -loglikelihooddataset
-avgnlldataset = nlldataset / n
+
+
+nlldataset = -loglikelihooddataset   # minimize -loglikelihood
+avgnlldataset = nlldataset / n       # minimize -1/n loglikelihood
 print(f'{loglikelihooddataset=}')
 print(f'{nlldataset=}')
 print(f'{avgnlldataset=}')

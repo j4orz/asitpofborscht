@@ -14,11 +14,11 @@ print("\n\n--- DATA ---")
 import torch
 import torch.nn.functional as F
 dataset = open('./examples/data/names.txt', 'r').read().splitlines()
-D = len(dataset)                            # D is the length of the dataset. N is reserved for the number of examples, in which each di can comprise many of
-vocab = sorted(list(set(''.join(dataset)))) # construct vocab
-c2i = {c:i+1 for i,c in enumerate(vocab)}   # construct map<char,usize>
-c2i['.'] = 0                                # with . as the start token and end token, to remove counting freq of (<E>*) and (*<S>) which are all 0
-V = len(c2i)                                # evaluate the vocab len V
+D = len(dataset)                                                   # D is the length of the dataset. N is reserved for the number of examples, in which each di can comprise many of
+vocab = sorted(list(set(''.join(dataset))))                        # construct vocab
+c2i = {c:i+1 for i,c in enumerate(vocab)}                          # construct map<char,usize>
+c2i['.'] = 0                                                       # with . as the start token and end token, to remove counting freq of (<E>*) and (*<S>) which are all 0
+V = len(c2i)                                                       # evaluate the vocab len V
 
 xindicesraw, yindicesraw = [], []
 for di in dataset:                                                 # change to dataset[:1] when debugging to limit the number of N examples
