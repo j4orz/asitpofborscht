@@ -11,7 +11,19 @@ Written by Harold Abelson and Gerald Sussman with Julie Sussman, SICP has reache
 providing a whirlwind tour on the essence of computation through a logically unbroken yet informal sequence, starting from programming, to programming languages
 themselves<span class="sidenote-number"></span><span class="sidenote">*this curriculum went on to influence other texts such as it's [dual](https://cs.brown.edu/~sk/Publications/Papers/Published/fffk-htdp-vs-sicp-journal/paper.pdf) [HtDP](https://htdp.org/) (introduced at Waterloo by [Prabhakar Ragde](https://cs.uwaterloo.ca/~plragde/flaneries/FICS/Introduction.html)) it's typed counterpart [OCEB](https://cs3110.github.io/textbook/cover.html), and the [recent](https://cs.brown.edu/~sk/Publications/Papers/Published/kf-data-centric/paper.pdf) addition of [DCIC](https://dcic-world.org/) spawning from it's phylogenetic cousin [PAPL](https://papl.cs.brown.edu/2020/).*</span>.
 
-(todo: SITP is really SICP + CS:APP because of the newfound importance of systems in deep learning)
+<!-- (todo, conversational style)
+> Unlike some other textbooks, this one does not follow a top-down narrative. Rather it has the flow of a conversation, with backtracking. We will often build up programs incrementally, just as a pair of programmers would. We will include mistakes, not because we don’t know better, but because this is the best way for you to learn. Including mistakes makes it impossible for you to read passively: you must instead engage with the material, because you can never be sure of the veracity of what you’re reading.
+
+> At the end, you’ll always get to the right answer. However, this non-linear path is more frustrating in the short term (you will often be tempted to say, “Just tell me the answer, already!”), and it makes the book a poor reference guide (you can’t open up to a random page and be sure what it says is correct). However, that feeling of frustration is the sensation of learning. We don’t know of a way around it.
+
+(todo: DCIC is where data science ends and computer science begins)
+(SITP is where computer science ends, and data science begins)
+
+(todo: SITP is really SICP + PH/CS:APP because of the newfound importance of systems in deep learning)
+
+(todo: canon. stepanov canon. compiler) -->
+<!-- A compiler gathers material from earlier sources and arranges it into a new work. They may not create totally original ideas, but they do produce a new structure or synthesis. A medieval chronicler who assembled earlier records into one history could be called a compiler. -->
+
 
 The programmers who loved to dive deeper into the soul of the machine by peeking under the hood of these low-level systems
 went on to develop industrial languages and

@@ -6,8 +6,8 @@
 # Structure and Interpretation
 # of Tensor Programs
 
-`The Hacker's Guide to Deep Learning and Deep Learning Systems`</br>
-<small>*`Train and run`[`nanochat`](https://github.com/karpathy/nanochat)` by building `[`teenygrad`](https://github.com/j4orz/teenygrad)`from scratch: the bridge from` [`micrograd`](https://github.com/karpathy/micrograd)` to ` [`tinygrad`](https://github.com/tinygrad/tinygrad)*</small><br/>
+`The Hacker's Accelerated Introduction to Deep Learning and Deep Learning Systems`</br>
+<small>*`Run`[`nanochat`](https://github.com/karpathy/nanochat)` by building `[`teenygrad`](https://github.com/j4orz/teenygrad)`from scratch: the bridge from` [`micrograd`](https://github.com/karpathy/micrograd)`to `[`tinygrad`](https://github.com/tinygrad/tinygrad)*</small><br/>
 
 *Made with 🖤  by [Jeffrey Zhang,](https://x.com/j4orz) [Waterloo Mathematics](https://academic-calendar-archive.uwaterloo.ca/undergraduate-studies/2022-2023/group/u-Waterloo-Faculty-of-Mathematics.html)*<br/>
 *Made possible by [Lambda Labs Research Grant](https://lambda.ai/research) and [Cloud-V 10X Engineers](https://cloud-v.co/) [(RISC-V Labs)](https://riscv.org/developers/labs/)*<br/>
