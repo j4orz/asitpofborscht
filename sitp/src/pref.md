@@ -11,6 +11,51 @@ Written by Harold Abelson and Gerald Sussman with Julie Sussman, SICP has reache
 providing a whirlwind tour on the essence of computation through a logically unbroken yet informal sequence, starting from programming, to programming languages
 themselves<span class="sidenote-number"></span><span class="sidenote">*this curriculum went on to influence other texts such as it's [dual](https://cs.brown.edu/~sk/Publications/Papers/Published/fffk-htdp-vs-sicp-journal/paper.pdf) [HtDP](https://htdp.org/) (introduced at Waterloo by [Prabhakar Ragde](https://cs.uwaterloo.ca/~plragde/flaneries/FICS/Introduction.html)) it's typed counterpart [OCEB](https://cs3110.github.io/textbook/cover.html), and the [recent](https://cs.brown.edu/~sk/Publications/Papers/Published/kf-data-centric/paper.pdf) addition of [DCIC](https://dcic-world.org/) spawning from it's phylogenetic cousin [PAPL](https://papl.cs.brown.edu/2020/).*</span>.
 
+
+todo: research driven book. rather than opinion driven book
+curriculum design as an engineering problem
+  TRANSFER
+  abstract -> concrete "top down"
+  concrete -> abstract "bottom up"
+    - good for learning
+    - bad for transfer
+  CONCRETENESS FADING
+  SPIRAL CURRICULAR (abstract->concrete->abstract->concrete)
+
+  constraints, goals,
+  means (methods) triforce dependency graph: language. pedagogy. curriculum
+
+  avenue (algebra, data science, physics)
+
+
+
+  Transfer of Mathematics to Applied Mathematics
+  - deep structural similarties between tasks
+  - explicit instruction
+  - process for performing tasks (design recipe)
+
+software is a message to the future (evolving/growing a codebase over time)
+  - (this is one of will's research focuses with ai)
+
+CS1 (blank screen. design recipe)
+- htdp drives not by syntax, by increasing complexity of datas
+  - matthias https://www.youtube.com/watch?v=JwgGPGbw1d0
+  - https://www.youtube.com/watch?v=9REURTUJR_I&t=2680s
+  - https://www.youtube.com/watch?v=ODOI-qbvkwE&t=3218s
+- dcic (shriram) https://www.youtube.com/watch?v=HwPM0xMdiNU
+  - data science + data structures
+  - "computer science starts where data science ends"
+  - shriram drives by motivation (tables)
+  - limitations of tables
+  - https://www.youtube.com/watch?v=5c0BvOlR5gs
+- bootstrap
+  - emmanuel schanzer https://www.youtube.com/watch?v=turBxnXqIls
+CS2
+rust brown book (will) https://www.youtube.com/watch?v=R0dP-QR5wQo
+
+CS3/CS4: (patterns/system development.) (10-20k loc), student chosen language
+
+
 <!-- (todo, conversational style)
 > Unlike some other textbooks, this one does not follow a top-down narrative. Rather it has the flow of a conversation, with backtracking. We will often build up programs incrementally, just as a pair of programmers would. We will include mistakes, not because we don’t know better, but because this is the best way for you to learn. Including mistakes makes it impossible for you to read passively: you must instead engage with the material, because you can never be sure of the veracity of what you’re reading.
 
@@ -30,7 +75,7 @@ went on to develop industrial languages and
 runtimes<span class="sidenote-number"></span><span class="sidenote">*"There is only one project, architecture, operating system and languages, compiler, it's only one project. It's all together." -- Boris Babayan*</span>.
 For myself, that looked like working on [domain specific cloud compilers](https://www.infoq.com/presentations/deploy-pipelines-coinbase/)
 as well as [cloud provisioners and garbage collectors](https://www.infoq.com/presentations/coinbase-terraform-earth/).
-After ChatGPT, I set out to transition from domain specific cloud compilers to domain specific tensor compilers, which began in earnest during 2025 with a
+After ChatGPT, I set out to transition from domain specific cloud compilers to domain specific tensor compilers, which began in earnest in 2025 with a
 [tweet](https://x.com/j4orz/status/1907452857248350421/) showcasing a deep learning framework written from scratch to run the nets from Karpathy's [Neural Networks: Zero to Hero](https://karpathy.ai/zero-to-hero.html) series. This work turned out in retrospect to be the seeds of SITP's core with [Part II. Neural Networks]()
 which covers the 2012-2020 "era of research" and consists of two chapters:
 - [Chapter 4. Learning *Sequences* from Data with Deep Neural Networks in `torch`](./2.md#4-learning-sequences-from-data-with-deep-neural-networks-in-torch)
