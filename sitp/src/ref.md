@@ -1,6 +1,6 @@
 # References
 
-Fog, A. (n.d.). Software Optimization: C++ and Assembly. Agner.org. [https://agner.org/optimize/](https://agner.org/optimize/)
+Abelson, H., & Gerald Jay Sussman. (1996). Structure and Interpretation of Computer Programs. MIT Press. [https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/index.html](https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/index.html)
 
 Amanzhol Salykov. (2025, January 12). Advanced Matrix Multiplication Optimization on NVIDIA GPUs. Salykova. [https://salykova.github.io/sgemm-gpu](https://salykova.github.io/sgemm-gpu)
 
@@ -33,6 +33,10 @@ Dongarra, J., J. Du Croz, Sven Hammarling, & Duff, I. S. (1990). A Set of Level 
 Dongarra, J., J. Du Croz, Sven Hammarling, & Hanson, R. J. (1988a). Algorithm 656: An Extended Set of Basic Linear Algebra Subprograms: Model Implementation and Test Programs. ACM Transactions on Mathematical Software, 14(1), 18–32. [https://doi.org/10.1145/42288.42292](https://doi.org/10.1145/42288.42292)
 
 Dongarra, J., J. Du Croz, Sven Hammarling, & Hanson, R. W. (1988b). An Extended Set of FORTRAN Basic Linear Algebra Subprograms. ACM Transactions on Mathematical Software, 14(1), 1–17. [https://doi.org/10.1145/42288.42291](https://doi.org/10.1145/42288.42291)
+
+Fisler, K., Krishnamurthi, S., Lerner, B. S., & Politz, J. G. (2025). A Data-Centric Introduction to Computing. Dcic-World.org. [https://dcic-world.org/](https://dcic-world.org/)
+
+Fog, A. (n.d.). Software Optimization: C++ and Assembly. Agner.org. [https://agner.org/optimize/](https://agner.org/optimize/)
 
 Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. The MIT Press. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/)
 
@@ -67,6 +71,8 @@ Lawson, C. L., Hanson, R. J., Kincaid, D. R., & Krogh, F. T. (1979). Basic Linea
 Marc Peter Deisenroth, A  Aldo Faisal, & Cheng Soon Ong. (2020). Mathematics for Machine Learning. Cambridge University Press. [https://mml-book.github.io/book/mml-book.pdf](https://mml-book.github.io/book/mml-book.pdf)
 
 Minsky, M., Papert, S., & Léon Bottou. (2017). Perceptrons : An Introduction to Computational Geometry. The MIT Press.
+
+Matthias Felleisen, Robert Bruce Findler, Flatt, M., & Shriram Krishnamurthi. (2018). How to Design Programs: An Introduction to Programming and Computing. The MIT Press. [https://htdp.org/](https://htdp.org/)
 
 Mitchell, T. M. (1997). Machine learning. Mcgraw-Hill. [https://www.cs.cmu.edu/~tom/files/MachineLearningTomMitchell.pdf](https://www.cs.cmu.edu/~tom/files/MachineLearningTomMitchell.pdf)
 
