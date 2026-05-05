@@ -11,6 +11,16 @@ Written by Harold Abelson and Gerald Sussman with Julie Sussman, SICP has reache
 providing a whirlwind tour on the essence of computation through a logically unbroken yet informal sequence, starting from programming, to programming languages
 themselves<span class="sidenote-number"></span><span class="sidenote">*this curriculum went on to influence other texts such as it's [dual](https://cs.brown.edu/~sk/Publications/Papers/Published/fffk-htdp-vs-sicp-journal/paper.pdf) [HtDP](https://htdp.org/) (introduced at Waterloo by [Prabhakar Ragde](https://cs.uwaterloo.ca/~plragde/flaneries/FICS/Introduction.html)) it's typed counterpart [OCEB](https://cs3110.github.io/textbook/cover.html), and the [recent](https://cs.brown.edu/~sk/Publications/Papers/Published/kf-data-centric/paper.pdf) addition of [DCIC](https://dcic-world.org/) spawning from it's phylogenetic cousin [PAPL](https://papl.cs.brown.edu/2020/).*</span>.
 
+In this wonderful whimsical whirwild tour called *[The Structure and Interpretation of Tensor Programs]()*,
+we will explore both the *continuous objects* and *stochastic descriptions*
+which are used to program deep neural networks and deep learning frameworks such as ChatGPT and PyTorch respectively.
+Over the course of three booklets we will build from scratch our own chat assistant following **[karpathy/nanogpt]()**  and our own deep learning framework following **[j4orz/teenygrad]()**.
+
+Because of this, from the beginning this book assumes basic competence with the art of computer programming.
+That is, you must absolutely be very comfortable with the design of elementary programs using languages features such as
+numbers, strings, variables, conditionals, loops, functions, lists, and sets covered in a CS1 course.
+In addition, being familiar with the foundational data structures including maps, trees, and graphs will help, especially throughout the implementation of [teenygrad]().
+
 
 todo: research driven book. rather than opinion driven book
 curriculum design as an engineering problem
@@ -23,7 +33,7 @@ curriculum design as an engineering problem
   SPIRAL CURRICULAR (abstract->concrete->abstract->concrete)
 
   constraints, goals,
-  means (methods) triforce dependency graph: language. pedagogy. curriculum
+  means (methods) triforce dependency graph: language(teenygrad book). pedagogy(sitp book). curriculum (concepts+skills)
 
   avenue (algebra, data science, physics)
 
