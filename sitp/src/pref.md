@@ -57,7 +57,7 @@ But arguably most important of all, to understand and teach the
 Because although SITP as a book develops the `teenygrad` framework with a myriad of languages with `Python`, `Rust`, `CUDA Rust`, and `cuTile Rust`,
 tomorrow for all we know everything can be rewritten in Julia or Mojo. I wanted to write a deep learning book for myself and others which prioritized semantics.
 
-So in [Part I. Elements of Networks](./1.md), readers learn "pre-historic" machine learning:
+So in [Part I. Elements of Networks](./1.md), readers learn the prelimaniries for "pre-historic" machine learning:
 <!-- <span class="sidenote-number"></span><span class="sidenote">*The exposition in Part I heavily relies on existing canon such as [Strang (1993)](), [Axler (1995)]() for preliminary linear algebra, [Hastie, Tibshirani, Friedman (2001)]() for machine learning, [Trefethen and Bau (1997)](), and finally [Demmel (1997)](), [Bryant, O’hallaron (2011)]() for high performance numerical linear algebra  but it adds a few stylistic elements.</br></br>Namely that of infusing guiding motivation more relevant to the current regime of autoregressive sequence models inspired by [Jurafsky (2026)](), and frontloading the unsupervised learning of lower dimensional subspaces with principal component analysis inspired by [Kang and Cho (2024)]() before fitting any linear or logistic regression model.*</span>: -->
 - [Chapter 1. Representing *Data* with High Dimensional Stochasticity](./1.md#1-representing-data-with-high-dimensional-stochasticity-in-torch)
 - [Chapter 2. Learning *Functions* from *Data* with Parameter Estimation](./1.md#2-learning-functions-from-data-with-optimization-in-torch)
@@ -71,9 +71,9 @@ And in [Part III. Scaling Networks](./3.md), readers learn about the 2020-2025 e
 
 However, once I had enough curriculum "clay" laid out my aspirations grew secondfold to make SITP the highest quality education that I was capable of producing.
 This is when my attitude transitioned from an n=1 with "I am teaching" to an n=many with "they are learning".
-That is, I started treating curriculum design as an engineering problem, when the book transiioned from an opinion-driven book to a research-driven one.
+That is, I started treating curriculum design as an engineering problem, when the book transitioned from an opinion-driven book to a research-driven one.
 
-## They Learn: The Structure and Interpretation of the Computer Science Curriculum 2.0
+## They Learn: The Structure and Interpretation of the Data Science Curriculum
 
 
                   programs = algorithms + data structures
@@ -96,6 +96,8 @@ That is, I started treating curriculum design as an engineering problem, when th
                                                         neural networks
                 meets bootstrap/dcic at the TABLE/tabular/csv data (probability is ARRAY oriennted programming)
                                             1. rich structure (paper ^^) 2. already parsed (no need to introduce probability theory: reducing one problem to a harder problem)
+                SITP takes the TABLE, and starts with probability/stats, linear algebra, and optimization
+                SITP is a unified DS+CS2
 
 CS1 (blank screen. design recipe)
 - sicp
@@ -127,9 +129,6 @@ CS1 (blank screen. design recipe)
                                           -> (present design to panel and accept criticism)
                                           -> (server on panel and critique code)
                                           -> like cs6120
-
-                SITP takes the TABLE, and starts with probability/stats, linear algebra, and optimization
-                SITP is a unified DS+CS2
 
 
 CS2
