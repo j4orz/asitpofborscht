@@ -46,7 +46,6 @@ sorted_conditional_counts_dict = sorted(conditional_counts_dict.items(), key = l
 
 
 
-# --- "TRAINING" ---
 print("--- TRAINING ---")
 # We will now construct the same 2d histogram, but with numpy's ndarray instead of python's dict
 import numpy as np # we use numpy rather than torch to emphasize that the bigram model does NOT required any deep learning functionality
@@ -81,7 +80,6 @@ for x_index, row in enumerate(C_VV+1):
 
 
 
-# --- INFERENCE ---
 print("\n\n--- INFERENCE ---")
 rng = np.random.default_rng(1337)
 sample_count = 10
@@ -102,8 +100,6 @@ for _ in range(sample_count):
   print(''.join(output))
 
 
-# --- TEST ---
-print("\n\n--- TEST ---")
 loglikelihooddataset,n = 0.0, 0
 for di in dataset:
   di_normalized = ['.'] + list(di) + ['.']
