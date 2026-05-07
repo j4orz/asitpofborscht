@@ -15,7 +15,7 @@ additional-js = ["theme/js/highlight-lean.min.js", "theme/js/custom.js"]
 default-theme = "ayu"
 preferred-dark-theme = "ayu"
 
-[preprocessor.repl]
-src = "https://comfy-daifuku-df4422.netlify.app/"
-python.enable = true
-python.loading = "lazy"
+# [preprocessor.repl]
+# src = "https://comfy-daifuku-df4422.netlify.app/"
+# python.enable = true
+# python.loading = "lazy"
