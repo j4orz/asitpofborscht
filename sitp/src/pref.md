@@ -58,7 +58,7 @@ Because although SITP as a book develops the `teenygrad` framework with a myriad
 tomorrow for all we know everything can be rewritten in Julia or Mojo. I wanted to write a deep learning book for myself and others which prioritized semantics.
 
 So in [Part I. Elements of Networks](./1.md), readers learn the prelimaniries for "pre-historic" machine learning:
-<!-- <span class="sidenote-number"></span><span class="sidenote">*The exposition in Part I heavily relies on existing canon such as [Strang (1993)](), [Axler (1995)]() for preliminary linear algebra, [Hastie, Tibshirani, Friedman (2001)]() for machine learning, [Trefethen and Bau (1997)](), and finally [Demmel (1997)](), [Bryant, O’hallaron (2011)]() for high performance numerical linear algebra  but it adds a few stylistic elements.</br></br>Namely that of infusing guiding motivation more relevant to the current regime of autoregressive sequence models inspired by [Jurafsky (2026)](), and frontloading the unsupervised learning of lower dimensional subspaces with principal component analysis inspired by [Kang and Cho (2024)]() before fitting any linear or logistic regression model.*</span>: -->
+<!-- <span class="sidenote-number"></span><span class="sidenote">*The exposition in Part I heavily relies on existing canon such as [Strang (1993)](), [Axler (1995)]() for preliminary linear algebra, [Hastie, Tibshirani, Friedman (2001)]() for machine learning, [Trefethen and Bau (1997)](), and finally [Demmel (1997)](), [Bryant, O’hallaron (2011)]() for high performance numerical linear algebra  but it adds a few stylistic elements.<br><br>Namely that of infusing guiding motivation more relevant to the current regime of autoregressive sequence models inspired by [Jurafsky (2026)](), and frontloading the unsupervised learning of lower dimensional subspaces with principal component analysis inspired by [Kang and Cho (2024)]() before fitting any linear or logistic regression model.*</span>: -->
 - [Chapter 1. Representing *Data* with High Dimensional Stochasticity](./1.md#1-representing-data-with-high-dimensional-stochasticity-in-torch)
 - [Chapter 2. Learning *Functions* from *Data* with Parameter Estimation](./1.md#2-learning-functions-from-data-with-optimization-in-torch)
 - [Chapter 3. Accelerating *Functions* and *Data* on `CPU`](./1.md#3-accelerating-functions-and-data-with-basic-linear-algebra-subroutines-in-teenygrad)
@@ -139,10 +139,10 @@ CS3/CS4: (patterns/system development.) (10-20k loc), student chosen language
 For those interested in other books about deep learning systems, you can check out the excellent courses
 of [minitorch](https://minitorch.github.io/) developed by Sasha Rush at Cornell and [needl](https://dlsyscourse.org/) developed by Tianqi Chen at Carnegie Mellon.
 
-With that said, if you empathize with some of my frustrations, you may benefit from the book too.</br>
-If you are looking for reading groups checkout the `#teenygrad` channel in [![](https://dcbadge.limes.pink/api/server/gpumode?style=flat)](https://discord.com/channels/1189498204333543425/1373414141427191809)</br>
-Good luck on your journey.</br>
-Are you ready to begin?</br>
+With that said, if you empathize with some of my frustrations, you may benefit from the book too.<br>
+If you are looking for reading groups checkout the `#teenygrad` channel in [![](https://dcbadge.limes.pink/api/server/gpumode?style=flat)](https://discord.com/channels/1189498204333543425/1373414141427191809)<br>
+Good luck on your journey.<br>
+Are you ready to begin?<br>
 
 ## Acknowledgements
 *Errata*

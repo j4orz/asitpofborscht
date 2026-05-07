@@ -1,5 +1,5 @@
 ![](./assets/babel.jpg)
-<small>*Tower of Babel, Genesis 11:1–9*</small></br>
+<small>*Tower of Babel, Genesis 11:1–9*</small><br>
 
 # Prologue
 
