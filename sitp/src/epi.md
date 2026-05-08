@@ -10,7 +10,7 @@ but at the end of the day the world is your oyster.
 Good luck on your journey.<br>
 I'll see you at work.
 
-## Recommended Resources
+<!-- ## Recommended Resources
 
 **Preliminaries** ([SITP Chapter 1](./1.md#1-representing-data-with-high-dimensional-stochasticity-in-numpy))
 - Stanford CS124 From Languages to Information (Jurafsky and Martin)
@@ -32,4 +32,4 @@ I'll see you at work.
 - CMU 10-414/714 Deep Learning Systems (Chen)
 - CMU 11868: Large Language Model System (Li)
 - Cornell CS4787 Principles of Large-Scale Machine Learning (Sa)
-- UCSD CSE 291: Deep Learning Systems (Zhang)
+- UCSD CSE 291: Deep Learning Systems (Zhang) -->
