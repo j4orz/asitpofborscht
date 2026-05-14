@@ -2,7 +2,7 @@
 authors = ["j4orz"]
 language = "en"
 src = "src"
-title = "SITP"
+title = "The Structure and Interpretation of Tensor Programs"
 
 [preprocessor.aquascope]
 
