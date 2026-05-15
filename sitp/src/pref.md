@@ -1,6 +1,9 @@
 ![](./assets/pref.jpeg)
 *Myself, presenting an early outline of SITP at [Toronto School of Foundation Modeling Season 1](https://tsfm.ca/schedule)*
 
+> [!IMPORTANT]
+> SITP is **research education** for a CS3/CS4 course in the era of software 2.0 and software 3.0. You may encounter rough edges or unexpected behavior. I appreciate patience, bug reports, and especially concrete cases where the curriculum, pedagogy, and teaching language either works particularly well or misses the mark — this directly informs my research.
+
 # Preface
 
 ## I Teach: The Structure and Interpretation of Tensor Programs
