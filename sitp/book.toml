@@ -17,5 +17,7 @@ preferred-dark-theme = "ayu"
 
 [preprocessor.repl]
 src = "https://comfy-daifuku-df4422.netlify.app/"
+editor.theme = "chrome"
+editor.darkTheme = "nord_dark"
 python.enable = true
 python.loading = "lazy"
