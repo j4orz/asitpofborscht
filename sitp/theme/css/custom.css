@@ -131,20 +131,8 @@ blockquote .defnote {
   color: rgb(0, 150, 207)
 }
 
-.sidenote-unnumbered::before {
-  content: none;
-}
-
 /* Block-level float sidenotes: use data-n attribute so DOM order doesn't matter */
-.sidenote-float::before {
-  content: attr(data-n) " ";
-  font-size: 12px;
-  position: relative;
-  vertical-align: baseline;
-  top: -0.5rem;
-  color: rgb(0, 150, 207);
-}
-
+.sidenote-float::before,
 .defnote-float::before {
   content: attr(data-n) " ";
   font-size: 12px;
@@ -169,10 +157,7 @@ blockquote .defnote {
 }
 
 @media (max-width: 1000px) {
-  .sidenote {
-    display: none;
-  }
-
+  .sidenote,
   .defnote {
     display: none;
   }
@@ -182,29 +167,7 @@ blockquote .defnote {
     cursor: pointer;
     text-decoration: underline;
   }
-}
 
-p:has(> small > a[href="#table-of-contents"]) {
-  margin-top: 0;
-}
-
-h2:has(+ p > small > a[href="#table-of-contents"]) {
-  margin-bottom: 0;
-}
-
-p:has(+ ul) {
-  margin-bottom: 0;
-}
-
-p + ul {
-  margin-top: 0;
-}
-
-.mobile-only {
-  display: none;
-}
-
-@media (max-width: 1000px) {
   .mobile-only {
     display: block;
   }
@@ -228,6 +191,30 @@ p + ul {
     padding-left: 1.5rem;
     margin: 0;
   }
+
+  .dual {
+    grid-template-columns: 1fr;
+  }
+}
+
+p:has(> small > a[href="#table-of-contents"]) {
+  margin-top: 0;
+}
+
+h2:has(+ p > small > a[href="#table-of-contents"]) {
+  margin-bottom: 0;
+}
+
+p:has(+ ul) {
+  margin-bottom: 0;
+}
+
+p + ul {
+  margin-top: 0;
+}
+
+.mobile-only {
+  display: none;
 }
 
 .dual {
@@ -240,10 +227,4 @@ p + ul {
 
 .dual > * {
   margin: 0 !important;
-}
-
-@media (max-width: 1000px) {
-  .dual {
-    grid-template-columns: 1fr;
-  }
 }

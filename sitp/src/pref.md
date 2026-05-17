@@ -35,7 +35,7 @@ Coloquially speaking, I was a neural network script kiddie.
 
 Shortly after, I decided to take the plunge and started drinking from the firehose all the mathematical foundation I've since forgotten.
 While revisting preliminary foundation like [Strang (1988)](), [Nocedal, Wright (1999)](), [Boyd, Lieven, Vandenberghe (2004)]() and
-reading deep learning cannon like [Hastie Tibshirani (2001)](), [Goodfellow, Bengio, Courtville (2016)](), [Murphy (2022)](),
+reading deep learning cannon like [Sutton, Barto (1992)](), [Hastie Tibshirani (2001)](), [Goodfellow, Bengio, Courtville (2016)](), [Murphy (2022)](),
 the one thought I could not get out of my head was *where is the SICP for software 2.0*?
 While I found two excellent resources on building your own torch-like autograd by Tianqi Chen at Carnegie Mellon and Sasha Rush at Cornell,
 I personally would have really enjoyed a unified resource that took me from math, to deep learning, to deep learning systems in a single unbroken sequence of thought,
@@ -50,13 +50,13 @@ and perhaps others would feel similarly. That is the genesis story for this book
 
 <!-- I recalled stumbling along a post by Greg Brockman
 on how he [became a machine learning practitioner]() -->
-After the invention and discovery of ChatGPT, I set out to transition from domain specific cloud compilers to domain specific tensor compilers, which began in earnest in 2025 with a
+<!-- After the invention and discovery of ChatGPT, I set out to transition from domain specific cloud compilers to domain specific tensor compilers, which began in earnest in 2025 with a
 [tweet](https://x.com/j4orz/status/1907452857248350421/) showcasing a deep learning framework written from scratch to run the nets from Karpathy's [Neural Networks: Zero to Hero](https://karpathy.ai/zero-to-hero.html) series. This work turned out in retrospect to be the seeds of SITP's core with [Part II. Neural Networks]()
 which covers the 2012-2020 "era of research" consisting of two chapters:
 - [Chapter 4. Learning *Sequences* from Data with Deep Neural Networks](./2.md#4-learning-sequences-from-data-with-deep-neural-networks-in-torch)
-- [Chapter 5. Accelerating *Sequence Models* on `GPU`](./2.md#5-accelerating-sequence-models-on-gpu-in-teenygrad-with-cuda-rust)
+- [Chapter 5. Accelerating *Sequence Models* on `GPU`](./2.md#5-accelerating-sequence-models-on-gpu-in-teenygrad-with-cuda-rust) -->
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/5c0BvOlR5gs?si=2FGMK6TjZRiKlSdF" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="698" height="393" loading="lazy" src="https://www.youtube.com/embed/5c0BvOlR5gs?si=2FGMK6TjZRiKlSdF" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 <!-- themselves<span class="sidenote-number"></span><span class="sidenote">*this curriculum went on to influence other texts such as it's [dual](https://cs.brown.edu/~sk/Publications/Papers/Published/fffk-htdp-vs-sicp-journal/paper.pdf) [HtDP](https://htdp.org/) (introduced at Waterloo by [Prabhakar Ragde](https://cs.uwaterloo.ca/~plragde/flaneries/FICS/Introduction.html)) it's typed counterpart [OCEB](https://cs3110.github.io/textbook/cover.html), and the [recent](https://cs.brown.edu/~sk/Publications/Papers/Published/kf-data-centric/paper.pdf) addition of [DCIC](https://dcic-world.org/) spawning from it's phylogenetic cousin [PAPL](https://papl.cs.brown.edu/2020/).*</span>. -->
 <!-- 
@@ -85,14 +85,19 @@ In addition, being familiar with the foundational data structures including maps
 
 <!-- <span class="sidenote-number"></span><span class="sidenote">*Following [Hwu et al. (2010)](), but also following and compiling many performance oriented web blogs and articles such as [He (2022)](https://horace.io/brrr_intro.html) [Boehm (2022)](https://siboehm.com/articles/22/CUDA-MMM), [Spector et al. (2024)](https://hazyresearch.stanford.edu/blog/2024-05-12-tk), [Armbruster (2024)](https://alexarmbr.github.io/2024/08/10/How-To-Write-A-Fast-Matrix-Multiplication-From-Scratch-With-Tensor-Cores.html#roofline-charts), [Patterson 2024](https://www.spatters.ca/mma-matmul), [Shankhdhar (2024)](https://cudaforfun.substack.com/p/outperforming-cublas-on-h100-a-worklog), [Gordić (2024)](https://www.aleksagordic.com/blog/matmul), [Salykov (2025)](https://salykova.github.io/gemm-gpu), [Li (2025)](https://lubits.ch/flash/), [Tran (2025)](https://gau-nernst.github.io/fa-5090/), and [Vega-Myhre (2026)](https://danielvegamyhre.github.io/2026/03/29/mxfp8-gemm.html)*</span> -->
 
-While it was illuminating to implement each individual torch call that the nets from `makemore` were making, my knowledge felt
+<!-- While it was illuminating to implement each individual torch call that the nets from `makemore` were making, my knowledge felt
 fragmented<span class="sidenote-number"></span><span class="sidenote">*More coloquially, the knowledge of a neural network script kiddie.*</span> with respect to the foundations and frontiers.
 It was at this point in time that my aspirations grew to write a book which replicated the *form* of SICP but with the *substance* of deep learning and deep learning systems.
 That is, to prepend a [Part I. Elements of Networks](./1.md) and append a [Part III. Scaling Networks]() which covers preliminary machine learning, as well as deep learning languages and runtimes respectively.
 But arguably most important of all, to understand and teach the
 **semantics of software 2.0 to programmers of software 1.0**.
 Because although SITP as a book develops the `teenygrad` framework with a myriad of languages with `Python`, `Rust`, `CUDA Rust`, and `cuTile Rust`,
-tomorrow for all we know everything can be rewritten in Julia or Mojo. I wanted to write a deep learning book for myself and others which prioritized semantics.
+tomorrow for all we know everything can be rewritten in Julia or Mojo. I wanted to write a deep learning book for myself and others which prioritized semantics. -->
+
+This work turned out in retrospect to be the seeds of SITP's core with [Part II. Neural Networks]()
+which covers the 2012-2020 "era of research" consisting of two chapters:
+- [Chapter 4. Learning *Sequences* from Data with Deep Neural Networks](./2.md#4-learning-sequences-from-data-with-deep-neural-networks-in-torch)
+- [Chapter 5. Accelerating *Sequence Models* on `GPU`](./2.md#5-accelerating-sequence-models-on-gpu-in-teenygrad-with-cuda-rust) -->
 
 So in [Part I. Elements of Networks](./1.md), readers learn the prelimaniries for "pre-historic" machine learning:
 <!-- <span class="sidenote-number"></span><span class="sidenote">*The exposition in Part I heavily relies on existing canon such as [Strang (1993)](), [Axler (1995)]() for preliminary linear algebra, [Hastie, Tibshirani, Friedman (2001)]() for machine learning, [Trefethen and Bau (1997)](), and finally [Demmel (1997)](), [Bryant, O’hallaron (2011)]() for high performance numerical linear algebra  but it adds a few stylistic elements.<br><br>Namely that of infusing guiding motivation more relevant to the current regime of autoregressive sequence models inspired by [Jurafsky (2026)](), and frontloading the unsupervised learning of lower dimensional subspaces with principal component analysis inspired by [Kang and Cho (2024)]() before fitting any linear or logistic regression model.*</span>: -->
@@ -106,11 +111,11 @@ And in [Part III. Scaling Networks](./3.md), readers learn about the 2020-2025 e
 - [Chapter 8. Fusion Compilers]()
 - [Chapter 9. Inference Engines ]()
 
-However, once I had enough curriculum "clay" laid out my aspirations grew secondfold to make SITP the highest quality education that I was capable of producing.
+<!-- However, once I had enough curriculum "clay" laid out my aspirations grew secondfold to make SITP the highest quality education that I was capable of producing.
 This is when my attitude transitioned from an n=1 with "I am teaching" to an n=many with "they are learning".
 That is, I started treating curriculum design as an engineering problem, when the book transitioned from an opinion-driven book to a research-driven one.
 
-## They Learn: The Structure and Interpretation of the Data Science Curriculum
+## They Learn: The Structure and Interpretation of the Data Science Curriculum -->
 
 
 ## Acknowledgements
