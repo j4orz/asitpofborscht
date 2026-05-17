@@ -1,19 +1,63 @@
 ![](./assets/pref.jpeg)
 *Myself, presenting an early outline of SITP at [Toronto School of Foundation Modeling Season 1](https://tsfm.ca/schedule)*
 
-> [!IMPORTANT]
-> SITP is **research education** for a CS3/CS4 course in the era of software 2.0 and software 3.0. You may encounter rough edges or unexpected behavior. I appreciate patience, bug reports, and especially concrete cases where the curriculum, pedagogy, and teaching language either works particularly well or misses the mark — this directly informs my research.
-
 # Preface
 
-## I Teach: The Structure and Interpretation of Tensor Programs
+## The Structure and Interpretation of Tensor Programs
 
 This book is aspirationally titled [*The Structure and Interpretation of Tensor Programs*](./front.md), (from here on in abbreviated as SITP)
 as it's goal is to serve a similar role for software 2.0 as
 [*The Structure and Interpretation of Computer Programs*](https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/full-text/book/book.html)
 (from here on in abbreviated as SICP) did for software 1.0.
-Written by Harold Abelson and Gerald Sussman with Julie Sussman, SICP has reached consensus amongst many to be integral to the programmer canon,
-providing a whirlwind tour on the essence of computation through a logically unbroken yet informal sequence, starting from programming, all the way to programming languages.
+Written by Harold Abelson and Gerald Sussman with Julie Sussman, SICP took learners on a whimsical whirlwind tour throughout the essence of computation
+starting with the elements of programs with functional programming, higher order functions, data abstraction, streams,
+and ending with programming their own programming languages with interpreters, compilers, and register machines.
+
+My alma matter was amongst those which took the SICP approach, and as intended,
+for someone coming into first year college with high school computer science, it blew my mind.
+After graduating college in 2022, I followed my curiosity for diving deeper into the souls of our machine by going on to developing industrial languages and
+runtimes.<span class="sidenote-number"></span><span class="sidenote">*"There is only one project, architecture, operating system and languages, compiler, it's only one project. It's all together." -- Boris Babayan*</span>.
+Particularly, I hacked on [domain specific cloud compilers](https://www.infoq.com/presentations/deploy-pipelines-coinbase/)
+[cloud provisioners, and cloud garbage collectors](https://www.infoq.com/presentations/coinbase-terraform-earth/).
+At the end of 2022 though, when ChatGPT was released by OpenAI my mind was blown twice more.
+As someone programming since high school, I could not believe this at all.
+After two more years of hacking on cloud languages and runtimes, I started my transition from domain specific cloud compilers to domain specific tensor compilers.
+
+<div class="sidenote sidenote-float" data-n="2"><blockquote class="twitter-tweet" data-width="300"><p lang="en" dir="ltr">1.5k lines of rust and 100 commits later, we can now inference the FFN neural language model from (Bengio et al. 2003) straight from Karpathy&#39;s Zero to Hero. all you have to do is replace the single &quot;import torch&quot; line with &quot;import picograd&quot; 😎 <a href="https://t.co/8paCERz3ry">https://t.co/8paCERz3ry</a> <a href="https://t.co/iVKOCsg0zC">pic.twitter.com/iVKOCsg0zC</a></p>&mdash; Jeffrey Zhang (@j4orz) <a href="https://twitter.com/j4orz/status/1907452857248350421?ref_src=twsrc%5Etfw">April 2, 2025</a></blockquote></div>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+The transition started with a tweet<span class="sidenote-ref" data-n="2"></span> showcasing the beginnings of a tensor library evaluating the forward pass of a feed forward network
+from Andrej Karpathy's [Neural Networks: Zero to Hero](https://karpathy.ai/zero-to-hero.html) course.
+While it was illuminating to start implementing each individual torch call that the nets from `makemore` were making,
+my knowledge felt quite fragmented as I forgot a lot of the foundational mathematics I saw in a single semester,
+and I wasn't sure how to bridge myself to industrial deep learning systems like `tinygrad`, `torch`, `jax`, `vllm`, and `sglang`.
+Coloquially speaking, I was a neural network script kiddie.
+
+Shortly after, I decided to take the plunge and started drinking from the firehose all the mathematical foundation I've since forgotten.
+While revisting preliminary foundation like [Strang (1988)](), [Nocedal, Wright (1999)](), [Boyd, Lieven, Vandenberghe (2004)]() and
+reading deep learning cannon like [Hastie Tibshirani (2001)](), [Goodfellow, Bengio, Courtville (2016)](), [Murphy (2022)](),
+the one thought I could not get out of my head was *where is the SICP for software 2.0*?
+While I found two excellent resources on building your own torch-like autograd by Tianqi Chen at Carnegie Mellon and Sasha Rush at Cornell,
+I personally would have really enjoyed a unified resource that took me from math, to deep learning, to deep learning systems in a single unbroken sequence of thought,
+and perhaps others would feel similarly. That is the genesis story for this book, whose central thesis is the following question: **What does the SICP for Deep Learning look like**?<span class="sidenote-ref" data-n="3"></span>
+
+<div class="defnote defnote-float" data-n="3"><blockquote class="twitter-tweet" data-conversation="none" data-width="300"><p lang="en" dir="ltr">We really could use a SICP for DL. We have the Little Lisper for DL (<a href="https://t.co/su31hFJeUe">https://t.co/su31hFJeUe</a>) but that&#39;s a different type of book entirely.</p>&mdash; Shriram Krishnamurthi (primary: Bluesky) (@ShriramKMurthi) <a href="https://twitter.com/ShriramKMurthi/status/2051049923617968353?ref_src=twsrc%5Etfw">May 3, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></div>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+## The Structure and Interpretation of the AI Curriculum
+
+
+
+<!-- I recalled stumbling along a post by Greg Brockman
+on how he [became a machine learning practitioner]() -->
+After the invention and discovery of ChatGPT, I set out to transition from domain specific cloud compilers to domain specific tensor compilers, which began in earnest in 2025 with a
+[tweet](https://x.com/j4orz/status/1907452857248350421/) showcasing a deep learning framework written from scratch to run the nets from Karpathy's [Neural Networks: Zero to Hero](https://karpathy.ai/zero-to-hero.html) series. This work turned out in retrospect to be the seeds of SITP's core with [Part II. Neural Networks]()
+which covers the 2012-2020 "era of research" consisting of two chapters:
+- [Chapter 4. Learning *Sequences* from Data with Deep Neural Networks](./2.md#4-learning-sequences-from-data-with-deep-neural-networks-in-torch)
+- [Chapter 5. Accelerating *Sequence Models* on `GPU`](./2.md#5-accelerating-sequence-models-on-gpu-in-teenygrad-with-cuda-rust)
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/5c0BvOlR5gs?si=2FGMK6TjZRiKlSdF" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 <!-- themselves<span class="sidenote-number"></span><span class="sidenote">*this curriculum went on to influence other texts such as it's [dual](https://cs.brown.edu/~sk/Publications/Papers/Published/fffk-htdp-vs-sicp-journal/paper.pdf) [HtDP](https://htdp.org/) (introduced at Waterloo by [Prabhakar Ragde](https://cs.uwaterloo.ca/~plragde/flaneries/FICS/Introduction.html)) it's typed counterpart [OCEB](https://cs3110.github.io/textbook/cover.html), and the [recent](https://cs.brown.edu/~sk/Publications/Papers/Published/kf-data-centric/paper.pdf) addition of [DCIC](https://dcic-world.org/) spawning from it's phylogenetic cousin [PAPL](https://papl.cs.brown.edu/2020/).*</span>. -->
 <!-- 
 In this wonderful whimsical whirwild tour called *[The Structure and Interpretation of Tensor Programs]()*,
@@ -38,16 +82,6 @@ In addition, being familiar with the foundational data structures including maps
 
 (todo: canon. stepanov canon. compiler) -->
 <!-- A compiler gathers material from earlier sources and arranges it into a new work. They may not create totally original ideas, but they do produce a new structure or synthesis. A medieval chronicler who assembled earlier records into one history could be called a compiler. -->
-
-Programmers who love to diving deeper into the souls of their machine went on to develop industrial languages and
-runtimes<span class="sidenote-number"></span><span class="sidenote">*"There is only one project, architecture, operating system and languages, compiler, it's only one project. It's all together." -- Boris Babayan*</span>.
-For myself, that looked like working on [domain specific cloud compilers](https://www.infoq.com/presentations/deploy-pipelines-coinbase/)
-as well as [cloud provisioners and garbage collectors](https://www.infoq.com/presentations/coinbase-terraform-earth/).
-After the invention and discovery of ChatGPT, I set out to transition from domain specific cloud compilers to domain specific tensor compilers, which began in earnest in 2025 with a
-[tweet](https://x.com/j4orz/status/1907452857248350421/) showcasing a deep learning framework written from scratch to run the nets from Karpathy's [Neural Networks: Zero to Hero](https://karpathy.ai/zero-to-hero.html) series. This work turned out in retrospect to be the seeds of SITP's core with [Part II. Neural Networks]()
-which covers the 2012-2020 "era of research" consisting of two chapters:
-- [Chapter 4. Learning *Sequences* from Data with Deep Neural Networks](./2.md#4-learning-sequences-from-data-with-deep-neural-networks-in-torch)
-- [Chapter 5. Accelerating *Sequence Models* on `GPU`](./2.md#5-accelerating-sequence-models-on-gpu-in-teenygrad-with-cuda-rust)
 
 <!-- <span class="sidenote-number"></span><span class="sidenote">*Following [Hwu et al. (2010)](), but also following and compiling many performance oriented web blogs and articles such as [He (2022)](https://horace.io/brrr_intro.html) [Boehm (2022)](https://siboehm.com/articles/22/CUDA-MMM), [Spector et al. (2024)](https://hazyresearch.stanford.edu/blog/2024-05-12-tk), [Armbruster (2024)](https://alexarmbr.github.io/2024/08/10/How-To-Write-A-Fast-Matrix-Multiplication-From-Scratch-With-Tensor-Cores.html#roofline-charts), [Patterson 2024](https://www.spatters.ca/mma-matmul), [Shankhdhar (2024)](https://cudaforfun.substack.com/p/outperforming-cublas-on-h100-a-worklog), [Gordić (2024)](https://www.aleksagordic.com/blog/matmul), [Salykov (2025)](https://salykova.github.io/gemm-gpu), [Li (2025)](https://lubits.ch/flash/), [Tran (2025)](https://gau-nernst.github.io/fa-5090/), and [Vega-Myhre (2026)](https://danielvegamyhre.github.io/2026/03/29/mxfp8-gemm.html)*</span> -->
 
@@ -80,5 +114,3 @@ That is, I started treating curriculum design as an engineering problem, when th
 
 
 ## Acknowledgements
-*Errata*
-- [Jashanpreet Singh](https://github.com/Jashanpreet2)

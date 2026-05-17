@@ -131,6 +131,39 @@ blockquote .defnote {
   color: rgb(0, 150, 207)
 }
 
+.sidenote-unnumbered::before {
+  content: none;
+}
+
+/* Block-level float sidenotes: use data-n attribute so DOM order doesn't matter */
+.sidenote-float::before {
+  content: attr(data-n) " ";
+  font-size: 12px;
+  position: relative;
+  vertical-align: baseline;
+  top: -0.5rem;
+  color: rgb(0, 150, 207);
+}
+
+.defnote-float::before {
+  content: attr(data-n) " ";
+  font-size: 12px;
+  position: relative;
+  vertical-align: baseline;
+  top: -0.5rem;
+  color: rgb(0, 150, 207);
+}
+
+.sidenote-ref::after {
+  content: attr(data-n);
+  font-size: 12px;
+  position: relative;
+  vertical-align: baseline;
+  top: -0.5rem;
+  left: 0.1rem;
+  color: rgb(0, 150, 207);
+}
+
 .content {
   counter-reset: sidenote-counter;
 }
