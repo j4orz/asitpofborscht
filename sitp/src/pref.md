@@ -39,7 +39,7 @@ reading deep learning cannon like [Sutton, Barto (1992)](), [Hastie Tibshirani (
 the one thought I could not get out of my head was *where is the SICP for software 2.0*?
 While I found two excellent resources on building your own torch-like autograd by Tianqi Chen at Carnegie Mellon and Sasha Rush at Cornell,
 I personally would have really enjoyed a unified resource that took me from math, to deep learning, to deep learning systems in a single unbroken sequence of thought,
-and perhaps others would feel similarly. That is the genesis story for this book, whose central thesis is the following question: **What does the SICP for Deep Learning look like**?<span class="sidenote-ref" data-n="3"></span>
+and perhaps others would feel similarly. That is the genesis story for this book, whose central research question is the following: **What should the SICP for Deep Learning look like**?<span class="sidenote-ref" data-n="3"></span>
 
 <div class="defnote defnote-float" data-n="3"><blockquote class="twitter-tweet" data-conversation="none" data-width="300"><p lang="en" dir="ltr">We really could use a SICP for DL. We have the Little Lisper for DL (<a href="https://t.co/su31hFJeUe">https://t.co/su31hFJeUe</a>) but that&#39;s a different type of book entirely.</p>&mdash; Shriram Krishnamurthi (primary: Bluesky) (@ShriramKMurthi) <a href="https://twitter.com/ShriramKMurthi/status/2051049923617968353?ref_src=twsrc%5Etfw">May 3, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></div>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -57,6 +57,33 @@ which covers the 2012-2020 "era of research" consisting of two chapters:
 - [Chapter 5. Accelerating *Sequence Models* on `GPU`](./2.md#5-accelerating-sequence-models-on-gpu-in-teenygrad-with-cuda-rust) -->
 
 <iframe width="698" height="393" loading="lazy" src="https://www.youtube.com/embed/5c0BvOlR5gs?si=2FGMK6TjZRiKlSdF" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+goal: teach software 1.0 programmers software 2.0 with software 3.0
+<span class="sidenote-number"></span>
+
+<div class="sidenote sidenote-float" data-n="2">
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">An interesting data point is that Codex 5.5 cannot be trusted to design good data structures purely from behavioral prompting. (I&#39;m sure it can come up with good ideas if you prompt it, but not if it&#39;s incidental.)</p>&mdash; difficultyang (@difficultyang) <a href="https://twitter.com/difficultyang/status/2055390560660152595?ref_src=twsrc%5Etfw">May 15, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">This post was prompted by Codex coming up with a terrible internal data representation for an autograd tape with some special checkpointing behavior</p>&mdash; difficultyang (@difficultyang) <a href="https://twitter.com/difficultyang/status/2055391951600468360?ref_src=twsrc%5Etfw">May 15, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Developing GPT is also highly non-trivial, but being able to develop PyTorch requires knowledge of a lot of math and science: calculus, linear algebra, statistics, optimization theory, neural network architecture, electrical engineering, software design, hardware programming,…</p>&mdash; Sebastian Raschka (@rasbt) <a href="https://twitter.com/rasbt/status/1989807985045246391?ref_src=twsrc%5Etfw">November 15, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+</div>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+
+constraints
+- sicp style
+- runs nanochat
+- compiles a subset of tinygrad IR
+
+methods
+- curriculum
+- pedagogy
+- language
 
 <!-- themselves<span class="sidenote-number"></span><span class="sidenote">*this curriculum went on to influence other texts such as it's [dual](https://cs.brown.edu/~sk/Publications/Papers/Published/fffk-htdp-vs-sicp-journal/paper.pdf) [HtDP](https://htdp.org/) (introduced at Waterloo by [Prabhakar Ragde](https://cs.uwaterloo.ca/~plragde/flaneries/FICS/Introduction.html)) it's typed counterpart [OCEB](https://cs3110.github.io/textbook/cover.html), and the [recent](https://cs.brown.edu/~sk/Publications/Papers/Published/kf-data-centric/paper.pdf) addition of [DCIC](https://dcic-world.org/) spawning from it's phylogenetic cousin [PAPL](https://papl.cs.brown.edu/2020/).*</span>. -->
 <!-- 
