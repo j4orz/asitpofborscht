@@ -10,6 +10,8 @@ Bach, F. (2024). Learning Theory from First Principles. MIT Press. [https://www.
 
 Bakhvalov, D. (2024). Performance Analysis and Tuning on Modern CPUs. [https://github.com/dendibakh/perf-book](https://github.com/dendibakh/perf-book)
 
+Bertsekas, D. P., & Tsitsiklis, J. N. (2008). Introduction to Probability. Athena Scientific.
+
 Bryant, R. E., & O’hallaron, D. R. (2016). Computer Systems : a Programmer’s Perspective. Pearson.
 
 Boehm, S. (2022, December 31). How to Optimize a CUDA Matmul Kernel for cuBLAS-like Performance: a Worklog. Siboehm.com. [https://siboehm.com/articles/22/CUDA-MMM](https://siboehm.com/articles/22/CUDA-MMM)
@@ -108,7 +110,6 @@ Shankhdhar, P. (2024, November 29). Outperforming cuBLAS on H100: a Worklog. Sub
 
 Smith, T. M., Geijn, R. van de, Smelyanskiy, M., Hammond, J. R., & Zee, F. G. V. (2014, May 1). Anatomy of High-Performance Many-Threaded Matrix Multiplication. IEEE Xplore. [https://doi.org/10.1109/IPDPS.2014.110](https://doi.org/10.1109/IPDPS.2014.110)
 
-
 Spector, B., Singhal, A., Arora, S., & Re, C. (2024, May 12). GPUs Go Brrr. Stanford.edu. [https://hazyresearch.stanford.edu/blog/2024-05-12-tk](https://hazyresearch.stanford.edu/blog/2024-05-12-tk)
 
 Spector, B. F., Arora, S., Singhal, A., Fu, D. Y., & Ré, C. (2024, October 27). ThunderKittens: Simple, Fast, and Adorable AI Kernels. ArXiv.org. [https://arxiv.org/abs/2410.20399](https://arxiv.org/abs/2410.20399)
@@ -130,6 +131,8 @@ Tillet, P., Kung, H.-T., & Cox, D. G. (2019). Triton: An Intermediate Language a
 Trefethen, L. N., & Bau, D. (1997). Numerical Linear Algebra. Society For Industrial And Applied Mathematics.
 
 Valiant, L. (2014). Probably Approximately Correct: Nature’s Algorithms for Learning and Prospering in a Complex World. Basic Books, A Member Of The Perseus Books Group.
+
+Wasserman, L. (2010). All of Statistics. Springer.
 
 Zheng, L., Yin, L., Xie, Z., Sun, C., Huang, J., Yu, C. H., Cao, S., Kozyrakis, C., Stoica, I., Gonzalez, J. E., Barrett, C., & Sheng, Y. (2023). SGLang: Efficient Execution of Structured Language Model Programs. ArXiv.org. [https://arxiv.org/abs/2312.07104](https://arxiv.org/abs/2312.07104)
 
