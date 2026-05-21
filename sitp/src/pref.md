@@ -35,7 +35,7 @@ Coloquially speaking, I was a neural network script kiddie.
 
 Shortly after, I decided to take the plunge and started drinking from the firehose all the mathematical foundation I've since forgotten.
 While revisting preliminary foundation like [Strang (1988)](), [Nocedal, Wright (1999)](), [Boyd, Lieven, Vandenberghe (2004)]() and
-reading deep learning cannon like [Sutton, Barto (1992)](), [Hastie Tibshirani (2001)](), [Goodfellow, Bengio, Courtville (2016)](), [Murphy (2022)](),
+reading deep learning cannon like [Russel, Norvig 1995](), [Sutton, Barto (1992)](), [Hastie Tibshirani (2001)](), [Goodfellow, Bengio, Courtville (2016)](), [Murphy (2022)](),
 the one thought I could not get out of my head was *where is the SICP for software 2.0*?
 While I found two excellent resources on building your own torch-like autograd by Tianqi Chen at Carnegie Mellon and Sasha Rush at Cornell,
 I personally would have really enjoyed a unified resource that took me from math, to deep learning, to deep learning systems in a single unbroken sequence of thought,
@@ -78,6 +78,7 @@ goal: teach software 1.0 programmers software 2.0 with software 3.0
 constraints
 - sicp style
 - runs nanochat
+- consolidates gpu mode lectures
 - compiles a subset of tinygrad IR
 
 methods
