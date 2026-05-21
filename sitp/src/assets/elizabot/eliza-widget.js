@@ -16,7 +16,7 @@
   }
   input.addEventListener('keydown', function (e) { e.stopPropagation(); });
   addLine('eliza', eliza.getInitial());
-  input.focus();
+  // input.focus();
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var text = input.value.trim();
