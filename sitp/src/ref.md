@@ -96,6 +96,8 @@ Raschka, S. (2026). Build a Reasoning Model (From Scratch). Simon and Manning.
 
 Roberts, D. A., Yaida, S., & Hanin, B. (2022). The Principles of Deep Learning Theory: An Effective Theory Approach to Understanding Neural Networks. Cambridge University Press. [https://deeplearningtheory.com/](https://deeplearningtheory.com/)
 
+Russell, S., & Norvig, P. (2021). Artificial Intelligence: A Modern Approach (4th ed.). Prentice Hall. [https://aima.cs.berkeley.edu/](https://aima.cs.berkeley.edu/)
+
 Slotin, S. (n.d.). Algorithms for Modern Hardware - Algorithmica. En.algorithmica.org. [https://en.algorithmica.org/hpc/](https://en.algorithmica.org/hpc/)
 
 seb-v. (2025, January 20). Optimizing Matrix Multiplication on RDNA3: 50 TFlops and 60% Faster Than rocBLAS. Seb-v. [https://seb-v.github.io/optimization/update/2025/01/20/Fast-GPU-Matrix-multiplication.html](https://seb-v.github.io/optimization/update/2025/01/20/Fast-GPU-Matrix-multiplication.html)
