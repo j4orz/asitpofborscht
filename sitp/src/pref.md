@@ -1,5 +1,5 @@
 ![](./assets/pref.jpeg)
-*Myself, presenting an early outline of SITP at [Toronto School of Foundation Modeling Season 1](https://tsfm.ca/schedule)*
+<small>*Presenting an early outline of SITP at [Toronto School of Foundation Modeling Season 1](https://tsfm.ca/schedule) (November 2025)*</small>
 
 # Preface
 
