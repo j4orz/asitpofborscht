@@ -197,6 +197,19 @@ blockquote .defnote {
   }
 }
 
+.toc ul,
+.toc li {
+  list-style: none;
+}
+
+.toc > ul {
+  padding-left: 0;
+}
+
+.toc ul ul {
+  padding-left: 3rem;
+}
+
 p:has(> small > a[href="#table-of-contents"]) {
   margin-top: 0;
 }
