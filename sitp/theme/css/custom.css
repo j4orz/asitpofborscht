@@ -207,7 +207,7 @@ blockquote .defnote {
 }
 
 .toc ul ul {
-  padding-left: 3rem;
+  padding-left: 2rem;
 }
 
 p:has(> small > a[href="#table-of-contents"]) {
