@@ -1,7 +1,7 @@
 ![](./assets/flammarion.webp)
 
-<small>*Ἀγεωμέτρητος μηδεὶς εἰσίτω.*</small><br>
-<small>*οὐκ ἔστιν βασιλικὴ ἀτραπὸς εἰς τὴν γεωμετρίαν.*</small><br>
+<!-- <small>*Ἀγεωμέτρητος μηδεὶς εἰσίτω.*</small><br>
+<small>*οὐκ ἔστιν βασιλικὴ ἀτραπὸς εἰς τὴν γεωμετρίαν.*</small><br> -->
 
 # Structure and Interpretation
 # of Tensor Programs
