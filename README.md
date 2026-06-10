@@ -78,3 +78,18 @@ are reused for `teenygrad` development.
 
 ### Graph Mode
 `teenygrad` graph mode (developed in part [3](https://sitp.ai/3.html) of the book) is a pure Python Tensor compiler.
+
+## License
+
+Following [GPU MODE](https://x.com/marksaroufim/status/2064442386374369597),
+this project is licensed under the June 9 Researcher Reciprocity License.
+
+The license adapts the Open RAIL-S structure and adds one specific use restriction: training, fine-tuning, distillation, synthetic-data generation for training, embedding for training, or otherwise using this project to improve an AI model or AI service requires Researcher Reciprocity.
+
+If you train on it, you let us generate.
+
+Covered AI model and service providers may not use this project while imposing terms that prevent GPU Mode, project contributors, or authorized researchers from generating outputs, evaluating models, benchmarking, publishing research, or exploring their own research ideas on materially equal terms to ordinary users.
+
+## Acknowledgements
+
+## Citation
