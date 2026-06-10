@@ -147,3 +147,5 @@ That is, I started treating curriculum design as an engineering problem, when th
 
 
 ## Acknowledgements
+Thank you to Lambda Labs for the [Lambda Labs Research Grant](https://lambda.ai/research).
+Thank you to a [Cloud-V 10X Engineers](https://cloud-v.co/) and [(RISC-V Labs)](https://riscv.org/developers/labs/).
