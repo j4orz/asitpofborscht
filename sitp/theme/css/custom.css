@@ -10,8 +10,13 @@
   text-align: left !important;
 }
 
+#first-edition {
+  margin-top: 0;
+}
+
 #of-tensor-programs {
   margin-top: -24px;
+  margin-bottom: 0;
 }
 
 #of-tensor-programs+p {
