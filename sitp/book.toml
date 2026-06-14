@@ -12,7 +12,7 @@ after = ["links"]
 [output.html]
 additional-css = ["theme/css/custom.css"]
 additional-js = ["theme/js/highlight-lean.min.js", "theme/js/custom.js"]
-default-theme = "rust"
+default-theme = "light"
 preferred-dark-theme = "ayu"
 
 [preprocessor.repl]

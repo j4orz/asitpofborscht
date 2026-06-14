@@ -1,4 +1,4 @@
-# References
+# Bibliography
 
 Abelson, H., & Gerald Jay Sussman. (1996). Structure and Interpretation of Computer Programs. MIT Press. [https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/index.html](https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/index.html)
 
