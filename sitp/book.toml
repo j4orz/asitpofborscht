@@ -13,7 +13,7 @@ after = ["links"]
 additional-css = ["theme/css/custom.css"]
 additional-js = ["theme/js/highlight-lean.min.js", "theme/js/custom.js"]
 default-theme = "light"
-preferred-dark-theme = "ayu"
+preferred-dark-theme = "coal"
 
 [preprocessor.repl]
 src = "https://comfy-daifuku-df4422.netlify.app/"
