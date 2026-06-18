@@ -11,10 +11,10 @@
 <small>*`Run`[`nanochat`](https://github.com/karpathy/nanochat)` by building `[`teenygrad`](https://github.com/j4orz/teenygrad)`from scratch: the bridge from` [`micrograd`](https://github.com/karpathy/micrograd)`to `[`tinygrad`](https://github.com/tinygrad/tinygrad)*</small><br/>
 
 *Made with 🖤🪻 by [Jeffrey Zhang,](https://x.com/j4orz) [University of Waterloo (BMath)](https://academic-calendar-archive.uwaterloo.ca/undergraduate-studies/2022-2023/group/u-Waterloo-Faculty-of-Mathematics.html)*<br/>
-*Contributing writers:*
-- foobarbaz
-
 *Made possible by [Lambda Labs Research Grant](https://lambda.ai/research)*<br/>
+<!-- *Contributing writers:*
+- foobarbaz -->
+
 
 
 
