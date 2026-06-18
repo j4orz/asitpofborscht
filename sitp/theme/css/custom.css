@@ -96,10 +96,13 @@ blockquote .sidenote {
   margin-right: calc(-44% - 20px);
 }
 
+/* Pin each defnote to the line of its term instead of float-stacking.
+   Absolute + auto top keeps the note's vertical static position (the line
+   where the span sits in flow), while left/width place it in the margin.
+   Requires a positioned containing block: see `.content main` below. */
 .defnote {
-  float: left;
-  clear: left;
-  margin-left: -44%;
+  position: absolute;
+  left: -44%;
   width: 35%;
   margin-top: 0.3rem;
   margin-bottom: 0;
@@ -109,7 +112,15 @@ blockquote .sidenote {
 }
 
 blockquote .defnote {
-  margin-left: calc(-44% - 20px);
+  left: calc(-44% - 20px);
+}
+
+/* Apply to the later of two defnotes whose terms share a wrapped line, so the
+   notes stack in the margin instead of overlapping at the same static top.
+   Offset = base 0.3rem + one body line (1.45 line-height x 1.6rem font =
+   2.32rem), so a stacked pair matches the gap of notes on consecutive lines. */
+.defnote-stack {
+  margin-top: calc(0.3rem + 2.32rem);
 }
 
 .sidenote-number {
@@ -159,6 +170,13 @@ blockquote .defnote {
 
 .content {
   counter-reset: sidenote-counter;
+}
+
+/* Containing block for absolutely-positioned .defnote margin notes.
+   `%` in .defnote (left/width) resolves against this text column, matching
+   the geometry the old float used relative to the paragraph. */
+.content main {
+  position: relative;
 }
 
 @media (max-width: 1000px) {
