@@ -115,6 +115,11 @@ blockquote .defnote {
   left: calc(-44% - 20px);
 }
 
+/* Clickable defnotes: behave like header anchors (click updates URL hash). */
+.defnote-link {
+  cursor: pointer;
+}
+
 /* Apply to the later of two defnotes whose terms share a wrapped line, so the
    notes stack in the margin instead of overlapping at the same static top.
    Offset = base 0.3rem + one body line (1.45 line-height x 1.6rem font =
