@@ -264,3 +264,16 @@ p + ul {
 .dual > * {
   margin: 0 !important;
 }
+
+/* Theme-dependent owl illustration. The default <img src> points at owl.png
+   (used by the light/rust themes); these override the rendered image per theme
+   via `content`. Paths are relative to this CSS file, which mdBook emits at
+   theme/css/custom-*.css, so assets/ is two levels up. */
+html.coal img.owl {
+  content: url("../../assets/owl2.png");
+}
+
+html.navy img.owl,
+html.ayu img.owl {
+  content: url("../../assets/owl3.png");
+}
