@@ -43,7 +43,11 @@ p:has(> em)+h5[id^="recommended-"] {
   margin-top: 0;
 }
 
-p:has(> em:only-child) {
+/* Standalone fully-italic paragraphs (e.g. "*Forward Pass*") sit tight.
+   Keyed off the .em-only class set in custom.js, not `p:has(> em:only-child)`:
+   `:only-child` ignores text nodes, so the latter also matched paragraphs with
+   an inline *phrase* and surrounding text, wrongly collapsing their margins. */
+p.em-only {
   margin: 0;
 }
 
@@ -118,14 +122,6 @@ blockquote .defnote {
 /* Clickable defnotes: behave like header anchors (click updates URL hash). */
 .defnote-link {
   cursor: pointer;
-}
-
-/* Apply to the later of two defnotes whose terms share a wrapped line, so the
-   notes stack in the margin instead of overlapping at the same static top.
-   Offset = base 0.3rem + one body line (1.45 line-height x 1.6rem font =
-   2.32rem), so a stacked pair matches the gap of notes on consecutive lines. */
-.defnote-stack {
-  margin-top: calc(0.3rem + 2.32rem);
 }
 
 .sidenote-number {
@@ -248,10 +244,6 @@ h2:has(+ p > small > a[href="#table-of-contents"]) {
 
 p:has(+ ul) {
   margin-bottom: 0;
-}
-
-p + ul {
-  margin-top: 0;
 }
 
 .mobile-only {

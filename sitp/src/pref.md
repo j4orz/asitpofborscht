@@ -5,10 +5,10 @@
 
 ## The Structure and Interpretation of Tensor Programs
 
-This book is aspirationally titled [*The Structure and Interpretation of Tensor Programs*](./front.md), (from here on in abbreviated as SITP)
+This book is aspirationally titled [*The Structure and Interpretation of Tensor Programs*](./front.md), (henceforth SITP)
 as it's goal is to serve a similar role for software 2.0 as
 [*The Structure and Interpretation of Computer Programs*](https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/full-text/book/book.html)
-(from here on in abbreviated as SICP) did for software 1.0.
+(henceforth SICP) did for software 1.0.
 Written by Harold Abelson and Gerald Sussman with Julie Sussman, SICP took learners on a whimsical whirlwind tour throughout the essence of computation
 starting with the elements of programs with functional programming, higher order functions, data abstraction, streams,
 and ending with programming their own programming languages with interpreters, compilers, and register machines.

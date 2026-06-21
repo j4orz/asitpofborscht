@@ -4,6 +4,19 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+// Tag paragraphs whose entire content IS an <em> (standalone italic lines like
+// "*Forward Pass*") so CSS can tighten only those. A pure `p:has(> em:only-child)`
+// rule over-matches: :only-child ignores text nodes, so inline *phrases* with
+// surrounding text matched too and lost their margins.
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("p > em:only-child").forEach(function (em) {
+    const p = em.parentElement;
+    if (p.textContent.trim() === em.textContent.trim()) {
+      p.classList.add("em-only");
+    }
+  });
+});
+
 // Give each defnote a slug id and make it clickable like an mdbook header,
 // so clicking it updates the URL hash to that id (and the id is linkable).
 document.addEventListener("DOMContentLoaded", function () {
@@ -39,6 +52,64 @@ document.addEventListener("DOMContentLoaded", function () {
       location.hash = slug;
     });
   });
+});
+
+// Stack defnotes whose terms share a wrapped line so they sit in the margin
+// instead of overlapping. Each .defnote is absolutely positioned at the static
+// top of its term's line; two terms on one line collide at the same top. We
+// group notes by their natural top and push each later note in a group down by
+// one body line (2.32rem = 1.45 line-height x 1.6rem font), matching the gap of
+// notes on consecutive lines. Runs on load and resize since wrapping changes.
+document.addEventListener("DOMContentLoaded", function () {
+  const defnotes = Array.prototype.slice.call(
+    document.querySelectorAll(".defnote")
+  );
+  if (defnotes.length === 0) return;
+
+  const TOL = 12; // px; notes within this vertical distance share a line
+  const STEP = 2.32; // rem per stacked note (one body line)
+
+  function restack() {
+    // Reset to CSS base (0.3rem) so measurements reflect natural positions.
+    defnotes.forEach(function (n) {
+      n.style.marginTop = "";
+    });
+
+    // Skip hidden notes (mobile collapses .defnote to display:none).
+    const visible = defnotes.filter(function (n) {
+      return n.offsetParent !== null;
+    });
+    visible.sort(function (a, b) {
+      return a.getBoundingClientRect().top - b.getBoundingClientRect().top;
+    });
+
+    // Walk top-sorted notes, bucketing any within TOL of the group's first top.
+    const groups = [];
+    visible.forEach(function (n) {
+      const top = n.getBoundingClientRect().top;
+      const last = groups[groups.length - 1];
+      if (last && Math.abs(top - last.top) <= TOL) {
+        last.notes.push(n);
+      } else {
+        groups.push({ top: top, notes: [n] });
+      }
+    });
+
+    groups.forEach(function (group) {
+      if (group.notes.length < 2) return;
+      // Leftmost term keeps the top slot; later terms stack below it.
+      group.notes.sort(function (a, b) {
+        return a.getBoundingClientRect().left - b.getBoundingClientRect().left;
+      });
+      group.notes.forEach(function (n, i) {
+        if (i > 0) n.style.marginTop = "calc(0.3rem + " + i * STEP + "rem)";
+      });
+    });
+  }
+
+  restack();
+  window.addEventListener("load", restack);
+  window.addEventListener("resize", restack);
 });
 
 document.addEventListener("DOMContentLoaded", function () {
