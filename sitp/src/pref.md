@@ -45,6 +45,9 @@ and perhaps others would feel similarly. That is the genesis story for this book
 <div class="defnote defnote-float" data-n="3"><blockquote class="twitter-tweet" data-conversation="none" data-width="300"><p lang="en" dir="ltr">We really could use a SICP for DL. We have the Little Lisper for DL (<a href="https://t.co/su31hFJeUe">https://t.co/su31hFJeUe</a>) but that&#39;s a different type of book entirely.</p>&mdash; Shriram Krishnamurthi (primary: Bluesky) (@ShriramKMurthi) <a href="https://twitter.com/ShriramKMurthi/status/2051049923617968353?ref_src=twsrc%5Etfw">May 3, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></div>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
+I have drawn on other books in many places — all chapters contain a section called Bibliographic Notes which serves both to acknowledge my debt to other authors
+and to point readers to other useful references. I would especially like to mention the books by [Jurafsky and Martin (2026)](), and [Hwu, Kirk and (2026)]().
+
 ## The Structure and Interpretation of the AI Curriculum
 
 
