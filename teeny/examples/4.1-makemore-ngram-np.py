@@ -1,37 +1,17 @@
-# this is an SITP adapted bigram character-level language model taken from karpathy's zero to hero curriculum
+# a bigram character-level language model adapted from karpathy's zero to hero (makemore) lectures
 # - syllabus: https://karpathy.ai/zero-to-hero.html
 # - lecture: https://www.youtube.com/watch?v=PaCmpygFfXo
-# - lecture notebook: https://github.com/karpathy/nn-zero-to-hero/blob/master/lectures/makemore/makemore_part1_bigrams.ipynb
+# - notebook: https://github.com/karpathy/nn-zero-to-hero/blob/master/lectures/makemore/makemore_part1_bigrams.ipynb
 # - makemore: https://github.com/karpathy/makemore/blob/master/makemore.py#L399
 
-# We implement a bigram character-level language model,
-# which we will further complexify in followup videos into a modern Transformer language model, like GPT.
-# In the lecture above, the focus is on (1) introducing torch.Tensor and its subtleties and use in efficiently
-# evaluating neural networks and (2) the overall framework of language modeling that includes model training,
-# sampling, and the evaluation of a loss (e.g. the negative log likelihood for classification).
+# With the bigram (ngram where n=2) the focus is on
+# (1) introducing torch.Tensor and its subtleties and use in efficiently evaluating neural networks and
+# (2) the overall framework of language modeling that includes model training, sampling, and the evaluation of a loss (e.g. the negative log likelihood for classification).
 
 dataset = open('./examples/data/names.txt', 'r').read().splitlines()
 N = len(dataset)
 
-# Adding some more context to Karpathy's lecture code, the bigram language model is our first software 2.0 "program"
-# that describes language probabilistically following the principle of distributional semantics (Harris 1954).
-# That is, rather than represent language deterministically with classic GOFAI systems like ELIZA and WordNet,
-# the bigram language model represents language stochastically as a random variable Y|X endowed with a conditional probability distribution p(y|x),
-# and of course an underlying probability space with the sample space (set of all outcomes) and event space (the set of all possible outocmes).
-
-# Of course, if the stochastic phenomena being described is admits equally likely sample spaces (i.e coin, dice, and cards)
-# we can reason, argue, and justify the construction of the associated probability distribution a priori.
-# However, it's not so clear what the distribution of *language* is.
-# So, we must construct such conditional probabilities *from* data X^(1), X^(2),...,X^(n) by recovering the distribution via *parameter estimation*,
-# which is an optimzation problem via maximizing likelihood, which you know from Chapter 2 is equivalent to minimizing empirical risk.
-
-# The goal of the bigram language model is to *recover* such
-# autoregressive sequence models (classification likelihood)
-# x|y <- (peter abeel/unsupervised/self-supervised)
-
-
-
-
+# random variable Y|X endowed with a conditional probability distribution p(y|x)
 
 # ...Histogram (counting frequencies) is the most precise model for training set. it *is* the training set. but it generalizes poorly.
 # ...Below, we are building...

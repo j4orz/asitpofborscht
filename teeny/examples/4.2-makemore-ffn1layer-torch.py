@@ -1,14 +1,8 @@
-# this is an SITP adapted bigram character-level language model taken from karpathy's zero to hero curriculum
+# a bigram character-level language model adapted from karpathy's zero to hero (makemore) lectures
 # - syllabus: https://karpathy.ai/zero-to-hero.html
 # - lecture: https://www.youtube.com/watch?v=PaCmpygFfXo
-# - lecture notebook: https://github.com/karpathy/nn-zero-to-hero/blob/master/lectures/makemore/makemore_part1_bigrams.ipynb
+# - notebook: https://github.com/karpathy/nn-zero-to-hero/blob/master/lectures/makemore/makemore_part1_bigrams.ipynb
 # - makemore: https://github.com/karpathy/makemore/blob/master/makemore.py#L399
-
-# We implement a bigram character-level language model,
-# which we will further complexify in followup videos into a modern Transformer language model, like GPT.
-# In the lecture above, the focus is on (1) introducing torch.Tensor and its subtleties and use in efficiently
-# evaluating neural networks and (2) the overall framework of language modeling that includes model training,
-# sampling, and the evaluation of a loss (e.g. the negative log likelihood for classification).
 
 print("\n\n--- DATA ---")
 import torch
