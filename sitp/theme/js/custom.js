@@ -54,20 +54,20 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// Stack defnotes whose terms share a wrapped line so they sit in the margin
-// instead of overlapping. Each .defnote is absolutely positioned at the static
-// top of its term's line; two terms on one line collide at the same top. We
-// group notes by their natural top and push each later note in a group down by
-// one body line (2.32rem = 1.45 line-height x 1.6rem font), matching the gap of
-// notes on consecutive lines. Runs on load and resize since wrapping changes.
+// Keep defnotes from overlapping in the margin. Each .defnote is absolutely
+// positioned at the static top of its term's line, so terms that sit on the
+// same line — or on close lines with multi-line labels — collide. We sweep the
+// notes top-to-bottom and push any note that would overlap the previous one
+// down to clear its bottom (plus a gap), using each label's real measured
+// height so tall multi-line labels reserve the space they need. Runs on load
+// and resize since wrapping changes which terms collide.
 document.addEventListener("DOMContentLoaded", function () {
   const defnotes = Array.prototype.slice.call(
     document.querySelectorAll(".defnote")
   );
   if (defnotes.length === 0) return;
 
-  const TOL = 12; // px; notes within this vertical distance share a line
-  const STEP = 2.32; // rem per stacked note (one body line)
+  const GAP = 8; // px of breathing room between stacked notes
 
   function restack() {
     // Reset to CSS base (0.3rem) so measurements reflect natural positions.
@@ -79,31 +79,27 @@ document.addEventListener("DOMContentLoaded", function () {
     const visible = defnotes.filter(function (n) {
       return n.offsetParent !== null;
     });
-    visible.sort(function (a, b) {
-      return a.getBoundingClientRect().top - b.getBoundingClientRect().top;
+
+    // Snapshot each note's natural geometry before mutating any margins, so
+    // heights reflect the label's own size and tops reflect flow position.
+    const items = visible.map(function (n) {
+      const rect = n.getBoundingClientRect();
+      return { note: n, top: rect.top, height: rect.height };
+    });
+    items.sort(function (a, b) {
+      return a.top - b.top;
     });
 
-    // Walk top-sorted notes, bucketing any within TOL of the group's first top.
-    const groups = [];
-    visible.forEach(function (n) {
-      const top = n.getBoundingClientRect().top;
-      const last = groups[groups.length - 1];
-      if (last && Math.abs(top - last.top) <= TOL) {
-        last.notes.push(n);
-      } else {
-        groups.push({ top: top, notes: [n] });
+    // Greedy sweep: each note starts at its natural top unless that would
+    // overlap the note above, in which case it drops to that note's bottom.
+    let prevBottom = -Infinity;
+    items.forEach(function (item) {
+      const placedTop = Math.max(item.top, prevBottom + GAP);
+      const delta = placedTop - item.top;
+      if (delta > 0.5) {
+        item.note.style.marginTop = "calc(0.3rem + " + delta + "px)";
       }
-    });
-
-    groups.forEach(function (group) {
-      if (group.notes.length < 2) return;
-      // Leftmost term keeps the top slot; later terms stack below it.
-      group.notes.sort(function (a, b) {
-        return a.getBoundingClientRect().left - b.getBoundingClientRect().left;
-      });
-      group.notes.forEach(function (n, i) {
-        if (i > 0) n.style.marginTop = "calc(0.3rem + " + i * STEP + "rem)";
-      });
+      prevBottom = placedTop + item.height;
     });
   }
 
