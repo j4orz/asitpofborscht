@@ -262,6 +262,56 @@ p:has(+ ul) {
   margin: 0 !important;
 }
 
+/* Opt-in yinit drop cap (gwern-style). Wrap a paragraph in a `.dropcap` div in
+   the Markdown — keep blank lines inside so mdBook renders the contents:
+
+       <div class="dropcap">
+
+       Opening paragraph text...
+
+       </div>
+
+   Only the FIRST paragraph's FIRST letter is styled; the letter must be an
+   uppercase A-Z (the only glyphs yinit provides). `::first-letter` honors just
+   font/float/margin/color/line-height, which is all we need here. */
+.dropcap > p:first-of-type::first-letter {
+  font-family: "Yinit", serif;
+  font-weight: normal;
+  font-style: normal;
+  color: var(--fg);
+  /* Fallback for browsers without initial-letter (e.g. Firefox): float the
+     oversized glyph. Top isn't baseline-snapped, but it's serviceable. */
+  float: left;
+  font-size: 4.3em;
+  line-height: 0.78;
+  margin: 0.02em 0.12em 0 -0.06em;
+}
+
+/* gwern's actual technique: initial-letter snaps the cap squarely into the text
+   block — cap-height to the top of line 1, baseline to line 4 — so it reads as a
+   clean rectangle rather than a floated glyph poking above the first line.
+   Supported in Chrome/Safari; the float above covers the rest. */
+@supports (initial-letter: 4) or (-webkit-initial-letter: 4) {
+  .dropcap > p:first-of-type::first-letter {
+    float: none;
+    font-size: inherit;
+    line-height: 1;
+    -webkit-initial-letter: 4;
+    initial-letter: 4;
+    margin: 0 0.12em 0 -0.04em;
+  }
+}
+
+/* gwern's signature lead-in: the first rendered line set in small caps. Because
+   it's ::first-line (not a fixed word count), it reflows with the column and
+   breaks at the wrap, exactly like gwern's. The yinit ::first-letter above wins
+   for the initial glyph, so only the trailing text on line 1 is affected. */
+.dropcap > p:first-of-type::first-line {
+  font-variant-caps: small-caps;
+  font-variant: small-caps;
+  letter-spacing: 0.02em;
+}
+
 /* Theme-dependent owl illustration. The default <img src> points at owl.png
    (used by the light/rust themes); these override the rendered image per theme
    via `content`. Paths are relative to this CSS file, which mdBook emits at

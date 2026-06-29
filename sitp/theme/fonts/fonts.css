@@ -156,3 +156,216 @@
   src: url("cmuntb.ttf") format("truetype");
   font-display: swap;
 }
+
+/* ===== Yinit drop-cap initials (gwern-style) =====
+   26 single-glyph files, one per capital. unicode-range makes the browser
+   fetch ONLY the letter a page actually starts with. Used by the opt-in
+   `.dropcap` wrapper class (see custom.css). */
+@font-face {
+  font-family: "Yinit";
+  font-style: normal;
+  font-weight: 400;
+  src: url("Yinit-A.ttf") format("truetype");
+  unicode-range: U+0041;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yinit";
+  font-style: normal;
+  font-weight: 400;
+  src: url("Yinit-B.ttf") format("truetype");
+  unicode-range: U+0042;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yinit";
+  font-style: normal;
+  font-weight: 400;
+  src: url("Yinit-C.ttf") format("truetype");
+  unicode-range: U+0043;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yinit";
+  font-style: normal;
+  font-weight: 400;
+  src: url("Yinit-D.ttf") format("truetype");
+  unicode-range: U+0044;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yinit";
+  font-style: normal;
+  font-weight: 400;
+  src: url("Yinit-E.ttf") format("truetype");
+  unicode-range: U+0045;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yinit";
+  font-style: normal;
+  font-weight: 400;
+  src: url("Yinit-F.ttf") format("truetype");
+  unicode-range: U+0046;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yinit";
+  font-style: normal;
+  font-weight: 400;
+  src: url("Yinit-G.ttf") format("truetype");
+  unicode-range: U+0047;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yinit";
+  font-style: normal;
+  font-weight: 400;
+  src: url("Yinit-H.ttf") format("truetype");
+  unicode-range: U+0048;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yinit";
+  font-style: normal;
+  font-weight: 400;
+  src: url("Yinit-I.ttf") format("truetype");
+  unicode-range: U+0049;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yinit";
+  font-style: normal;
+  font-weight: 400;
+  src: url("Yinit-J.ttf") format("truetype");
+  unicode-range: U+004A;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yinit";
+  font-style: normal;
+  font-weight: 400;
+  src: url("Yinit-K.ttf") format("truetype");
+  unicode-range: U+004B;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yinit";
+  font-style: normal;
+  font-weight: 400;
+  src: url("Yinit-L.ttf") format("truetype");
+  unicode-range: U+004C;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yinit";
+  font-style: normal;
+  font-weight: 400;
+  src: url("Yinit-M.ttf") format("truetype");
+  unicode-range: U+004D;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yinit";
+  font-style: normal;
+  font-weight: 400;
+  src: url("Yinit-N.ttf") format("truetype");
+  unicode-range: U+004E;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yinit";
+  font-style: normal;
+  font-weight: 400;
+  src: url("Yinit-O.ttf") format("truetype");
+  unicode-range: U+004F;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yinit";
+  font-style: normal;
+  font-weight: 400;
+  src: url("Yinit-P.ttf") format("truetype");
+  unicode-range: U+0050;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yinit";
+  font-style: normal;
+  font-weight: 400;
+  src: url("Yinit-Q.ttf") format("truetype");
+  unicode-range: U+0051;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yinit";
+  font-style: normal;
+  font-weight: 400;
+  src: url("Yinit-R.ttf") format("truetype");
+  unicode-range: U+0052;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yinit";
+  font-style: normal;
+  font-weight: 400;
+  src: url("Yinit-S.ttf") format("truetype");
+  unicode-range: U+0053;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yinit";
+  font-style: normal;
+  font-weight: 400;
+  src: url("Yinit-T.ttf") format("truetype");
+  unicode-range: U+0054;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yinit";
+  font-style: normal;
+  font-weight: 400;
+  src: url("Yinit-U.ttf") format("truetype");
+  unicode-range: U+0055;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yinit";
+  font-style: normal;
+  font-weight: 400;
+  src: url("Yinit-V.ttf") format("truetype");
+  unicode-range: U+0056;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yinit";
+  font-style: normal;
+  font-weight: 400;
+  src: url("Yinit-W.ttf") format("truetype");
+  unicode-range: U+0057;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yinit";
+  font-style: normal;
+  font-weight: 400;
+  src: url("Yinit-X.ttf") format("truetype");
+  unicode-range: U+0058;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yinit";
+  font-style: normal;
+  font-weight: 400;
+  src: url("Yinit-Y.ttf") format("truetype");
+  unicode-range: U+0059;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yinit";
+  font-style: normal;
+  font-weight: 400;
+  src: url("Yinit-Z.ttf") format("truetype");
+  unicode-range: U+005A;
+  font-display: swap;
+}
