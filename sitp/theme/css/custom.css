@@ -274,3 +274,10 @@ html.navy img.owl,
 html.ayu img.owl {
   content: url("../../assets/owl3.png");
 }
+
+
+html.navy img.owl-forest,
+html.ayu img.owl-forest,
+html.coal img.owl-forest {
+  content: url("../../assets/owl_forest2.png");
+}
