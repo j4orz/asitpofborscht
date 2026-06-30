@@ -325,17 +325,27 @@ html.ayu img.owl {
   content: url("../../assets/owl3.png");
 }
 
-
 html.navy img.owl-forest,
 html.ayu img.owl-forest,
 html.coal img.owl-forest {
   content: url("../../assets/owl_forest2.png");
 }
 
-
 /* Theme-dependent probability-space diagram, mirroring the owl swap above. */
 html.coal img.probspace,
 html.navy img.probspace,
 html.ayu img.probspace {
   content: url("../../assets/probspace_dark.png");
+}
+
+html.coal img.venn,
+html.navy img.venn,
+html.ayu img.venn {
+  content: url("../../assets/venn_dark.png");
+}
+
+html.coal img.venn_disjoint,
+html.navy img.venn_disjoint,
+html.ayu img.venn_disjoint {
+  content: url("../../assets/venn_disjoint_dark.png");
 }
