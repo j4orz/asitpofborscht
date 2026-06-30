@@ -331,3 +331,11 @@ html.ayu img.owl-forest,
 html.coal img.owl-forest {
   content: url("../../assets/owl_forest2.png");
 }
+
+
+/* Theme-dependent probability-space diagram, mirroring the owl swap above. */
+html.coal img.probspace,
+html.navy img.probspace,
+html.ayu img.probspace {
+  content: url("../../assets/probspace_dark.png");
+}
