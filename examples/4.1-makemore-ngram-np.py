@@ -1,18 +1,19 @@
 dataset = open('./examples/data/names.txt', 'r').read().splitlines()
 N = len(dataset)
 
-print("--- TRAINING (COUNTING p(w|h) ---")
+print("--- TRAINING (counting p(w|h) with python dict ---")
 # Histogram (counting frequencies) is the most precise model for training set. it *is* the training set. but it generalizes poorly.
 counts_dict = {}
 for di in dataset:
   di_normalized = ['<S>'] + list(di) + ['<E>']
-  for h,w in zip(di_normalized, di_normalized[1:]): # in the case of bigrams h is a single character, so we can simply zip
+  for h,w in zip(di_normalized, di_normalized[1:]): # in the case of bigrams h is a single character, so we can simply zip two strings to get a pair of characters
     # print(h, w)
     counts_dict[(h,w)] = counts_dict.get((h,w), 0) + 1
 sorted_counts_dict = sorted(counts_dict.items(), key = lambda x: -x[1])
 print("2D (w,h) histogram using python's dict:\n", sorted_counts_dict)
 
 
+print("--- TRAINING (counting p(w|h) with numpy ndarray (NxN) ---")
 # We will now construct the same 2d histogram, but with numpy's ndarray instead of python's dict
 # Because numpy's ndarray uses numerical indices to index into, we need to create a dict[str,int]
 # so that when we loop over (w,h) pairs within a word we can update the count at the correct location
@@ -54,19 +55,19 @@ rng = np.random.default_rng(1337)
 sample_count = 10
 
 for _ in range(sample_count):
-  output, h = [], 0
+  h, h_index = [], 0
   while True:
     # 1. evaluate p(W=w|h)
-    pWcondH_V = P_VV[h].squeeze()
+    pWcondH_V = P_VV[h_index].squeeze()
 
     # 2. sampling
-    h = rng.choice(len(pWcondH_V), size=1, replace=True, p=pWcondH_V)
-    sample_char = i2c[h.item()]
+    h_index = rng.choice(len(pWcondH_V), size=1, replace=True, p=pWcondH_V)
+    sample_char = i2c[h_index.item()]
 
     # 3. appending the sample to history
-    output.append (sample_char)
-    if h == 0: break
-  print(''.join(output))
+    h.append (sample_char)
+    if h_index == 0: break
+  print(''.join(h))
 
 
 loglikelihooddataset,n = 0.0, 0
