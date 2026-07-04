@@ -21,3 +21,6 @@ editor.theme = "chrome"
 editor.darkTheme = "nord_dark"
 python.enable = true
 python.loading = "lazy"
+
+
+[preprocessor.quiz]

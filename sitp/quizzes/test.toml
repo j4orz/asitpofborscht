@@ -1,0 +1,7 @@
+# quizzes/rust-variables.toml
+[[questions]]
+type = "ShortAnswer"
+prompt.prompt = "What is the keyword for declaring a variable in Rust?"
+answer.answer = "let"
+context = "For example, you can write: `let x = 1`"
+id = "852c516e-72a1-414a-88e1-93e45d9e1276"

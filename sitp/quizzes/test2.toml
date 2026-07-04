@@ -1,0 +1,13 @@
+[[questions]]
+type = "MultipleChoice"
+prompt.prompt = "What does it mean if a variable `x` is immutable?"
+prompt.distractors = [
+  "`x` is stored in the immutable region of memory.",
+  "After being defined, `x` can be changed at most once.",
+  "You cannot create a reference to `x`."
+]
+answer.answer = "`x` cannot be changed after being assigned to a value."
+context = """
+Immutable means "not mutable", or not changeable.
+"""
+id = "dd398045-02ed-444a-9f95-f69697971ac3"
