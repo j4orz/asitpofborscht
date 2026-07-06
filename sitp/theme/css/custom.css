@@ -359,6 +359,10 @@ html.ayu img.venn_disjoint {
 a.url-mono,
 a.url-mono code {
   font-family: "CMU Typewriter", monospace;
+  font-weight: 400;
+  font-style: normal; /* -> CMU Typewriter Text Regular (cmuntt.ttf), upright like
+                          arxiv's Latin Modern Mono; `normal` overrides the italic
+                          inherited from the sidenotes' *…* wrapper. */
 }
 
 /* Definition/theorem "snackbars" in the style of arxiv.org/pdf/2311.04329:
@@ -436,3 +440,82 @@ html.navy :is(.definition,.theorem,.lemma)[data-title]::before,
 html.ayu  :is(.definition,.theorem,.lemma)[data-title]::before {
   border-bottom-color: rgba(255, 255, 255, 0.08);
 }
+
+/* Sidenotes inside a snackbar are relocated by custom.js into this footer and
+   rendered as footnotes at the BOTTOM of the box, not in the page margin (the
+   box's overflow:hidden would clip a margin float anyway). The inline
+   superscript marker stays put; only the note text moves here. */
+.definition .box-notes,
+.theorem .box-notes,
+.lemma .box-notes {
+  margin-top: 1em;
+  padding-top: 0.5em;
+  border-top: 1px solid rgba(0, 0, 0, 0.18);
+  font-size: 0.82em;
+  line-height: 1.4;
+}
+.box-notes .sidenote {
+  float: none;
+  clear: none;
+  display: block; /* also overrides the <=1000px `display:none` for margin notes */
+  position: relative; /* containing block for the absolutely-placed number */
+  width: auto;
+  margin: 0 0 0.35em 0;
+  padding-left: 1.5em; /* gutter holding the number; content hangs past it */
+  font-size: inherit;
+}
+.box-notes .sidenote:last-child { margin-bottom: 0; }
+/* Footnote number: use the frozen data-n (the live CSS counter is wrong once the
+   note is moved out of document order). Positioned absolutely at the top-left so
+   it doesn't occupy its own line — the reference list flows up beside it. */
+.box-notes .sidenote::before {
+  content: attr(data-n);
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 0.75em;
+  color: inherit;
+}
+html.coal .box-notes, html.navy .box-notes, html.ayu .box-notes {
+  border-top-color: rgba(255, 255, 255, 0.18);
+}
+
+
+/* == Source logos as reference-list bullets =================================
+   Each logo is defined once as a data URI (self-contained). A .ref-list renders
+   references as a list whose BULLET is the source logo, picked from each link's
+   destination and hung into the indent (wrapped URLs align cleanly). PCM has no
+   domain/favicon, so it's matched by its book DOI (9781400830398) and drawn as a
+   masked nautilus shell that tints with the text color. */
+:root {
+  --logo-mathworld:  url("data:image/png;base64,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");
+  --logo-wikipedia:  url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAAZlBMVEX///8AAAAzMzMwMDAtLS0eHh4oKCj6+voYGBgaGhrR0dFbW1s9PT3z8/NPT09WVlYQEBDo6OhjY2Pf3995eXnExMRtbW1FRUWXl5doaGi+vr6zs7OdnZ3Z2dkjIyOQkJCEhISmpqYcB05TAAABn0lEQVRYhe2UyWKEIAyG2XFDUdxm3Mb3f8mCgJ0e6mBPPfBd/AUTEpIIQCQSiUT+Kz1kQ5WXhYRqhHjQisJlg6zMhxRmoxbVIGH9uwOuNkkIpqMAvO4pIWwy6sHY+jyWGMGduA5ioog0VjYEl4dQCbGn1klycTzwZt7BItGqjOjgblcU3D7agyxBVFn5IKw1z3xwe3P6If6DArOX85UiqUNeYGffedEG2JtbkNzKhhhfee52OqhCHAiEV5dzl2IiMpi5nbwMsQdgY3hwIeh0xsoHoHwqn6glou5TnQ5OFu8Y8TAHppKVVbzApHerYp0D7XXqSLrr2tcznQmG1NBSnpUUuivcjYbV8DyX2OP2BGF8qAUuVyY/4bqJj3MFeyFEJyP7/NrmJy3DyDxnaaQpv5DPOw4UPSrJ4WSKmmo50zv2uukIeejKF8BPNQ2uoeVJUaqENP20UJRknQyvoWVFbBsLH03/uFFDy7wiLO0U6b4iYXP4Tr2evzY9Ur6179Ay3856pGjgHL6TQT9FeqSK0Dl8p/n+AU/7H+wjkUjkJl+4BBLrIwrZsAAAAABJRU5ErkJggg==");
+  --logo-grokipedia: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAAYFBMVEUNDQ0AAAD8/Pz///8HBwfp6enLy8v4+PgYGBgvLy+8vLzT09PHx8fOzs6EhISrq6vg4OBBQUGcnJw5OTlXV1eNjY0mJiajo6N7e3va2tqWlpYfHx+2trZISEh1dXVsbGwzpoV0AAACBUlEQVRYhe2W2ZaDIAxAGxapWnG32vX//3LYbEcLwfacmafmTZJcTCAJu91XvoILLOQD76ssk3yqpjwp+1v6FoQBjAe6FFL09VYIQEOUh/LiRVaWWS7Ul/6klZBxAoORGPtJPhLQHoVa0otxAECubSnvANhzEUpL6GMASM1e9LKKlsHdrJ8iAGhpyM4QaIMDYG/3L31mOgq/5pdNZeP3W4HQoaH+jc1UHQD0lB4wAAzWPwkYMaC0QAGZBXQhIzjQCQHMPxDIgLaQiFKpjxYQTjQbTiMG4BZwD9swrJggNf6EPm/we6ICNADxdu+YARcbQf4xILcA9KqgAB47hBhA2BxG6g0BuEOIVfzfA45rADNtkTkJD4k5B+uKZ8O1TtNhb+WctnXdegm2mZCXglWNaC2VH1BYwFoL48QptfGZzk4m/0m7xq1qYa1Qkkrh/MshmIObA1w9eoBubhbhYsfPEfB2Z0xyrJqAG2WGAUb3C2fvVDClggJ2QAJXaTOgd4fl60lbAI+K9o2fbYDWZcEzGTYBsDw6AHaMxuxkgxDDy33cBpgTSdV0WJo6QLzlQkfcnaufl16XA8cm/4Kg+ruxpdWpc4+sWmZu7aXUPMJgyOj8sBO84uLRCAq5bWypPWVClk1EFI3+n61jT7e+dmwuSZEnyaWR3e6D9/Lirf3hwP3KV/5JfgDkFRJivFlZxgAAAABJRU5ErkJggg==");
+  --logo-pcm:        url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAAilBMVEX////yjTDzkB3yiyzzmk3++fPzjRD97NzzigD2sWzxhhf74tPxhx/5z67xhRLzjhf2tYD1oEP4v4n0lif859b5zKLzlUD+8+ryiyb4w5n4xJLykTT4yaTyhgD1qGj1rXL617v3u4373cX1pE/0n1b606z0nDj1qVr0o173un785M761rTxfwD2rWJzOlF8AAACBklEQVRYhe2XXXejIBCGESJalmC6GoMxnyabtun2//+9ZYYkp3vOINr20veKo8PDzDAwytikH9SvHlWrAYDaqLB0spvHIDOR9EgIrXfVNwAgq/Z9XiBAB2Q93dpDBLCZk2r2rbEYiWn6ACJJg6+zo0aEWnwRwFi6UOCkCvkQBTB2wFSo7ssAVglHEC1t9QBksiz5EzxaFiWIl6d1diMo2KpjBJAXhfQAN/LKt09+2TkQDFkOnwCc3wH8oZx7J84uCE3mkQTcHABCwXHdq4IsDAT8uTyjLrl0BPlyt0sMdSoIwEPZCwST4/5ttIthMxLA2Ie8P4SNsPvRgJUDFCW8TqEUzqMB7OQymWMaa2dYjwdADN8CXJwHEkNoneFsNKBzD4sLjFbuVIvXsYCMQwrWMIRKstSlQADSzKtaSyhGn4IG6mA+DLDc5jfhaViiXQ2VmA0EfDpMPPdRdXAWqE2IAOT2zZu1IlDJdAgS5WI4Xb3V0WVAWPJKIgDd22/U+v1+gxzwRiIdiBWSn6+hu1BVNAzQwL0uNLUFQwDVDNZPzIGeHzvO72eD/dFQNRQCdIubXmutcbpQofVJwMZYL+Gbs9CzQPwhgP7vG0OLcGuOAYTVqm36Gx8F+Gu8VLtr+r9vaED6UGxyADBOE2ACTAAv/OVBgOuI24/xgKxygkF6dYOeq2vSj+sfqlooEnLksIYAAAAASUVORK5CYII=");
+}
+.ref-list { display: block; margin: 0; padding-left: 0; } /* indent comes from .sidenote's gutter */
+.ref-item { display: block; padding-left: 1.5em; margin: 0.2em 0; line-height: 1.35; }
+/* Whole reference list in CMU Typewriter Text Regular, upright — matching
+   arxiv's Latin Modern Mono URL style (deterministic; also covers the non-URL
+   PCM citation, keeping the list uniform). */
+.ref-item a { font-family: "CMU Typewriter", monospace; font-weight: 400; font-style: normal; }
+.ref-item a[href*="mathworld.wolfram.com"]::before,
+.ref-item a[href*="wikipedia.org"]::before,
+.ref-item a[href*="grokipedia.com"]::before,
+.ref-item a[href*="9781400830398"]::before {
+  content: "";
+  display: inline-block;
+  width: 1em; height: 1em;
+  margin-left: -1.5em;   /* hang into the .ref-item indent, acting as the bullet */
+  margin-right: 0.5em;
+  vertical-align: -0.15em;
+  background: center/contain no-repeat;
+}
+.ref-item a[href*="mathworld.wolfram.com"]::before { background-image: var(--logo-mathworld); }
+.ref-item a[href*="wikipedia.org"]::before        { background-image: var(--logo-wikipedia); }
+.ref-item a[href*="grokipedia.com"]::before       { background-image: var(--logo-grokipedia); }
+.ref-item a[href*="9781400830398"]::before        { background-image: var(--logo-pcm); }
+/* Dark themes: the black Wikipedia W would vanish — flip it to white. */
+html.coal .ref-item a[href*="wikipedia.org"]::before,
+html.navy .ref-item a[href*="wikipedia.org"]::before,
+html.ayu  .ref-item a[href*="wikipedia.org"]::before { filter: invert(1) brightness(1.7); }

@@ -133,27 +133,36 @@
   font-display: swap;
 }
 
-/* ===== CMU Typewriter (monospace for code) ===== */
-/* You don’t have cmuntt.ttf; use the available cuts as closest matches */
+/* ===== CMU Typewriter (monospace) =====
+   File→face mappings verified from each TTF's name table. Previously the regular
+   cut pointed at cmuntx.ttf (actually Bold Italic) and italic at cmuntti.ttf
+   (nonexistent), so everything rendered heavy/faux. Correct cuts: */
 @font-face {
   font-family: "CMU Typewriter";
   font-style: normal;
   font-weight: 400;
-  src: url("cmuntx.ttf") format("truetype"); /* extended/regular-ish */
+  src: url("cmuntt.ttf") format("truetype"); /* CMU Typewriter Text Regular */
   font-display: swap;
 }
 @font-face {
   font-family: "CMU Typewriter";
   font-style: italic;
   font-weight: 400;
-  src: url("cmuntti.ttf") format("truetype");
+  src: url("cmunit.ttf") format("truetype"); /* CMU Typewriter Text Italic */
   font-display: swap;
 }
 @font-face {
   font-family: "CMU Typewriter";
   font-style: normal;
   font-weight: 700;
-  src: url("cmuntb.ttf") format("truetype");
+  src: url("cmuntb.ttf") format("truetype"); /* CMU Typewriter Text Bold */
+  font-display: swap;
+}
+@font-face {
+  font-family: "CMU Typewriter";
+  font-style: italic;
+  font-weight: 700;
+  src: url("cmuntx.ttf") format("truetype"); /* CMU Typewriter Text Bold Italic */
   font-display: swap;
 }
 

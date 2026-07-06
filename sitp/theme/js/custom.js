@@ -153,11 +153,41 @@ document.addEventListener("DOMContentLoaded", function () {
   window.addEventListener("resize", restack);
 });
 
+// Inside a definition/theorem/lemma "snackbar", render sidenotes as footnotes at
+// the bottom of the box instead of in the page margin. Each .sidenote is moved
+// into a .box-notes footer, and its marker number is FROZEN into data-n — the
+// live CSS counter would misnumber once the note leaves document order. Runs
+// before the mobile-sidenotes block below so those notes are excluded there.
+document.addEventListener("DOMContentLoaded", function () {
+  // number every marker by document order, matching the CSS sidenote-counter
+  var order = new Map();
+  document.querySelectorAll(".content .sidenote-number").forEach(function (m, i) {
+    order.set(m, i + 1);
+  });
+  document
+    .querySelectorAll("div.definition, div.theorem, div.lemma")
+    .forEach(function (box) {
+      var notes = box.querySelectorAll(".sidenote");
+      if (!notes.length) return;
+      var footer = document.createElement("div");
+      footer.className = "box-notes";
+      notes.forEach(function (note) {
+        var marker = note.previousElementSibling;
+        note.setAttribute("data-n", order.has(marker) ? order.get(marker) : "");
+        footer.appendChild(note); // moves the note out of the paragraph
+      });
+      box.appendChild(footer);
+    });
+});
+
 document.addEventListener("DOMContentLoaded", function () {
   const content = document.querySelector(".content main");
   if (!content) return;
 
-  const sidenotes = document.querySelectorAll(".sidenote");
+  // Exclude notes already relocated into a box footer (rendered there instead).
+  const sidenotes = Array.prototype.slice
+    .call(document.querySelectorAll(".sidenote"))
+    .filter(function (sn) { return !sn.closest(".box-notes"); });
   if (sidenotes.length === 0) return;
 
   function buildSection() {
