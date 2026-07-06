@@ -349,3 +349,94 @@ html.navy img.venn_disjoint,
 html.ayu img.venn_disjoint {
   content: url("../../assets/venn_disjoint_dark.png");
 }
+
+/* URL-as-text links (wikipedia / SEP / nlab references, where the visible link
+   text IS the full URL) render in CMU Typewriter — the Latin Modern Mono /
+   Computer Modern typewriter face that arxiv.org/pdf/2311.04329 uses for URLs.
+   Code blocks stay on --mono-font (Source Code Pro), so URLs remain distinct.
+   Tagged by custom.js; scoped so it never touches code blocks or code-identifier
+   links like `nanochat`/`numpy`. `.url-mono code` wins over `code` on specificity. */
+a.url-mono,
+a.url-mono code {
+  font-family: "CMU Typewriter", monospace;
+}
+
+/* Definition/theorem "snackbars" in the style of arxiv.org/pdf/2311.04329:
+   a titled header bar, a lightly tinted body, and a thick accent rule on the
+   left. Usage — leave a blank line after the opening tag so mdBook renders the
+   markdown inside:
+
+     <div class="definition" data-title="Definition 2.2.2: Probability measure">
+
+     A **probability measure** $\mathbb{P}$ over ... such that
+     1. $\mathbb{P}(\Omega) = 1$,
+     2. ...
+
+     </div>
+
+   Use class "theorem", "lemma", or "remark" for the accent-color variants. */
+.definition,
+.theorem,
+.lemma,
+.remark {
+  --snack-accent: #1c4a54;   /* left rule + title text */
+  --snack-title-bg: #cbdde3; /* header bar */
+  --snack-body-bg: #ebf3f6;  /* body */
+  border-left: 5px solid var(--snack-accent);
+  border-radius: 3px;
+  margin: 1.5em 0;
+  background: var(--snack-body-bg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.theorem { --snack-accent: #5a3a6e; --snack-title-bg: #ddd0e6; --snack-body-bg: #f3eef7; }
+.lemma   { --snack-accent: #2f5d34; --snack-title-bg: #d2e3d4; --snack-body-bg: #eef5ef; }
+.remark  { --snack-accent: #6e5a2a; --snack-title-bg: #e6ddc7; --snack-body-bg: #f6f1e6; }
+
+.definition[data-title]::before,
+.theorem[data-title]::before,
+.lemma[data-title]::before,
+.remark[data-title]::before {
+  content: attr(data-title);
+  display: block;
+  background: var(--snack-title-bg);
+  color: var(--snack-accent);
+  font-weight: 700;
+  padding: 0.5em 1em;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.definition > :not(pre),
+.theorem > :not(pre),
+.lemma > :not(pre),
+.remark > :not(pre) {
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+.definition > :first-child:not([data-title]),
+.definition > *:nth-child(1) { margin-top: 0.75em; }
+.definition > :last-child,
+.theorem > :last-child,
+.lemma > :last-child,
+.remark > :last-child { margin-bottom: 0.75em; }
+
+/* Dark themes: dim the tints so they read as panels, not glare. */
+html.coal .definition, html.navy .definition, html.ayu .definition {
+  --snack-accent: #7fb3bf; --snack-title-bg: #22333a; --snack-body-bg: #1a262c;
+}
+html.coal .theorem, html.navy .theorem, html.ayu .theorem {
+  --snack-accent: #b79fd0; --snack-title-bg: #2e2637; --snack-body-bg: #221c29;
+}
+html.coal .lemma, html.navy .lemma, html.ayu .lemma {
+  --snack-accent: #8fc095; --snack-title-bg: #23301f; --snack-body-bg: #1b2419;
+}
+html.coal .remark, html.navy .remark, html.ayu .remark {
+  --snack-accent: #c9b077; --snack-title-bg: #322c1c; --snack-body-bg: #262117;
+}
+html.coal :is(.definition,.theorem,.lemma,.remark)[data-title]::before,
+html.navy :is(.definition,.theorem,.lemma,.remark)[data-title]::before,
+html.ayu  :is(.definition,.theorem,.lemma,.remark)[data-title]::before {
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}

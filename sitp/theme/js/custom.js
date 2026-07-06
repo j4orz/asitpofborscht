@@ -4,6 +4,18 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+// Tag links whose visible text IS a bare URL (e.g. wikipedia / SEP / nlab
+// references written as [`https://...`](...) or bare autolinks) so CSS can set
+// them in Inconsolata. Prose links like [probabilistic logic](...) and code
+// identifiers like `numpy` are untouched — their link text isn't a URL.
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("a[href]").forEach(function (a) {
+    if (/^https?:\/\/\S+$/.test(a.textContent.trim())) {
+      a.classList.add("url-mono");
+    }
+  });
+});
+
 // Tag paragraphs whose entire content IS an <em> (standalone italic lines like
 // "*Forward Pass*") so CSS can tighten only those. A pure `p:has(> em:only-child)`
 // rule over-matches: :only-child ignores text nodes, so inline *phrases* with
