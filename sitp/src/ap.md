@@ -1,3 +1,5 @@
-## Acknowledgements
-*Errata*
-- [Jashanpreet Singh](https://github.com/Jashanpreet2)
+# Appendix
+
+## Univalent Foundations
+
+## From `teenygrad` to `tinygrad`
