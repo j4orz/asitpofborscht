@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// Auto-number the definition/theorem/lemma/remark "snackbars" like LaTeX amsthm.
+// Auto-number the definition/theorem/lemma "snackbars" like LaTeX amsthm.
 // Terms are only ever defined inside intermezzos, so numbering is scoped to each
 // intermezzo: the Nth intermezzo (in document order) prefixes its boxes with N,
 // and a single counter — shared across all four box types — runs through that
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // Authoring is unchanged — data-title="Definition: Name" -> "Definition 1.1: Name".
 // To number each type separately instead, key `n` by `word` (a per-type map).
 document.addEventListener("DOMContentLoaded", function () {
-  var BOX = "div.definition, div.theorem, div.lemma, div.remark";
+  var BOX = "div.definition, div.theorem, div.lemma";
   var root = document.querySelector(".content") || document.body;
   var inter = 0;  // intermezzo ordinal (1st intermezzo -> 1)
   var n = 0;      // running counter within the current intermezzo

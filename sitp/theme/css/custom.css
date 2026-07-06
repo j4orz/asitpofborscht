@@ -374,12 +374,11 @@ a.url-mono code {
 
      </div>
 
-   Use class "theorem", "lemma", or "remark" for the accent-color variants. */
+   Use class "theorem" or "lemma" for the accent-color variants. */
 .definition,
 .theorem,
-.lemma,
-.remark {
-  --snack-accent: #1c4a54;   /* left rule + title text */
+.lemma {
+  --snack-accent: #1c4a54;   /* left rule (and title, unless --snack-title-color) */
   --snack-title-bg: #cbdde3; /* header bar */
   --snack-body-bg: #ebf3f6;  /* body */
   border-left: 5px solid var(--snack-accent);
@@ -390,18 +389,20 @@ a.url-mono code {
   overflow: hidden;
 }
 
-.theorem { --snack-accent: #5a3a6e; --snack-title-bg: #ddd0e6; --snack-body-bg: #f3eef7; }
-.lemma   { --snack-accent: #2f5d34; --snack-title-bg: #d2e3d4; --snack-body-bg: #eef5ef; }
-.remark  { --snack-accent: #6e5a2a; --snack-title-bg: #e6ddc7; --snack-body-bg: #f6f1e6; }
+/* Purple/mauve, matching the Theorem screenshot: deep-plum rule, mauve header,
+   pale-lavender body, near-black title. */
+.theorem { --snack-accent: #6e2563; --snack-title-color: #2b1526; --snack-title-bg: #cba4ce; --snack-body-bg: #f7f0f7; }
+/* Amber/yellow, matching the Lemma screenshot: gold rule, warm-yellow header,
+   cream body, and a near-black title (title color decoupled from the rule). */
+.lemma   { --snack-accent: #c8912f; --snack-title-color: #3d2f14; --snack-title-bg: #f4dfa6; --snack-body-bg: #fdf8ec; }
 
 .definition[data-title]::before,
 .theorem[data-title]::before,
-.lemma[data-title]::before,
-.remark[data-title]::before {
+.lemma[data-title]::before {
   content: attr(data-title);
   display: block;
   background: var(--snack-title-bg);
-  color: var(--snack-accent);
+  color: var(--snack-title-color, var(--snack-accent));
   font-weight: 700;
   padding: 0.5em 1em;
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
@@ -409,8 +410,7 @@ a.url-mono code {
 
 .definition > :not(pre),
 .theorem > :not(pre),
-.lemma > :not(pre),
-.remark > :not(pre) {
+.lemma > :not(pre) {
   padding-left: 1em;
   padding-right: 1em;
 }
@@ -419,24 +419,20 @@ a.url-mono code {
 .definition > *:nth-child(1) { margin-top: 0.75em; }
 .definition > :last-child,
 .theorem > :last-child,
-.lemma > :last-child,
-.remark > :last-child { margin-bottom: 0.75em; }
+.lemma > :last-child { margin-bottom: 0.75em; }
 
 /* Dark themes: dim the tints so they read as panels, not glare. */
 html.coal .definition, html.navy .definition, html.ayu .definition {
   --snack-accent: #7fb3bf; --snack-title-bg: #22333a; --snack-body-bg: #1a262c;
 }
 html.coal .theorem, html.navy .theorem, html.ayu .theorem {
-  --snack-accent: #b79fd0; --snack-title-bg: #2e2637; --snack-body-bg: #221c29;
+  --snack-accent: #c79ecb; --snack-title-color: #e6d4e8; --snack-title-bg: #362539; --snack-body-bg: #251a28;
 }
 html.coal .lemma, html.navy .lemma, html.ayu .lemma {
-  --snack-accent: #8fc095; --snack-title-bg: #23301f; --snack-body-bg: #1b2419;
+  --snack-accent: #d0a94e; --snack-title-color: #e8d9b0; --snack-title-bg: #322c1c; --snack-body-bg: #262117;
 }
-html.coal .remark, html.navy .remark, html.ayu .remark {
-  --snack-accent: #c9b077; --snack-title-bg: #322c1c; --snack-body-bg: #262117;
-}
-html.coal :is(.definition,.theorem,.lemma,.remark)[data-title]::before,
-html.navy :is(.definition,.theorem,.lemma,.remark)[data-title]::before,
-html.ayu  :is(.definition,.theorem,.lemma,.remark)[data-title]::before {
+html.coal :is(.definition,.theorem,.lemma)[data-title]::before,
+html.navy :is(.definition,.theorem,.lemma)[data-title]::before,
+html.ayu  :is(.definition,.theorem,.lemma)[data-title]::before {
   border-bottom-color: rgba(255, 255, 255, 0.08);
 }
