@@ -7,8 +7,10 @@
 # of Tensor Programs
 ### First Edition
 
-`The Hacker's Accelerated Introduction to Deep Learning and Deep Learning Systems`<br>
+`A Whirlwind Tour to Deep Learning and Deep Learning Systems`<br>
 <small>*`Run`[`nanochat`](https://github.com/karpathy/nanochat)` by building `[`teenygrad`](https://github.com/j4orz/teenygrad)`from scratch: the bridge from` [`micrograd`](https://github.com/karpathy/micrograd)`to `[`tinygrad`](https://github.com/tinygrad/tinygrad)*</small><br/>
+<small>*`with the Lean, Python, Rust, and CUDA Rust programming languages!`*</small><br/>
+
 
 *Made with 🖤🪻 by [Jeffrey Zhang,](https://x.com/j4orz) [University of Waterloo (BMath)](https://academic-calendar-archive.uwaterloo.ca/undergraduate-studies/2022-2023/group/u-Waterloo-Faculty-of-Mathematics.html)*<br/>
 *Made possible by [Lambda Labs Research Grant](https://lambda.ai/research)*<br/>
