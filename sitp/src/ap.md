@@ -10,20 +10,23 @@
 
 - [A. From Greece, to Göttingen, and finally the Valley](#a-from-greece-to-göttingen-and-finally-the-valley)
 - [B. From Symbolic Software 1.0 to Stochastic Software 2.0](#b-from-symbolic-software-10-to-stochastic-software-20)
+  - [B.1 From Psychology to Artificial Intelligence](#01-from-psychology-to-artificial-intelligence)
+  - [B.2 Weizenbaum's Turing Test Cheater](#02-weizenbaum-cheats-turings-test-with-the-pattern-matching-of-eliza) <!-- with the Pattern Matching of `ELIZA` -->
+  - [B.3 Wood's Winograd Challenge](#03-woods-winograd-challenge-with-the-translation-of-lunar) <!-- with the Translation of `LUNAR` -->
+  <!-- - [B.4 Feigenbaum's Narrow Expertise with the Heuristics of `DENDRAL`](#04-feigenbaums-narrow-expertise-with-the-heuristics-of-dendral) -->
+  - [B.4 Lenat's Advice Taker](#04-lenats-advice-taker-with-the-frames-of-cyc) <!-- with the Frames of `CYC` -->
+  - [B.5 From the Tractatus to Investigations]() <!-- logical to distributional semantics -->
+  - [B.6 Summary](#06-summary)
+  - [B.7 Bibliographic Notes](#07-bibiliographic-notes)
+  - [B.8 Problems](#08-problems)
 - [C. From Sequential to Parallel Processors](#c-from-sequential-to-parallel-processors)
-  - [C.1 From Psychology to Artificial Intelligence](#01-from-psychology-to-artificial-intelligence)
-  - [C.2 Weizenbaum's Turing Test Cheater](#02-weizenbaum-cheats-turings-test-with-the-pattern-matching-of-eliza) <!-- with the Pattern Matching of `ELIZA` -->
-  - [C.3 Wood's Winograd Challenge](#03-woods-winograd-challenge-with-the-translation-of-lunar) <!-- with the Translation of `LUNAR` -->
-  <!-- - [C.4 Feigenbaum's Narrow Expertise with the Heuristics of `DENDRAL`](#04-feigenbaums-narrow-expertise-with-the-heuristics-of-dendral) -->
-  - [C.4 Lenat's Advice Taker](#04-lenats-advice-taker-with-the-frames-of-cyc) <!-- with the Frames of `CYC` -->
-  - [C.5 From the Tractatus to Investigations]() <!-- logical to distributional semantics -->
-  - [C.6 Summary](#06-summary)
-  - [C.7 Bibliographic Notes](#07-bibiliographic-notes)
-  - [C.8 Problems](#08-problems)
 
 </div>
 
 ## A. From Greece, to Göttingen and finally the Valley
+
+> In which we historically retrace the development of the foundations of mathematics, from the geometry of ancient greek mathematics, to the logicism and formalism of Göttingen, and finally, to the intuitionism and constructivism of the Valley.
+
 
 ### A.1 Geometry
 
@@ -34,7 +37,7 @@
 ## B. From Symbolic Software 1.0 to Stochastic Software 2.0
 <small>[$\hookleftarrow$ Table of Contents](#table-of-contents)</small>
 
-> In which we retrace the development and failure of the discretely symbolic approach to build artificially intelligent machines with common sense and motivate the need to transition from logical and finitely discrete software 1.0 to stochastic and infintely continuous software 2.0.
+> In which we historically retrace the development and failure of the discretely symbolic approach to build artificially intelligent machines with common sense and motivate the need to transition from logical and finitely discrete software 1.0 to stochastic and infintely continuous software 2.0.
 <!-- $p(X=x)$ from $D=\{x^{(i)}\}_{i=1}^{n}$ -->
 
 ### 0.1 From Psychology to Artificial Intelligence
@@ -1077,3 +1080,5 @@ then in the part 2 will be semi-automated semantic sequence learning -->
 
 
 ## C. From Sequential to Parallel Processors
+
+> In which we historically retrace the development of processors from sequential to parallel processors
