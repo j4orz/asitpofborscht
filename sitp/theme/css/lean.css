@@ -1,0 +1,108 @@
+/* Styling for Lean code embedded by the `mdbook-lean` preprocessor.
+   Token spans carry SubVerso's canonical CSS classes; `data-hover` holds the
+   signature / type / docstring shown on hover. */
+
+pre.lean {
+  position: relative;
+  overflow: visible; /* let hover tooltips escape the code block */
+}
+
+pre.lean code {
+  display: block;
+  overflow-x: auto;
+  font-family: var(--mono-font, "Source Code Pro", monospace);
+  line-height: 1.5;
+  white-space: pre;
+}
+
+/* --- token colors ------------------------------------------------------- */
+/* Light theme (default). Tuned to sit alongside mdBook's `light`/`rust`. */
+pre.lean .keyword          { color: #a626a4; font-weight: 600; }
+pre.lean .const            { color: #4078f2; }
+pre.lean .var              { color: #383a42; font-style: italic; }
+pre.lean .sort             { color: #c18401; }
+pre.lean .literal.string   { color: #50a14f; }
+pre.lean .literal.number,
+pre.lean .literal.char     { color: #986801; }
+pre.lean .comment          { color: #a0a1a7; font-style: italic; }
+pre.lean .doc-comment      { color: #4d9375; font-style: italic; }
+pre.lean .punctuation      { color: #383a42; }
+pre.lean .built-in.delim   { color: #a626a4; }
+pre.lean .option           { color: #c18401; }
+pre.lean .unknown          { color: inherit; }
+
+/* Dark themes (mdBook sets .navy / .coal / .ayu on <html>). */
+.navy pre.lean .keyword, .coal pre.lean .keyword, .ayu pre.lean .keyword       { color: #c678dd; }
+.navy pre.lean .const,   .coal pre.lean .const,   .ayu pre.lean .const         { color: #61afef; }
+.navy pre.lean .var,     .coal pre.lean .var,     .ayu pre.lean .var           { color: #abb2bf; }
+.navy pre.lean .sort,    .coal pre.lean .sort,    .ayu pre.lean .sort          { color: #e5c07b; }
+.navy pre.lean .literal.string, .coal pre.lean .literal.string, .ayu pre.lean .literal.string { color: #98c379; }
+.navy pre.lean .literal.number, .coal pre.lean .literal.number, .ayu pre.lean .literal.number { color: #d19a66; }
+.navy pre.lean .comment, .coal pre.lean .comment, .ayu pre.lean .comment       { color: #7f848e; }
+.navy pre.lean .doc-comment, .coal pre.lean .doc-comment, .ayu pre.lean .doc-comment { color: #7ec9a0; }
+.navy pre.lean .built-in.delim, .coal pre.lean .built-in.delim, .ayu pre.lean .built-in.delim { color: #c678dd; }
+
+/* --- hover card (JS-positioned; content is rendered HTML) --------------- */
+pre.lean [data-hover] { cursor: help; }
+
+.lean-hover-card {
+  display: none;
+  position: absolute;
+  z-index: 100;
+  max-width: 56em;
+  padding: 0.85em 1.1em;
+  font-family: var(--sans-font, sans-serif);
+  font-size: 1rem;
+  font-style: normal;
+  line-height: 1.55;
+  text-align: left;
+  white-space: normal;
+  color: var(--fg, #24292e);
+  background: var(--sidebar-bg, #f6f7f8);
+  border: 1px solid var(--table-border-color, #ccc);
+  border-radius: 6px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  overflow-wrap: break-word;
+}
+
+.lean-hover-card p { margin: 0 0 0.5em; }
+.lean-hover-card p:last-child { margin-bottom: 0; }
+.lean-hover-card a { color: var(--links, #4078f2); }
+
+.lean-hover-sig {
+  margin: 0 0 0.5em;
+  padding-bottom: 0.4em;
+  border-bottom: 1px solid var(--table-border-color, #ddd);
+}
+.lean-hover-sig code,
+.lean-hover-card code,
+.lean-hover-code {
+  font-family: var(--mono-font, monospace);
+  font-size: 0.9em;
+}
+.lean-hover-code {
+  margin: 0.4em 0;
+  padding: 0.4em 0.6em;
+  overflow-x: auto;
+  white-space: pre;
+  background: var(--quote-bg, rgba(0, 0, 0, 0.05));
+  border-radius: 4px;
+}
+
+/* --- reference links ---------------------------------------------------- */
+/* Identifiers linked into the Lean reference keep their token color; a subtle
+   dotted underline marks them as clickable without shouting. */
+pre.lean a.lean-ref {
+  color: inherit;
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+pre.lean a.lean-ref:hover {
+  text-decoration: underline solid;
+}
+
+pre.lean.lean-missing {
+  color: #b00020;
+  background: rgba(176, 0, 32, 0.08);
+}

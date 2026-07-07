@@ -10,8 +10,8 @@ title = "The Structure and Interpretation of Tensor Programs"
 after = ["links"]
 
 [output.html]
-additional-css = ["theme/css/custom.css"]
-additional-js = ["theme/js/highlight-lean.min.js", "theme/js/custom.js"]
+additional-css = ["theme/css/custom.css", "theme/css/lean.css"]
+additional-js = ["theme/js/highlight-lean.min.js", "theme/js/custom.js", "theme/js/lean.js"]
 default-theme = "light"
 preferred-dark-theme = "navy"
 
@@ -24,3 +24,15 @@ python.loading = "lazy"
 
 
 [preprocessor.quiz]
+
+# Renders type-checked Lean (via SubVerso) for `{{#lean Module.Name}}` directives.
+# Examples live in `lean/SitpLean/`; see preprocessors/mdbook-lean.
+# Identifiers/keywords link into the Lean reference via a pinned link table
+# (preprocessors/lean-reference-links.json, reference v4.31.0). Regenerate after
+# a toolchain bump: python3 preprocessors/gen-lean-reference-links.py <version>
+[preprocessor.lean]
+command = "python3 preprocessors/mdbook-lean"
+lean-dir = "lean"
+lib = "SitpLean"
+build = true
+reference-links = "preprocessors/lean-reference-links.json"

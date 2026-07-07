@@ -1,0 +1,300 @@
+#!/usr/bin/env python3
+"""mdbook-lean: embed type-checked, highlighted Lean into mdBook.
+
+Pipeline
+--------
+1. `lake build <lib>:highlighted` in the Lean project runs SubVerso's
+   `subverso-extract-mod`, elaborating every module and emitting one JSON file
+   per module under `.lake/build/highlighted/`.
+2. This preprocessor loads that JSON (an interned/deduplicated tree; see
+   SubVerso's `Export.lean`), resolves it, and renders an HTML fragment.
+3. Each `{{#lean Module.Name}}` directive in the book is replaced with the
+   fragment for that module. Styling comes from `theme/css/lean.css`.
+
+Authoring
+---------
+Put example code in `<lean-dir>/<Lib>/Chapter.lean`, import it from the library
+root, then in Markdown write:  {{#lean SitpLean.Chapter}}
+
+Config (book.toml)
+------------------
+    [preprocessor.lean]
+    lean-dir = "lean"      # path to the Lean project, relative to book root
+    lib      = "SitpLean"  # Lake library whose :highlighted facet we build
+    build    = true        # set false to skip `lake build` (use existing JSON)
+"""
+import html
+import json
+import os
+import re
+import subprocess
+import sys
+
+DIRECTIVE = re.compile(r"\{\{#lean\s+([A-Za-z0-9_.]+)\s*\}\}")
+
+# --------------------------------------------------------------------------- #
+# Rendering: SubVerso interned highlighted JSON -> HTML
+# --------------------------------------------------------------------------- #
+
+# Mirror of `SubVerso.Highlighting.Highlighted.Token.Kind.cssClass`.
+_KIND_CLASS = {
+    "var": "var", "wildcard": "wildcard", "sort": "sort", "const": "const",
+    "option": "option", "keyword": "keyword", "delim": "built-in delim",
+    "anonCtor": "const anon-ctor", "num": "literal number", "char": "literal char",
+    "lineComment": "comment line", "blockComment": "comment block",
+    "commentDelim": "comment delimiter", "operator": "punctuation operator",
+    "bracket": "punctuation bracket", "separator": "punctuation separator",
+    "withType": "typed", "levelConst": "level-const", "levelVar": "level-var",
+    "levelOp": "level-op", "moduleName": "module-name", "unknown": "unknown",
+}
+
+
+def _kind_css(kind):
+    if isinstance(kind, str):
+        return "doc-comment" if kind == "docComment" else _KIND_CLASS.get(kind, kind)
+    (tag, v), = kind.items()
+    if tag == "str":
+        return "literal string interpolation" if v.get("interpolation") else "literal string"
+    return _KIND_CLASS.get(tag, tag)
+
+
+def _md_inline(s):
+    """Inline Markdown -> HTML on already-HTML-escaped text."""
+    s = re.sub(r"`([^`]+)`", lambda m: "<code>%s</code>" % m.group(1), s)
+    s = re.sub(r"\[([^\]]+)\]\(([^)\s]+)\)",
+               lambda m: '<a href="%s" target="_blank" rel="noopener">%s</a>'
+               % (m.group(2), m.group(1)), s)
+    s = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", s)
+    s = re.sub(r"(?<!\*)\*([^*\s][^*]*?)\*(?!\*)", r"<em>\1</em>", s)
+    return s.replace("\n", " ")
+
+
+def _md_to_html(md):
+    """Minimal Markdown -> HTML for docstrings (fenced code, paragraphs, links,
+    inline code, emphasis). Kept dependency-free; not a full CommonMark parser."""
+    out = []
+    for i, chunk in enumerate(md.split("```")):
+        if i % 2 == 1:  # inside a fenced code block
+            nl = chunk.find("\n")
+            first = chunk[:nl] if nl >= 0 else ""
+            if re.fullmatch(r"[\w+.-]*", first.strip()):  # drop lang label / leading NL
+                chunk = chunk[nl + 1:] if nl >= 0 else ""
+            out.append('<pre class="lean-hover-code"><code>%s</code></pre>'
+                       % html.escape(chunk.strip("\n"), quote=False))
+        else:
+            for para in re.split(r"\n\s*\n", chunk.strip("\n")):
+                if para.strip():
+                    out.append("<p>%s</p>" % _md_inline(html.escape(para, quote=False)))
+    return "".join(out)
+
+
+def _kind_hover(kind):
+    """Rendered-HTML hover card (signature / type + docstring) for a kind, if any."""
+    if isinstance(kind, str):
+        return None
+    (tag, v), = kind.items()
+    sig = docs = None
+    if tag in ("const", "anonCtor"):
+        sig, docs = v.get("signature"), v.get("docs")
+    elif tag in ("var", "wildcard", "num", "withType"):
+        sig = v.get("type")
+    elif tag in ("keyword", "delim", "operator", "bracket", "separator", "option", "sort"):
+        docs = v.get("docs")
+    parts = []
+    if sig:
+        parts.append('<div class="lean-hover-sig"><code>%s</code></div>'
+                     % html.escape(sig, quote=False))
+    if docs:
+        parts.append('<div class="lean-hover-docs">%s</div>' % _md_to_html(docs.strip()))
+    return "".join(parts) if parts else None
+
+
+def _dotted(name):
+    """A SubVerso `Name` is a JSON array of components; join to a dotted string."""
+    if isinstance(name, list):
+        return ".".join(str(c) for c in name)
+    return str(name) if name else None
+
+
+def _kind_ref(kind, links):
+    """Full URL into the Lean reference for this token kind, or None.
+
+    `links` is the slim table produced by gen-lean-reference-links.py, split into
+    `const` (declarations), `syntax` (commands/notation), and `option` domains,
+    keyed by the same canonical names SubVerso records on tokens."""
+    if not links or isinstance(kind, str):
+        return None
+    # Link identifiers, commands, and options — not punctuation (brackets,
+    # separators, operators), which would underline every `(` and `:`.
+    (tag, v), = kind.items()
+    if tag in ("const", "anonCtor"):
+        rel = links.get("const", {}).get(_dotted(v.get("name")))
+    elif tag == "option":
+        rel = links.get("option", {}).get(_dotted(v.get("name")))
+    elif tag == "keyword":
+        rel = links.get("syntax", {}).get(_dotted(v.get("name")))
+    else:
+        rel = None
+    return links["base"] + rel if rel else None
+
+
+class _Renderer:
+    def __init__(self, data, links=None):
+        self.tokens = data["tokens"]
+        self.code = data["code"]
+        self.links = links
+
+    def _token(self, key):
+        t = self.tokens[str(key)]
+        cls = _kind_css(t["kind"])
+        hover = _kind_hover(t["kind"])
+        attrs = ' class="%s"' % html.escape(cls)
+        if hover:
+            attrs += ' data-hover="%s"' % html.escape(hover, quote=True)
+        content = html.escape(t["content"])
+        href = _kind_ref(t["kind"], self.links)
+        if href:
+            content = '<a class="lean-ref" href="%s" target="_blank" rel="noopener">%s</a>' % (
+                html.escape(href, quote=True), content)
+        return "<span%s>%s</span>" % (attrs, content)
+
+    def render(self, key):
+        node = self.code[str(key)]
+        (tag, v), = node.items()
+        if tag == "token":
+            return self._token(v["tok"])
+        if tag == "text":
+            return html.escape(v if isinstance(v, str) else v.get("str", ""))
+        if tag == "unparsed":
+            return html.escape(v if isinstance(v, str) else v.get("str", ""))
+        if tag == "seq":
+            return "".join(self.render(k) for k in v["highlights"])
+        if tag == "span":
+            kinds = " ".join(k for k, _ in v["info"])
+            return '<span class="has-info %s">%s</span>' % (
+                html.escape(kinds), self.render(v["content"]))
+        if tag == "tactics":
+            return '<span class="tactics">%s</span>' % self.render(v["content"])
+        if tag == "point":
+            return ""  # zero-width diagnostic marker; nothing to show inline
+        return ""
+
+
+_SKIP_KINDS = {"Lean.Parser.Module.header", "Lean.Parser.Command.eoi"}
+
+
+def render_module(doc, links=None):
+    r = _Renderer(doc["data"], links)
+    body = "".join(
+        r.render(item["code"])
+        for item in doc["items"]
+        if item["kind"] not in _SKIP_KINDS
+    )
+    # Trim leading/trailing blank lines from the module while keeping structure.
+    return '<pre class="lean"><code>%s</code></pre>' % body.strip("\n")
+
+
+# --------------------------------------------------------------------------- #
+# Loading highlighted JSON
+# --------------------------------------------------------------------------- #
+
+def load_modules(highlighted_dir, links=None):
+    """Map dotted module name -> rendered HTML for every JSON under the dir."""
+    out = {}
+    for root, _dirs, files in os.walk(highlighted_dir):
+        for fn in files:
+            if not fn.endswith(".json"):
+                continue
+            path = os.path.join(root, fn)
+            rel = os.path.relpath(path, highlighted_dir)
+            module = rel[:-len(".json")].replace(os.sep, ".")
+            try:
+                with open(path) as f:
+                    doc = json.load(f)
+                out[module] = render_module(doc, links)
+            except (ValueError, KeyError) as e:
+                sys.stderr.write("mdbook-lean: failed to render %s: %s\n" % (module, e))
+    return out
+
+
+def load_links(root, cfg):
+    """Load the slim Lean-reference link table, or None if disabled/missing."""
+    rel = cfg.get("reference-links", "preprocessors/lean-reference-links.json")
+    if not rel:  # explicitly disabled with reference-links = ""
+        return None
+    path = os.path.join(root, rel)
+    try:
+        with open(path) as f:
+            return json.load(f)
+    except (OSError, ValueError) as e:
+        sys.stderr.write("mdbook-lean: no reference links (%s)\n" % e)
+        return None
+
+
+def build_and_load(context):
+    cfg = context.get("config", {}).get("preprocessor", {}).get("lean", {})
+    root = context.get("root", ".")
+    lean_dir = os.path.join(root, cfg.get("lean-dir", "lean"))
+    lib = cfg.get("lib", "SitpLean")
+    links = load_links(root, cfg)
+
+    if cfg.get("build", True):
+        try:
+            subprocess.run(
+                ["lake", "build", "%s:highlighted" % lib],
+                cwd=lean_dir, check=True,
+                stdout=sys.stderr, stderr=sys.stderr,
+            )
+        except FileNotFoundError:
+            sys.stderr.write("mdbook-lean: `lake` not found on PATH\n")
+            return {}
+        except subprocess.CalledProcessError as e:
+            sys.stderr.write("mdbook-lean: lake build failed (%s)\n" % e.returncode)
+            return {}
+
+    highlighted = os.path.join(lean_dir, ".lake", "build", "highlighted")
+    if not os.path.isdir(highlighted):
+        sys.stderr.write("mdbook-lean: no highlighted output at %s\n" % highlighted)
+        return {}
+    return load_modules(highlighted, links)
+
+
+# --------------------------------------------------------------------------- #
+# mdBook preprocessor protocol
+# --------------------------------------------------------------------------- #
+
+def substitute(content, modules):
+    def repl(m):
+        name = m.group(1)
+        if name in modules:
+            return modules[name]
+        sys.stderr.write("mdbook-lean: no highlighted module %r\n" % name)
+        return '<pre class="lean lean-missing">missing Lean module: %s</pre>' % html.escape(name)
+    return DIRECTIVE.sub(repl, content)
+
+
+def walk(items, modules):
+    for item in items:
+        chapter = item.get("Chapter") if isinstance(item, dict) else None
+        if chapter is None:
+            continue
+        if chapter.get("content"):
+            chapter["content"] = substitute(chapter["content"], modules)
+        if chapter.get("sub_items"):
+            walk(chapter["sub_items"], modules)
+
+
+def main():
+    # `mdbook-lean supports <renderer>` -> exit 0 if we handle that renderer.
+    if len(sys.argv) >= 2 and sys.argv[1] == "supports":
+        renderer = sys.argv[2] if len(sys.argv) > 2 else ""
+        sys.exit(0 if renderer == "html" else 1)
+
+    context, book = json.load(sys.stdin)
+    modules = build_and_load(context)
+    walk(book.get("items", []), modules)
+    json.dump(book, sys.stdout)
+
+
+if __name__ == "__main__":
+    main()

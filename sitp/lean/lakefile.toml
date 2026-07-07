@@ -1,0 +1,12 @@
+name = "sitp-lean"
+defaultTargets = ["SitpLean"]
+
+# SubVerso elaborates & highlights Lean source, emitting JSON that the
+# `mdbook-lean` preprocessor renders to HTML. It has no external dependencies.
+[[require]]
+name = "subverso"
+git = "https://github.com/leanprover/subverso.git"
+rev = "main"
+
+[[lean_lib]]
+name = "SitpLean"
