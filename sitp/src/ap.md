@@ -8,39 +8,28 @@
 
 <div class="toc">
 
-- [A. From Greece, to Göttingen, and finally the Valley](#a-from-greece-to-göttingen-and-finally-the-valley)
-- [B. From Symbolic Software 1.0 to Stochastic Software 2.0](#b-from-symbolic-software-10-to-stochastic-software-20)
-  - [B.1 From Psychology to Artificial Intelligence](#01-from-psychology-to-artificial-intelligence)
-  - [B.2 Weizenbaum's Turing Test Cheater](#02-weizenbaum-cheats-turings-test-with-the-pattern-matching-of-eliza) <!-- with the Pattern Matching of `ELIZA` -->
-  - [B.3 Wood's Winograd Challenge](#03-woods-winograd-challenge-with-the-translation-of-lunar) <!-- with the Translation of `LUNAR` -->
-  <!-- - [B.4 Feigenbaum's Narrow Expertise with the Heuristics of `DENDRAL`](#04-feigenbaums-narrow-expertise-with-the-heuristics-of-dendral) -->
-  - [B.4 Lenat's Advice Taker](#04-lenats-advice-taker-with-the-frames-of-cyc) <!-- with the Frames of `CYC` -->
-  - [B.5 From the Tractatus to Investigations]() <!-- logical to distributional semantics -->
-  - [B.6 Summary](#06-summary)
-  - [B.7 Bibliographic Notes](#07-bibiliographic-notes)
-  - [B.8 Problems](#08-problems)
+- [A. From Symbolic Software 1.0 to Stochastic Software 2.0](#b-from-symbolic-software-10-to-stochastic-software-20)
+  - [A.1 From Psychology to Artificial Intelligence](#01-from-psychology-to-artificial-intelligence)
+  - [A.2 Weizenbaum's Turing Test Cheater](#02-weizenbaum-cheats-turings-test-with-the-pattern-matching-of-eliza) <!-- with the Pattern Matching of `ELIZA` -->
+  - [A.3 Wood's Winograd Challenge](#03-woods-winograd-challenge-with-the-translation-of-lunar) <!-- with the Translation of `LUNAR` -->
+  <!-- - [A.4 Feigenbaum's Narrow Expertise with the Heuristics of `DENDRAL`](#04-feigenbaums-narrow-expertise-with-the-heuristics-of-dendral) -->
+  - [A.4 Lenat's Advice Taker](#04-lenats-advice-taker-with-the-frames-of-cyc) <!-- with the Frames of `CYC` -->
+  - [A.5 From the Tractatus to Investigations]() <!-- logical to distributional semantics -->
+  - [A.6 Summary](#06-summary)
+  - [A.7 Bibliographic Notes](#07-bibiliographic-notes)
+  - [A.8 Problems](#08-problems)
+- [B. From Greece, to Göttingen, and finally the Valley](#a-from-greece-to-göttingen-and-finally-the-valley)
 - [C. From Sequential to Parallel Processors](#c-from-sequential-to-parallel-processors)
 
 </div>
 
-## A. From Greece, to Göttingen and finally the Valley
-
-> In which we historically retrace the development of the foundations of mathematics, from the geometry of ancient greek mathematics, to the logicism and formalism of Göttingen, and finally, to the intuitionism and constructivism of the Valley.
-
-
-### A.1 Geometry
-
-### A.2 Zermelo-Frankel
-
-### A.3 Univalent Foundations
-
-## B. From Symbolic Software 1.0 to Stochastic Software 2.0
+## A. From Symbolic Software 1.0 to Stochastic Software 2.0
 <small>[$\hookleftarrow$ Table of Contents](#table-of-contents)</small>
 
 > In which we historically retrace the development and failure of the discretely symbolic approach to build artificially intelligent machines with common sense and motivate the need to transition from logical and finitely discrete software 1.0 to stochastic and infintely continuous software 2.0.
 <!-- $p(X=x)$ from $D=\{x^{(i)}\}_{i=1}^{n}$ -->
 
-### 0.1 From Psychology to Artificial Intelligence
+### A.1 From Psychology to Artificial Intelligence
 
 <br>
 
@@ -98,7 +87,7 @@ and such knowledge should be represented a symbolic logic
 
 Are you ready to begin?
 
-### 0.2 Weizenbaum Cheats Turing's Test with the Pattern Matching of `ELIZA`
+### A.2 Weizenbaum Cheats Turing's Test with the Pattern Matching of `ELIZA`
 
 <script src="assets/elizabot/elizabot.js"></script>
 <script src="assets/elizabot/elizadata.js"></script>
@@ -505,7 +494,7 @@ Afterall, ELIZA's **representation** are only `str`s, and it performs no **reaso
 Maybe all we need to build a natural language processing system that can match the capability of `nanochat`
 is with a stronger syntactic and semantic analysis?
 
-### 0.3 Wood's Winograd Challenge with the Translation of `LUNAR`
+### A.3 Wood's Winograd Challenge with the Translation of `LUNAR`
 
 (INSERT LUNAR EXAMPLE)
 
@@ -549,7 +538,7 @@ Like many of the AI systems at the time, although seemingly applied to the narro
 
 > (quote something from woods, winograd, or minsky's semantic information processing)
 
-#### 0.3.1 From Linguistics to Logic
+#### A.3.1 From Linguistics to Logic
 
 Although we might not know *exactly* how that's done, we might be somewhat familiar with the distinction of
 "lower level" vs "higher level" languages where the former are closer to the machine (whatever that may mean) such as C++
@@ -573,7 +562,7 @@ Just like a human translator, a compiler has a two step process:
 1. First, a compiler needs to understand the message expressed in the source language
 2. Then, said compiler can translate the message expressed in the target language
 
-#### 0.3.1 Analysis: Understanding the Source
+#### A.3.1 Analysis: Understanding the Source
 Starting with the first step, that awfully sounds like formal language theory's membership problem which we encountered in the [previous chapter](#membership-problem).
 That is, determining whether a given string is in a language (subsequently modeled as a set of strings) or not.
 Perhaps we can reuse regular expressions? Why not try the machinery we already have?
@@ -605,7 +594,7 @@ loremipsumloremipsumloremipsumloremipsumloremipsumloremipsumloremipsumloremipsum
 It first converts the source program from a <span class="defnote">**concrete syntax**</span>**concrete** `str` to
 a more <span class="defnote">**abstract syntax**</span>**abstract** data structure that has more "understanding" of what's being spoken to it compared to a simple silly `str`. Because this abstract representation of the program is not the final representation (namely x86), it's referred to as the <span 
 
-#### 0.3.2 Synthesis: Translating to the Target
+#### A.3.2 Synthesis: Translating to the Target
 
 While there do exist compilers that perform this translation in a single step,
 most compilers (and interpreters for that matter) allocate
@@ -710,7 +699,7 @@ In [Progress in Natural Language Understanding — An Application to Lunar Geolo
 > Although in different ways, LUNAR too, like ELIZA, is trying to **describe a reality with too many parts to count**.
 
 
-<!-- ### 0.4 Feigenbaum's Narrow Expertise with the Heuristics of `DENDRAL` -->
+<!-- ### A.4 Feigenbaum's Narrow Expertise with the Heuristics of `DENDRAL` -->
 
 
 <!-- > [!IMPORTANT]
@@ -828,11 +817,11 @@ to Google’s Word2vec)
 
 <span class="defnote">**distributional semantics**</span>**distributional semantics** by (Harris 1954), and (Firth 1957) "You shall know a word by the company it keeps" <span class="defnote">**vector semantics**</span>**vector semantics** (Osgood 1957) using a basis of valence, arousal, dominance -->
 
-### 0.4 Lenat's Advice Taker with the Frames of `CYC`
+### A.4 Lenat's Advice Taker with the Frames of `CYC`
 - minsky's programs with common sense
 - mccarthy's ontology of frames
 
-### 0.5 From A Logical to Distributional Semantics
+### A.5 From A Logical to Distributional Semantics
 
 feigenbaum's concept learning
 lenat's bitter lesson: from the tractatus to the investigations
@@ -862,7 +851,7 @@ and the field of information retrieval emerged.
 https://start.csail.mit.edu/index.php
 
 
-### 0.6 Summary
+### A.6 Summary
 
 One quick way to summarize the software 1.0 approach to AI is to list the first six Turing Award winners for AI:
 Marvin Minsky (1969) and John McCarthy (1971) for defining the foundations of the field based on representation and reasoning;
@@ -881,7 +870,7 @@ of modern computing; and finally, Richard Sutton, Andrew Barto (2024) for
 pioneering reinforcement learning in which agents learn by maximizing reward via trial and error
 in which we will implement `FFN`s, `CNN`, `RNNs`, and `GPT`s.
 
-### 0.7 Bibiliographic Notes
+### A.7 Bibiliographic Notes
 
 - The primary resources used throughout this chapter, as listed on the sidenotes,
 were [(Weizenbaum 1966)](https://dl.acm.org/doi/epdf/10.1145/365153.365168), a short paper on ELIZA;
@@ -1077,6 +1066,18 @@ then in the part 2 will be semi-automated semantic sequence learning -->
 - q/a: https://aclanthology.org/D14-1070.pdf,
 - translation: https://arxiv.org/abs/1409.3215, https://arxiv.org/pdf/1409.0473, https://aclanthology.org/P16-1100.pdf, https://arxiv.org/abs/1706.03762
 - sequence: https://arxiv.org/abs/1810.04805, https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf -->
+
+
+## B. From Greece, to Göttingen and finally the Valley
+
+> In which we historically retrace the development of the foundations of mathematics, from the geometry of ancient greek mathematics, to the logicism and formalism of Göttingen, and finally, to the intuitionism and constructivism of the Valley.
+
+
+### B.1 Geometry
+
+### B.2 Zermelo-Frankel
+
+### B.3 Univalent Foundations
 
 
 ## C. From Sequential to Parallel Processors
