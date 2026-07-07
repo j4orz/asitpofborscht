@@ -65,6 +65,49 @@ pre.lean [data-hover] { cursor: help; }
   overflow-wrap: break-word;
 }
 
+/* --- pointer triangle --------------------------------------------------- */
+/* Two stacked triangles form a bordered arrow: `::before` is the (slightly
+   larger) border-colored triangle, `::after` the background-colored fill on
+   top. `--arrow-left` is set by JS to sit under the hovered token, and the
+   triangle spans the 8px gap so the mouse can cross onto the card. */
+.lean-hover-card::before,
+.lean-hover-card::after {
+  content: "";
+  position: absolute;
+  left: var(--arrow-left, 1.5em);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+}
+
+/* Default: card sits above the token, arrow points down off the bottom edge. */
+.lean-hover-card::before {
+  top: 100%;
+  border-top: 9px solid var(--table-border-color, #ccc);
+}
+.lean-hover-card::after {
+  top: 100%;
+  margin-top: -1px;
+  border-top: 8px solid var(--sidebar-bg, #f6f7f8);
+}
+
+/* Flipped: card sits below the token, arrow points up off the top edge. */
+.lean-hover-card.lean-hover-flipped::before {
+  top: auto;
+  bottom: 100%;
+  border-top: none;
+  border-bottom: 9px solid var(--table-border-color, #ccc);
+}
+.lean-hover-card.lean-hover-flipped::after {
+  top: auto;
+  bottom: 100%;
+  margin-top: 0;
+  margin-bottom: -1px;
+  border-top: none;
+  border-bottom: 8px solid var(--sidebar-bg, #f6f7f8);
+}
+
 .lean-hover-card p { margin: 0 0 0.5em; }
 .lean-hover-card p:last-child { margin-bottom: 0; }
 .lean-hover-card a { color: var(--links, #4078f2); }
