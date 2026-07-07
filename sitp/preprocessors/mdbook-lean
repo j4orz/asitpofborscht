@@ -23,6 +23,7 @@ Config (book.toml)
     lib      = "SitpLean"  # Lake library whose :highlighted facet we build
     build    = true        # set false to skip `lake build` (use existing JSON)
 """
+import hashlib
 import html
 import json
 import os
@@ -231,6 +232,26 @@ def load_links(root, cfg):
         return None
 
 
+def fingerprint(lean_dir):
+    """Hash the Lean inputs so we can skip `lake build` when nothing changed.
+
+    Covers every source file under `lean_dir` (by content) plus the toolchain
+    and Lake manifest — i.e. anything whose change should re-highlight. The
+    build tree (`.lake`) and generated aquascope/quiz dirs are excluded."""
+    h = hashlib.sha256()
+    for root, dirs, files in os.walk(lean_dir):
+        dirs[:] = sorted(d for d in dirs if d not in (".lake", ".git"))
+        for fn in sorted(files):
+            path = os.path.join(root, fn)
+            h.update(os.path.relpath(path, lean_dir).encode())
+            try:
+                with open(path, "rb") as f:
+                    h.update(f.read())
+            except OSError:
+                pass
+    return h.hexdigest()
+
+
 def build_and_load(context):
     cfg = context.get("config", {}).get("preprocessor", {}).get("lean", {})
     root = context.get("root", ".")
@@ -238,21 +259,43 @@ def build_and_load(context):
     lib = cfg.get("lib", "SitpLean")
     links = load_links(root, cfg)
 
-    if cfg.get("build", True):
-        try:
-            subprocess.run(
-                ["lake", "build", "%s:highlighted" % lib],
-                cwd=lean_dir, check=True,
-                stdout=sys.stderr, stderr=sys.stderr,
-            )
-        except FileNotFoundError:
-            sys.stderr.write("mdbook-lean: `lake` not found on PATH\n")
-            return {}
-        except subprocess.CalledProcessError as e:
-            sys.stderr.write("mdbook-lean: lake build failed (%s)\n" % e.returncode)
-            return {}
-
     highlighted = os.path.join(lean_dir, ".lake", "build", "highlighted")
+    stamp = os.path.join(lean_dir, ".lake", "build", "mdbook-lean.stamp")
+
+    if cfg.get("build", True):
+        # Skip the (slow) `lake build` when the Lean inputs are byte-for-byte
+        # unchanged and we already have highlighted output to reuse. Keeps
+        # `mdbook serve` snappy while editing prose.
+        fp = fingerprint(lean_dir)
+        cached = None
+        if os.path.isdir(highlighted):
+            try:
+                with open(stamp) as f:
+                    cached = f.read().strip()
+            except OSError:
+                cached = None
+        if cached == fp:
+            sys.stderr.write("mdbook-lean: Lean unchanged, skipping lake build\n")
+        else:
+            try:
+                subprocess.run(
+                    ["lake", "build", "%s:highlighted" % lib],
+                    cwd=lean_dir, check=True,
+                    stdout=sys.stderr, stderr=sys.stderr,
+                )
+            except FileNotFoundError:
+                sys.stderr.write("mdbook-lean: `lake` not found on PATH\n")
+                return {}
+            except subprocess.CalledProcessError as e:
+                sys.stderr.write("mdbook-lean: lake build failed (%s)\n" % e.returncode)
+                return {}
+            try:
+                with open(stamp, "w") as f:
+                    f.write(fp)
+            except OSError:
+                pass  # stamping is best-effort; next build just rebuilds
+
+
     if not os.path.isdir(highlighted):
         sys.stderr.write("mdbook-lean: no highlighted output at %s\n" % highlighted)
         return {}
