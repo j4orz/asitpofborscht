@@ -44,3 +44,7 @@ and perhaps others would feel similarly. That is the genesis story for this book
 
 <div class="defnote defnote-float" data-n="3"><blockquote class="twitter-tweet" data-conversation="none" data-width="300"><p lang="en" dir="ltr">We really could use a SICP for DL. We have the Little Lisper for DL (<a href="https://t.co/su31hFJeUe">https://t.co/su31hFJeUe</a>) but that&#39;s a different type of book entirely.</p>&mdash; Shriram Krishnamurthi (primary: Bluesky) (@ShriramKMurthi) <a href="https://twitter.com/ShriramKMurthi/status/2051049923617968353?ref_src=twsrc%5Etfw">May 3, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></div>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<!-- The Structure and Interpretation of Tensor Programs is very much a whimsical whirlwind tour<span class="sidenote-number"></span><span class="sidenote">*See [http://www.literateprogramming.com/](http://www.literateprogramming.com/)*</span> to the world of deep learning and deep learning systems,
+for each concept will be introduced twice: once to motivate the intuition and twice more to sharpen the formalization.
+Both seem necessary for understanding. -->

@@ -18,7 +18,10 @@
   - [A.6 Summary](#06-summary)
   - [A.7 Bibliographic Notes](#07-bibiliographic-notes)
   - [A.8 Problems](#08-problems)
-- [B. From Greece, to Göttingen, and finally the Valley](#a-from-greece-to-göttingen-and-finally-the-valley)
+- [B. From Classical to Constructive Mathematics](#a-from-greece-to-göttingen-and-finally-the-valley)
+  - [B.1 Ancient Mathematics]()
+  - [B.2 Classical Mathematics]()
+  - [B.3 Constructive Mathematics]()
 - [C. From Sequential to Parallel Processors](#c-from-sequential-to-parallel-processors)
 
 </div>
@@ -1073,11 +1076,11 @@ then in the part 2 will be semi-automated semantic sequence learning -->
 > In which we historically retrace the development of the foundations of mathematics, from the geometry of ancient greek mathematics, to the logicism and formalism of Göttingen, and finally, to the intuitionism and constructivism of the Valley.
 
 
-### B.1 Geometry
+### B.1 Ancient Mathematics
 
-### B.2 Zermelo-Frankel
+### B.2 Classical Mathematics
 
-### B.3 Univalent Foundations
+### B.3 Constructive Mathematics
 
 
 ## C. From Sequential to Parallel Processors
