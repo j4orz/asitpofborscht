@@ -17,28 +17,31 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Auto-number the definition/theorem/lemma "snackbars" like LaTeX amsthm.
-// Terms are only ever defined inside intermezzos, so numbering is scoped to each
-// intermezzo: the Nth intermezzo (in document order) prefixes its boxes with N,
-// and a single counter — shared across all four box types — runs through that
-// intermezzo. So Intermezzo One yields "Definition 1.1", "Theorem 1.2", ... and
-// Intermezzo Two restarts at "Definition 2.1". Intermezzos are detected by a
-// heading whose text starts with "Intermezzo"; non-intermezzo headings are
-// ignored (numbering runs continuously through an intermezzo's subheadings).
-// Authoring is unchanged — data-title="Definition: Name" -> "Definition 1.1: Name".
+// Terms are only ever defined inside the prelude or an intermezzo, so numbering
+// is scoped to each: the prelude is section 0, and the Nth intermezzo (in
+// document order) is section N. A single counter — shared across all box types —
+// runs through each section. So the Prelude yields "Definition 0.1", "0.2", ...,
+// Intermezzo One yields "Definition 1.1", "Theorem 1.2", ..., and Intermezzo Two
+// restarts at "Definition 2.1". Sections are detected by a heading whose text
+// starts with "Prelude" or "Intermezzo"; non-section headings are ignored
+// (numbering runs continuously through a section's subheadings).
+// Authoring is unchanged — data-title="Definition: Name" -> "Definition 0.1: Name".
 // To number each type separately instead, key `n` by `word` (a per-type map).
 document.addEventListener("DOMContentLoaded", function () {
   var BOX = "div.definition, div.theorem, div.lemma";
   var root = document.querySelector(".content") || document.body;
-  var inter = 0;  // intermezzo ordinal (1st intermezzo -> 1)
-  var n = 0;      // running counter within the current intermezzo
+  var section = null; // section prefix: "0" for prelude, "1".. per intermezzo
+  var inter = 0;      // intermezzo ordinal (1st intermezzo -> 1)
+  var n = 0;          // running counter within the current section
   root.querySelectorAll("h1, h2, h3, h4, " + BOX).forEach(function (el) {
     if (/^H[1-4]$/.test(el.tagName)) {
-      if (/^\s*Intermezzo\b/i.test(el.textContent)) { inter += 1; n = 0; }
+      if (/^\s*Intermezzo\b/i.test(el.textContent)) { inter += 1; section = String(inter); n = 0; }
+      else if (/^\s*Prelude\b/i.test(el.textContent)) { section = "0"; n = 0; }
       return;
     }
     if (el.dataset.numbered) return; // idempotent guard
     n += 1;
-    var num = inter ? inter + "." + n : String(n); // plain fallback outside intermezzos
+    var num = section !== null ? section + "." + n : String(n); // plain fallback outside sections
     var title = (el.getAttribute("data-title") || "").trim();
     var i = title.indexOf(":");
     var word = (i >= 0 ? title.slice(0, i) : title).trim();

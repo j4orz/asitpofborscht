@@ -18,7 +18,7 @@
   - [A.6 Summary](#06-summary)
   - [A.7 Bibliographic Notes](#07-bibiliographic-notes)
   - [A.8 Problems](#08-problems)
-- [B. From Classical to Constructive Mathematics](#a-from-greece-to-göttingen-and-finally-the-valley)
+- [B. From Classical to Constructive Mathematics]()
   - [B.1 Ancient Mathematics]()
   - [B.2 Classical Mathematics]()
   - [B.3 Constructive Mathematics]()
@@ -1071,7 +1071,7 @@ then in the part 2 will be semi-automated semantic sequence learning -->
 - sequence: https://arxiv.org/abs/1810.04805, https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf -->
 
 
-## B. From Greece, to Göttingen and finally the Valley
+## B. From Classical to Constructive Mathematics
 
 > In which we historically retrace the development of the foundations of mathematics, from the geometry of ancient greek mathematics, to the logicism and formalism of Göttingen, and finally, to the intuitionism and constructivism of the Valley.
 

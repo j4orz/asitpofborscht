@@ -28,6 +28,7 @@ import html
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 
@@ -277,6 +278,14 @@ def build_and_load(context):
         if cached == fp:
             sys.stderr.write("mdbook-lean: Lean unchanged, skipping lake build\n")
         else:
+            # Force Lake to regenerate all highlighted JSON. Lake's :highlighted
+            # facet doesn't re-emit its output when a module is replayed from
+            # cache, so an edited source can leave a stale JSON in place while
+            # `lake build` still reports success. Since our own fingerprint says
+            # the Lean inputs changed, clear the output dir so the facet has to
+            # rewrite it — the only reliable invalidation.
+            if os.path.isdir(highlighted):
+                shutil.rmtree(highlighted, ignore_errors=True)
             try:
                 subprocess.run(
                     ["lake", "build", "%s:highlighted" % lib],
