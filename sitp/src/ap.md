@@ -23,6 +23,9 @@
   - [B.2 Classical Mathematics]()
   - [B.3 Constructive Mathematics]()
 - [C. From Sequential to Parallel Processors](#c-from-sequential-to-parallel-processors)
+  - [Instruction Sets, Processor Pipelines, Memory Hierarchies]()
+  - [C.1 Accelerating the Communication of Hierarchies]()
+  - [C.2 Accelerating the Computation of Pipelines]()
 
 </div>
 

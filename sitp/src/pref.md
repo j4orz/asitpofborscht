@@ -48,3 +48,7 @@ and perhaps others would feel similarly. That is the genesis story for this book
 <!-- The Structure and Interpretation of Tensor Programs is very much a whimsical whirlwind tour<span class="sidenote-number"></span><span class="sidenote">*See [http://www.literateprogramming.com/](http://www.literateprogramming.com/)*</span> to the world of deep learning and deep learning systems,
 for each concept will be introduced twice: once to motivate the intuition and twice more to sharpen the formalization.
 Both seem necessary for understanding. -->
+
+https://www.paulgraham.com/desres.html
+
+> The difference between design and research seems to be a question of new versus good. Design doesn't have to be new, but it has to be good. Research doesn't have to be good, but it has to be new.
