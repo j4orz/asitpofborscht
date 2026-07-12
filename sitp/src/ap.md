@@ -8,24 +8,27 @@
 
 <div class="toc">
 
-- [A. From Symbolic Software 1.0 to Stochastic Software 2.0](#b-from-symbolic-software-10-to-stochastic-software-20)
-  - [A.1 From Psychology to Artificial Intelligence](#01-from-psychology-to-artificial-intelligence)
-  - [A.2 Weizenbaum's Turing Test Cheater](#02-weizenbaum-cheats-turings-test-with-the-pattern-matching-of-eliza) <!-- with the Pattern Matching of `ELIZA` -->
-  - [A.3 Wood's Winograd Challenge](#03-woods-winograd-challenge-with-the-translation-of-lunar) <!-- with the Translation of `LUNAR` -->
-  <!-- - [A.4 Feigenbaum's Narrow Expertise with the Heuristics of `DENDRAL`](#04-feigenbaums-narrow-expertise-with-the-heuristics-of-dendral) -->
-  - [A.4 Lenat's Advice Taker](#04-lenats-advice-taker-with-the-frames-of-cyc) <!-- with the Frames of `CYC` -->
-  - [A.5 From the Tractatus to Investigations]() <!-- logical to distributional semantics -->
-  - [A.6 Summary](#06-summary)
-  - [A.7 Bibliographic Notes](#07-bibiliographic-notes)
-  - [A.8 Problems](#08-problems)
-- [B. From Classical to Constructive Mathematics]()
-  - [B.1 Ancient Mathematics]()
-  - [B.2 Classical Mathematics]()
-  - [B.3 Constructive Mathematics]()
+- [A. From Problems to Proof]()
+  - [A.1 Naturals]()
+  - [A.2 Integers]()
+  - [A.3 Rationals]()
+  - [A.4 Reals]()
+- [B. From Symbolic Software 1.0 to Stochastic Software 2.0](#b-from-symbolic-software-10-to-stochastic-software-20)
+  - [B.1 From Psychology to Artificial Intelligence](#01-from-psychology-to-artificial-intelligence)
+  - [B.2 Weizenbaum's Turing Test Cheater](#02-weizenbaum-cheats-turings-test-with-the-pattern-matching-of-eliza) <!-- with the Pattern Matching of `ELIZA` -->
+  - [B.3 Wood's Winograd Challenge](#03-woods-winograd-challenge-with-the-translation-of-lunar) <!-- with the Translation of `LUNAR` -->
+  <!-- - [B.4 Feigenbaum's Narrow Expertise with the Heuristics of `DENDRAL`](#04-feigenbaums-narrow-expertise-with-the-heuristics-of-dendral) -->
+  - [B.4 Lenat's Advice Taker](#04-lenats-advice-taker-with-the-frames-of-cyc) <!-- with the Frames of `CYC` -->
+  - [B.5 From the Tractatus to Investigations]() <!-- logical to distributional semantics -->
+  - [B.6 Summary](#06-summary)
+  - [B.7 Bibliographic Notes](#07-bibiliographic-notes)
+  - [B.8 Problems](#08-problems)
 - [C. From Sequential to Parallel Processors](#c-from-sequential-to-parallel-processors)
-  - [Instruction Sets, Processor Pipelines, Memory Hierarchies]()
-  - [C.1 Accelerating the Communication of Hierarchies]()
-  - [C.2 Accelerating the Computation of Pipelines]()
+  - [C.1 Instruction Sets, Processor Pipelines, Memory Hierarchies]()
+  - [C.2 Accelerating the Communication of Hierarchies]()
+  - [C.3 Accelerating the Computation of Pipelines]()
+  - [C.4 NVIDIA Maxwell]()
+  - [C.5 NVIDIA Fermi]()
 
 </div>
 
