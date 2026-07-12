@@ -32,11 +32,149 @@
 
 </div>
 
-## A. From Symbolic Software 1.0 to Stochastic Software 2.0
+## A. From Problems to Proof
+
+> In which we historically retrace the development of the foundations of mathematics, from the geometry of ancient greek mathematics, to the logicism and formalism of Göttingen, and finally, to the intuitionism and constructivism of the Valley.
+
+
+### Types, Expressions, Values
+Whether you feel at home with [Scheme](https://sourceacademy.org/sicpjs/making-of), [Py](https://www.composingprograms.com/)[thon](https://dcic-world.org/), [Javascript](https://sourceacademy.org/sicpjs/making-of), or [OCaml](https://cs3110.github.io/textbook/cover.html),
+all programming languages have <span class="defnote">**types**</span>**types**, <span class="defnote">**expressions**</span>**expressions**, and <span class="defnote">**values**</span>**values**.
+You may be familiar with REPL
+
+### Types as Propositions, Programs as Proof
+
+<div class="dropcap">
+
+In [Chapter 0. From Symbolic Software 1.0 to Stochastic Software 2.0](#0-from-symbolic-software-10-to-stochastic-software-20),
+we implemented some conversational machines that were fairly representative of early approaches to building artificial intelligence
+from the subdisciplines computational linguistics and natural language processing.
+For instance, `ELIZA` used *regular expressions* which defined a *regular language* in order to implement (todo)
+`LUNAR` and `SHRDLU` used *context-free grammar* defining *context-free languages* in order to implement a stronger *syntactic* and *semantic analysis*;
+finally, `CYC` used (todo) in order to (Todo)
+
+</div>
+
+Although these deterministic and finitely discrete methods of software 1.0 run into the Bitter Lesson — that is, describing a reality with too many parts to count —
+we will need the machinery that *underlies* such techniques, namely that of sets, functions, logic
+because the same machinery is the common unifying foundation for all of mathematics,
+including the set of stochastic and infinitely continuous mathematics we need for our journey up ahead with software 2.0.
+While we've introduced such languages of set theory, functions, and logic throughout chapter 0 by appealing to your intuition as a programmer,
+as per the opening exercept, truly effective communication and understanding requires the <span class="defnote">**formal**</span>**formal** study of mathematics using the <span class="defnote">**axiom**</span>**axiomatic**  method.
+
+Historically speaking, (elements of euclid...)
+
+The good news as a programmer is that you have an advantage to learning mathematics, because the essence of both activities are in fact one and the same
+with the Univalent Foundations<span class="sidenote-number"></span><span class="sidenote">*See [https://en.wikipedia.org/wiki/Univalent_foundations](https://en.wikipedia.org/wiki/Univalent_foundations), and [https://ncatlab.org/nlab/show/univalent+foundations+for+mathematics](https://ncatlab.org/nlab/show/univalent+foundations+for+mathematics)*</span>.
+
+Let us begin.<br>
+You will understand in due time.
+
+<!-- This sets a very high standard: every rule of inference and every step of a calculation has to be justified by appealing to prior definitions and theorems, all the way down to basic axioms and rules. -->
+
+<div class="definition" data-title="Definition: Set">
+
+A set<span class="sidenote-number"></span><span class="sidenote"><span class="ref-list"><span class="ref-item"><a href="https://mathworld.wolfram.com/Set.html">https://mathworld.wolfram.com/Set.html</a></span><span class="ref-item"><a href="https://en.wikipedia.org/wiki/Set_theory">https://en.wikipedia.org/wiki/Set_theory</a></span><span class="ref-item"><a href="https://grokipedia.com/page/Set_theory">https://grokipedia.com/page/Set_theory</a></span><span class="ref-item"><a href="https://doi.org/10.1515/9781400830398.615">Princeton Companion to Mathematics §IV.22 Set Theory</a></span></span></span> is a collection of elements from a specified universe of discourse. The collection of everything in the universe of discourse is called the universal set denoted by $\mathscr{U}$ ($\LaTeX$ code: `\mathcal{U}`)
+
+The expression $x \in X$ ($\LaTeX$ code: `\in`) denotes the statement that $x$ is an element of $X$;
+we write $x \not\in X$ ($\LaTeX$ code: `\notin`) to mean $\neg(x\in X)$, that is that $x$ is not an element of $X$.
+
+In Lean,
+
+{{#lean SitpLean.Examples}}
+
+
+```lean
+variable {α : Type*}
+variable (s t u : Set α)
+open Set
+
+example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u := by
+  rw [subset_def, inter_def, inter_def]
+  rw [subset_def] at h
+  simp only [mem_setOf]
+  rintro x ⟨xs, xu⟩
+  exact ⟨h _ xs, xu⟩
+
+example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u := by
+  simp only [subset_def, mem_inter_iff] at *
+  rintro x ⟨xs, xu⟩
+  exact ⟨h _ xs, xu⟩
+```
+
+
+</div>
+
+<div class="definition" data-title="Definition: Alphabet">
+
+An **alphabet** is a finite, non-empty set, denoted by $\Sigma$ ($\LaTeX$ code: `\Sigma`), $\Delta$ ($\LaTeX$ code: `\Delta`).
+The elements of an alphabet $\Sigma$ are referred to as **symbols**,
+denoted by $a, b, c$.
+</div>
+
+<div class="definition" data-title="Definition: String">
+
+A **string** over an alphabet is any *finite* sequence of symbols.
+Strings are made up of symbols from $\Sigma$ and are denoted with $\mathbf{a}=(a1,a2,\cdots,a_t)$ where each $a_i \in \Sigma$.
+
+</div>
+
+> [!NOTE]
+> <img class="owl" src="./assets/owl.png" alt="" style="float: left; width: 140px; margin: 0 1em 0.5em 0;"> Because we are dealing with the domain of language, we will denote alphabets of symbols and strings of symbols with $w \in V$ and $\mathbf{s} = (w1,w2,\cdots,w_t), w_i \in V$ respectively rather than $a \in \Sigma$ and $\mathbf{a}=(a1,a2,\cdots,a_t), a_i \in \Sigma$ to denote the fact that our alphabets and strings are modeling **vocabularies** and **sentences** of words within the domain of language. The alphabet and string formalism of formal language theory can be applied to other domains that admit **sequences** of **tokens** i.e biology with protein folding.
+
+<div class="definition" data-title="Definition: Kleene Star">
+
+
+</div>
+
+<div class="definition" data-title="Definition: Language">
+
+
+</div>
+
+
+Chapter 0 deals with formal language theory and set theory as if it were a natural language.
+
+It introduces the “basic words” of the language, suggests how to compose “words” into “sentences,” and appeals to your knowledge of algebra for an intuitive understanding of these “sentences.” While this kind of introduction works to some extent, truly effective communication requires some formal study.
+
+
+<!-- expert systems were brittle (brick wall. dog tricks)
+thus, let's encode all common sense into cyc (minsky once said everyone quit grad school and work on cyc)
+but then knowledge aquisition bottleneck
+elements of tensor programs with continuous structures and stochastic descriptions
+from the tractatus to the investigations is effectively the transition from software 1.0 to sofware 2.0
+**however, to understand the claude, we must return to claude**. -->
+
+<!-- So in the next few sections of Chapter 1, we place our focus on probability theory,
+which is used to represent uncertainty around non-deterministic — *stochastic* — data
+following the principle of **distributional semantics by (Harris 1954) and (Firth 1957)**:
+  - [1.2 Distributing Data Stochastically with Probabilities of Probability Spaces]()
+  - [1.3 Composing Probabilities with Rules: Sum Rule, Product Rule, and Bayes Rule]()
+  - [1.4 Random Variables with their Distributions, Expectations, and Variance]()
+  - [1.5 Learning Probabilities from Data with Parameter Estimation via Maximum Likelihood]() -->
+
+<!-- markov, shannon, language models
+which will still learn syntactic facts but will be probabilistic
+then in the part 2 will be semi-automated semantic sequence learning -->
+
+<!-- compiler/sw1.0: lexical analysis, syntactic analysis, semantic analysis, program synthesis
+
+- phonological analysis/tokenization
+- morphological analysis: https://aclanthology.org/W13-3512.pdf
+- syntactic analysis: https://aclanthology.org/D14-1082.pdf, https://research.google/blog/announcing-syntaxnet-the-worlds-most-accurate-parser-goes-open-source/
+- semantic analysis: https://arxiv.org/pdf/1406.1827, https://nlp.stanford.edu/~socherr/EMNLP2013_RNTN.pdf
+- q/a: https://aclanthology.org/D14-1070.pdf,
+- translation: https://arxiv.org/abs/1409.3215, https://arxiv.org/pdf/1409.0473, https://aclanthology.org/P16-1100.pdf, https://arxiv.org/abs/1706.03762
+- sequence: https://arxiv.org/abs/1810.04805, https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf -->
+
+
+
+## B. From Symbolic Software 1.0 to Stochastic Software 2.0
 <small>[$\hookleftarrow$ Table of Contents](#table-of-contents)</small>
 
 > In which we historically retrace the development and failure of the discretely symbolic approach to build artificially intelligent machines with common sense and motivate the need to transition from logical and finitely discrete software 1.0 to stochastic and infintely continuous software 2.0.
 <!-- $p(X=x)$ from $D=\{x^{(i)}\}_{i=1}^{n}$ -->
+
 
 ### A.1 From Psychology to Artificial Intelligence
 
@@ -859,6 +997,17 @@ question answering systems eventually incorporated the web as it's knowledge bas
 and the field of information retrieval emerged.
 https://start.csail.mit.edu/index.php
 
+After retracing the development of logical and finitely discrete methods of software 1.0
+in [Chapter 0. From Symbolic Software 1.0 to Stochastic Software 2.0](#0-from-symbolic-software-10-to-stochastic-software-20),
+we now have a better understanding of why they failed to implement the internal **representations** and **reasoning** required for an artificially intelligent conversational machine such as that of ChatGPT.
+From `ELIZA`'s simple if-then rules in [Chapter 0.2](#02-weizenbaum-cheats-turings-test-with-the-pattern-matching-of-eliza),
+to `LUNAR`s syntactic and semantic analysis in [Chapter 0.3](#03-woods-winograd-challenge-with-the-translation-of-lunar),
+and finally to the penultimate `CYC` with it's ontology and inference in [Chapter 0.4](#04-lenats-advice-taker-with-the-frames-of-cyc),
+all systems attempted to **describe a reality with too many parts to count**, a philosophical principle predicted by the
+late<span class="sidenote-number"></span><span class="sidenote">*late in the sense that he has passed, the work was published posthumously, but also the fact that the work that espouses stochastic and infinitely continuous methods differentiates itself from "early" Wittgenstein in which he was a proponent of logical and finitely discrete methods*</span>
+philosopher Ludwig Wittgenstein<span class="sidenote-number"></span><span class="sidenote">*See [Tractatus Logico-Philosophicus (Wittgenstein 1921)](https://www.gutenberg.org/files/5740/5740-pdf.pdf) and [Philosophical Investigations (Wittgenstein 1953)](https://static1.squarespace.com/static/54889e73e4b0a2c1f9891289/t/564b61a4e4b04eca59c4d232/1447780772744/Ludwig.Wittgenstein.-.Philosophical.Investigations.pdf)*</span>.
+before any of McCarthy, Minsky, Newell, and Simon started spearheading the discipline's first approach to predominantly symbolic methods.
+
 
 ### A.6 Summary
 
@@ -944,150 +1093,6 @@ But before diving into the continuous structures (scalars, vectors, matrices, te
 of software 2.0, let's review the symbolic and logical methods of GOFAI that were used in systems like ELIZA, and it's GOFAI successors. -->
 
 ### 0.8 Problems
-
-## Intermezzo One: The Language of Sets, Functions, Logic
-
-> ~~Fixed-Size Data~~<span class="sidenote-number"></span><span class="sidenote">*A modified excerpt from How to Design Programs (Felleisen et al., 2014) [Intermezzo 1: Beginning Student Language](https://htdp.org/2026-5-28//Book/i1-2.html#%28part._.B.S.L_.Meaning%29).*</span> <a href="">*Chapter 0*</a> deals with ~~BSL~~ <a href="">*formal language theory and set theory*</a> as if it were a natural language. It introduces the “basic words” of the language <a href="">*(which in turn, models natural language)*</a>, suggests how to compose “words” into “sentences,” and appeals to your knowledge of ~~algebra~~ <a href="">*sets as a collection of objects*</a> for an intuitive understanding of these “sentences.” While this kind of introduction works to some extent, truly effective communication requires some formal study.
-
-<!-- > In many ways, the analogy of Fixed-Size Data is correct. A programming language does have a vocabulary and a grammar, though programmers use the word syntax for these elements. A sentence in BSL is an expression or a definition. The grammar of BSL dictates how to form these phrases. But not all grammatical sentences are meaningful—neither in English nor in a programming language. For example, the English sentence “the cat is round” is a meaningful sentence, but “the brick is a car” makes no sense even though it is completely grammatical. To determine whether a sentence is meaningful, we must know the meaning of a language; programmers call this semantics. -->
-
-<br>
-
-<div class="dropcap">
-
-In [Chapter 0. From Symbolic Software 1.0 to Stochastic Software 2.0](#0-from-symbolic-software-10-to-stochastic-software-20),
-we implemented some conversational machines that were fairly representative of early approaches to building artificial intelligence
-from the subdisciplines computational linguistics and natural language processing.
-For instance, `ELIZA` used *regular expressions* which defined a *regular language* in order to implement (todo)
-`LUNAR` and `SHRDLU` used *context-free grammar* defining *context-free languages* in order to implement a stronger *syntactic* and *semantic analysis*;
-finally, `CYC` used (todo) in order to (Todo)
-
-</div>
-
-Although these deterministic and finitely discrete methods of software 1.0 run into the Bitter Lesson — that is, describing a reality with too many parts to count —
-we will need the machinery that *underlies* such techniques, namely that of sets, functions, logic
-because the same machinery is the common unifying foundation for all of mathematics,
-including the set of stochastic and infinitely continuous mathematics we need for our journey up ahead with software 2.0.
-While we've introduced such languages of set theory, functions, and logic throughout chapter 0 by appealing to your intuition as a programmer,
-as per the opening exercept, truly effective communication and understanding requires the <span class="defnote">**formal**</span>**formal** study of mathematics using the <span class="defnote">**axiom**</span>**axiomatic**  method.
-
-Historically speaking, (elements of euclid...)
-
-The good news as a programmer is that you have an advantage to learning mathematics, because the essence of both activities are in fact one and the same
-with the Univalent Foundations<span class="sidenote-number"></span><span class="sidenote">*See [https://en.wikipedia.org/wiki/Univalent_foundations](https://en.wikipedia.org/wiki/Univalent_foundations), and [https://ncatlab.org/nlab/show/univalent+foundations+for+mathematics](https://ncatlab.org/nlab/show/univalent+foundations+for+mathematics)*</span>.
-
-Let us begin.<br>
-You will understand in due time.
-
-<!-- This sets a very high standard: every rule of inference and every step of a calculation has to be justified by appealing to prior definitions and theorems, all the way down to basic axioms and rules. -->
-
-<div class="definition" data-title="Definition: Set">
-
-A set<span class="sidenote-number"></span><span class="sidenote"><span class="ref-list"><span class="ref-item"><a href="https://mathworld.wolfram.com/Set.html">https://mathworld.wolfram.com/Set.html</a></span><span class="ref-item"><a href="https://en.wikipedia.org/wiki/Set_theory">https://en.wikipedia.org/wiki/Set_theory</a></span><span class="ref-item"><a href="https://grokipedia.com/page/Set_theory">https://grokipedia.com/page/Set_theory</a></span><span class="ref-item"><a href="https://doi.org/10.1515/9781400830398.615">Princeton Companion to Mathematics §IV.22 Set Theory</a></span></span></span> is a collection of elements from a specified universe of discourse. The collection of everything in the universe of discourse is called the universal set denoted by $\mathscr{U}$ ($\LaTeX$ code: `\mathcal{U}`)
-
-The expression $x \in X$ ($\LaTeX$ code: `\in`) denotes the statement that $x$ is an element of $X$;
-we write $x \not\in X$ ($\LaTeX$ code: `\notin`) to mean $\neg(x\in X)$, that is that $x$ is not an element of $X$.
-
-In Lean,
-
-{{#lean SitpLean.Examples}}
-
-
-```lean
-variable {α : Type*}
-variable (s t u : Set α)
-open Set
-
-example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u := by
-  rw [subset_def, inter_def, inter_def]
-  rw [subset_def] at h
-  simp only [mem_setOf]
-  rintro x ⟨xs, xu⟩
-  exact ⟨h _ xs, xu⟩
-
-example (h : s ⊆ t) : s ∩ u ⊆ t ∩ u := by
-  simp only [subset_def, mem_inter_iff] at *
-  rintro x ⟨xs, xu⟩
-  exact ⟨h _ xs, xu⟩
-```
-
-
-</div>
-
-<div class="definition" data-title="Definition: Alphabet">
-
-An **alphabet** is a finite, non-empty set, denoted by $\Sigma$ ($\LaTeX$ code: `\Sigma`), $\Delta$ ($\LaTeX$ code: `\Delta`).
-The elements of an alphabet $\Sigma$ are referred to as **symbols**,
-denoted by $a, b, c$.
-</div>
-
-<div class="definition" data-title="Definition: String">
-
-A **string** over an alphabet is any *finite* sequence of symbols.
-Strings are made up of symbols from $\Sigma$ and are denoted with $\mathbf{a}=(a1,a2,\cdots,a_t)$ where each $a_i \in \Sigma$.
-
-</div>
-
-> [!NOTE]
-> <img class="owl" src="./assets/owl.png" alt="" style="float: left; width: 140px; margin: 0 1em 0.5em 0;"> Because we are dealing with the domain of language, we will denote alphabets of symbols and strings of symbols with $w \in V$ and $\mathbf{s} = (w1,w2,\cdots,w_t), w_i \in V$ respectively rather than $a \in \Sigma$ and $\mathbf{a}=(a1,a2,\cdots,a_t), a_i \in \Sigma$ to denote the fact that our alphabets and strings are modeling **vocabularies** and **sentences** of words within the domain of language. The alphabet and string formalism of formal language theory can be applied to other domains that admit **sequences** of **tokens** i.e biology with protein folding.
-
-<div class="definition" data-title="Definition: Kleene Star">
-
-
-</div>
-
-<div class="definition" data-title="Definition: Language">
-
-
-</div>
-
-
-Chapter 0 deals with formal language theory and set theory as if it were a natural language.
-
-It introduces the “basic words” of the language, suggests how to compose “words” into “sentences,” and appeals to your knowledge of algebra for an intuitive understanding of these “sentences.” While this kind of introduction works to some extent, truly effective communication requires some formal study.
-
-
-<!-- expert systems were brittle (brick wall. dog tricks)
-thus, let's encode all common sense into cyc (minsky once said everyone quit grad school and work on cyc)
-but then knowledge aquisition bottleneck
-elements of tensor programs with continuous structures and stochastic descriptions
-from the tractatus to the investigations is effectively the transition from software 1.0 to sofware 2.0
-**however, to understand the claude, we must return to claude**. -->
-
-<!-- So in the next few sections of Chapter 1, we place our focus on probability theory,
-which is used to represent uncertainty around non-deterministic — *stochastic* — data
-following the principle of **distributional semantics by (Harris 1954) and (Firth 1957)**:
-  - [1.2 Distributing Data Stochastically with Probabilities of Probability Spaces]()
-  - [1.3 Composing Probabilities with Rules: Sum Rule, Product Rule, and Bayes Rule]()
-  - [1.4 Random Variables with their Distributions, Expectations, and Variance]()
-  - [1.5 Learning Probabilities from Data with Parameter Estimation via Maximum Likelihood]() -->
-
-<!-- markov, shannon, language models
-which will still learn syntactic facts but will be probabilistic
-then in the part 2 will be semi-automated semantic sequence learning -->
-
-<!-- compiler/sw1.0: lexical analysis, syntactic analysis, semantic analysis, program synthesis
-
-- phonological analysis/tokenization
-- morphological analysis: https://aclanthology.org/W13-3512.pdf
-- syntactic analysis: https://aclanthology.org/D14-1082.pdf, https://research.google/blog/announcing-syntaxnet-the-worlds-most-accurate-parser-goes-open-source/
-- semantic analysis: https://arxiv.org/pdf/1406.1827, https://nlp.stanford.edu/~socherr/EMNLP2013_RNTN.pdf
-- q/a: https://aclanthology.org/D14-1070.pdf,
-- translation: https://arxiv.org/abs/1409.3215, https://arxiv.org/pdf/1409.0473, https://aclanthology.org/P16-1100.pdf, https://arxiv.org/abs/1706.03762
-- sequence: https://arxiv.org/abs/1810.04805, https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf -->
-
-
-## B. From Classical to Constructive Mathematics
-
-> In which we historically retrace the development of the foundations of mathematics, from the geometry of ancient greek mathematics, to the logicism and formalism of Göttingen, and finally, to the intuitionism and constructivism of the Valley.
-
-
-### B.1 Ancient Mathematics
-
-### B.2 Classical Mathematics
-
-### B.3 Constructive Mathematics
-
 
 ## C. From Sequential to Parallel Processors
 
