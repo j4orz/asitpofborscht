@@ -2,115 +2,105 @@
 
 Abelson, H., & Gerald Jay Sussman. (1996). Structure and Interpretation of Computer Programs. MIT Press. [https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/index.html](https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/index.html)
 
-Amanzhol Salykov. (2025, January 12). Advanced Matrix Multiplication Optimization on NVIDIA GPUs. Salykova. [https://salykova.github.io/sgemm-gpu](https://salykova.github.io/sgemm-gpu)
+<!-- Amanzhol Salykov. (2025, January 12). Advanced Matrix Multiplication Optimization on NVIDIA GPUs. Salykova. [https://salykova.github.io/sgemm-gpu](https://salykova.github.io/sgemm-gpu) -->
 
-Ansel, J., Yang, E., He, H., Gimelshein, N., Jain, A., Voznesensky, M., Bao, B., Bell, P., Berard, D., Evgeni Burovski, Chauhan, G., Anjali Chourdia, Constable, W., Alban Desmaison, DeVito, Z., Ellison, E., Feng, W., Gong, J., Gschwind, M., & Hirsh, B. (2024). PyTorch 2: Faster Machine Learning Through Dynamic Python Bytecode Transformation and Graph Compilation. ACM, ASPLOS’2024. [https://doi.org/10.1145/3620665.3640366](https://doi.org/10.1145/3620665.3640366)
+<!-- Ansel, J., Yang, E., He, H., Gimelshein, N., Jain, A., Voznesensky, M., Bao, B., Bell, P., Berard, D., Evgeni Burovski, Chauhan, G., Anjali Chourdia, Constable, W., Alban Desmaison, DeVito, Z., Ellison, E., Feng, W., Gong, J., Gschwind, M., & Hirsh, B. (2024). PyTorch 2: Faster Machine Learning Through Dynamic Python Bytecode Transformation and Graph Compilation. ACM, ASPLOS’2024. [https://doi.org/10.1145/3620665.3640366](https://doi.org/10.1145/3620665.3640366) -->
 
 Bach, F. (2024). Learning Theory from First Principles. MIT Press. [https://www.di.ens.fr/~fbach/ltfp_book.pdf](https://www.di.ens.fr/~fbach/ltfp_book.pdf)
 
-Bakhvalov, D. (2024). Performance Analysis and Tuning on Modern CPUs. [https://github.com/dendibakh/perf-book](https://github.com/dendibakh/perf-book)
+<!-- Bakhvalov, D. (2024). Performance Analysis and Tuning on Modern CPUs. [https://github.com/dendibakh/perf-book](https://github.com/dendibakh/perf-book) -->
 
 Bertsekas, D. P., & Tsitsiklis, J. N. (2008). Introduction to Probability. Athena Scientific.
 
 Bryant, R. E., & O’hallaron, D. R. (2016). Computer Systems : a Programmer’s Perspective. Pearson.
 
-Boehm, S. (2022, December 31). How to Optimize a CUDA Matmul Kernel for cuBLAS-like Performance: a Worklog. Siboehm.com. [https://siboehm.com/articles/22/CUDA-MMM](https://siboehm.com/articles/22/CUDA-MMM)
+<!-- Boehm, S. (2022, December 31). How to Optimize a CUDA Matmul Kernel for cuBLAS-like Performance: a Worklog. Siboehm.com. [https://siboehm.com/articles/22/CUDA-MMM](https://siboehm.com/articles/22/CUDA-MMM) -->
 
 Bright, P., Edelman, A., & Johnson, S. G. (2025). Matrix Calculus (for Machine Learning and Beyond). ArXiv.org. [https://arxiv.org/abs/2501.14787](https://arxiv.org/abs/2501.14787)
 
 Chan, S. H. (2021). Introduction to Probability for Data Science. Michigan Publishing. [https://probability4datascience.com/](https://probability4datascience.com/)
 
-Chen, T., Moreau, T., Jiang, Z., Zheng, L., Yan, E., Cowan, M., Shen, H., Wang, L., Hu, Y., Ceze, L., Guestrin, C., & Krishnamurthy, A. (2018). TVM: An Automated End-to-End Optimizing Compiler for Deep Learning. [https://doi.org/10.48550/arxiv.1802.04799](https://doi.org/10.48550/arxiv.1802.04799)
+<!-- Chen, T., Moreau, T., Jiang, Z., Zheng, L., Yan, E., Cowan, M., Shen, H., Wang, L., Hu, Y., Ceze, L., Guestrin, C., & Krishnamurthy, A. (2018). TVM: An Automated End-to-End Optimizing Compiler for Deep Learning. [https://doi.org/10.48550/arxiv.1802.04799](https://doi.org/10.48550/arxiv.1802.04799) -->
 
-Dao, T. (2023, July 17). FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning. ArXiv.org. [https://arxiv.org/abs/2307.08691](https://arxiv.org/abs/2307.08691)
+<!-- Dao, T. (2023, July 17). FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning. ArXiv.org. [https://arxiv.org/abs/2307.08691](https://arxiv.org/abs/2307.08691) -->
 
-Dao, T., Fu, D. Y., Ermon, S., Rudra, A., & Ré, C. (2022, June 23). FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness. ArXiv.org. [https://doi.org/10.48550/arXiv.2205.14135](https://doi.org/10.48550/arXiv.2205.14135)
-
-Darve, E., & Wootters, M. (2021). Numerical Linear Algebra with Julia. SIAM. [https://ericdarve.github.io/NLA](https://ericdarve.github.io/NLA)
+<!-- Dao, T., Fu, D. Y., Ermon, S., Rudra, A., & Ré, C. (2022, June 23). FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness. ArXiv.org. [https://doi.org/10.48550/arXiv.2205.14135](https://doi.org/10.48550/arXiv.2205.14135) -->
 
 Demmel, J. W. (1997). Applied numerical linear algebra. Society For Industrial And Applied Mathematics.
 
-Dongarra, J., J. Du Croz, Sven Hammarling, & Duff, I. S. (1990). A Set of Level 3 Basic Linear Algebra Subprograms. ACM Transactions on Mathematical Software, 16(1), 1–17. [https://doi.org/10.1145/77626.79170](https://doi.org/10.1145/77626.79170)
+<!-- Dongarra, J., J. Du Croz, Sven Hammarling, & Duff, I. S. (1990). A Set of Level 3 Basic Linear Algebra Subprograms. ACM Transactions on Mathematical Software, 16(1), 1–17. [https://doi.org/10.1145/77626.79170](https://doi.org/10.1145/77626.79170)
 
 Dongarra, J., J. Du Croz, Sven Hammarling, & Hanson, R. J. (1988a). Algorithm 656: An Extended Set of Basic Linear Algebra Subprograms: Model Implementation and Test Programs. ACM Transactions on Mathematical Software, 14(1), 18–32. [https://doi.org/10.1145/42288.42292](https://doi.org/10.1145/42288.42292)
 
-Dongarra, J., J. Du Croz, Sven Hammarling, & Hanson, R. W. (1988b). An Extended Set of FORTRAN Basic Linear Algebra Subprograms. ACM Transactions on Mathematical Software, 14(1), 1–17. [https://doi.org/10.1145/42288.42291](https://doi.org/10.1145/42288.42291)
+Dongarra, J., J. Du Croz, Sven Hammarling, & Hanson, R. W. (1988b). An Extended Set of FORTRAN Basic Linear Algebra Subprograms. ACM Transactions on Mathematical Software, 14(1), 1–17. [https://doi.org/10.1145/42288.42291](https://doi.org/10.1145/42288.42291) -->
 
 Fisler, K., Krishnamurthi, S., Lerner, B. S., & Politz, J. G. (2025). A Data-Centric Introduction to Computing. Dcic-World.org. [https://dcic-world.org/](https://dcic-world.org/)
 
-Fog, A. (n.d.). Software Optimization: C++ and Assembly. Agner.org. [https://agner.org/optimize/](https://agner.org/optimize/)
+<!-- Fog, A. (n.d.). Software Optimization: C++ and Assembly. Agner.org. [https://agner.org/optimize/](https://agner.org/optimize/) -->
 
 Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. The MIT Press. [https://www.deeplearningbook.org/](https://www.deeplearningbook.org/)
 
-Gordić, A. (2025, October 29). Inside NVIDIA GPUs: Anatomy of high performance matmul kernels - Aleksa Gordić. Aleksagordic.com. [https://www.aleksagordic.com/blog/matmul](https://www.aleksagordic.com/blog/matmul)
+<!-- Gordić, A. (2025, October 29). Inside NVIDIA GPUs: Anatomy of high performance matmul kernels - Aleksa Gordić. Aleksagordic.com. [https://www.aleksagordic.com/blog/matmul](https://www.aleksagordic.com/blog/matmul)
 
 Goto, K., & Geijn, R. A. van de. (2008). Anatomy of High-Performance Matrix Multiplication. ACM Transactions on Mathematical Software, 34(3), 1–25. [https://doi.org/10.1145/1356052.1356053](https://doi.org/10.1145/1356052.1356053)
 
-Goto, K., & Van De Geijn, R. (2008). High-Performance Implementation of the Level-3 BLAS. ACM Transactions on Mathematical Software, 35(1), 1–14. [https://doi.org/10.1145/1377603.1377607](https://doi.org/10.1145/1377603.1377607)
+Goto, K., & Van De Geijn, R. (2008). High-Performance Implementation of the Level-3 BLAS. ACM Transactions on Mathematical Software, 35(1), 1–14. [https://doi.org/10.1145/1377603.1377607](https://doi.org/10.1145/1377603.1377607) -->
 
 Güneş Baydin, A., Pearlmutter, B., Siskind, J., Baydin, G., Radul, A., & Mark, J. (2018). Automatic Differentiation in Machine Learning: a Survey. Journal of Machine Learning Research, 18, 1–43. [https://www.jmlr.org/papers/volume18/17-468/17-468.pdf](https://www.jmlr.org/papers/volume18/17-468/17-468.pdf)
 
 Hastie, T., Tibshirani, R., & Friedman, J. (2009). The Elements of Statistical learning, Second Edition: Data mining, inference, and Prediction (2nd ed.). Springer. [https://hastie.su.domains/ElemStatLearn/](https://hastie.su.domains/ElemStatLearn/)
 
-Harris, C. R., Millman, K. J., van der Walt, S. J., Gommers, R., Virtanen, P., Cournapeau, D., Wieser, E., Taylor, J., Berg, S., Smith, N. J., Kern, R., Picus, M., Hoyer, S., van Kerkwijk, M. H., Brett, M., Haldane, A., del Río, J. F., Wiebe, M., Peterson, P., & Gérard-Marchant, P. (2020). Array Programming with numpy. Nature, 585(7825), 357–362. [https://doi.org/10.1038/s41586-020-2649-2](https://doi.org/10.1038/s41586-020-2649-2)
+<!-- Harris, C. R., Millman, K. J., van der Walt, S. J., Gommers, R., Virtanen, P., Cournapeau, D., Wieser, E., Taylor, J., Berg, S., Smith, N. J., Kern, R., Picus, M., Hoyer, S., van Kerkwijk, M. H., Brett, M., Haldane, A., del Río, J. F., Wiebe, M., Peterson, P., & Gérard-Marchant, P. (2020). Array Programming with numpy. Nature, 585(7825), 357–362. [https://doi.org/10.1038/s41586-020-2649-2](https://doi.org/10.1038/s41586-020-2649-2) -->
 
 Hennessy, J. L., Patterson, D. A., & Christos Kozyrakis. (2025). Computer Architecture. Morgan Kaufmann.
 
 Hwu, W.-M. W., Kirk, D. B., & Hajj, I. E. (2022). Programming Massively Parallel Processors: A Hands-on Approach. Morgan Kaufmann.
 
-James, G., Witten, D., Hastie, T., Tibshirani, R., & Taylor, J. (2023). An Introduction to Statistical Learning. Springer. [https://www.statlearning.com/](https://www.statlearning.com/)
-
 Jurafsky, D., & H. Martin, J. (2026). Speech and Language Processing. Stanford.edu. [https://web.stanford.edu/~jurafsky/slp3/](https://web.stanford.edu/~jurafsky/slp3/)
 
-Klein, P. N. (2013). Coding the Matrix : Linear Algebra Through Applications to Computer Science. Newtonian Press. [https://codingthematrix.com/](https://codingthematrix.com/)
-
-Kwon, W., Li, Z., Zhuang, S., Sheng, Y., Zheng, L., Cody Hao Yu, Gonzalez, J. E., Zhang, H., & Stoica, I. (2023). Efficient Memory Management for Large Language Model Serving with PagedAttention. [https://doi.org/10.1145/3600006.3613165](https://doi.org/10.1145/3600006.3613165)
+<!-- Kwon, W., Li, Z., Zhuang, S., Sheng, Y., Zheng, L., Cody Hao Yu, Gonzalez, J. E., Zhang, H., & Stoica, I. (2023). Efficient Memory Management for Large Language Model Serving with PagedAttention. [https://doi.org/10.1145/3600006.3613165](https://doi.org/10.1145/3600006.3613165) -->
 
 Lambert, N. (2026). RLHF Book. Rlhfbook.com. [https://rlhfbook.com/](https://rlhfbook.com/)
 
-Lawson, C. L., Hanson, R. J., Kincaid, D. R., & Krogh, F. T. (1979). Basic Linear Algebra Subprograms for Fortran Usage. ACM Transactions on Mathematical Software, 5(3), 308–323. [https://doi.org/10.1145/355841.355847](https://doi.org/10.1145/355841.355847)
+<!-- Lawson, C. L., Hanson, R. J., Kincaid, D. R., & Krogh, F. T. (1979). Basic Linear Algebra Subprograms for Fortran Usage. ACM Transactions on Mathematical Software, 5(3), 308–323. [https://doi.org/10.1145/355841.355847](https://doi.org/10.1145/355841.355847) -->
 
-Marc Peter Deisenroth, A  Aldo Faisal, & Cheng Soon Ong. (2020). Mathematics for Machine Learning. Cambridge University Press. [https://mml-book.github.io/book/mml-book.pdf](https://mml-book.github.io/book/mml-book.pdf)
+<!-- Marc Peter Deisenroth, A  Aldo Faisal, & Cheng Soon Ong. (2020). Mathematics for Machine Learning. Cambridge University Press. [https://mml-book.github.io/book/mml-book.pdf](https://mml-book.github.io/book/mml-book.pdf) -->
 
-Minsky, M., Papert, S., & Léon Bottou. (2017). Perceptrons : An Introduction to Computational Geometry. The MIT Press.
+<!-- Minsky, M., Papert, S., & Léon Bottou. (2017). Perceptrons : An Introduction to Computational Geometry. The MIT Press. -->
 
 Matthias Felleisen, Robert Bruce Findler, Flatt, M., & Shriram Krishnamurthi. (2018). How to Design Programs: An Introduction to Programming and Computing. The MIT Press. [https://htdp.org/](https://htdp.org/)
 
-Mitchell, T. M. (1997). Machine learning. Mcgraw-Hill. [https://www.cs.cmu.edu/~tom/files/MachineLearningTomMitchell.pdf](https://www.cs.cmu.edu/~tom/files/MachineLearningTomMitchell.pdf)
+<!-- Mitchell, T. M. (1997). Machine learning. Mcgraw-Hill. [https://www.cs.cmu.edu/~tom/files/MachineLearningTomMitchell.pdf](https://www.cs.cmu.edu/~tom/files/MachineLearningTomMitchell.pdf) -->
 
 Murphy, K. P. (2022). Probabilistic Machine Learning: An Introduction. MIT Press.
 
 Myers, M., Van De Geijn, P., & Van De Geijn, R. (2021). Linear Algebra: Foundations to Frontiers. [https://www.cs.utexas.edu/~flame/laff/laff/LAFF-2.00M.pdf](https://www.cs.utexas.edu/~flame/laff/laff/LAFF-2.00M.pdf)
 
-Nakatsukasa, Y. (n.d.). Numerical Linear Algebra. Retrieved March 17, 2026, from https://courses.maths.ox.ac.uk/pluginfile.php/105965/mod_resource/content/35/NLA_lecture_notes.pdf
+<!-- Nakatsukasa, Y. (n.d.). Numerical Linear Algebra. Retrieved March 17, 2026, from https://courses.maths.ox.ac.uk/pluginfile.php/105965/mod_resource/content/35/NLA_lecture_notes.pdf -->
 
 Ng, A., & Ma, T. (2023). CS229 Lecture Notes. [https://cs229.stanford.edu/main_notes.pdf](https://cs229.stanford.edu/main_notes.pdf)
 
-Paszke, A., Gross, S., Massa, F., Lerer, A., Bradbury, J., Chanan, G., Killeen, T., Lin, Z., Gimelshein, N., Antiga, L., Desmaison, A., Kopf, A., Yang, E., DeVito, Z., Raison, M., Tejani, A., Chilamkurthy, S., Steiner, B., Fang, L., & Bai, J. (2019). PyTorch: An Imperative Style, High-Performance Deep Learning Library. Neural Information Processing Systems. [https://papers.nips.cc/paper_files/paper/2019/hash/bdbca288fee7f92f2bfa9f7012727740-Abstract.html](https://papers.nips.cc/paper_files/paper/2019/hash/bdbca288fee7f92f2bfa9f7012727740-Abstract.html)
+<!-- Paszke, A., Gross, S., Massa, F., Lerer, A., Bradbury, J., Chanan, G., Killeen, T., Lin, Z., Gimelshein, N., Antiga, L., Desmaison, A., Kopf, A., Yang, E., DeVito, Z., Raison, M., Tejani, A., Chilamkurthy, S., Steiner, B., Fang, L., & Bai, J. (2019). PyTorch: An Imperative Style, High-Performance Deep Learning Library. Neural Information Processing Systems. [https://papers.nips.cc/paper_files/paper/2019/hash/bdbca288fee7f92f2bfa9f7012727740-Abstract.html](https://papers.nips.cc/paper_files/paper/2019/hash/bdbca288fee7f92f2bfa9f7012727740-Abstract.html) -->
 
-Ragan-Kelley, J., Barnes, C., Adams, A., Paris, S., Durand, F., & Amarasinghe, S. (2013). Halide. Proceedings of the 34th ACM SIGPLAN Conference on Programming Language Design and Implementation. [https://doi.org/10.1145/2491956.2462176](https://doi.org/10.1145/2491956.2462176)
+<!-- Ragan-Kelley, J., Barnes, C., Adams, A., Paris, S., Durand, F., & Amarasinghe, S. (2013). Halide. Proceedings of the 34th ACM SIGPLAN Conference on Programming Language Design and Implementation. [https://doi.org/10.1145/2491956.2462176](https://doi.org/10.1145/2491956.2462176) -->
 
 Raschka, S. (2024). Build a Large Language Model (From Scratch). Manning.
 
 Raschka, S. (2026). Build a Reasoning Model (From Scratch). Simon and Manning.
 
-Roberts, D. A., Yaida, S., & Hanin, B. (2022). The Principles of Deep Learning Theory: An Effective Theory Approach to Understanding Neural Networks. Cambridge University Press. [https://deeplearningtheory.com/](https://deeplearningtheory.com/)
+<!-- Roberts, D. A., Yaida, S., & Hanin, B. (2022). The Principles of Deep Learning Theory: An Effective Theory Approach to Understanding Neural Networks. Cambridge University Press. [https://deeplearningtheory.com/](https://deeplearningtheory.com/) -->
 
 Russell, S., & Norvig, P. (2021). Artificial Intelligence: A Modern Approach (4th ed.). Prentice Hall. [https://aima.cs.berkeley.edu/](https://aima.cs.berkeley.edu/)
 
-Slotin, S. (n.d.). Algorithms for Modern Hardware - Algorithmica. En.algorithmica.org. [https://en.algorithmica.org/hpc/](https://en.algorithmica.org/hpc/)
+<!-- Slotin, S. (n.d.). Algorithms for Modern Hardware - Algorithmica. En.algorithmica.org. [https://en.algorithmica.org/hpc/](https://en.algorithmica.org/hpc/) -->
 
-seb-v. (2025, January 20). Optimizing Matrix Multiplication on RDNA3: 50 TFlops and 60% Faster Than rocBLAS. Seb-v. [https://seb-v.github.io/optimization/update/2025/01/20/Fast-GPU-Matrix-multiplication.html](https://seb-v.github.io/optimization/update/2025/01/20/Fast-GPU-Matrix-multiplication.html)
+<!-- seb-v. (2025, January 20). Optimizing Matrix Multiplication on RDNA3: 50 TFlops and 60% Faster Than rocBLAS. Seb-v. [https://seb-v.github.io/optimization/update/2025/01/20/Fast-GPU-Matrix-multiplication.html](https://seb-v.github.io/optimization/update/2025/01/20/Fast-GPU-Matrix-multiplication.html) -->
 
-Shah, J., Bikshandi, G., Zhang, Y., Thakkar, V., Ramani, P., & Dao, T. (2024, July 24). FlashAttention-3: Fast and Accurate Attention with Asynchrony and Low-precision. ArXiv.org. [https://arxiv.org/abs/2407.08608](https://arxiv.org/abs/2407.08608)
+<!-- Shah, J., Bikshandi, G., Zhang, Y., Thakkar, V., Ramani, P., & Dao, T. (2024, July 24). FlashAttention-3: Fast and Accurate Attention with Asynchrony and Low-precision. ArXiv.org. [https://arxiv.org/abs/2407.08608](https://arxiv.org/abs/2407.08608) -->
 
-Shalizi, C. R. (n.d.). Advanced Data Analysis from an Elementary Point of View. [https://www.stat.cmu.edu/~cshalizi/ADAfaEPoV/ADAfaEPoV.pdf](https://www.stat.cmu.edu/~cshalizi/ADAfaEPoV/ADAfaEPoV.pdf)
+<!-- Shankhdhar, P. (2024, November 29). Outperforming cuBLAS on H100: a Worklog. Substack.com. [https://cudaforfun.substack.com/p/outperforming-cublas-on-h100-a-worklog](https://cudaforfun.substack.com/p/outperforming-cublas-on-h100-a-worklog) -->
 
-Shalizi, C. R. (2015). Modern Regression Lecture Notes. Cmu.edu. [https://www.stat.cmu.edu/~cshalizi/mreg/15/](https://www.stat.cmu.edu/~cshalizi/mreg/15/)
-
-Shankhdhar, P. (2024, November 29). Outperforming cuBLAS on H100: a Worklog. Substack.com. [https://cudaforfun.substack.com/p/outperforming-cublas-on-h100-a-worklog](https://cudaforfun.substack.com/p/outperforming-cublas-on-h100-a-worklog)
-
-Smith, T. M., Geijn, R. van de, Smelyanskiy, M., Hammond, J. R., & Zee, F. G. V. (2014, May 1). Anatomy of High-Performance Many-Threaded Matrix Multiplication. IEEE Xplore. [https://doi.org/10.1109/IPDPS.2014.110](https://doi.org/10.1109/IPDPS.2014.110)
+<!-- Smith, T. M., Geijn, R. van de, Smelyanskiy, M., Hammond, J. R., & Zee, F. G. V. (2014, May 1). Anatomy of High-Performance Many-Threaded Matrix Multiplication. IEEE Xplore. [https://doi.org/10.1109/IPDPS.2014.110](https://doi.org/10.1109/IPDPS.2014.110)
 
 Spector, B., Singhal, A., Arora, S., & Re, C. (2024, May 12). GPUs Go Brrr. Stanford.edu. [https://hazyresearch.stanford.edu/blog/2024-05-12-tk](https://hazyresearch.stanford.edu/blog/2024-05-12-tk)
 
@@ -120,7 +110,7 @@ Sul, S., & Ré, C. (2026). ThunderKittens 2.0: Even Faster Kernels for Your GPUs
 
 Spector, B., Juravsky, J., Sul, S., Dugan, O., Lim, D., Fu, D., Arora, S., & Ré, C. (2025). Look Ma, No Bubbles! Designing a Low-Latency Megakernel for Llama-1B. Stanford.edu. [https://hazyresearch.stanford.edu/blog/2025-05-27-no-bubbles](https://hazyresearch.stanford.edu/blog/2025-05-27-no-bubbles)
 
-Spector, B., Juravsky, J., Sul, S., Lim, D., Dugan, O., Arora, S., & Ré, C. (2025). We Bought the Whole GPU, So We’re Damn Well Going to Use the Whole GPU. Stanford.edu. [https://hazyresearch.stanford.edu/blog/2025-09-28-tp-llama-main](https://hazyresearch.stanford.edu/blog/2025-09-28-tp-llama-main)
+Spector, B., Juravsky, J., Sul, S., Lim, D., Dugan, O., Arora, S., & Ré, C. (2025). We Bought the Whole GPU, So We’re Damn Well Going to Use the Whole GPU. Stanford.edu. [https://hazyresearch.stanford.edu/blog/2025-09-28-tp-llama-main](https://hazyresearch.stanford.edu/blog/2025-09-28-tp-llama-main) -->
 
 Stillwell, J. (2010). Mathematics and its history. Springer New York.
 
@@ -128,7 +118,7 @@ Strang, G. (2023). Introduction to Linear Algebra. Wellesley-Cambridge Press. [h
 
 Sutton, R. S., & Barto, A. (2018). Reinforcement learning: An introduction (2nd ed.). The MIT Press. [http://incompleteideas.net/book/the-book-2nd.html](http://incompleteideas.net/book/the-book-2nd.html)
 
-Tillet, P., Kung, H.-T., & Cox, D. G. (2019). Triton: An Intermediate Language and Compiler for Tiled Neural Network Computations. [https://doi.org/10.1145/3315508.3329973](https://doi.org/10.1145/3315508.3329973)
+<!-- Tillet, P., Kung, H.-T., & Cox, D. G. (2019). Triton: An Intermediate Language and Compiler for Tiled Neural Network Computations. [https://doi.org/10.1145/3315508.3329973](https://doi.org/10.1145/3315508.3329973) -->
 
 Trefethen, L. N., & Bau, D. (1997). Numerical Linear Algebra. Society For Industrial And Applied Mathematics.
 
@@ -136,6 +126,6 @@ Valiant, L. (2014). Probably Approximately Correct: Nature’s Algorithms for Le
 
 Wasserman, L. (2010). All of Statistics. Springer.
 
-Zheng, L., Yin, L., Xie, Z., Sun, C., Huang, J., Yu, C. H., Cao, S., Kozyrakis, C., Stoica, I., Gonzalez, J. E., Barrett, C., & Sheng, Y. (2023). SGLang: Efficient Execution of Structured Language Model Programs. ArXiv.org. [https://arxiv.org/abs/2312.07104](https://arxiv.org/abs/2312.07104)
+<!-- Zheng, L., Yin, L., Xie, Z., Sun, C., Huang, J., Yu, C. H., Cao, S., Kozyrakis, C., Stoica, I., Gonzalez, J. E., Barrett, C., & Sheng, Y. (2023). SGLang: Efficient Execution of Structured Language Model Programs. ArXiv.org. [https://arxiv.org/abs/2312.07104](https://arxiv.org/abs/2312.07104)
 
-Zadouri, T., Hoehnerbach, M., Shah, J., Liu, T., Thakkar, V., & Dao, T. (2026). FlashAttention-4: Algorithm and Kernel Pipelining Co-Design for Asymmetric Hardware Scaling. ArXiv.org. [https://arxiv.org/abs/2603.05451](https://arxiv.org/abs/2603.05451)
+Zadouri, T., Hoehnerbach, M., Shah, J., Liu, T., Thakkar, V., & Dao, T. (2026). FlashAttention-4: Algorithm and Kernel Pipelining Co-Design for Asymmetric Hardware Scaling. ArXiv.org. [https://arxiv.org/abs/2603.05451](https://arxiv.org/abs/2603.05451) -->
