@@ -23,12 +23,13 @@
   - [B.6 Summary](#06-summary)
   - [B.7 Bibliographic Notes](#07-bibiliographic-notes)
   - [B.8 Problems](#08-problems)
-- [C. From Sequential to Parallel Processors](#c-from-sequential-to-parallel-processors)
-  - [C.1 Instruction Sets, Processor Pipelines, Memory Hierarchies]()
-  - [C.2 Accelerating the Communication of Hierarchies]()
-  - [C.3 Accelerating the Computation of Pipelines]()
-  - [C.4 NVIDIA Maxwell]()
-  - [C.5 NVIDIA Fermi]()
+- [C. From Non-Parametric to Parametric Models]()
+- [D. From Sequential to Parallel Processors](#c-from-sequential-to-parallel-processors)
+  - [D.1 Instruction Sets, Processor Pipelines, Memory Hierarchies]()
+  - [D.2 Accelerating the Communication of Hierarchies]()
+  - [D.3 Accelerating the Computation of Pipelines]()
+  - [D.4 NVIDIA Maxwell]()
+  - [D.5 NVIDIA Fermi]()
 
 </div>
 
