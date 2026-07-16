@@ -378,10 +378,11 @@ a.url-mono code {
 
      </div>
 
-   Use class "theorem" or "lemma" for the accent-color variants. */
+   Use class "theorem", "lemma", or "example" for the accent-color variants. */
 .definition,
 .theorem,
-.lemma {
+.lemma,
+.example {
   --snack-accent: #1c4a54;   /* left rule (and title, unless --snack-title-color) */
   --snack-title-bg: #cbdde3; /* header bar */
   --snack-body-bg: #ebf3f6;  /* body */
@@ -393,16 +394,20 @@ a.url-mono code {
   overflow: hidden;
 }
 
-/* Purple/mauve, matching the Theorem screenshot: deep-plum rule, mauve header,
-   pale-lavender body, near-black title. */
-.theorem { --snack-accent: #6e2563; --snack-title-color: #2b1526; --snack-title-bg: #cba4ce; --snack-body-bg: #f7f0f7; }
-/* Amber/yellow, matching the Lemma screenshot: gold rule, warm-yellow header,
-   cream body, and a near-black title (title color decoupled from the rule). */
-.lemma   { --snack-accent: #c8912f; --snack-title-color: #3d2f14; --snack-title-bg: #f4dfa6; --snack-body-bg: #fdf8ec; }
+/* Red, matching the [!CAUTION] admonition's brick-red (--blockquote-caution-color
+   in the light theme): dusty-rose header, pale-pink body, near-black title. */
+.theorem { --snack-accent: #b52731; --snack-title-color: #64151b; --snack-title-bg: #e1a9ad; --snack-body-bg: #f4dfe0; }
+/* Orange, sampled from circle A in the venn-diagram assets: burnt-orange
+   rule, tan header, pale peach body, near-black title. */
+.lemma   { --snack-accent: #c9791f; --snack-title-color: #4a2c0c; --snack-title-bg: #e9c9a5; --snack-body-bg: #f7ebdd; }
+/* Amber/yellow, matching the original Lemma screenshot: gold rule,
+   warm-yellow header, cream body, near-black title. */
+.example { --snack-accent: #c8912f; --snack-title-color: #3d2f14; --snack-title-bg: #f4dfa6; --snack-body-bg: #fdf8ec; }
 
 .definition[data-title]::before,
 .theorem[data-title]::before,
-.lemma[data-title]::before {
+.lemma[data-title]::before,
+.example[data-title]::before {
   content: attr(data-title);
   display: block;
   background: var(--snack-title-bg);
@@ -414,30 +419,50 @@ a.url-mono code {
 
 .definition > :not(pre),
 .theorem > :not(pre),
-.lemma > :not(pre) {
+.lemma > :not(pre),
+.example > :not(pre) {
   padding-left: 1em;
   padding-right: 1em;
+}
+
+/* ol/ul need more left padding than prose: the marker gutter (numerals,
+   bullets) lives inside that padding-box, and 1em is too narrow — wide
+   markers like "III." get clipped against the border, reading as "I.".
+   Keep the hanging-indent look but give the gutter enough room. */
+.definition > ol,
+.theorem > ol,
+.lemma > ol,
+.example > ol,
+.definition > ul,
+.theorem > ul,
+.lemma > ul,
+.example > ul {
+  padding-left: 2.5em;
 }
 
 .definition > :first-child:not([data-title]),
 .definition > *:nth-child(1) { margin-top: 0.75em; }
 .definition > :last-child,
 .theorem > :last-child,
-.lemma > :last-child { margin-bottom: 0.75em; }
+.lemma > :last-child,
+.example > :last-child { margin-bottom: 0.75em; }
 
 /* Dark themes: dim the tints so they read as panels, not glare. */
 html.coal .definition, html.navy .definition, html.ayu .definition {
   --snack-accent: #7fb3bf; --snack-title-bg: #22333a; --snack-body-bg: #1a262c;
 }
 html.coal .theorem, html.navy .theorem, html.ayu .theorem {
-  --snack-accent: #c79ecb; --snack-title-color: #e6d4e8; --snack-title-bg: #362539; --snack-body-bg: #251a28;
+  --snack-accent: #e2707e; --snack-title-color: #f6d3d7; --snack-title-bg: #3a171b; --snack-body-bg: #2a1014;
 }
 html.coal .lemma, html.navy .lemma, html.ayu .lemma {
+  --snack-accent: #e0975a; --snack-title-color: #f0d3b4; --snack-title-bg: #3a2814; --snack-body-bg: #2c1d10;
+}
+html.coal .example, html.navy .example, html.ayu .example {
   --snack-accent: #d0a94e; --snack-title-color: #e8d9b0; --snack-title-bg: #322c1c; --snack-body-bg: #262117;
 }
-html.coal :is(.definition,.theorem,.lemma)[data-title]::before,
-html.navy :is(.definition,.theorem,.lemma)[data-title]::before,
-html.ayu  :is(.definition,.theorem,.lemma)[data-title]::before {
+html.coal :is(.definition,.theorem,.lemma,.example)[data-title]::before,
+html.navy :is(.definition,.theorem,.lemma,.example)[data-title]::before,
+html.ayu  :is(.definition,.theorem,.lemma,.example)[data-title]::before {
   border-bottom-color: rgba(255, 255, 255, 0.08);
 }
 
@@ -447,7 +472,8 @@ html.ayu  :is(.definition,.theorem,.lemma)[data-title]::before {
    superscript marker stays put; only the note text moves here. */
 .definition .box-notes,
 .theorem .box-notes,
-.lemma .box-notes {
+.lemma .box-notes,
+.example .box-notes {
   margin-top: 1em;
   padding-top: 0.5em;
   border-top: 1px solid rgba(0, 0, 0, 0.18);

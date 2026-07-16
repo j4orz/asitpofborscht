@@ -34,7 +34,7 @@ my knowledge felt quite fragmented as I personally forgot a lot of the foundatio
 and I wasn't sure how to bridge myself to industrial deep learning systems like `tinygrad`, `torch`, `jax`, `vllm`, and `sglang`.
 
 Shortly after, I decided to take the plunge and started drinking from the firehose of deep learning canon:
-Hastie, Murphy, Goodfellow, you name it.
+Hastie et al.,, Murphy, Goodfellow et al.,, you name it.
 The one thought I could not get out of my head was *where is the SICP for software 2.0*?
 While I found two excellent resources on building your own torch-like autograd by Tianqi Chen at Carnegie Mellon and Sasha Rush at Cornell,
 I personally would have enjoyed a unified resource that took me from math, to deep learning, to deep learning systems in a single unbroken sequence of thought,
