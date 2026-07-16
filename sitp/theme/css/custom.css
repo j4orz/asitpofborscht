@@ -338,6 +338,18 @@ html.ayu img.probspace {
   content: url("../../assets/probspace_dark.png");
 }
 
+html.coal img.randvar,
+html.navy img.randvar,
+html.ayu img.randvar {
+  content: url("../../assets/randvar_dark.png");
+}
+
+html.coal img.randproc,
+html.navy img.randproc,
+html.ayu img.randproc {
+  content: url("../../assets/randvar_dark.png");
+}
+
 html.coal img.venn,
 html.navy img.venn,
 html.ayu img.venn {
