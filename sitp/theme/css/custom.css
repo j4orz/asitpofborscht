@@ -347,7 +347,19 @@ html.ayu img.randvar {
 html.coal img.randproc,
 html.navy img.randproc,
 html.ayu img.randproc {
-  content: url("../../assets/randvar_dark.png");
+  content: url("../../assets/randproc_dark.png");
+}
+
+html.coal img.chain,
+html.navy img.chain,
+html.ayu img.chain {
+  content: url("../../assets/chain_dark.png");
+}
+
+html.coal img.stochastic_matrix,
+html.navy img.stochastic_matrix,
+html.ayu img.stochastic_matrix {
+  content: url("../../assets/stochastic_matrix_dark.png");
 }
 
 html.coal img.venn,
