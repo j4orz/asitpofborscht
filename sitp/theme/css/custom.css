@@ -1,10 +1,10 @@
-/* .katex-display, .box {
+.katex-display, .box {
   background-color: var(--quote-bg);
   border-radius: 4px;
   padding: 0.75em 1em;
   margin: 1em 0;
   overflow-x: auto;
-} */
+}
 
 .katex-display>.katex {
   text-align: left !important;
