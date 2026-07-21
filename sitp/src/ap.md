@@ -1095,6 +1095,8 @@ of software 2.0, let's review the symbolic and logical methods of GOFAI that wer
 
 ### 0.8 Problems
 
-## C. From Sequential to Parallel Processors
+## C. From Non-Parametric to Parametric Models
+
+## D. From Sequential to Parallel Processors
 
 > In which we historically retrace the development of processors from sequential to parallel processors
