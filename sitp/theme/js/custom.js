@@ -4,6 +4,38 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+// Custom "> [!QUESTION]" admonition. mdBook's built-in GFM-style alerts only
+// recognize NOTE/TIP/IMPORTANT/WARNING/CAUTION (hardcoded in the mdBook
+// binary, not configurable from book.toml), so an unrecognized tag like
+// [!QUESTION] is left as a plain blockquote with the literal "[!QUESTION]"
+// marker as text. This finds that marker, strips it, and rebuilds the same
+// `blockquote-tag`/`blockquote-tag-title` markup mdBook emits for its native
+// alert types (styled in custom.css), so "pause and think" prompts get their
+// own title bar and accent color instead of inheriting [!WARNING]'s.
+document.addEventListener("DOMContentLoaded", function () {
+  var QUESTION_ICON =
+    '<svg viewbox="0 0 16 16" width="18" height="18">' +
+    '<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"></path>' +
+    '<path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"></path>' +
+    "</svg>";
+
+  document.querySelectorAll("blockquote").forEach(function (bq) {
+    var p = bq.firstElementChild;
+    if (!p || p.tagName !== "P") return;
+    var node = p.firstChild;
+    if (!node || node.nodeType !== Node.TEXT_NODE) return;
+    var m = /^\s*\[!QUESTION\]\s*/.exec(node.textContent);
+    if (!m) return;
+
+    node.textContent = node.textContent.slice(m[0].length);
+    bq.classList.add("blockquote-tag", "blockquote-tag-question");
+    var title = document.createElement("p");
+    title.className = "blockquote-tag-title";
+    title.innerHTML = QUESTION_ICON + "Question";
+    bq.insertBefore(title, p);
+  });
+});
+
 // Tag links whose visible text IS a bare URL (e.g. wikipedia / SEP / nlab
 // references written as [`https://...`](...) or bare autolinks) so CSS can set
 // them in CMU Typewriter. Prose links like [probabilistic logic](...) and code

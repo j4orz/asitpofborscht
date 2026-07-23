@@ -338,6 +338,12 @@ html.ayu img.probspace {
   content: url("../../assets/probspace_dark.png");
 }
 
+html.coal img.probspace,
+html.navy img.probspace,
+html.ayu img.probspace {
+  content: url("../../assets/tensors_dark.png");
+}
+
 html.coal img.randvar,
 html.navy img.randvar,
 html.ayu img.randvar {
@@ -372,6 +378,26 @@ html.coal img.venn_disjoint,
 html.navy img.venn_disjoint,
 html.ayu img.venn_disjoint {
   content: url("../../assets/venn_disjoint_dark.png");
+}
+
+/* Custom [!QUESTION] admonition, populated by custom.js (mdBook's built-in
+   alert renderer only recognizes NOTE/TIP/IMPORTANT/WARNING/CAUTION). Reuses
+   mdBook's own `.blockquote-tag`/`.blockquote-tag-title` layout, with its own
+   accent color so "pause and think" prompts are visually distinguishable from
+   [!WARNING]'s. Burnt-orange, matching .lemma's accent (#c9791f) above. */
+:root {
+  --blockquote-question-color: #c9791f;
+}
+html.coal, html.navy, html.ayu {
+  --blockquote-question-color: #e0a458;
+}
+
+.blockquote-tag-question {
+  border-inline-start-color: var(--blockquote-question-color);
+}
+
+.blockquote-tag-question .blockquote-tag-title {
+  color: var(--blockquote-question-color);
 }
 
 /* URL-as-text links (wikipedia / SEP / nlab references, where the visible link
