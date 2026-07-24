@@ -1,11 +1,17 @@
-/-- Doubles a natural number. -/
-def double (n : Nat) : Nat := n + n
+#check 9 + 10
+#eval 9 + 10
+#eval String.append "Hello, " "World!"
 
-theorem double_eq (n : Nat) : double n = 2 * n := by
-  simp [double, Nat.two_mul]
+#check 9 + 10
 
-#check And
-#check Or
-#check Or
+-- /-- Doubles a natural number. -/
+-- def double (n : Nat) : Nat := n + n
 
-#eval double 21
+-- theorem double_eq (n : Nat) : double n = 2 * n := by
+--   simp [double, Nat.two_mul]
+
+-- #check And
+-- #check Or
+-- #check Or
+
+-- #eval double 21
