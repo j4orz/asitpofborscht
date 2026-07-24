@@ -52,3 +52,7 @@ Both seem necessary for understanding. -->
 <!-- https://www.paulgraham.com/desres.html
 
 > The difference between design and research seems to be a question of new versus good. Design doesn't have to be new, but it has to be good. Research doesn't have to be good, but it has to be new. -->
+
+Jeffrey Zhang<br>
+Waterloo, Ontario<br>
+August 2026<br>
