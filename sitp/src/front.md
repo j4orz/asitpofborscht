@@ -30,3 +30,14 @@
 > You are viewing this on a mobile device, but SITP is best viewed on a desktop — the book includes various multimedia lecture videos, visualizers, any tufte-style sidenotes with many external hyperlinks to other resources.
 
 </div>
+
+Citation:
+
+<pre>
+@book{zhang2026sitp,
+  author = "Jeffrey David Zhang",
+  title = "Structure and Interpretation of Tensor Programs",
+  year = 2026,
+  url = "https://sitp.ai"
+}
+</pre>
