@@ -1,0 +1,214 @@
+#!/usr/bin/env python3
+"""mdbook-nb: embed executed Jupyter notebooks into mdBook as static cells.
+
+Renders notebook code cells as In[]/Out[] blocks with their captured outputs
+baked in — no live kernel, no Pyodide. Outputs come straight from the committed
+`.ipynb`, so the book build stays a pure-Python JSON parse (no nbformat/jupyter
+dependency) and is fully reproducible.
+
+Authoring
+---------
+Put executed notebooks under `<nb-dir>` (default `notebooks/`), then in Markdown:
+
+    {{#nb ch1.ipynb}}              whole notebook: every code cell, in order
+    {{#nb ch1.ipynb:reshape}}      only cells tagged `reshape` (or whose id is
+                                   `reshape`), in order — the per-cell handle
+                                   that lets you interleave your own prose.
+
+Add a tag to a cell in Jupyter via the cell's metadata (Property Inspector ->
+"Cell Tags"), or edit `metadata.tags` in the JSON. Multiple cells may share a
+tag; all matching cells render in document order.
+
+Jupyter Book-style visibility tags are honored: `remove-cell` skips the cell,
+`remove-input` hides the In[] box, `remove-output` hides the outputs.
+
+Regenerating outputs (commit the executed notebook)
+---------------------------------------------------
+    jupyter nbconvert --to notebook --execute --inplace notebooks/ch1.ipynb
+    git add notebooks/ch1.ipynb
+
+Styling lives in `theme/css/custom.css` (`.nb-*`).
+
+Config (book.toml)
+------------------
+    [preprocessor.nb]
+    command = "python3 preprocessors/mdbook-nb"
+    nb-dir  = "notebooks"   # notebook root, relative to the book root
+    max-traceback = false   # true -> full ANSI-stripped traceback, not just
+                            #         `ename: evalue`
+"""
+import html
+import json
+import os
+import re
+import sys
+
+DIRECTIVE = re.compile(r"\{\{#nb\s+([^\s:}]+?\.ipynb)(?::([^\s}]+))?\s*\}\}")
+ANSI = re.compile(r"\x1b\[[0-9;]*m")
+
+
+# --------------------------------------------------------------------------- #
+# Notebook -> HTML/markdown fragment
+# --------------------------------------------------------------------------- #
+
+def _nl(s):
+    """HTML-escape and encode newlines as `&#10;` so the whole fragment sits on
+    one physical line. mdBook re-parses our output as Markdown, and a blank line
+    inside a raw-HTML block would terminate it (pulldown-cmark HTML block rule);
+    keeping outputs single-line makes them robust to blank lines in stdout."""
+    return html.escape(s).replace("\r\n", "\n").replace("\n", "&#10;")
+
+
+def _prompt(cls, label):
+    return '<div class="nb-prompt %s">%s</div>' % (cls, html.escape(label))
+
+
+def _pick(bundle):
+    """Choose the richest renderable representation from a MIME bundle."""
+    for mime in ("text/html", "image/svg+xml", "image/png", "image/jpeg", "text/plain"):
+        if mime in bundle:
+            return mime, bundle[mime]
+    return None, None
+
+
+def _join(data):
+    """nbformat stores multiline strings as a list of lines; normalize to str."""
+    return "".join(data) if isinstance(data, list) else data
+
+
+def render_output(out, max_traceback):
+    """One notebook output object -> a single-line raw-HTML block, or "" to skip."""
+    t = out.get("output_type")
+
+    if t == "stream":
+        text = _join(out.get("text", ""))
+        cls = "nb-out-text nb-out-stderr" if out.get("name") == "stderr" else "nb-out-text"
+        return '<div class="nb-out"><pre class="%s">%s</pre></div>' % (cls, _nl(text))
+
+    if t in ("execute_result", "display_data"):
+        mime, raw = _pick(out.get("data", {}))
+        prompt = ""
+        if t == "execute_result":
+            n = out.get("execution_count")
+            prompt = _prompt("nb-out-prompt", "Out[%s]:" % ("" if n is None else n))
+        if mime is None:
+            body = ""
+        elif mime == "text/html":
+            # Trusted book-authored notebooks: pass rich HTML (pandas tables etc.)
+            # through, newlines encoded so it stays one line.
+            body = '<div class="nb-out-html">%s</div>' % _join(raw).replace("\r\n", "\n").replace("\n", "&#10;")
+        elif mime == "image/svg+xml":
+            body = '<div class="nb-out-img">%s</div>' % _join(raw).replace("\r\n", "\n").replace("\n", "&#10;")
+        elif mime in ("image/png", "image/jpeg"):
+            b64 = _join(raw).replace("\n", "")
+            body = '<div class="nb-out-img"><img src="data:%s;base64,%s"></div>' % (mime, b64)
+        else:  # text/plain
+            body = '<pre class="nb-out-text">%s</pre>' % _nl(_join(raw))
+        return '<div class="nb-out nb-out-result">%s%s</div>' % (prompt, body)
+
+    if t == "error":
+        if max_traceback:
+            text = ANSI.sub("", "\n".join(out.get("traceback", [])))
+        else:
+            text = "%s: %s" % (out.get("ename", "Error"), ANSI.sub("", out.get("evalue", "")))
+        return '<div class="nb-out"><pre class="nb-error">%s</pre></div>' % _nl(text)
+
+    return ""
+
+
+def render_cell(cell, max_traceback):
+    tags = cell.get("metadata", {}).get("tags", []) or []
+    if "remove-cell" in tags:
+        return ""
+
+    parts = ['<div class="nb-cell">']
+    if "remove-input" not in tags:
+        n = cell.get("execution_count")
+        parts.append(_prompt("nb-in-prompt", "In [%s]:" % ("" if n is None else n)))
+        # Fenced code so mdBook's own highlighter styles it. Blank lines around
+        # the fence are required for pulldown-cmark to parse it as Markdown
+        # inside the surrounding raw-HTML block; the browser re-nests the
+        # resulting <pre> inside .nb-cell since the div stays open until </div>.
+        code = "".join(cell.get("source", [])) if isinstance(cell.get("source"), list) else cell.get("source", "")
+        parts.append('<div class="nb-in-code">\n\n```python\n%s\n```\n\n</div>' % code)
+    if "remove-output" not in tags:
+        for out in cell.get("outputs", []):
+            frag = render_output(out, max_traceback)
+            if frag:
+                parts.append(frag)
+    parts.append("</div>")
+    return "\n".join(parts)
+
+
+def render_notebook(path, selector, max_traceback):
+    try:
+        with open(path, encoding="utf-8") as f:
+            # strict=False tolerates raw control chars (e.g. unescaped ANSI ESC
+            # in a traceback) that some tools emit; nbformat normally escapes them.
+            nb = json.load(f, strict=False)
+    except OSError:
+        sys.stderr.write("mdbook-nb: cannot read %s\n" % path)
+        return '<pre class="nb-error">missing notebook: %s</pre>' % html.escape(path)
+    except json.JSONDecodeError as e:
+        sys.stderr.write("mdbook-nb: bad JSON in %s (%s)\n" % (path, e))
+        return '<pre class="nb-error">invalid notebook: %s</pre>' % html.escape(path)
+
+    out = []
+    for cell in nb.get("cells", []):
+        if cell.get("cell_type") != "code":
+            continue
+        if selector is not None:
+            tags = cell.get("metadata", {}).get("tags", []) or []
+            if selector != cell.get("id") and selector not in tags:
+                continue
+        out.append(render_cell(cell, max_traceback))
+    if selector is not None and not out:
+        sys.stderr.write("mdbook-nb: no cell matching %r in %s\n" % (selector, path))
+        return '<pre class="nb-error">no cell %s in %s</pre>' % (html.escape(selector), html.escape(path))
+    return "\n".join(f for f in out if f)
+
+
+# --------------------------------------------------------------------------- #
+# mdBook preprocessor protocol
+# --------------------------------------------------------------------------- #
+
+def substitute(content, nb_dir, max_traceback, cache):
+    def repl(m):
+        rel, selector = m.group(1), m.group(2)
+        path = os.path.normpath(os.path.join(nb_dir, rel))
+        key = (path, selector)
+        if key not in cache:
+            cache[key] = render_notebook(path, selector, max_traceback)
+        return cache[key]
+    return DIRECTIVE.sub(repl, content)
+
+
+def walk(items, nb_dir, max_traceback, cache):
+    for item in items:
+        chapter = item.get("Chapter") if isinstance(item, dict) else None
+        if chapter is None:
+            continue
+        if chapter.get("content"):
+            chapter["content"] = substitute(chapter["content"], nb_dir, max_traceback, cache)
+        if chapter.get("sub_items"):
+            walk(chapter["sub_items"], nb_dir, max_traceback, cache)
+
+
+def main():
+    # `mdbook-nb supports <renderer>` -> exit 0 if we handle that renderer.
+    if len(sys.argv) >= 2 and sys.argv[1] == "supports":
+        renderer = sys.argv[2] if len(sys.argv) > 2 else ""
+        sys.exit(0 if renderer == "html" else 1)
+
+    context, book = json.load(sys.stdin)
+    cfg = context.get("config", {}).get("preprocessor", {}).get("nb", {})
+    root = context.get("root", ".")
+    nb_dir = os.path.join(root, cfg.get("nb-dir", "notebooks"))
+    max_traceback = bool(cfg.get("max-traceback", False))
+
+    walk(book.get("items", []), nb_dir, max_traceback, {})
+    json.dump(book, sys.stdout)
+
+
+if __name__ == "__main__":
+    main()

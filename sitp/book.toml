@@ -15,13 +15,14 @@ additional-js = ["theme/js/highlight-lean.min.js", "theme/js/custom.js", "theme/
 default-theme = "light"
 preferred-dark-theme = "navy"
 
-[preprocessor.repl]
-src = "https://comfy-daifuku-df4422.netlify.app/"
-editor.theme = "chrome"
-editor.darkTheme = "nord_dark"
-python.enable = true
-python.loading = "lazy"
-
+# Embeds committed, already-executed Jupyter notebooks as static In[]/Out[]
+# cells via `{{#nb file.ipynb}}` / `{{#nb file.ipynb:tag}}`. Replaced the old
+# Pyodide REPL. Notebooks live under `nb-dir`; styling in theme/css/custom.css
+# (`.nb-*`). Re-execute + commit after editing code:
+#   jupyter nbconvert --to notebook --execute --inplace notebooks/<file>.ipynb
+[preprocessor.nb]
+command = "python3 preprocessors/mdbook-nb"
+nb-dir = "notebooks"
 
 [preprocessor.quiz]
 
