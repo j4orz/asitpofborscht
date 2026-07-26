@@ -106,17 +106,19 @@ blockquote .sidenote {
    Requires a positioned containing block: see `.content main` below. */
 .defnote {
   position: absolute;
-  left: -44%;
+  left: -37%;
   width: 35%;
   margin-top: 0.3rem;
   margin-bottom: 0;
   font-size: 1.2rem;
   line-height: 1.3;
   text-align: right;
+  /* Muted gray via opacity so it tracks --fg in both light and dark themes. */
+  opacity: 0.55;
 }
 
 blockquote .defnote {
-  left: calc(-44% - 20px);
+  left: calc(-37% - 20px);
 }
 
 /* Clickable defnotes: behave like header anchors (click updates URL hash). */
@@ -178,6 +180,110 @@ blockquote .defnote {
    the geometry the old float used relative to the paragraph. */
 .content main {
   position: relative;
+}
+
+/* --------------------------------------------------------------------------
+   Jupyter notebook cells, emitted by preprocessors/mdbook-nb from committed,
+   already-executed .ipynb files. Static In[]/Out[] blocks in the style of ISL:
+   steel-blue prompts hanging in the left gutter, a cream input box (syntax
+   highlighting still comes from mdBook's highlighter), warm-brown text output,
+   and a pink box for tracebacks.
+   -------------------------------------------------------------------------- */
+:root {
+  --nb-prompt: #2e6d8e;        /* In[]/Out[] labels */
+  --nb-in-bg: #fdf6ec;         /* input code box */
+  --nb-in-border: #e7dcc0;
+  --nb-out-color: #9c4a1c;     /* text/plain + execute_result output */
+  --nb-error-bg: #f7d7d9;      /* traceback box */
+  --nb-error-color: #7b241c;
+  --nb-stderr-bg: #fdeaea;     /* stderr stream */
+}
+html.coal, html.navy, html.ayu {
+  --nb-prompt: #6bb3d6;
+  --nb-in-bg: #1f2733;
+  --nb-in-border: #33404f;
+  --nb-out-color: #e0975a;
+  --nb-error-bg: #3a1c1f;
+  --nb-error-color: #e0a0a0;
+  --nb-stderr-bg: #2c1618;
+}
+
+.nb-cell {
+  position: relative;
+  margin: 0.9rem 0;
+}
+
+/* Prompts hang just left of the box (nearer than the wider .defnote margin,
+   so the two never collide). */
+.nb-prompt {
+  position: absolute;
+  left: -7rem;
+  width: 6rem;
+  text-align: right;
+  padding-right: 0.55rem;
+  font-family: var(--mono-font, "Source Code Pro", monospace);
+  font-size: 0.82em;
+  line-height: 1.5;
+  color: var(--nb-prompt);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.nb-in-code pre {
+  background: var(--nb-in-bg);
+  border: 1px solid var(--nb-in-border);
+  border-radius: 4px;
+}
+
+/* Output: no box, warm-brown monospace, aligned to the code column. */
+.nb-out {
+  margin: 0.25rem 0 0.1rem;
+}
+.nb-out-text,
+.nb-out-html {
+  font-family: var(--mono-font, "Source Code Pro", monospace);
+  font-size: 0.9em;
+  line-height: 1.4;
+  color: var(--nb-out-color);
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+.nb-out-stderr {
+  background: var(--nb-stderr-bg);
+  padding: 0.3em 0.5em;
+  border-radius: 3px;
+}
+.nb-out-img img {
+  max-width: 100%;
+  height: auto;
+}
+.nb-out-html { color: inherit; }
+
+.nb-error {
+  background: var(--nb-error-bg);
+  color: var(--nb-error-color);
+  font-family: var(--mono-font, "Source Code Pro", monospace);
+  font-size: 0.9em;
+  padding: 0.3em 0.6em;
+  border-radius: 3px;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+
+/* Below the Tufte margin breakpoint the left gutter disappears: drop prompts
+   inline above their box instead of letting them hang off-page. */
+@media (max-width: 1000px) {
+  .nb-prompt {
+    position: static;
+    display: block;
+    width: auto;
+    text-align: left;
+    padding: 0 0 0.15rem 0;
+  }
 }
 
 @media (max-width: 1000px) {
