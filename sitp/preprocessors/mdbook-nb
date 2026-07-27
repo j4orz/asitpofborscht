@@ -20,7 +20,9 @@ Add a tag to a cell in Jupyter via the cell's metadata (Property Inspector ->
 tag; all matching cells render in document order.
 
 Jupyter Book-style visibility tags are honored: `remove-cell` skips the cell,
-`remove-input` hides the In[] box, `remove-output` hides the outputs.
+`remove-input` hides the In[] box, `remove-output` hides the outputs. Tag a cell
+`full-output` to lift the scroll-box height cap (`--nb-out-max-height`) so its
+output renders at full height.
 
 Regenerating outputs (commit the executed notebook)
 ---------------------------------------------------
@@ -121,7 +123,8 @@ def render_cell(cell, max_traceback):
     if "remove-cell" in tags:
         return ""
 
-    parts = ['<div class="nb-cell">']
+    cls = "nb-cell nb-full" if "full-output" in tags else "nb-cell"
+    parts = ['<div class="%s">' % cls]
     if "remove-input" not in tags:
         n = cell.get("execution_count")
         parts.append(_prompt("nb-in-prompt", "In [%s]:" % ("" if n is None else n)))
