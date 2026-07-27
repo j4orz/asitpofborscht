@@ -88,7 +88,7 @@ The license adapts the Open RAIL-S structure and adds one specific use restricti
 
 If you train on it, you let us generate.
 
-Covered AI model and service providers may not use this project while imposing terms that prevent GPU Mode, project contributors, or authorized researchers from generating outputs, evaluating models, benchmarking, publishing research, or exploring their own research ideas on materially equal terms to ordinary users.
+Covered AI model and service providers may not use this project while imposing terms that prevent SITP and teenygrad project contributors, or authorized researchers from generating outputs, evaluating models, benchmarking, publishing research, or exploring their own research ideas on materially equal terms to ordinary users.
 
 ## Acknowledgements
 
