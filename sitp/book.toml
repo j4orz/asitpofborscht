@@ -4,6 +4,12 @@ language = "en"
 src = "src"
 title = "The Structure and Interpretation of Tensor Programs"
 
+# `mdbook serve` watches src/, the theme, and book.toml by default. Notebooks
+# embedded via {{#nb}} live outside src/, so list notebooks/ here to make a
+# re-executed .ipynb trigger a rebuild/live-reload.
+[build]
+extra-watch-dirs = ["notebooks"]
+
 [preprocessor.aquascope]
 
 [preprocessor.katex]

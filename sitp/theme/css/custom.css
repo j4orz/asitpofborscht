@@ -197,6 +197,7 @@ blockquote .defnote {
   --nb-error-bg: #f7d7d9;      /* traceback box */
   --nb-error-color: #7b241c;
   --nb-stderr-bg: #fdeaea;     /* stderr stream */
+  --nb-out-max-height: 22em;   /* tall outputs scroll instead of running on */
 }
 html.coal, html.navy, html.ayu {
   --nb-prompt: #6bb3d6;
@@ -249,8 +250,14 @@ html.coal, html.navy, html.ayu {
   border: none;
   padding: 0;
   margin: 0;
-  white-space: pre-wrap;
-  overflow-x: auto;
+  /* Cap height so a huge print() doesn't run down the page; scroll instead. */
+  max-height: var(--nb-out-max-height);
+  overflow: auto;
+}
+/* Text output: don't wrap long lines (a one-line list/array), scroll sideways.
+   HTML output (pandas tables etc.) keeps normal wrapping so cells lay out. */
+.nb-out-text {
+  white-space: pre;
 }
 .nb-out-stderr {
   background: var(--nb-stderr-bg);
@@ -270,8 +277,17 @@ html.coal, html.navy, html.ayu {
   font-size: 0.9em;
   padding: 0.3em 0.6em;
   border-radius: 3px;
-  white-space: pre-wrap;
-  overflow-x: auto;
+  white-space: pre;
+  max-height: var(--nb-out-max-height);
+  overflow: auto;
+}
+
+/* Opt out of the height cap on cells tagged `full-output`: show the whole
+   output, still horizontally scrollable. */
+.nb-cell.nb-full .nb-out-text,
+.nb-cell.nb-full .nb-out-html,
+.nb-cell.nb-full .nb-error {
+  max-height: none;
 }
 
 /* Below the Tufte margin breakpoint the left gutter disappears: drop prompts
