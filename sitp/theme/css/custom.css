@@ -717,3 +717,56 @@ html.coal .box-notes, html.navy .box-notes, html.ayu .box-notes {
 html.coal .ref-item a[href*="wikipedia.org"]::before,
 html.navy .ref-item a[href*="wikipedia.org"]::before,
 html.ayu  .ref-item a[href*="wikipedia.org"]::before { filter: invert(1) brightness(1.7); }
+
+/* --------------------------------------------------------------------------
+   Hover previews for numpy documentation links (behavior in theme/js/custom.js).
+   A small floating card showing the fetched function signature + summary. Reuses
+   the notebook palette (cream in light, dark in the dark themes) so it reads as
+   part of the same surface family; the signature line borrows the In[]/Out[]
+   prompt color and the book's --mono-font.
+   -------------------------------------------------------------------------- */
+.np-preview {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  max-width: min(420px, calc(100vw - 24px));
+  padding: 0.7rem 0.8rem;
+  background: var(--nb-in-bg);
+  color: var(--fg);
+  border: 1px solid var(--nb-in-border);
+  border-radius: 6px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+  font-size: 1.35rem;
+  line-height: 1.4;
+  opacity: 0;
+  transform: translateY(-2px);
+  pointer-events: none;
+  transition: opacity 0.12s ease, transform 0.12s ease;
+}
+.np-preview.visible {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.np-preview-sig {
+  font-family: var(--mono-font, "Source Code Pro", monospace);
+  font-size: 1.2rem;
+  color: var(--nb-prompt);
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin-bottom: 0.4rem;
+}
+.np-preview-summary {
+  margin: 0;
+}
+.np-preview-loading {
+  color: var(--nb-prompt);
+  font-style: italic;
+}
+.np-preview-src {
+  margin-top: 0.5rem;
+  font-size: 1.1rem;
+  font-family: var(--mono-font, "Source Code Pro", monospace);
+  opacity: 0.65;
+}

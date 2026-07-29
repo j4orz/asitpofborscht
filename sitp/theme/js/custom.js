@@ -215,6 +215,213 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+// Hover previews for numpy documentation links. numpy.org/doc/ serves its
+// Sphinx-generated pages with `access-control-allow-origin: *` and no
+// X-Frame-Options, so on hover we can fetch the target page cross-origin,
+// pull out just the function signature + one-line summary, and float them in a
+// small popup — no iframe, no server, no build step. Results are cached per URL,
+// and a hover-intent delay keeps incidental mouse passes from firing fetches.
+// To extend to other pydata-Sphinx sites (scipy, pandas), widen NP_MATCH — the
+// extraction below keys off the `dt[id]` / `dd` structure every such page shares.
+document.addEventListener("DOMContentLoaded", function () {
+  var NP_MATCH = 'a[href*="numpy.org/doc"]';
+  var links = document.querySelectorAll(NP_MATCH);
+  if (links.length === 0) return;
+
+  var HOVER_DELAY = 250; // ms of hover intent before fetching
+  var HIDE_DELAY = 160;  // ms grace so the cursor can travel link -> popup
+  var cache = new Map(); // href -> Promise<{sig, summary}>
+  var pop = null;        // single shared popup element
+  var anchor = null;     // link the popup currently belongs to
+  var showTimer = null;
+  var hideTimer = null;
+
+  // The anchor a doc page hangs its content on: numpy.argsort.html documents
+  // the id "numpy.argsort". Prefer an explicit #fragment when the link has one.
+  function targetId(href) {
+    try {
+      var u = new URL(href, location.href);
+      if (u.hash) return decodeURIComponent(u.hash.slice(1));
+      var last = u.pathname.split("/").pop() || "";
+      return last.replace(/\.html?$/, "");
+    } catch (e) {
+      return "";
+    }
+  }
+
+  // Text of a node minus Sphinx's "¶" headerlink anchors, whitespace-collapsed.
+  function cleanText(node) {
+    var c = node.cloneNode(true);
+    // Drop Sphinx chrome: the "¶" headerlink and the "[source]" viewcode link.
+    c.querySelectorAll(".headerlink, .viewcode-link").forEach(function (x) {
+      x.remove();
+    });
+    return c.textContent
+      .replace(/¶/g, "")
+      .replace(/\[source\]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function extract(doc, href) {
+    var id = targetId(href);
+    var dt = id ? doc.getElementById(id) : null;
+    var sig, summary;
+    if (dt && dt.tagName === "DT") {
+      // The signature <dt> and its description <dd> are siblings under one <dl>.
+      sig = cleanText(dt);
+      var dl = dt.closest("dl");
+      var dd = dl ? dl.querySelector(":scope > dd") : null;
+      var p = dd ? dd.querySelector(":scope > p") : null;
+      if (p) summary = cleanText(p);
+    }
+    if (!sig) {
+      // Fallback for pages without a single documented object (e.g. topic pages).
+      var h1 = doc.querySelector("h1");
+      if (h1) sig = cleanText(h1);
+      var mp = doc.querySelector("main p, [role=main] p, .body p, article p");
+      if (mp) summary = cleanText(mp);
+    }
+    return { sig: sig || "", summary: summary || "" };
+  }
+
+  function load(href) {
+    if (cache.has(href)) return cache.get(href);
+    var p = fetch(href, { credentials: "omit" })
+      .then(function (r) {
+        if (!r.ok) throw new Error(r.status);
+        return r.text();
+      })
+      .then(function (html) {
+        return extract(new DOMParser().parseFromString(html, "text/html"), href);
+      });
+    cache.set(href, p);
+    return p;
+  }
+
+  function ensurePop() {
+    if (pop) return pop;
+    pop = document.createElement("div");
+    pop.className = "np-preview";
+    pop.setAttribute("role", "tooltip");
+    // Staying over the popup keeps it open; leaving it dismisses.
+    pop.addEventListener("mouseenter", function () {
+      clearTimeout(hideTimer);
+    });
+    pop.addEventListener("mouseleave", scheduleHide);
+    document.body.appendChild(pop);
+    return pop;
+  }
+
+  // Place the popup under the link, flipping above when it would overflow the
+  // bottom, and clamp horizontally so it never leaves the viewport. Uses fixed
+  // positioning off the link's viewport rect.
+  function position() {
+    if (!anchor || !pop) return;
+    var r = anchor.getBoundingClientRect();
+    pop.style.visibility = "hidden";
+    pop.style.display = "block";
+    var pr = pop.getBoundingClientRect();
+    var m = 8;
+    var left = Math.min(Math.max(m, r.left), window.innerWidth - pr.width - m);
+    var top = r.bottom + 6;
+    if (top + pr.height > window.innerHeight - m && r.top - pr.height - 6 > m) {
+      top = r.top - pr.height - 6;
+    }
+    pop.style.left = Math.max(m, left) + "px";
+    pop.style.top = top + "px";
+    pop.style.visibility = "";
+    pop.style.display = "";
+  }
+
+  function fill(html) {
+    ensurePop().innerHTML = html;
+  }
+
+  function render(data, href) {
+    var host;
+    try {
+      host = new URL(href, location.href).host;
+    } catch (e) {
+      host = "numpy.org";
+    }
+    var parts = [];
+    if (data.sig) parts.push('<div class="np-preview-sig"></div>');
+    if (data.summary) parts.push('<p class="np-preview-summary"></p>');
+    parts.push('<div class="np-preview-src"></div>');
+    fill(parts.join(""));
+    // Assign as text (not HTML) so page content can't inject markup.
+    if (data.sig) pop.querySelector(".np-preview-sig").textContent = data.sig;
+    if (data.summary)
+      pop.querySelector(".np-preview-summary").textContent = data.summary;
+    pop.querySelector(".np-preview-src").textContent = host;
+  }
+
+  function show(a) {
+    anchor = a;
+    var href = a.href;
+    ensurePop();
+    fill('<div class="np-preview-loading">Loading…</div>');
+    pop.classList.add("visible");
+    position();
+    load(href)
+      .then(function (data) {
+        if (anchor !== a) return; // hovered elsewhere meanwhile
+        if (!data.sig && !data.summary) {
+          fill('<div class="np-preview-loading">' + a.textContent + "</div>");
+        } else {
+          render(data, href);
+        }
+        position();
+      })
+      .catch(function () {
+        if (anchor !== a) return;
+        fill('<div class="np-preview-loading">Preview unavailable</div>');
+        position();
+      });
+  }
+
+  function scheduleHide() {
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(function () {
+      if (pop) pop.classList.remove("visible");
+      anchor = null;
+    }, HIDE_DELAY);
+  }
+
+  links.forEach(function (a) {
+    a.addEventListener("mouseenter", function () {
+      clearTimeout(hideTimer);
+      clearTimeout(showTimer);
+      showTimer = setTimeout(function () {
+        show(a);
+      }, HOVER_DELAY);
+    });
+    a.addEventListener("mouseleave", function () {
+      clearTimeout(showTimer);
+      scheduleHide();
+    });
+    // Keyboard/assistive parity: focusing the link previews immediately.
+    a.addEventListener("focus", function () {
+      clearTimeout(hideTimer);
+      show(a);
+    });
+    a.addEventListener("blur", scheduleHide);
+  });
+
+  // Anything that moves the anchor out from under the popup dismisses it.
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") scheduleHide();
+  });
+  window.addEventListener(
+    "scroll",
+    function () {
+      if (pop && pop.classList.contains("visible")) scheduleHide();
+    },
+    true
+  );
+});
+
 document.addEventListener("DOMContentLoaded", function () {
   const content = document.querySelector(".content main");
   if (!content) return;
