@@ -24,6 +24,14 @@ Jupyter Book-style visibility tags are honored: `remove-cell` skips the cell,
 `full-output` to lift the scroll-box height cap (`--nb-out-max-height`) so its
 output renders at full height.
 
+Dark-mode images: an image output may carry a dark-styled variant as a MIME
+bundle under its `metadata["dark"]` (e.g. {"image/png": "<base64>"}). When
+present, both images are emitted and the theme-swap CSS (`.nb-img-light` /
+`.nb-img-dark` in custom.css) shows the light one by default and the dark one on
+the coal/navy/ayu themes. Outputs without a dark variant render a single image.
+Generate these variants with `preprocessors/retheme-figures.py` after executing
+a notebook (it makes both the light and dark PNGs transparent and themed).
+
 Regenerating outputs (commit the executed notebook)
 ---------------------------------------------------
     jupyter nbconvert --to notebook --execute --inplace notebooks/ch1.ipynb
@@ -78,6 +86,30 @@ def _join(data):
     return "".join(data) if isinstance(data, list) else data
 
 
+_IMG_MIMES = ("image/svg+xml", "image/png", "image/jpeg")
+
+
+def _img_el(mime, raw, cls=""):
+    """A single image element (inline SVG or data-URI <img>), optional class."""
+    c = ' class="%s"' % cls if cls else ""
+    if mime == "image/svg+xml":
+        svg = _join(raw).replace("\r\n", "\n").replace("\n", "&#10;")
+        return "<span%s>%s</span>" % (c, svg)
+    return '<img%s src="data:%s;base64,%s">' % (c, mime, _join(raw).replace("\n", ""))
+
+
+def _image_body(mime, raw, out):
+    """Image output -> .nb-out-img div. If the output carries a dark-styled
+    variant under metadata["dark"] (a MIME bundle, see module docstring), emit
+    both light and dark images tagged for the theme-swap CSS; otherwise one."""
+    dark = out.get("metadata", {}).get("dark") or {}
+    dmime, draw = _pick(dark) if dark else (None, None)
+    if dmime in _IMG_MIMES:
+        return '<div class="nb-out-img">%s%s</div>' % (
+            _img_el(mime, raw, "nb-img-light"), _img_el(dmime, draw, "nb-img-dark"))
+    return '<div class="nb-out-img">%s</div>' % _img_el(mime, raw)
+
+
 def render_output(out, max_traceback):
     """One notebook output object -> a single-line raw-HTML block, or "" to skip."""
     t = out.get("output_type")
@@ -99,11 +131,8 @@ def render_output(out, max_traceback):
             # Trusted book-authored notebooks: pass rich HTML (pandas tables etc.)
             # through, newlines encoded so it stays one line.
             body = '<div class="nb-out-html">%s</div>' % _join(raw).replace("\r\n", "\n").replace("\n", "&#10;")
-        elif mime == "image/svg+xml":
-            body = '<div class="nb-out-img">%s</div>' % _join(raw).replace("\r\n", "\n").replace("\n", "&#10;")
-        elif mime in ("image/png", "image/jpeg"):
-            b64 = _join(raw).replace("\n", "")
-            body = '<div class="nb-out-img"><img src="data:%s;base64,%s"></div>' % (mime, b64)
+        elif mime in _IMG_MIMES:
+            body = _image_body(mime, raw, out)
         else:  # text/plain
             body = '<pre class="nb-out-text">%s</pre>' % _nl(_join(raw))
         return '<div class="nb-out nb-out-result">%s%s</div>' % (prompt, body)
