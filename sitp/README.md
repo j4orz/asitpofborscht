@@ -21,3 +21,14 @@ SITP uses Rust's [mdbook](https://rust-lang.github.io/mdBook/) infrastructure.
     ```sh
     mdbook serve
     ```
+
+**Notebooks**
+
+Chapters embed executed Jupyter notebooks with `{{#nb file.ipynb}}` (whole notebook) or `{{#nb file.ipynb:tag}}` (one cell); see `preprocessors/mdbook-nb`.
+Notebooks live under `notebooks/` and are committed already-executed.
+
+Matplotlib figures specifically get transparent light + dark variants via `preprocessors/retheme-figures.py`.
+Enable the pre-commit hook once per clone to run it automatically on staged notebooks:
+```sh
+git config core.hooksPath .githooks
+```
