@@ -105,6 +105,15 @@
             html.classList.add("js");
         </script>
 
+        <!-- Set the color-key preference before content is loaded, same as the
+             theme above: otherwise a reader who has turned color-coding off
+             still sees a flash of colored symbols on every page load. -->
+        <script>
+            let colorkey = null;
+            try { colorkey = localStorage.getItem('sitp-colorkey'); } catch(e) { }
+            html.dataset.colorkey = colorkey === 'off' ? 'off' : 'on';
+        </script>
+
         <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
@@ -157,6 +166,9 @@
                             <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
                         </ul>
+                        <button id="colorkey-toggle" class="icon-button" type="button" title="Toggle color coding" aria-label="Toggle color coding" aria-pressed="true">
+                            {{fa "solid" "droplet"}}
+                        </button>
                         {{#if search_enabled}}
                         <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
                             {{fa "solid" "magnifying-glass"}}

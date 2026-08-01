@@ -14,6 +14,12 @@ extra-watch-dirs = ["notebooks"]
 
 [preprocessor.katex]
 after = ["links"]
+# `trust` enables KaTeX's \html* extensions. Used for \htmlClass, which is the
+# only way to color-code symbols in math *by CSS class* rather than by baked-in
+# hex: \textcolor emits an inline `color:` that no dark-theme rule can override.
+# See the .okabe-* classes in theme/css/custom.css.
+trust = true
+macros = "katex_macros.txt"
 
 [output.html]
 additional-css = ["theme/css/custom.css", "theme/css/lean.css"]
