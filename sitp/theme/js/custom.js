@@ -462,3 +462,34 @@ document.addEventListener("DOMContentLoaded", function () {
   update();
   window.addEventListener("resize", update);
 });
+
+// Color-key toggle (the droplet in the menu bar). The `.okabe-*` classes in
+// custom.css — used both by prose ("the orange output ...") and by the
+// \cin/\cparam/\cfun/\cout macros inside KaTeX — all resolve their color
+// through `--okabe-*` variables, so turning the key off is one CSS rule that
+// remaps those variables to `inherit`. Nothing needs to know where the colored
+// spans are. The preference is per-reader and sticky, mirroring mdBook's own
+// theme/sidebar handling; `data-colorkey` is set in index.hbs before first
+// paint, so this only wires up the click and keeps the button's state in sync.
+document.addEventListener("DOMContentLoaded", function () {
+  const button = document.getElementById("colorkey-toggle");
+  if (!button) return;
+  const html = document.documentElement;
+
+  function sync() {
+    const on = html.dataset.colorkey !== "off";
+    button.setAttribute("aria-pressed", String(on));
+    button.title = on ? "Turn off color coding" : "Turn on color coding";
+  }
+
+  button.addEventListener("click", function () {
+    const off = html.dataset.colorkey === "off";
+    html.dataset.colorkey = off ? "on" : "off";
+    try {
+      localStorage.setItem("sitp-colorkey", html.dataset.colorkey);
+    } catch (e) {}
+    sync();
+  });
+
+  sync();
+});

@@ -396,6 +396,14 @@ p:has(+ ul) {
   margin: 0 !important;
 }
 
+/* Prose/code columns want their tops flush (hence `align-items: start` above),
+   but paired figures rarely have matching aspect ratios — center them so the
+   shorter one doesn't hang off the top of the row. */
+.dual > img {
+  align-self: center;
+  justify-self: center;
+}
+
 /* Opt-in yinit drop cap (gwern-style). Wrap a paragraph in a `.dropcap` div in
    the Markdown — keep blank lines inside so mdBook renders the contents:
 
@@ -502,6 +510,12 @@ html.ayu img.stochastic_matrix {
   content: url("../../assets/stochastic_matrix_dark.png");
 }
 
+html.coal img.neuron,
+html.navy img.neuron,
+html.ayu img.neuron {
+  content: url("../../assets/neuron_dark.png");
+}
+
 html.coal img.venn,
 html.navy img.venn,
 html.ayu img.venn {
@@ -512,6 +526,54 @@ html.coal img.venn_disjoint,
 html.navy img.venn_disjoint,
 html.ayu img.venn_disjoint {
   content: url("../../assets/venn_disjoint_dark.png");
+}
+
+/* Prose color-keys that name a part of a figure ("the orange output ..."), in
+   the same Okabe-Ito hues the figures are drawn with. The dark values are the
+   palette verbatim, matching the strokes in the *_dark.png variants. On white,
+   though, only the blue is legible as text — the palette is tuned for fills,
+   and orange/green/purple land at 2.3:1, 3.4:1 and 3.1:1 — so the light values
+   are those three darkened (0.8x, 0.85x, 0.8x) to a uniform ~4.3:1. KaTeX
+   inherits `color`, so inline math is keyed along with the prose around it. */
+:root {
+  --okabe-orange: #b87f00;
+  --okabe-blue: #0072b2;
+  --okabe-green: #008662;
+  --okabe-purple: #a36186;
+}
+html.coal, html.navy, html.ayu {
+  --okabe-orange: #e69f00;
+  --okabe-blue: #56b4e9;
+  --okabe-green: #35c79a;
+  --okabe-purple: #e4a0c8;
+}
+
+/* Color key off (the menu-bar droplet, wired in custom.js): remapping the
+   variables to `inherit` is enough to neutralize every keyed span at once —
+   prose and KaTeX alike — because nothing sets a literal hex. Figures keep
+   their colors; they're PNGs, and the prose still names the colors, so the
+   toggle is about de-noising the running text, not hiding the key entirely. */
+html[data-colorkey="off"] {
+  --okabe-orange: inherit;
+  --okabe-blue: inherit;
+  --okabe-green: inherit;
+  --okabe-purple: inherit;
+}
+
+.okabe-orange {
+  color: var(--okabe-orange);
+}
+
+.okabe-blue {
+  color: var(--okabe-blue);
+}
+
+.okabe-green {
+  color: var(--okabe-green);
+}
+
+.okabe-purple {
+  color: var(--okabe-purple);
 }
 
 /* Custom [!QUESTION] admonition, populated by custom.js (mdBook's built-in

@@ -1,0 +1,17 @@
+% Color-key macros, referenced from prose as the .okabe-* CSS classes (see
+% theme/css/custom.css). Going through \htmlClass rather than \textcolor is
+% what lets the colors follow the light/dark theme and lets the menu-bar
+% droplet switch them off; it needs `trust = true` in book.toml.
+%
+% Format is mdbook-katex's own: one `\name:expansion` per line. These land in
+% KaTeX's global macro table, so unlike \gdef inside a `$$` block — which is
+% scoped to that single block — they are available in every equation.
+%
+%   \cin    input      (blue)
+%   \cparam parameters (purple)
+%   \cfun   functions  (green)
+%   \cout   output     (orange)
+\cin:\htmlClass{okabe-blue}{#1}
+\cparam:\htmlClass{okabe-purple}{#1}
+\cfun:\htmlClass{okabe-green}{#1}
+\cout:\htmlClass{okabe-orange}{#1}
