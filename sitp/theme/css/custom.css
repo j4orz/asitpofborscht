@@ -392,8 +392,14 @@ p:has(+ ul) {
   margin: 1em 0;
 }
 
+/* `min-width: 0` is what actually keeps the split down the middle: a grid item's
+   automatic minimum size is its min-content width, so a cell holding a wide
+   <pre> demands more than its 1fr share, stretches its track, and shoves the
+   divider off-center (and the second column off-screen). Zeroing it lets the
+   tracks stay equal and the code scroll inside its own box. */
 .dual > * {
   margin: 0 !important;
+  min-width: 0;
 }
 
 /* Prose/code columns want their tops flush (hence `align-items: start` above),
