@@ -19,6 +19,10 @@ Add a tag to a cell in Jupyter via the cell's metadata (Property Inspector ->
 "Cell Tags"), or edit `metadata.tags` in the JSON. Multiple cells may share a
 tag; all matching cells render in document order.
 
+Each directive labels its first rendered cell with the notebook's filename, so
+cells drawn from different notebooks (side by side in a `.dual`, say) are
+attributable. Style it via `.nb-file` in custom.css.
+
 Jupyter Book-style visibility tags are honored: `remove-cell` skips the cell,
 `remove-input` hides the In[] box, `remove-output` hides the outputs. Tag a cell
 `full-output` to lift the scroll-box height cap (`--nb-out-max-height`) so its
@@ -147,13 +151,18 @@ def render_output(out, max_traceback):
     return ""
 
 
-def render_cell(cell, max_traceback):
+def render_cell(cell, max_traceback, filename=None):
     tags = cell.get("metadata", {}).get("tags", []) or []
     if "remove-cell" in tags:
         return ""
 
     cls = "nb-cell nb-full" if "full-output" in tags else "nb-cell"
     parts = ['<div class="%s">' % cls]
+    if filename:
+        # Ahead of the prompt in the DOM on purpose: .nb-prompt is absolutely
+        # positioned with no `top`, so it hangs at its static position — after
+        # this label, i.e. level with the top of the code box.
+        parts.append('<div class="nb-file">%s</div>' % html.escape(filename))
     if "remove-input" not in tags:
         n = cell.get("execution_count")
         parts.append(_prompt("nb-in-prompt", "In [%s]:" % ("" if n is None else n)))
@@ -185,6 +194,11 @@ def render_notebook(path, selector, max_traceback):
         sys.stderr.write("mdbook-nb: bad JSON in %s (%s)\n" % (path, e))
         return '<pre class="nb-error">invalid notebook: %s</pre>' % html.escape(path)
 
+    # The source notebook is named once per directive, on the first cell it
+    # emits: cells from two different notebooks often sit side by side (see
+    # `.dual` in custom.css), and the reader needs to tell them apart. Repeating
+    # it down a whole-notebook embed would just be noise.
+    name = os.path.basename(path)
     out = []
     for cell in nb.get("cells", []):
         if cell.get("cell_type") != "code":
@@ -193,11 +207,13 @@ def render_notebook(path, selector, max_traceback):
             tags = cell.get("metadata", {}).get("tags", []) or []
             if selector != cell.get("id") and selector not in tags:
                 continue
-        out.append(render_cell(cell, max_traceback))
+        frag = render_cell(cell, max_traceback, name if not out else None)
+        if frag:
+            out.append(frag)
     if selector is not None and not out:
         sys.stderr.write("mdbook-nb: no cell matching %r in %s\n" % (selector, path))
         return '<pre class="nb-error">no cell %s in %s</pre>' % (html.escape(selector), html.escape(path))
-    return "\n".join(f for f in out if f)
+    return "\n".join(out)
 
 
 # --------------------------------------------------------------------------- #

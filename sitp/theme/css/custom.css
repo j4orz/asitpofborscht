@@ -230,6 +230,19 @@ html.coal, html.navy, html.ayu {
   user-select: none;
 }
 
+/* Source notebook's filename, emitted once per `{{#nb}}` by mdbook-nb. Sits
+   above the input box, aligned with it, quieter than the prompt beside it. */
+.nb-file {
+  font-family: var(--mono-font, "Source Code Pro", monospace);
+  font-size: 0.78em;
+  line-height: 1.5;
+  color: var(--nb-prompt);
+  opacity: 0.7;
+  padding-bottom: 0.2rem;
+  overflow-wrap: anywhere;
+  user-select: none;
+}
+
 .nb-in-code pre {
   background: var(--nb-in-bg);
   border: 1px solid var(--nb-in-border);
@@ -400,6 +413,42 @@ p:has(+ ul) {
 .dual > * {
   margin: 0 !important;
   min-width: 0;
+}
+
+/* Variant of `.dual` for a primary/aside pair: the first cell keeps the full
+   text measure and the second one sits out in the sidenote margin. The grid box
+   itself stays the width of the text column (so `100%` is the measure), and the
+   second track simply overhangs to the right — landing on the same edge as a
+   `.sidenote`, which right-aligns at 144% of the measure. */
+.dual-margin {
+  grid-template-columns: 100% calc(44% - 1.5rem);
+}
+
+/* The margin cell's prompt would hang 7rem left of its box, i.e. on top of the
+   first cell's code. Drop it inline above the box instead. Inline-block (rather
+   than the breakpoint's `display: block`) puts it on the same line as the
+   filename label, so the header stays one line tall and the two cells' code
+   boxes still start level. */
+.dual-margin > *:nth-child(2) .nb-file,
+.dual-margin > *:nth-child(2) .nb-prompt {
+  position: static;
+  display: inline-block;
+  width: auto;
+  text-align: left;
+  padding: 0 0 0.2rem 0;
+}
+
+.dual-margin > *:nth-child(2) .nb-file {
+  padding-right: 0.6em;
+}
+
+/* Below the sidenote breakpoint there is no margin to sit in — stack instead.
+   Declared here rather than in the breakpoint block above so it wins on order
+   against the `.dual-margin` rule. */
+@media (max-width: 1000px) {
+  .dual-margin {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Prose/code columns want their tops flush (hence `align-items: start` above),
