@@ -85,6 +85,178 @@ p.em-only {
   display: block;
 }
 
+/* A full-bleed video gallery: one player on stage down the left, the rest
+   stacked in a rail down the right. Clicking a rail video swaps it onto the
+   stage and the outgoing one drops into the rail. The swap is done purely by
+   re-assigning grid tracks — the iframes never move in the DOM, because
+   re-parenting an <iframe> reloads it and would restart whatever the reader had
+   playing. `.is-active` comes from custom.js, as does `--rail-rows` (one row per
+   video that is not on stage; CSS cannot count children).
+
+   The row owns a track per player AND a track per caption, and the cells opt
+   into them with `subgrid`. That shared track list is what lets the stage line
+   up with the rail exactly: the stage player spans every track except the last
+   caption's, so its top edge is the first thumbnail's top edge and its bottom
+   edge is the last thumbnail's bottom edge, with the two captions left sitting
+   side by side underneath. Cells with private row tracks cannot do this — their
+   rows resolve independently and the stage can only be centered in the leftover
+   space, which is what leaves a gap at each end.
+
+   `minmax(0, …)` on the columns overrides the automatic minimum of an `fr`
+   track. Without it a track refuses to shrink below its content's min-content
+   width, and an aspect-ratio player in a definite-height area reports that as
+   (height x 16/9) — enough to push the rail off the right edge of the screen. */
+.video-row {
+  width: 90vw;
+  position: relative;
+  left: 50%;
+  margin-left: -45vw;
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+  grid-template-rows: repeat(var(--rail-rows, 3), auto auto);
+  column-gap: 1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Cells default into the rail, two tracks each, and only the picked one is
+   hoisted out — so the rail keeps source order and auto-places top-to-bottom,
+   never reshuffling as the reader clicks between videos. */
+.video-cell {
+  grid-column: 2;
+  grid-row: span 2;
+  display: grid;
+  grid-template-rows: subgrid;
+  min-width: 0;
+}
+
+.video-cell.is-active {
+  grid-column: 1;
+  grid-row: 1 / -1;
+}
+
+/* Counting the player's end line from the back (`-2`) is what makes one pair of
+   rules serve both roles: a rail cell spans two tracks, so `1 / -2` is just its
+   player track, while the stage spans all of them and the same span reaches the
+   last player track — stopping short of the caption. */
+.video-cell > iframe,
+.video-cell > .video-cell-toggle {
+  grid-column: 1;
+  grid-row: 1 / -2;
+}
+
+.video-cell > p {
+  grid-column: 1;
+  grid-row: -2 / -1;
+  align-self: start;
+  margin: 0;
+  /* Row gaps are 0 so that the player-to-caption step can be tighter than the
+     gap between rail videos; the captions carry both spacings themselves. */
+  padding: 0.5rem 0 1rem;
+  font-size: 1.3rem;
+  line-height: 1.35;
+  text-align: center;
+}
+
+/* Rail players are sized by their column, and 16/9 sets the height — they are
+   what gives the shared tracks their heights. The bare-iframe selector is the
+   pre-JS fallback: until custom.js wraps them in cells the players are direct
+   children, and they still paint at 16/9. */
+.video-cell > iframe,
+.video-row > iframe {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
+
+/* The stage fills its span instead of keeping 16/9, because its area is not
+   16/9: it inherits the rail's height, and the rail carries three captions to
+   the stage's one. Filling is what puts the edges where the request wants them;
+   the small surplus becomes letterboxing inside the player, which sits on the
+   player's own black background and is not visible in practice. */
+.video-cell.is-active > iframe {
+  height: 100%;
+  aspect-ratio: auto;
+}
+
+/* The click target. It exists because a cross-origin <iframe> swallows every
+   pointer event inside it — a click on the player itself never reaches the page
+   — so "click a video" has to mean "click a transparent layer over it". Only
+   rail videos carry one; on stage it is removed outright (below) so nothing
+   sits between the reader and the controls of the video they came to watch. */
+.video-cell-toggle {
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+  transition: background 120ms ease-in;
+}
+
+.video-cell-toggle::after {
+  content: "watch";
+  font-size: 1.3rem;
+  letter-spacing: 0.05em;
+  padding: 0.35em 0.9em;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.72);
+  opacity: 0;
+  transition: opacity 120ms ease-in;
+}
+
+.video-cell-toggle:hover,
+.video-cell-toggle:focus-visible {
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.video-cell-toggle:hover::after,
+.video-cell-toggle:focus-visible::after {
+  opacity: 1;
+}
+
+.video-cell.is-active > .video-cell-toggle {
+  display: none;
+}
+
+/* One column has no room for a stage and a rail, and no margin to bleed into
+   either, so the gallery collapses to a plain in-measure stack with the staged
+   video on top. Cells take their two rows back from the parent — there is
+   nothing left to line up with — and the `1 / -2` and `-2 / -1` placements above
+   keep working unchanged against a two-track grid. Same breakpoint the sidenotes
+   collapse at. */
+@media (max-width: 1000px) {
+  .video-row {
+    width: 100%;
+    left: auto;
+    margin-left: 0;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+  }
+
+  .video-cell,
+  .video-cell.is-active {
+    grid-column: 1;
+    grid-row: auto;
+    grid-template-rows: auto auto;
+  }
+
+  .video-cell.is-active {
+    order: -1;
+  }
+
+  .video-cell.is-active > iframe {
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+}
+
 .sidenote {
   float: right;
   clear: right;

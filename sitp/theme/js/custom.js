@@ -463,6 +463,61 @@ document.addEventListener("DOMContentLoaded", function () {
   window.addEventListener("resize", update);
 });
 
+// Video gallery (`.video-row` in the Markdown, holding bare <iframe>s): one
+// video on stage, the rest in a rail beside it, and clicking a rail video swaps
+// it onto the stage. All of the layout is in custom.css and keys off
+// `.is-active` on the chosen cell, so nothing here moves an iframe: re-parenting
+// one reloads it, which would restart whatever the reader had playing — the
+// video a reader steps away from keeps its place when it drops into the rail.
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll(".video-row").forEach(function (row) {
+    // Authoring stays "some iframes in a div" — wrap each one here so the click
+    // overlay has a box to share. This is the one re-parent we do, and it
+    // happens before first paint on lazy iframes, so nothing is loaded yet to be
+    // thrown away.
+    row.querySelectorAll(":scope > iframe").forEach(function (frame) {
+      var cell = document.createElement("div");
+      cell.className = "video-cell";
+      row.insertBefore(cell, frame);
+      cell.appendChild(frame);
+    });
+
+    var cells = Array.prototype.slice.call(
+      row.querySelectorAll(":scope > .video-cell")
+    );
+    if (cells.length === 0) return;
+
+    // The rail holds every video except the one on stage, and CSS cannot count
+    // children — hand it the row count.
+    row.style.setProperty("--rail-rows", String(Math.max(1, cells.length - 1)));
+
+    function select(index) {
+      cells.forEach(function (cell, i) {
+        var active = i === index;
+        cell.classList.toggle("is-active", active);
+        var toggle = cell.querySelector(":scope > .video-cell-toggle");
+        toggle.setAttribute("aria-pressed", String(active));
+        toggle.setAttribute(
+          "aria-label",
+          active ? "Playing on the main stage" : "Move this video to the main stage"
+        );
+      });
+    }
+
+    cells.forEach(function (cell, i) {
+      var toggle = document.createElement("button");
+      toggle.type = "button";
+      toggle.className = "video-cell-toggle";
+      cell.appendChild(toggle);
+      toggle.addEventListener("click", function () {
+        select(i);
+      });
+    });
+
+    select(0); // the first video in source order opens on stage
+  });
+});
+
 // Color-key toggle (the droplet in the menu bar). The `.okabe-*` classes in
 // custom.css — used both by prose ("the orange output ...") and by the
 // \cin/\cparam/\cfun/\cout macros inside KaTeX — all resolve their color
