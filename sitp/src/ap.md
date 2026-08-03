@@ -1100,3 +1100,6 @@ of software 2.0, let's review the symbolic and logical methods of GOFAI that wer
 ## D. From Sequential to Parallel Processors
 
 > In which we historically retrace the development of processors from sequential to parallel processors
+
+![](./assets/io-sodor-pipeline.png)
+![](./assets/oooboom-pipeline.webp)

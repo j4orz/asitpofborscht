@@ -415,6 +415,18 @@ html.coal, html.navy, html.ayu {
   user-select: none;
 }
 
+/* When `src-url` is configured the label is a link to the notebook in the repo.
+   Keep it looking like the label — the underline on hover is the only tell. */
+.nb-file a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.nb-file a:hover {
+  color: inherit;
+  text-decoration: underline;
+}
+
 .nb-in-code pre {
   background: var(--nb-in-bg);
   border: 1px solid var(--nb-in-border);
@@ -1026,7 +1038,7 @@ html.ayu  .ref-item a[href*="wikipedia.org"]::before { filter: invert(1) brightn
    part of the same surface family; the signature line borrows the In[]/Out[]
    prompt color and the book's --mono-font.
    -------------------------------------------------------------------------- */
-.np-preview {
+.doc-preview {
   position: fixed;
   left: 0;
   top: 0;
@@ -1045,12 +1057,12 @@ html.ayu  .ref-item a[href*="wikipedia.org"]::before { filter: invert(1) brightn
   pointer-events: none;
   transition: opacity 0.12s ease, transform 0.12s ease;
 }
-.np-preview.visible {
+.doc-preview.visible {
   opacity: 1;
   transform: none;
   pointer-events: auto;
 }
-.np-preview-sig {
+.doc-preview-sig {
   font-family: var(--mono-font, "Source Code Pro", monospace);
   font-size: 1.2rem;
   color: var(--nb-prompt);
@@ -1058,14 +1070,14 @@ html.ayu  .ref-item a[href*="wikipedia.org"]::before { filter: invert(1) brightn
   word-break: break-word;
   margin-bottom: 0.4rem;
 }
-.np-preview-summary {
+.doc-preview-summary {
   margin: 0;
 }
-.np-preview-loading {
+.doc-preview-loading {
   color: var(--nb-prompt);
   font-style: italic;
 }
-.np-preview-src {
+.doc-preview-src {
   margin-top: 0.5rem;
   font-size: 1.1rem;
   font-family: var(--mono-font, "Source Code Pro", monospace);
