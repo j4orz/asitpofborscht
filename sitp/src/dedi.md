@@ -1,4 +1,4 @@
-# Dedication (Devotion)
+# Dedication
 
 <img src="./assets/dad.jpg" width="500px" /><br>
 
