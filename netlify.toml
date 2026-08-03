@@ -1,3 +1,16 @@
 [build]
 command = "rustup toolchain install nightly-2026-05-01 --component rust-src --component rustc-dev --component llvm-tools-preview --component miri && cargo install mdbook --version 0.5.2 --locked && cargo install mdbook-katex --git https://github.com/lzanini/mdbook-katex && cargo install mdbook-aquascope --locked && cargo install mdbook-quiz --locked && cargo +nightly-2026-05-01 install aquascope_front --git https://github.com/cognitive-engineering-lab/aquascope && cargo install mdbook-repl --git https://github.com/j4orz/mdbook-repl && curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none && export PATH=\"$HOME/.elan/bin:$PATH\" && cd sitp && mdbook build"
 publish = "sitp/book"
+
+# Same-origin passthrough for the doc hover previews in theme/js/custom.js.
+# Those previews fetch a doc page and lift out its signature + summary, which
+# needs the page to be readable by script. numpy.org sends
+# `access-control-allow-origin: *` and is fetched directly; matplotlib.org sends
+# no CORS header at all, so the browser refuses to hand its body to script. This
+# proxy makes that fetch same-origin, which sidesteps CORS entirely. It carries
+# preview fetches only — the links in the book still point at matplotlib.org.
+[[redirects]]
+from = "/docs-proxy/matplotlib/*"
+to = "https://matplotlib.org/:splat"
+status = 200
+force = true

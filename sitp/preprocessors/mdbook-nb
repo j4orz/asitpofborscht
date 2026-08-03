@@ -21,7 +21,8 @@ tag; all matching cells render in document order.
 
 Each directive labels its first rendered cell with the notebook's filename, so
 cells drawn from different notebooks (side by side in a `.dual`, say) are
-attributable. Style it via `.nb-file` in custom.css.
+attributable. Style it via `.nb-file` in custom.css. Set `src-url` (below) to
+make that label a link to the notebook in the repo.
 
 Jupyter Book-style visibility tags are honored: `remove-cell` skips the cell,
 `remove-input` hides the In[] box, `remove-output` hides the outputs. Tag a cell
@@ -48,6 +49,8 @@ Config (book.toml)
     [preprocessor.nb]
     command = "python3 preprocessors/mdbook-nb"
     nb-dir  = "notebooks"   # notebook root, relative to the book root
+    src-url = "https://..." # base URL the .nb-file label links to; the path from
+                            #   the directive is appended. Unset -> plain label.
     max-traceback = false   # true -> full ANSI-stripped traceback, not just
                             #         `ename: evalue`
 """
@@ -151,7 +154,7 @@ def render_output(out, max_traceback):
     return ""
 
 
-def render_cell(cell, max_traceback, filename=None):
+def render_cell(cell, max_traceback, filename=None, href=None):
     tags = cell.get("metadata", {}).get("tags", []) or []
     if "remove-cell" in tags:
         return ""
@@ -162,7 +165,10 @@ def render_cell(cell, max_traceback, filename=None):
         # Ahead of the prompt in the DOM on purpose: .nb-prompt is absolutely
         # positioned with no `top`, so it hangs at its static position — after
         # this label, i.e. level with the top of the code box.
-        parts.append('<div class="nb-file">%s</div>' % html.escape(filename))
+        label = html.escape(filename)
+        if href:
+            label = '<a href="%s">%s</a>' % (html.escape(href, quote=True), label)
+        parts.append('<div class="nb-file">%s</div>' % label)
     if "remove-input" not in tags:
         n = cell.get("execution_count")
         parts.append(_prompt("nb-in-prompt", "In [%s]:" % ("" if n is None else n)))
@@ -181,7 +187,7 @@ def render_cell(cell, max_traceback, filename=None):
     return "\n".join(parts)
 
 
-def render_notebook(path, selector, max_traceback):
+def render_notebook(path, rel, selector, max_traceback, src_url=None):
     try:
         with open(path, encoding="utf-8") as f:
             # strict=False tolerates raw control chars (e.g. unescaped ANSI ESC
@@ -199,6 +205,10 @@ def render_notebook(path, selector, max_traceback):
     # `.dual` in custom.css), and the reader needs to tell them apart. Repeating
     # it down a whole-notebook embed would just be noise.
     name = os.path.basename(path)
+    # `src-url` (book.toml) turns that label into a link to the notebook in the
+    # repo, so a reader can open/download the real thing. Built from the path as
+    # written in the directive, so notebooks in sub-directories resolve too.
+    href = src_url.rstrip("/") + "/" + rel.replace(os.sep, "/") if src_url else None
     out = []
     for cell in nb.get("cells", []):
         if cell.get("cell_type") != "code":
@@ -207,7 +217,7 @@ def render_notebook(path, selector, max_traceback):
             tags = cell.get("metadata", {}).get("tags", []) or []
             if selector != cell.get("id") and selector not in tags:
                 continue
-        frag = render_cell(cell, max_traceback, name if not out else None)
+        frag = render_cell(cell, max_traceback, name if not out else None, href)
         if frag:
             out.append(frag)
     if selector is not None and not out:
@@ -220,26 +230,26 @@ def render_notebook(path, selector, max_traceback):
 # mdBook preprocessor protocol
 # --------------------------------------------------------------------------- #
 
-def substitute(content, nb_dir, max_traceback, cache):
+def substitute(content, nb_dir, max_traceback, src_url, cache):
     def repl(m):
         rel, selector = m.group(1), m.group(2)
         path = os.path.normpath(os.path.join(nb_dir, rel))
         key = (path, selector)
         if key not in cache:
-            cache[key] = render_notebook(path, selector, max_traceback)
+            cache[key] = render_notebook(path, rel, selector, max_traceback, src_url)
         return cache[key]
     return DIRECTIVE.sub(repl, content)
 
 
-def walk(items, nb_dir, max_traceback, cache):
+def walk(items, nb_dir, max_traceback, src_url, cache):
     for item in items:
         chapter = item.get("Chapter") if isinstance(item, dict) else None
         if chapter is None:
             continue
         if chapter.get("content"):
-            chapter["content"] = substitute(chapter["content"], nb_dir, max_traceback, cache)
+            chapter["content"] = substitute(chapter["content"], nb_dir, max_traceback, src_url, cache)
         if chapter.get("sub_items"):
-            walk(chapter["sub_items"], nb_dir, max_traceback, cache)
+            walk(chapter["sub_items"], nb_dir, max_traceback, src_url, cache)
 
 
 def main():
@@ -253,8 +263,9 @@ def main():
     root = context.get("root", ".")
     nb_dir = os.path.join(root, cfg.get("nb-dir", "notebooks"))
     max_traceback = bool(cfg.get("max-traceback", False))
+    src_url = cfg.get("src-url") or None
 
-    walk(book.get("items", []), nb_dir, max_traceback, {})
+    walk(book.get("items", []), nb_dir, max_traceback, src_url, {})
     json.dump(book, sys.stdout)
 
 

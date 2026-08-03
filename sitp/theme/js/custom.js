@@ -215,18 +215,50 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// Hover previews for numpy documentation links. numpy.org/doc/ serves its
-// Sphinx-generated pages with `access-control-allow-origin: *` and no
-// X-Frame-Options, so on hover we can fetch the target page cross-origin,
-// pull out just the function signature + one-line summary, and float them in a
-// small popup — no iframe, no server, no build step. Results are cached per URL,
-// and a hover-intent delay keeps incidental mouse passes from firing fetches.
-// To extend to other pydata-Sphinx sites (scipy, pandas), widen NP_MATCH — the
-// extraction below keys off the `dt[id]` / `dd` structure every such page shares.
+// Hover previews for library documentation links. These sites publish
+// Sphinx-generated pages, so on hover we fetch the target page, pull out just
+// the object's signature + one-line summary, and float them in a small popup —
+// no iframe, no build step. Results are cached per URL, and a hover-intent
+// delay keeps incidental mouse passes from firing fetches.
+//
+// SITES lists what to preview and how to reach it. numpy.org serves
+// `access-control-allow-origin: *`, so its pages are readable cross-origin and
+// are fetched directly. matplotlib.org sends no CORS header at all, so a direct
+// read is blocked by the browser; its fetches are rewritten onto this site's own
+// origin, where the /docs-proxy/ rule in netlify.toml forwards them upstream.
+// The links themselves are never rewritten — clicking still goes to the real
+// docs, and the proxy only ever carries these previews. (The proxy is a Netlify
+// rule, so under a local `mdbook serve` the matplotlib fetch 404s and the popup
+// falls back to "Preview unavailable"; numpy previews still work locally.)
+//
+// To add another pydata-Sphinx site (scipy, pandas), add a SITES entry — the
+// extraction below keys off the `dt[id]` / `dd` structure every such page shares
+// — and check whether it needs a proxy: `curl -sI <page> | grep -i access-control`.
 document.addEventListener("DOMContentLoaded", function () {
-  var NP_MATCH = 'a[href*="numpy.org/doc"]';
-  var links = document.querySelectorAll(NP_MATCH);
+  var SITES = [
+    { match: 'a[href*="numpy.org/doc"]', proxy: null },
+    {
+      match: 'a[href*="matplotlib.org/"]',
+      proxy: { from: /^https?:\/\/matplotlib\.org\//, to: "/docs-proxy/matplotlib/" },
+    },
+  ];
+
+  var links = document.querySelectorAll(
+    SITES.map(function (s) {
+      return s.match;
+    }).join(", ")
+  );
   if (links.length === 0) return;
+
+  // Where to actually fetch a link's page from: itself, unless its site needs
+  // the same-origin proxy to get past a missing CORS header.
+  function fetchUrl(href) {
+    for (var i = 0; i < SITES.length; i++) {
+      var p = SITES[i].proxy;
+      if (p && p.from.test(href)) return href.replace(p.from, p.to);
+    }
+    return href;
+  }
 
   var HOVER_DELAY = 250; // ms of hover intent before fetching
   var HIDE_DELAY = 160;  // ms grace so the cursor can travel link -> popup
@@ -287,7 +319,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function load(href) {
     if (cache.has(href)) return cache.get(href);
-    var p = fetch(href, { credentials: "omit" })
+    var p = fetch(fetchUrl(href), { credentials: "omit" })
       .then(function (r) {
         if (!r.ok) throw new Error(r.status);
         return r.text();
@@ -302,7 +334,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function ensurePop() {
     if (pop) return pop;
     pop = document.createElement("div");
-    pop.className = "np-preview";
+    pop.className = "doc-preview";
     pop.setAttribute("role", "tooltip");
     // Staying over the popup keeps it open; leaving it dismisses.
     pop.addEventListener("mouseenter", function () {
@@ -339,36 +371,37 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function render(data, href) {
+    // Always the link's own host, never the proxy path the fetch went through.
     var host;
     try {
       host = new URL(href, location.href).host;
     } catch (e) {
-      host = "numpy.org";
+      host = "";
     }
     var parts = [];
-    if (data.sig) parts.push('<div class="np-preview-sig"></div>');
-    if (data.summary) parts.push('<p class="np-preview-summary"></p>');
-    parts.push('<div class="np-preview-src"></div>');
+    if (data.sig) parts.push('<div class="doc-preview-sig"></div>');
+    if (data.summary) parts.push('<p class="doc-preview-summary"></p>');
+    parts.push('<div class="doc-preview-src"></div>');
     fill(parts.join(""));
     // Assign as text (not HTML) so page content can't inject markup.
-    if (data.sig) pop.querySelector(".np-preview-sig").textContent = data.sig;
+    if (data.sig) pop.querySelector(".doc-preview-sig").textContent = data.sig;
     if (data.summary)
-      pop.querySelector(".np-preview-summary").textContent = data.summary;
-    pop.querySelector(".np-preview-src").textContent = host;
+      pop.querySelector(".doc-preview-summary").textContent = data.summary;
+    pop.querySelector(".doc-preview-src").textContent = host;
   }
 
   function show(a) {
     anchor = a;
     var href = a.href;
     ensurePop();
-    fill('<div class="np-preview-loading">Loading…</div>');
+    fill('<div class="doc-preview-loading">Loading…</div>');
     pop.classList.add("visible");
     position();
     load(href)
       .then(function (data) {
         if (anchor !== a) return; // hovered elsewhere meanwhile
         if (!data.sig && !data.summary) {
-          fill('<div class="np-preview-loading">' + a.textContent + "</div>");
+          fill('<div class="doc-preview-loading">' + a.textContent + "</div>");
         } else {
           render(data, href);
         }
@@ -376,7 +409,7 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .catch(function () {
         if (anchor !== a) return;
-        fill('<div class="np-preview-loading">Preview unavailable</div>');
+        fill('<div class="doc-preview-loading">Preview unavailable</div>');
         position();
       });
   }
