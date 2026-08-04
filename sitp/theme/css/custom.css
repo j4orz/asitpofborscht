@@ -719,6 +719,12 @@ html.ayu img.probspace {
   content: url("../../assets/probspace_dark.png");
 }
 
+html.coal img.vector,
+html.navy img.vector,
+html.ayu img.vector {
+  content: url("../../assets/vector_dark.png");
+}
+
 html.coal img.tensors,
 html.navy img.tensors,
 html.ayu img.tensors {
@@ -743,10 +749,16 @@ html.ayu img.chain {
   content: url("../../assets/chain_dark.png");
 }
 
-html.coal img.stochastic_matrix,
-html.navy img.stochastic_matrix,
-html.ayu img.stochastic_matrix {
-  content: url("../../assets/stochastic_matrix_dark.png");
+html.coal img.conditional,
+html.navy img.conditional,
+html.ayu img.conditional {
+  content: url("../../assets/conditional_dark.png");
+}
+
+html.coal img.joint,
+html.navy img.joint,
+html.ayu img.joint {
+  content: url("../../assets/joint_dark.png");
 }
 
 html.coal img.neuron,
