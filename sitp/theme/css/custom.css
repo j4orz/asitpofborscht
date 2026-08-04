@@ -1,6 +1,6 @@
 .katex-display, .box {
-  background-color: var(--quote-bg);
-  border-radius: 4px;
+  /* background-color: var(--quote-bg); */
+  /* border-radius: 4px; */
   padding: 0.75em 1em;
   margin: 1em 0;
   overflow-x: auto;
@@ -719,9 +719,9 @@ html.ayu img.probspace {
   content: url("../../assets/probspace_dark.png");
 }
 
-html.coal img.probspace,
-html.navy img.probspace,
-html.ayu img.probspace {
+html.coal img.tensors,
+html.navy img.tensors,
+html.ayu img.tensors {
   content: url("../../assets/tensors_dark.png");
 }
 
@@ -989,6 +989,108 @@ html.ayu  :is(.definition,.theorem,.lemma,.example)[data-title]::before {
 }
 html.coal .box-notes, html.navy .box-notes, html.ayu .box-notes {
   border-top-color: rgba(255, 255, 255, 0.18);
+}
+
+
+/* == Refinement ladders =====================================================
+   A concept the book defines more than once — vaguely first, then precisely —
+   carries a ladder of dots: one per definition, the current one filled, the
+   others linking to their rung. Injected by preprocessors/mdbook-refine from
+   `data-refine="<key>"`; see that file for the authoring syntax.
+
+   Two forms. `.refine-ladder-box` is a strip inside a definition/theorem box,
+   reading as a second header bar under the title, with worded steps. Inside a
+   margin `.defnote` the label has no room for words, so `.refine-ladder-note`
+   is dots alone, hung under the term. */
+.refine-ladder {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  font-size: 0.78em;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+}
+
+.refine-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+}
+
+/* Dots are drawn, never written: custom.js slugs a defnote's textContent into
+   its anchor id, so any text here would rename existing links. */
+.refine-dot {
+  display: inline-block;
+  width: 0.62em;
+  height: 0.62em;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  opacity: 0.55;
+  transition: opacity 0.12s ease, transform 0.12s ease;
+}
+a.refine-dot:hover { opacity: 0.9; transform: scale(1.25); }
+.refine-dot-current { background: currentColor; opacity: 1; }
+
+/* Steps read as directions, not links: no underline, arrows on the outside. */
+.refine-step { text-decoration: none; opacity: 0.8; }
+.refine-step:hover { opacity: 1; text-decoration: underline; }
+.refine-prev::before { content: "\2190\00a0"; }  /* <- */
+.refine-next::after  { content: "\00a0\2192"; }  /* -> */
+/* Ends of the ladder: the direction still shows, greyed, so the reader can see
+   they are standing on the vaguest (or the most precise) statement. */
+.refine-step-off { opacity: 0.25; }
+
+/* Box form. The `> ` selectors match the specificity of the .definition rules
+   above (padding, first-child margin) so these win by source order. */
+.definition > .refine-ladder-box,
+.theorem > .refine-ladder-box,
+.lemma > .refine-ladder-box,
+.example > .refine-ladder-box {
+  justify-content: flex-end;
+  margin: 0;
+  padding: 0.3em 1em;
+  background: var(--snack-title-bg);
+  color: var(--snack-title-color, var(--snack-accent));
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  /* Sits under the ::before title bar; a hairline separates the two. */
+  box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.06);
+}
+/* Restore the gap the title bar normally leaves before the body: the ladder
+   displaced the first child that `*:nth-child(1)` was targeting. */
+.definition > .refine-ladder-box + *,
+.theorem > .refine-ladder-box + *,
+.lemma > .refine-ladder-box + *,
+.example > .refine-ladder-box + * { margin-top: 0.75em; }
+html.coal :is(.definition,.theorem,.lemma,.example) > .refine-ladder-box,
+html.navy :is(.definition,.theorem,.lemma,.example) > .refine-ladder-box,
+html.ayu  :is(.definition,.theorem,.lemma,.example) > .refine-ladder-box {
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Margin-note form: its own line under the term, right-aligned like the label. */
+.refine-ladder-note {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.25em;
+}
+
+/* Landing marker: stepping to another rung scrolls to a ladder that is a few
+   pixels tall, so tint the definition it belongs to instead. */
+@keyframes refine-arrive {
+  from { background-color: rgba(28, 74, 84, 0.22); }
+  to   { background-color: transparent; }
+}
+:is(.definition, .theorem, .lemma, .example):has(.refine-ladder:target),
+.defnote:has(.refine-ladder:target) {
+  animation: refine-arrive 1.6s ease-out;
+}
+/* A margin note is dimmed to 0.55 in the gutter; bring the one just stepped to
+   up to full strength so it is findable. */
+.defnote:has(.refine-ladder:target) { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  :is(.definition, .theorem, .lemma, .example):has(.refine-ladder:target),
+  .defnote:has(.refine-ladder:target) { animation: none; }
 }
 
 
