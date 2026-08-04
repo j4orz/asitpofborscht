@@ -41,6 +41,15 @@ src-url = "https://github.com/j4orz/ateenysitp/blob/master/sitp/notebooks/"
 
 [preprocessor.quiz]
 
+# Links the successive (vaguer -> preciser) definitions of one concept into a
+# ladder the reader can step through. Tag each occurrence with the same key —
+# `<span class="defnote" data-refine="conditional-distribution">…</span>` or
+# `<div class="definition" data-refine="probability-law" …>` — and a dot ladder
+# is injected into every rung. See preprocessors/mdbook-refine; styling is in
+# theme/css/custom.css (`.refine-*`).
+[preprocessor.refine]
+command = "python3 preprocessors/mdbook-refine"
+
 # Renders type-checked Lean (via SubVerso) for `{{#lean Module.Name}}` directives.
 # Examples live in `lean/SitpLean/`; see preprocessors/mdbook-lean.
 # Identifiers/keywords link into the Lean reference via a pinned link table

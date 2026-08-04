@@ -124,7 +124,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     note.id = slug;
     note.classList.add("defnote-link");
-    note.addEventListener("click", function () {
+    note.addEventListener("click", function (e) {
+      // A refinement ladder (see preprocessors/mdbook-refine) lives inside the
+      // note and carries its own links; let those navigate instead of being
+      // overwritten by this note's own hash.
+      if (e.target.closest(".refine-ladder")) return;
       // Update the URL hash and snap the page to the defnote, like mdbook
       // headers. Clearing the hash first guarantees navigation fires even when
       // the hash already equals this slug.

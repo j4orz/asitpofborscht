@@ -1,0 +1,194 @@
+#!/usr/bin/env python3
+"""mdbook-refine: link the successive definitions of a concept into a ladder.
+
+The book defines the same term more than once, each time more precisely — a
+conditional distribution is first "the distribution GPT-2 produces given an
+input sentence", then $p_{W|H}(w|h) := p_{W,H}(w,h)/p_H(h)$. This preprocessor
+wires those occurrences together so a reader standing on one rung can step to a
+vaguer or a preciser one, and can see at a glance how many rungs there are.
+
+Authoring
+---------
+Tag every occurrence of the concept with the same `data-refine` key. Rung order
+is reading order across the whole book (SUMMARY order, then position in file),
+so a vaguer definition simply comes earlier in the text.
+
+    ... a **conditional distribution**<span class="defnote"
+        data-refine="conditional-distribution">**conditional distribution**</span>.
+
+    <div class="definition" data-title="Definition: Probability Law"
+         data-refine="probability-law">
+
+Any `<span>` or `<div>` carrying `data-refine` becomes a rung. A `.defnote` gets
+a compact ladder of dots inside the margin label; every other element gets a
+full strip (`< vaguer  ○●○  preciser >`) injected as its first child, which for
+a `.definition`/`.theorem`/`.lemma`/`.example` box renders as a second header
+bar under the title. A key with only one rung emits nothing.
+
+Each rung is given `id="refine-<key>-<n>"`, so rungs are linkable by hand too,
+and the injected links are relative URLs — a ladder may span chapters.
+
+Styling lives in `theme/css/custom.css` (`.refine-*`).
+"""
+import html
+import json
+import os
+import re
+import sys
+
+# A rung: any span/div carrying data-refine. Attributes are matched loosely
+# (the key may appear before or after class=), which is what authors write.
+MARKER = re.compile(r'<(?P<tag>span|div)\b(?P<attrs>[^>]*?)>', re.IGNORECASE)
+ATTR = lambda name: re.compile(r'\b%s="([^"]*)"' % name, re.IGNORECASE)
+KEY_ATTR, CLASS_ATTR, TITLE_ATTR = ATTR("data-refine"), ATTR("class"), ATTR("data-title")
+HEADING = re.compile(r"^(#{1,6})\s+(.*)$", re.MULTILINE)
+# Markdown/HTML noise to strip out of a heading before using it in a tooltip.
+INLINE_MD = re.compile(r"<[^>]+>|[*_`$\\]")
+
+
+def chapters(items):
+    """Yield every chapter in the book, depth-first in reading order."""
+    for item in items:
+        ch = item.get("Chapter") if isinstance(item, dict) else None
+        if ch is None:
+            continue
+        yield ch
+        for sub in chapters(ch.get("sub_items", [])):
+            yield sub
+
+
+def headings(content):
+    """[(offset, text)] for the chapter's headings, in order."""
+    return [(m.start(), INLINE_MD.sub("", m.group(2)).strip()) for m in HEADING.finditer(content)]
+
+
+def section_of(hs, offset):
+    """Text of the nearest heading above `offset`, or "" if the rung precedes all."""
+    label = ""
+    for start, text in hs:
+        if start > offset:
+            break
+        label = text
+    return label
+
+
+def find_rungs(content):
+    """[(match, key, is_note, label)] for one chapter, in document order."""
+    hs = headings(content)
+    found = []
+    for m in MARKER.finditer(content):
+        attrs = m.group("attrs")
+        key = KEY_ATTR.search(attrs)
+        if not key:
+            continue
+        classes = (CLASS_ATTR.search(attrs).group(1) if CLASS_ATTR.search(attrs) else "").split()
+        title = TITLE_ATTR.search(attrs)
+        # Prefer a box's own title as the tooltip label; fall back to the
+        # enclosing section, which is all a bare margin note has.
+        label = title.group(1).strip() if title else section_of(hs, m.start())
+        found.append((m, key.group(1), "defnote" in classes, label))
+    return found
+
+
+def href(from_path, to_path, anchor):
+    """Relative link to `anchor` in the chapter at `to_path` (bare `#` if local)."""
+    if from_path == to_path:
+        return "#" + anchor
+    target = os.path.splitext(to_path)[0] + ".html"
+    rel = os.path.relpath(target, os.path.dirname(from_path) or ".")
+    return rel.replace(os.sep, "/") + "#" + anchor
+
+
+def dot(rung, i, n, from_path, current):
+    """One rung marker. The current rung is inert; the others are links.
+
+    Deliberately empty (the disc is drawn in CSS): custom.js slugifies a
+    defnote's textContent into its anchor id, so a ladder that contributed text
+    would silently change the ids of every note it sits in.
+    """
+    tip = html.escape("%d/%d%s" % (i, n, " — " + rung["label"] if rung["label"] else ""), quote=True)
+    if current:
+        return '<span class="refine-dot refine-dot-current" title="%s" aria-current="step"></span>' % tip
+    return '<a class="refine-dot" href="%s" title="%s" aria-label="%s"></a>' % (
+        html.escape(href(from_path, rung["path"], rung["anchor"]), quote=True), tip, tip)
+
+
+def ladder(rungs, index, from_path, is_note):
+    """The injected widget for rung `index` (0-based) of a key's `rungs`."""
+    n = len(rungs)
+    me = rungs[index]
+    dots = "".join(dot(r, i + 1, n, from_path, i == index) for i, r in enumerate(rungs))
+    parts = ['<span class="refine-dots">%s</span>' % dots]
+
+    if not is_note:
+        # Boxes have room for words; margin notes do not.
+        def step(cls, target, text):
+            if target is None:
+                return '<span class="refine-step %s refine-step-off">%s</span>' % (cls, text)
+            tip = html.escape(text + (" — " + target["label"] if target["label"] else ""), quote=True)
+            return '<a class="refine-step %s" href="%s" title="%s">%s</a>' % (
+                cls, html.escape(href(from_path, target["path"], target["anchor"]), quote=True), tip, text)
+
+        parts.insert(0, step("refine-prev", rungs[index - 1] if index > 0 else None, "vaguer"))
+        parts.append(step("refine-next", rungs[index + 1] if index < n - 1 else None, "preciser"))
+
+    tag, cls = ("span", "refine-ladder-note") if is_note else ("div", "refine-ladder-box")
+    return '<%s class="refine-ladder %s" id="%s" aria-label="refinements of this definition">%s</%s>' % (
+        tag, cls, me["anchor"], "".join(parts), tag)
+
+
+def main():
+    if len(sys.argv) > 2 and sys.argv[1] == "supports":
+        sys.exit(0)
+
+    _context, book = json.load(sys.stdin)
+    chs = [c for c in chapters(book.get("items", [])) if c.get("content") and c.get("path")]
+
+    # Pass 1 — index every rung in reading order, so a ladder can point at
+    # chapters that have not been rewritten yet (or were rewritten already).
+    index, per_chapter = {}, []
+    for ch in chs:
+        found = find_rungs(ch["content"])
+        per_chapter.append(found)
+        for m, key, is_note, label in found:
+            rungs = index.setdefault(key, [])
+            rungs.append({
+                "path": ch["path"],
+                "label": label,
+                "anchor": "refine-%s-%d" % (key, len(rungs) + 1),
+            })
+
+    # Pass 2 — inject, right to left so earlier match offsets stay valid.
+    counters = {}
+    for ch, found in zip(chs, per_chapter):
+        content = ch["content"]
+        edits = []
+        for m, key, is_note, _label in found:
+            i = counters.get(key, 0)
+            counters[key] = i + 1
+            rungs = index[key]
+            if len(rungs) < 2:
+                continue  # nothing to step to
+            widget = ladder(rungs, i, ch["path"], is_note)
+            if is_note:
+                # Inside the margin label, after its text. Notes hold plain
+                # emphasis, so the next </span> is this note's closing tag.
+                close = content.find("</span>", m.end())
+                if close == -1:
+                    sys.stderr.write("mdbook-refine: unclosed defnote for %r in %s\n" % (key, ch["path"]))
+                    continue
+                edits.append((close, close, widget))
+            else:
+                # First child of the block. The newline keeps it in the same
+                # raw-HTML block as the opening tag; the author's blank line
+                # still ends that block, so the body renders as Markdown.
+                edits.append((m.end(), m.end(), "\n" + widget))
+        for start, end, text in reversed(edits):
+            content = content[:start] + text + content[end:]
+        ch["content"] = content
+
+    json.dump(book, sys.stdout)
+
+
+if __name__ == "__main__":
+    main()
