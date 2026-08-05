@@ -755,10 +755,16 @@ html.ayu img.conditional {
   content: url("../../assets/conditional_dark.png");
 }
 
-html.coal img.joint,
-html.navy img.joint,
-html.ayu img.joint {
-  content: url("../../assets/joint_dark.png");
+html.coal img.jointsurf,
+html.navy img.jointsurf,
+html.ayu img.jointsurf {
+  content: url("../../assets/jointsurf_dark.png");
+}
+
+html.coal img.jointmatrix,
+html.navy img.jointmatrix,
+html.ayu img.jointmatrix {
+  content: url("../../assets/jointmatrix_dark.png");
 }
 
 html.coal img.neuron,
