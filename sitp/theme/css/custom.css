@@ -755,16 +755,22 @@ html.ayu img.conditional {
   content: url("../../assets/conditional_dark.png");
 }
 
-html.coal img.jointsurf,
-html.navy img.jointsurf,
-html.ayu img.jointsurf {
-  content: url("../../assets/jointsurf_dark.png");
+html.coal img.jointbars,
+html.navy img.jointbars,
+html.ayu img.jointbars {
+  content: url("../../assets/jointbars_dark.png");
 }
 
 html.coal img.jointmatrix,
 html.navy img.jointmatrix,
 html.ayu img.jointmatrix {
   content: url("../../assets/jointmatrix_dark.png");
+}
+
+html.coal img.jointmatrixmarginal,
+html.navy img.jointmatrixmarginal,
+html.ayu img.jointmatrixmarginal {
+  content: url("../../assets/jointmatrixmarginal_dark.png");
 }
 
 html.coal img.neuron,
