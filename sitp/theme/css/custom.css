@@ -304,6 +304,29 @@ blockquote .defnote {
   left: calc(-1 * var(--margin-note-offset) - 20px);
 }
 
+/* An illustration set as an icon riding inline with the text rather than as a
+   figure: images in a defnote (always icon-sized, the margin has no room for a
+   figure) plus anything opting in with `class="icon"` in running prose. Height
+   in `em` ties the icon to whatever font-size it lands in; `width: auto` plus a
+   per-image aspect-ratio set alongside the src resolves the width before the
+   file decodes, so the line never reflows around a zero-width box. Taller than
+   the text so the illustration stays legible, with vertical-align pulling it
+   back down to sit centered on the cap height rather than the baseline. In a
+   defnote it inherits that note's 0.55 opacity, like the rest of the margin
+   apparatus. */
+.defnote img,
+img.icon {
+  display: inline-block;
+  height: 1.6em;
+  width: auto;
+  vertical-align: -0.5em;
+  /* No trailing margin: every icon so far leads an inline `code` span, and
+     mdBook already pads those 0.3em on the left (`:not(pre) > .hljs`), which
+     supplies the gap. Adding margin here doubled it. An icon placed before
+     plain prose instead needs its own space in the markdown. */
+  margin-right: 0;
+}
+
 /* Clickable defnotes: behave like header anchors (click updates URL hash). */
 .defnote-link {
   cursor: pointer;
