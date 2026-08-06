@@ -710,7 +710,6 @@ html.ayu  .nb-out-img .nb-img-light { display: none; }
   margin-bottom: 0.9rem;
   padding-bottom: 0.9rem;
   border-bottom: 1px solid var(--theme-popup-border);
-  font-style: italic;
   line-height: 1.5;
   text-wrap: pretty;
   opacity: 0.72;
