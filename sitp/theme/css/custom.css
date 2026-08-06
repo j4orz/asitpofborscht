@@ -257,10 +257,19 @@ p.em-only {
   }
 }
 
+/* How far a margin note hangs out of the text column, as a share of the measure.
+   Both gutters use it — the left one through `left`, the right one through a
+   negative `margin-right` — so the two are mirror images and the page keeps one
+   symmetric margin rather than two unrelated ones. With notes 35% wide it also
+   fixes the gap between note and text at 2% on each side. */
+:root {
+  --margin-note-offset: 37%;
+}
+
 .sidenote {
   float: right;
   clear: right;
-  margin-right: -44%;
+  margin-right: calc(-1 * var(--margin-note-offset));
   width: 35%;
   margin-top: 0.3rem;
   margin-bottom: 0;
@@ -268,8 +277,10 @@ p.em-only {
   line-height: 1.3;
 }
 
+/* A blockquote insets its own content, so its notes push out by that inset
+   again to land back on the shared gutter edge. */
 blockquote .sidenote {
-  margin-right: calc(-44% - 20px);
+  margin-right: calc(-1 * var(--margin-note-offset) - 20px);
 }
 
 /* Pin each defnote to the line of its term instead of float-stacking.
@@ -278,7 +289,7 @@ blockquote .sidenote {
    Requires a positioned containing block: see `.content main` below. */
 .defnote {
   position: absolute;
-  left: -37%;
+  left: calc(-1 * var(--margin-note-offset));
   width: 35%;
   margin-top: 0.3rem;
   margin-bottom: 0;
@@ -290,7 +301,7 @@ blockquote .sidenote {
 }
 
 blockquote .defnote {
-  left: calc(-37% - 20px);
+  left: calc(-1 * var(--margin-note-offset) - 20px);
 }
 
 /* Clickable defnotes: behave like header anchors (click updates URL hash). */
@@ -666,6 +677,22 @@ html.ayu  .nb-out-img .nb-img-light { display: none; }
   transition: opacity 120ms ease-in 140ms, visibility 0s linear 140ms;
 }
 
+/* The section's "In which ..." blurb, hoisted into the panel by custom.js from
+   the blockquote under its heading. `max-width` is doing two jobs: it keeps the
+   blurb to a readable measure, and — since a max-content sized box is clamped
+   by its children's max-widths — it is also what stops one long sentence from
+   stretching the whole panel to the full text column. */
+.toc ul ul ul > .toc-blurb {
+  max-width: 58ch;
+  margin-bottom: 0.9rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--theme-popup-border);
+  font-style: italic;
+  line-height: 1.5;
+  text-wrap: pretty;
+  opacity: 0.72;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .toc ul ul ul,
   .toc ul ul > li:hover > ul,
@@ -691,6 +718,12 @@ html.ayu  .nb-out-img .nb-img-light { display: none; }
 
   .toc ul ul > li:has(> ul) > a::after {
     content: none;
+  }
+
+  /* The blurb is a hover preview; with the panels flattened into the list there
+     is nothing to preview, and three paragraphs of it would bury the outline. */
+  .toc ul ul ul > .toc-blurb {
+    display: none;
   }
 }
 
@@ -732,9 +765,10 @@ p:has(+ ul) {
    text measure and the second one sits out in the sidenote margin. The grid box
    itself stays the width of the text column (so `100%` is the measure), and the
    second track simply overhangs to the right — landing on the same edge as a
-   `.sidenote`, which right-aligns at 144% of the measure. */
+   `.sidenote`. The 1.5rem the grid gap eats is given back to the track, so the
+   pair spans 100% + `--margin-note-offset` and ends on the gutter edge. */
 .dual-margin {
-  grid-template-columns: 100% calc(44% - 1.5rem);
+  grid-template-columns: 100% calc(var(--margin-note-offset) - 1.5rem);
 }
 
 /* The margin cell's prompt would hang 7rem left of its box, i.e. on top of the

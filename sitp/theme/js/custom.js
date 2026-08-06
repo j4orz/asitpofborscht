@@ -585,3 +585,62 @@ document.addEventListener("DOMContentLoaded", function () {
 
   sync();
 });
+
+// Carry each subchapter's "In which ..." blurb into its hover-expanded contents
+// panel (the third TOC level; see `.toc ul ul ul` in custom.css), so hovering an
+// entry previews what the section is about and not just how it is cut up.
+// The blurb is borrowed from the blockquote under the section's own heading
+// rather than written a second time into the TOC: the two copies would drift
+// apart the moment the prose is rewritten, and these blurbs are still being
+// written. Every entry in this TOC points at a heading on this same page, so
+// the source is one getElementById away; when it isn't there (a stub link, a
+// section that has no blurb yet) the panel simply stays a list.
+document.addEventListener("DOMContentLoaded", function () {
+  const panels = document.querySelectorAll(".toc ul ul ul");
+  if (panels.length === 0) return;
+
+  panels.forEach(function (panel) {
+    const link = panel.parentElement.querySelector(":scope > a");
+    if (!link) return;
+
+    const href = link.getAttribute("href") || "";
+    if (href.charAt(0) !== "#" || href.length < 2) return;
+
+    let heading;
+    try {
+      heading = document.getElementById(decodeURIComponent(href.slice(1)));
+    } catch (e) {
+      return; // malformed percent-encoding in the href
+    }
+    if (!heading) return;
+
+    // Walk forward from the heading to its blurb: an mdbook `<small>` back-link
+    // to the contents sits in between. Stop at the next heading so a section
+    // written without a blurb doesn't borrow the following section's.
+    let blurb = null;
+    for (let el = heading.nextElementSibling; el; el = el.nextElementSibling) {
+      if (/^H[1-6]$/.test(el.tagName)) break;
+      if (el.tagName === "BLOCKQUOTE") {
+        blurb = el;
+        break;
+      }
+    }
+    if (!blurb) return;
+
+    // Previews are plain text, so the blurb is read rather than cloned — a
+    // clone would carry the original's ids (defnotes have been slugged by now)
+    // into a second copy. KaTeX renders every formula twice, once as HTML and
+    // once as invisible MathML, and textContent reads both; drop the MathML
+    // from a throwaway copy first so a blurb with math doesn't stutter.
+    const source = blurb.cloneNode(true);
+    source.querySelectorAll(".katex-mathml").forEach(function (m) {
+      m.remove();
+    });
+
+    // An <li>, because a <ul> may not hold a bare <p>.
+    const note = document.createElement("li");
+    note.className = "toc-blurb";
+    note.textContent = source.textContent.trim();
+    panel.insertBefore(note, panel.firstChild);
+  });
+});
