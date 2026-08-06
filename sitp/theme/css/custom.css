@@ -610,6 +610,90 @@ html.ayu  .nb-out-img .nb-img-light { display: none; }
   padding-left: 2rem;
 }
 
+/* Hover-expanded contents. A third list level in the TOC is not part of the
+   compact outline: it holds that section's subsections, revealed only while its
+   entry is hovered (or focused into, for keyboard readers). The panel is taken
+   out of flow and hung under the entry, so opening one never reflows the
+   entries below it — the compact TOC keeps its shape and the expansion just
+   floats over the top. The `li` is the hover target rather than the `<a>` so
+   the pointer can travel into the panel without closing it (the panel is a DOM
+   descendant, so :hover still holds), and the open delay keeps a mouse merely
+   crossing the list from flickering panels open on the way past. */
+.toc ul ul > li {
+  position: relative;
+}
+
+/* The affordance: an entry that has an expansion says so. */
+.toc ul ul > li:has(> ul) > a::after {
+  content: " ▾";
+  font-size: 0.8em;
+  opacity: 0.4;
+}
+
+.toc ul ul > li:hover > a::after,
+.toc ul ul > li:focus-within > a::after {
+  opacity: 0.75;
+}
+
+.toc ul ul ul {
+  position: absolute;
+  top: 100%;
+  /* Indented by the same 2rem step the level above it uses, so the panel reads
+     as one rung deeper rather than as a floating box. */
+  left: 2rem;
+  z-index: 20;
+  width: max-content;
+  max-width: calc(100% - 2rem);
+  margin: 0;
+  padding: 1rem 1.6rem;
+  background: var(--theme-popup-bg);
+  border: 1px solid var(--theme-popup-border);
+  border-radius: 4px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  font-size: 0.92em;
+  line-height: 1.6;
+  /* `visibility` (not `display`) so the panel is inert to the pointer and to
+     tabbing while closed, but still transitionable. */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 100ms ease-out, visibility 0s linear 100ms;
+}
+
+.toc ul ul > li:hover > ul,
+.toc ul ul > li:focus-within > ul {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 120ms ease-in 140ms, visibility 0s linear 140ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toc ul ul ul,
+  .toc ul ul > li:hover > ul,
+  .toc ul ul > li:focus-within > ul {
+    transition: none;
+  }
+}
+
+/* Nothing to hover with a finger: the expansions degrade to a plain nested
+   list, indented in flow like the level above them. */
+@media (hover: none) {
+  .toc ul ul ul {
+    position: static;
+    width: auto;
+    max-width: none;
+    padding: 0 0 0 2rem;
+    background: none;
+    border: 0;
+    box-shadow: none;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .toc ul ul > li:has(> ul) > a::after {
+    content: none;
+  }
+}
+
 p:has(> small > a[href="#table-of-contents"]) {
   margin-top: 0;
 }
