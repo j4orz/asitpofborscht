@@ -5,6 +5,8 @@ description = "teenygrad examples"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
+    "beartype>=0.22.9",
+    "jaxtyping>=0.3.7",
     "matplotlib>=3.7.5",
     "numpy>=1.24.4",
     "torch>=2.12.1",

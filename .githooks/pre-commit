@@ -1,0 +1,30 @@
+#!/bin/sh
+# Auto-retheme matplotlib figures in staged notebooks before commit:
+# regenerates transparent light + dark PNG variants so mdbook-nb's theme-swap
+# works across all mdBook themes. See sitp/preprocessors/retheme-figures.py.
+#
+# This hook is version-controlled. Enable it once per clone with:
+#     git config core.hooksPath .githooks
+#
+# It only touches staged *.ipynb, and retheme-figures.py skips notebooks without
+# matplotlib instantly, so commits that don't change a plotting notebook are
+# unaffected. Changed plotting notebooks are re-executed (needed to re-render the
+# figures), which costs a second or two.
+set -e
+
+py="sitp/notebooks/.venv/bin/python"
+script="sitp/preprocessors/retheme-figures.py"
+
+nbs=$(git diff --cached --name-only --diff-filter=ACM -- '*.ipynb')
+[ -z "$nbs" ] && exit 0
+
+if [ ! -x "$py" ]; then
+  echo "retheme: $py not found; skipping figure retheme (commit continues)" >&2
+  exit 0
+fi
+
+for nb in $nbs; do
+  [ -f "$nb" ] || continue
+  "$py" "$script" "$nb"
+  git add "$nb"
+done

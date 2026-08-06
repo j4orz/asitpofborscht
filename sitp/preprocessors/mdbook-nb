@@ -14,6 +14,30 @@ Put executed notebooks under `<nb-dir>` (default `notebooks/`), then in Markdown
     {{#nb ch1.ipynb:reshape}}      only cells tagged `reshape` (or whose id is
                                    `reshape`), in order — the per-cell handle
                                    that lets you interleave your own prose.
+    {{#nb ch1.ipynb:reshape hl=3-5,8}}
+                                   same, with lines 3-5 and 8 of the In[] box
+                                   banded (see "Highlighting" below).
+
+Highlighting
+------------
+`hl=` takes 1-based, inclusive line ranges into the cell's source — `hl=4`,
+`hl=3-5`, `hl=3-5,8,12-14` — and tints those lines so prose can point at them
+("the two lines that build the counts"). Emphasis lives in the directive, not
+in the notebook, so the same cell can highlight differently at each place it's
+embedded, and re-executing the notebook can't disturb it.
+
+The band is painted as `background-image` layers on the code element rather
+than as markup around the lines, because it has to survive highlight.js: mdBook
+highlights code in the browser, and `hljs.highlightBlock` rebuilds each `<code>`
+from its `textContent`, discarding any spans a preprocessor put inside. A
+background can't be discarded that way. The trade-off is that band geometry is
+computed from a line height rather than measured, so `.nb-in-code pre > code`
+pins `line-height: var(--nb-code-lh)` in custom.css — the two must agree.
+
+A directive that renders several cells (a whole-notebook embed, or a tag shared
+by several cells) applies the same line ranges to each, so `hl=` is really meant
+for single-cell directives. Ranges past the end of a cell are dropped with a
+warning; `remove-input` cells have no code box, so `hl=` is ignored there.
 
 Add a tag to a cell in Jupyter via the cell's metadata (Property Inspector ->
 "Cell Tags"), or edit `metadata.tags` in the JSON. Multiple cells may share a
@@ -60,8 +84,23 @@ import os
 import re
 import sys
 
-DIRECTIVE = re.compile(r"\{\{#nb\s+([^\s:}]+?\.ipynb)(?::([^\s}]+))?\s*\}\}")
+# Trailing options are matched loosely — `hl=`, or a bare word — so a typo comes
+# back as a warning from parse_options/parse_hl rather than dropping out of the
+# match and leaving the raw directive text sitting in the rendered page.
+DIRECTIVE = re.compile(
+    r"\{\{#nb\s+([^\s:}]+?\.ipynb)(?::([^\s}]+))?((?:\s+[\w-]+(?:=[^\s}]*)?)*)\s*\}\}")
 ANSI = re.compile(r"\x1b\[[0-9;]*m")
+LINE_RANGE = re.compile(r"^(\d+)(?:-(\d+))?$")
+OPTIONS = ("hl",)  # trailing `key=value` words a directive accepts
+
+
+def _warn(msg):
+    sys.stderr.write("mdbook-nb: %s\n" % msg)
+
+
+def _where(rel, selector):
+    """How a directive is named back to the author in warnings."""
+    return "%s%s" % (rel, ":" + selector if selector else "")
 
 
 # --------------------------------------------------------------------------- #
@@ -78,6 +117,62 @@ def _nl(s):
 
 def _prompt(cls, label):
     return '<div class="nb-prompt %s">%s</div>' % (cls, html.escape(label))
+
+
+def parse_hl(spec, where):
+    """`hl=` value -> [(first, last), ...], 1-based inclusive line numbers.
+
+    Malformed pieces are reported and skipped rather than failing the build:
+    a typo'd range should cost you a highlight, not the book."""
+    if not spec.strip():
+        _warn("empty hl= on %s" % where)
+        return []
+    ranges = []
+    for part in spec.split(","):
+        part = part.strip()
+        if not part:
+            continue
+        m = LINE_RANGE.match(part)
+        if not m:
+            _warn("ignoring unparseable hl range %r in %s" % (part, where))
+            continue
+        first = int(m.group(1))
+        last = int(m.group(2)) if m.group(2) else first
+        if first < 1 or last < first:
+            _warn("ignoring empty hl range %r in %s" % (part, where))
+            continue
+        ranges.append((first, last))
+    return ranges
+
+
+def _hl_style(ranges, n_lines, where):
+    """Line ranges -> inline custom properties driving the highlight bands.
+
+    One `background-image` layer per range: a flat linear-gradient sized to the
+    range's line count and offset to its first line. See the "Highlighting"
+    section of the module docstring for why this is a background and not markup,
+    and `.nb-in-code[data-hl]` in custom.css for the properties consumed."""
+    imgs, sizes, positions = [], [], []
+    for first, last in ranges:
+        if first > n_lines:
+            _warn("hl range %d-%d is past the end (%d lines) in %s"
+                  % (first, last, n_lines, where))
+            continue
+        last = min(last, n_lines)
+        imgs.append("linear-gradient(var(--nb-hl-bg) 0 0)")
+        # Vertically: `1em` resolves against the code element the bands are
+        # painted on, so a band tracks the code's own font size, not the page's.
+        # Horizontally: widened by --nb-hl-bleed either side of the text column
+        # so the band runs edge to edge of the box instead of stopping at the
+        # code's padding.
+        sizes.append("calc(100%% + var(--nb-hl-bleed) * 2) calc(var(--nb-code-lh) * 1em * %d)"
+                     % (last - first + 1))
+        positions.append("calc(var(--nb-hl-bleed) * -1) calc(var(--nb-code-lh) * 1em * %d)"
+                         % (first - 1))
+    if not imgs:
+        return None
+    return "--nb-hl-img:%s;--nb-hl-size:%s;--nb-hl-pos:%s" % (
+        ",".join(imgs), ",".join(sizes), ",".join(positions))
 
 
 def _pick(bundle):
@@ -154,7 +249,7 @@ def render_output(out, max_traceback):
     return ""
 
 
-def render_cell(cell, max_traceback, filename=None, href=None):
+def render_cell(cell, max_traceback, filename=None, href=None, hl=None, where=""):
     tags = cell.get("metadata", {}).get("tags", []) or []
     if "remove-cell" in tags:
         return ""
@@ -177,7 +272,14 @@ def render_cell(cell, max_traceback, filename=None, href=None):
         # inside the surrounding raw-HTML block; the browser re-nests the
         # resulting <pre> inside .nb-cell since the div stays open until </div>.
         code = "".join(cell.get("source", [])) if isinstance(cell.get("source"), list) else cell.get("source", "")
-        parts.append('<div class="nb-in-code">\n\n```python\n%s\n```\n\n</div>' % code)
+        attrs = ""
+        if hl:
+            style = _hl_style(hl, code.rstrip("\n").count("\n") + 1, where)
+            if style:
+                spec = ",".join("%d" % a if a == b else "%d-%d" % (a, b) for a, b in hl)
+                attrs = ' data-hl="%s" style="%s"' % (
+                    html.escape(spec, quote=True), html.escape(style, quote=True))
+        parts.append('<div class="nb-in-code"%s>\n\n```python\n%s\n```\n\n</div>' % (attrs, code))
     if "remove-output" not in tags:
         for out in cell.get("outputs", []):
             frag = render_output(out, max_traceback)
@@ -187,17 +289,17 @@ def render_cell(cell, max_traceback, filename=None, href=None):
     return "\n".join(parts)
 
 
-def render_notebook(path, rel, selector, max_traceback, src_url=None):
+def render_notebook(path, rel, selector, max_traceback, src_url=None, hl=None):
     try:
         with open(path, encoding="utf-8") as f:
             # strict=False tolerates raw control chars (e.g. unescaped ANSI ESC
             # in a traceback) that some tools emit; nbformat normally escapes them.
             nb = json.load(f, strict=False)
     except OSError:
-        sys.stderr.write("mdbook-nb: cannot read %s\n" % path)
+        _warn("cannot read %s" % path)
         return '<pre class="nb-error">missing notebook: %s</pre>' % html.escape(path)
     except json.JSONDecodeError as e:
-        sys.stderr.write("mdbook-nb: bad JSON in %s (%s)\n" % (path, e))
+        _warn("bad JSON in %s (%s)" % (path, e))
         return '<pre class="nb-error">invalid notebook: %s</pre>' % html.escape(path)
 
     # The source notebook is named once per directive, on the first cell it
@@ -209,6 +311,7 @@ def render_notebook(path, rel, selector, max_traceback, src_url=None):
     # repo, so a reader can open/download the real thing. Built from the path as
     # written in the directive, so notebooks in sub-directories resolve too.
     href = src_url.rstrip("/") + "/" + rel.replace(os.sep, "/") if src_url else None
+    where = _where(rel, selector)
     out = []
     for cell in nb.get("cells", []):
         if cell.get("cell_type") != "code":
@@ -217,11 +320,11 @@ def render_notebook(path, rel, selector, max_traceback, src_url=None):
             tags = cell.get("metadata", {}).get("tags", []) or []
             if selector != cell.get("id") and selector not in tags:
                 continue
-        frag = render_cell(cell, max_traceback, name if not out else None, href)
+        frag = render_cell(cell, max_traceback, name if not out else None, href, hl, where)
         if frag:
             out.append(frag)
     if selector is not None and not out:
-        sys.stderr.write("mdbook-nb: no cell matching %r in %s\n" % (selector, path))
+        _warn("no cell matching %r in %s" % (selector, path))
         return '<pre class="nb-error">no cell %s in %s</pre>' % (html.escape(selector), html.escape(path))
     return "\n".join(out)
 
@@ -230,13 +333,29 @@ def render_notebook(path, rel, selector, max_traceback, src_url=None):
 # mdBook preprocessor protocol
 # --------------------------------------------------------------------------- #
 
+def parse_options(blob, where):
+    """Trailing `key=value` words of a directive -> dict. Unknown keys are
+    reported: a silently-ignored `hl_lines=3` looks like a broken feature."""
+    opts = {}
+    for word in blob.split():
+        key, _, value = word.partition("=")
+        if key in OPTIONS:
+            opts[key] = value
+        else:
+            _warn("unknown option %r on {{#nb %s}}" % (key, where))
+    return opts
+
+
 def substitute(content, nb_dir, max_traceback, src_url, cache):
     def repl(m):
         rel, selector = m.group(1), m.group(2)
+        where = _where(rel, selector)
+        opts = parse_options(m.group(3) or "", where)
+        hl = tuple(parse_hl(opts["hl"], where)) if "hl" in opts else None
         path = os.path.normpath(os.path.join(nb_dir, rel))
-        key = (path, selector)
+        key = (path, selector, hl)
         if key not in cache:
-            cache[key] = render_notebook(path, rel, selector, max_traceback, src_url)
+            cache[key] = render_notebook(path, rel, selector, max_traceback, src_url, hl)
         return cache[key]
     return DIRECTIVE.sub(repl, content)
 
