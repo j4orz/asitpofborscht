@@ -1,4 +1,5 @@
-![](https://sitp.ai/assets/flammarion.webp)
+![](https://sitp.ai/assets/flammarion_borscht.png)
+
 # `teenygrad`
 **The capstone project for [`The Structure and Interpretation of Tensor Programs`](https://sitp.ai/)**
 
