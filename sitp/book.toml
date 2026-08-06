@@ -29,8 +29,12 @@ preferred-dark-theme = "navy"
 
 # Embeds committed, already-executed Jupyter notebooks as static In[]/Out[]
 # cells via `{{#nb file.ipynb}}` / `{{#nb file.ipynb:tag}}`. Replaced the old
-# Pyodide REPL. Notebooks live under `nb-dir`; styling in theme/css/custom.css
-# (`.nb-*`). Re-execute + commit after editing code:
+# Pyodide REPL. Add `hl=3-5,8` to a directive to band those source lines of the
+# In[] box, so prose can point at them; the emphasis lives in the directive, not
+# the notebook, so one cell can be highlighted differently at each embed.
+# Notebooks live under `nb-dir`; styling in theme/css/custom.css
+# (`.nb-*`, and `--nb-code-lh` / `--nb-hl-bg` for the bands). Re-execute + commit
+# after editing code:
 #   jupyter nbconvert --to notebook --execute --inplace notebooks/<file>.ipynb
 [preprocessor.nb]
 command = "python3 preprocessors/mdbook-nb"

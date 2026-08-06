@@ -370,6 +370,22 @@ blockquote .defnote {
   --nb-error-color: #7b241c;
   --nb-stderr-bg: #fdeaea;     /* stderr stream */
   --nb-out-max-height: 22em;   /* tall outputs scroll instead of running on */
+  --nb-hl-bg: rgba(184, 127, 0, 0.15);  /* `hl=` line band, okabe orange */
+  /* Line height of the In[] code, pinned rather than left at `normal` because
+     the `hl=` bands are positioned in multiples of it. mdbook-nb emits the band
+     offsets as calc(var(--nb-code-lh) * 1em * n); change this and they follow.
+     1.15 is what Source Code Pro's `normal` already came to at the code size, so
+     pinning it left every existing cell where it was; raise it for airier code.
+     --nb-hl-bleed is how far a band is widened past the text column so it
+     reaches the edges of the box: mdBook's `pre > code` padding.
+
+     Both have to be declared here, not down on the code element that uses them.
+     mdbook-nb's inline `--nb-hl-size`/`--nb-hl-pos` reference them, and a custom
+     property has its var()s substituted on the element it is *declared* on — the
+     .nb-in-code div. Anything they name has to be visible there or the whole
+     value goes invalid and the band swells to fill the box. */
+  --nb-code-lh: 1.15;
+  --nb-hl-bleed: 1rem;
 }
 html.coal, html.navy, html.ayu {
   --nb-prompt: #6bb3d6;
@@ -379,6 +395,7 @@ html.coal, html.navy, html.ayu {
   --nb-error-bg: #3a1c1f;
   --nb-error-color: #e0a0a0;
   --nb-stderr-bg: #2c1618;
+  --nb-hl-bg: rgba(230, 159, 0, 0.17);
 }
 
 .nb-cell {
@@ -431,6 +448,34 @@ html.coal, html.navy, html.ayu {
   background: var(--nb-in-bg);
   border: 1px solid var(--nb-in-border);
   border-radius: 4px;
+}
+
+.nb-in-code pre > code {
+  line-height: var(--nb-code-lh);
+}
+
+/* `{{#nb file.ipynb:cell hl=3-5,8}}` — tint the named source lines so prose can
+   point at them. mdbook-nb emits one --nb-hl-img layer per range, each sized to
+   that range's line count and offset to its first line; here they just get
+   plugged into the code element's background.
+
+   Why a background and not <mark> around the lines: mdBook highlights code in
+   the browser, and hljs.highlightBlock rebuilds each <code> from its
+   textContent, so any markup baked in by a preprocessor is discarded on load. A
+   background survives. The cost is that the bands are computed from
+   --nb-code-lh above rather than measured, so the code's line-height has to
+   stay pinned. Painted on <code>, not <pre>, because the active highlight.js
+   stylesheet gives <code> its own opaque background — a band under that would
+   be invisible — and because `1em` then means the code's font size. */
+.nb-in-code[data-hl] pre > code {
+  background-image: var(--nb-hl-img);
+  background-size: var(--nb-hl-size);
+  background-position: var(--nb-hl-pos);
+  background-repeat: no-repeat;
+  /* Offsets are measured from the top-left of the text; painting is allowed out
+     to the padding box, which is what lets the bleed above show. */
+  background-origin: content-box;
+  background-clip: padding-box;
 }
 
 /* Output: no box, warm-brown monospace, aligned to the code column. */
@@ -771,6 +816,12 @@ html.coal img.jointmatrixmarginal,
 html.navy img.jointmatrixmarginal,
 html.ayu img.jointmatrixmarginal {
   content: url("../../assets/jointmatrixmarginal_dark.png");
+}
+
+html.coal img.broadcast,
+html.navy img.broadcast,
+html.ayu img.broadcast {
+  content: url("../../assets/broadcast_dark.png");
 }
 
 html.coal img.neuron,
