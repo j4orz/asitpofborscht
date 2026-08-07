@@ -9,7 +9,7 @@
 # It only touches staged *.ipynb, and retheme-figures.py skips notebooks without
 # matplotlib instantly, so commits that don't change a plotting notebook are
 # unaffected. Changed plotting notebooks are re-executed (needed to re-render the
-# figures), which costs a second or two.
+# figures), so the commit costs whatever those cells cost to run.
 set -e
 
 py="sitp/notebooks/.venv/bin/python"

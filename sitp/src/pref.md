@@ -5,6 +5,10 @@
 
 ## The Structure and Interpretation of The AI Curriculum
 
+<br>
+
+<div class="dropcap">
+
 This book is aspirationally titled [*The Structure and Interpretation of Tensor Programs*](./front.md), (henceforth SITP)
 as it's goal is to serve a similar role for software 2.0 as
 [*The Structure and Interpretation of Computer Programs*](https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/full-text/book/book.html)
@@ -12,6 +16,8 @@ as it's goal is to serve a similar role for software 2.0 as
 Written by Harold Abelson and Gerald Sussman with Julie Sussman, SICP took learners on a whimsical whirlwind tour throughout the essence of computation
 starting with the elements of programs with functional programming, higher order functions, data abstraction, streams,
 and ending with programming their own programming languages with interpreters, compilers, and register machines.
+
+</div>
 
 My alma matter was amongst those which took the SICP approach<span class="sidenote-number"></span><span class="sidenote">*Actually it's Scheming dual, [HtDP](https://htdp.org/).*</span>, and as intended,
 for someone coming into first year college with high school computer science, it blew my mind.
@@ -52,6 +58,9 @@ Both seem necessary for understanding. -->
 <!-- https://www.paulgraham.com/desres.html
 
 > The difference between design and research seems to be a question of new versus good. Design doesn't have to be new, but it has to be good. Research doesn't have to be good, but it has to be new. -->
+
+<!-- > Everything is vague to a degree you do not realize till you have tried to make it precise. -->
+
 
 Jeffrey Zhang<br>
 Waterloo, Ontario<br>
