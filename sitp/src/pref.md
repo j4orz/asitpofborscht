@@ -58,6 +58,9 @@ Both seem necessary for understanding. -->
 <!-- https://www.paulgraham.com/desres.html
 
 > The difference between design and research seems to be a question of new versus good. Design doesn't have to be new, but it has to be good. Research doesn't have to be good, but it has to be new. -->
+<!-- problem of exposition (3B1B quote) -->
+
+<!-- sicp compiler chapter doesn't get into pratt parsing, SSA or SON IRs, graph coloring register allocation -->
 
 <!-- > Everything is vague to a degree you do not realize till you have tried to make it precise. -->
 
