@@ -652,7 +652,9 @@ html.ayu  .nb-out-img .nb-img-light { display: none; }
    floats over the top. The `li` is the hover target rather than the `<a>` so
    the pointer can travel into the panel without closing it (the panel is a DOM
    descendant, so :hover still holds), and the open delay keeps a mouse merely
-   crossing the list from flickering panels open on the way past. */
+   crossing the list from flickering panels open on the way past. Everything in
+   this paragraph is the pointer half; the touch half is the `@media (hover:
+   none)` block at the end of the section. */
 .toc ul ul > li {
   position: relative;
 }
@@ -729,13 +731,27 @@ html.ayu  .nb-out-img .nb-img-light { display: none; }
 @media (prefers-reduced-motion: reduce) {
   .toc ul ul ul,
   .toc ul ul > li:hover > ul,
-  .toc ul ul > li:focus-within > ul {
+  .toc ul ul > li:focus-within > ul,
+  .toc-toggle::after {
     transition: none;
   }
 }
 
-/* Nothing to hover with a finger: the expansions degrade to a plain nested
-   list, indented in flow like the level above them. */
+/* The toggle (built in custom.js) is the touch counterpart of hovering an
+   entry, and only that: with a pointer the panel is already one hover away, so
+   the control would be a second way to do a thing the reader can do. */
+.toc-toggle {
+  display: none;
+}
+
+/* Nothing to hover with a finger, so the panels are opened by tap instead. Two
+   changes, and the second is the point: they lay out in flow rather than
+   floating (a card pinned to a line of text is a pointer idiom — it assumes
+   something is hovering to keep it alive), and they start closed, so the
+   outline stays the short list it is meant to be until the reader opens one.
+   `display` rather than the visibility/opacity pair used above, because iOS
+   leaves :hover stuck on the last-tapped element and those rules would hold a
+   panel open under it; `display: none` outranks them. */
 @media (hover: none) {
   .toc ul ul ul {
     position: static;
@@ -747,16 +763,66 @@ html.ayu  .nb-out-img .nb-img-light { display: none; }
     box-shadow: none;
     opacity: 1;
     visibility: visible;
+    display: none;
   }
 
+  /* Opened, the panel brings its blurb with it — which the old flattened
+     fallback dropped, since it showed every panel at once and would have
+     carried a paragraph for each. A panel opened by tap is one the reader
+     asked for, and the blurb is most of the answer. */
+  .toc ul ul > li[data-toc-open] > ul {
+    display: block;
+  }
+
+  /* The ▾ moves off the link and onto the button, which is what a tap can
+     actually land on without also following the link. */
   .toc ul ul > li:has(> ul) > a::after {
     content: none;
   }
 
-  /* The blurb is a hover preview; with the panels flattened into the list there
-     is nothing to preview, and three paragraphs of it would bury the outline. */
-  .toc ul ul ul > .toc-blurb {
-    display: none;
+  /* Sized to the glyph, not to the finger. A button box big enough to tap would
+     be taller than the 2.3rem line the entries sit on, and would push apart only
+     the rows that have one — an outline where the spacing tells you which
+     sections happen to have subsections. The box stays inline-sized and the
+     finger is served by the ::before below. */
+  .toc-toggle {
+    position: relative;
+    display: inline-block;
+    margin-left: 0.35em;
+    padding: 0;
+    vertical-align: baseline;
+    background: none;
+    border: 0;
+    color: inherit;
+    font-family: inherit;
+    font-size: 0.85em;
+    line-height: 1;
+    opacity: 0.5;
+    cursor: pointer;
+  }
+
+  .toc-toggle::after {
+    content: "▾";
+    transition: transform 120ms ease;
+  }
+
+  /* The actual tap target, out of flow so it costs the layout nothing. It grows
+     mostly rightward, into the empty space past the end of the entry, because
+     that is the one direction with nothing to steal a tap from: vertically it
+     stops inside the line's own leading, and on the left it stops short of the
+     link text. */
+  .toc-toggle::before {
+    content: "";
+    position: absolute;
+    inset: -0.7rem -3.2rem -0.7rem -0.3rem;
+  }
+
+  .toc ul ul > li[data-toc-open] > .toc-toggle {
+    opacity: 0.85;
+  }
+
+  .toc ul ul > li[data-toc-open] > .toc-toggle::after {
+    transform: rotate(180deg);
   }
 }
 

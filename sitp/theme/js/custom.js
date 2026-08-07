@@ -238,6 +238,13 @@ document.addEventListener("DOMContentLoaded", function () {
 // To add another pydata-Sphinx site (scipy, pandas), add a SITES entry — the
 // extraction below keys off the `dt[id]` / `dd` structure every such page shares
 // — and check whether it needs a proxy: `curl -sI <page> | grep -i access-control`.
+//
+// A finger has no hover, so on touch the same popup is driven by taps instead:
+// the first tap on a link peeks (its navigation is cancelled), a second tap on
+// the link or on the popup follows through to the docs, and a tap anywhere else
+// dismisses. Which mode is live is asked per event rather than once at load, so
+// an iPad that acquires a trackpad — or a laptop whose reader is using the
+// touchscreen — is never stuck with the wrong one.
 document.addEventListener("DOMContentLoaded", function () {
   var SITES = [
     { match: 'a[href*="numpy.org/doc"]', proxy: null },
@@ -269,8 +276,17 @@ document.addEventListener("DOMContentLoaded", function () {
   var cache = new Map(); // href -> Promise<{sig, summary}>
   var pop = null;        // single shared popup element
   var anchor = null;     // link the popup currently belongs to
+  var peeked = null;     // link whose peek a tap has already paid for (touch)
   var showTimer = null;
   var hideTimer = null;
+
+  // True where there is no pointer to hover with. The mouse listeners below
+  // stand down in that mode: iOS Safari synthesizes a mouseover/mouseout pair
+  // around every tap, and letting both paths drive one popup makes the peek
+  // open and close on the same tap.
+  function touch() {
+    return window.matchMedia("(hover: none)").matches;
+  }
 
   // The anchor a doc page hangs its content on: numpy.argsort.html documents
   // the id "numpy.argsort". Prefer an explicit #fragment when the link has one.
@@ -342,9 +358,18 @@ document.addEventListener("DOMContentLoaded", function () {
     pop.setAttribute("role", "tooltip");
     // Staying over the popup keeps it open; leaving it dismisses.
     pop.addEventListener("mouseenter", function () {
+      if (touch()) return;
       clearTimeout(hideTimer);
     });
-    pop.addEventListener("mouseleave", scheduleHide);
+    pop.addEventListener("mouseleave", function () {
+      if (touch()) return;
+      scheduleHide();
+    });
+    // Under tap-to-peek the popup is the second half of the link: tapping it is
+    // the same "yes, take me there" as tapping the link again.
+    pop.addEventListener("click", function () {
+      if (touch() && anchor) window.location.href = anchor.href;
+    });
     document.body.appendChild(pop);
     return pop;
   }
@@ -423,11 +448,15 @@ document.addEventListener("DOMContentLoaded", function () {
     hideTimer = setTimeout(function () {
       if (pop) pop.classList.remove("visible");
       anchor = null;
+      // Dismissed, so the next tap on that link is peeking again rather than
+      // cashing in a peek the reader has already dismissed unread.
+      peeked = null;
     }, HIDE_DELAY);
   }
 
   links.forEach(function (a) {
     a.addEventListener("mouseenter", function () {
+      if (touch()) return;
       clearTimeout(hideTimer);
       clearTimeout(showTimer);
       showTimer = setTimeout(function () {
@@ -435,6 +464,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }, HOVER_DELAY);
     });
     a.addEventListener("mouseleave", function () {
+      if (touch()) return;
       clearTimeout(showTimer);
       scheduleHide();
     });
@@ -444,11 +474,37 @@ document.addEventListener("DOMContentLoaded", function () {
       show(a);
     });
     a.addEventListener("blur", scheduleHide);
+    // Tap to peek, tap again to go. The peek is only worth a stolen tap while
+    // it is the thing the reader has not seen yet; once this link has spent one
+    // the tap belongs to the link again.
+    //
+    // What is remembered is the tap, not whether the popup happens to be up: a
+    // tap focuses the link before it clicks it, so the `focus` handler above has
+    // already opened this very popup by the time the click arrives. Reading the
+    // popup's state here would see the peek the tap itself caused and wave the
+    // first tap straight through to numpy.
+    a.addEventListener("click", function (e) {
+      if (!touch() || peeked === a) return;
+      e.preventDefault();
+      peeked = a;
+      clearTimeout(hideTimer);
+      clearTimeout(showTimer);
+      show(a);
+    });
   });
 
   // Anything that moves the anchor out from under the popup dismisses it.
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") scheduleHide();
+  });
+  // Touch's stand-in for "the pointer left": a tap that landed on neither the
+  // popup nor the link it belongs to. Runs after the handlers above, so the
+  // second tap on a link has already claimed its own event.
+  document.addEventListener("click", function (e) {
+    if (!touch() || !pop || !pop.classList.contains("visible")) return;
+    if (pop.contains(e.target)) return;
+    if (e.target.closest && e.target.closest("a") === anchor) return;
+    scheduleHide();
   });
   window.addEventListener(
     "scroll",
@@ -586,9 +642,10 @@ document.addEventListener("DOMContentLoaded", function () {
   sync();
 });
 
-// Carry each subchapter's "In which ..." blurb into its hover-expanded contents
-// panel (the third TOC level; see `.toc ul ul ul` in custom.css), so hovering an
-// entry previews what the section is about and not just how it is cut up.
+// Carry each subchapter's "In which ..." blurb into its expanded contents panel
+// (the third TOC level; see `.toc ul ul ul` in custom.css), so opening an entry
+// — by hover with a pointer, by tap on touch — previews what the section is
+// about and not just how it is cut up.
 // The blurb is borrowed from the blockquote under the section's own heading
 // rather than written a second time into the TOC: the two copies would drift
 // apart the moment the prose is rewritten, and these blurbs are still being
@@ -656,5 +713,51 @@ document.addEventListener("DOMContentLoaded", function () {
     note.className = "toc-blurb";
     note.innerHTML = source.innerHTML.trim();
     panel.insertBefore(note, panel.firstChild);
+  });
+});
+
+// The touch half of the TOC's third level. Hover opens those panels for a
+// pointer; a finger has none, and the fallback used to be to give up and print
+// every subsection at once — which turns a nine-line outline into a fifty-line
+// one, i.e. exactly the thing the compact TOC exists to avoid. So each entry
+// that has an expansion gets a real button beside it and the panels start
+// closed, the reader opening the one they are actually deciding about.
+//
+// The button is a sibling of the link rather than something inside it, because
+// the entry is still a link first: tapping the words navigates, and only the ▾
+// toggles. It is built on every device and revealed by CSS under
+// `@media (hover: none)` alone, so a pointer reader never sees a control they
+// have no use for, and an iPad that acquires a trackpad crosses between the two
+// behaviors without a reload (the panels' CSS answers the same media query).
+document.addEventListener("DOMContentLoaded", function () {
+  const items = document.querySelectorAll(".toc ul ul > li");
+  let n = 0;
+
+  items.forEach(function (li) {
+    const panel = li.querySelector(":scope > ul");
+    const link = li.querySelector(":scope > a");
+    if (!panel || !link) return;
+
+    if (!panel.id) panel.id = "toc-panel-" + ++n;
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "toc-toggle";
+    button.setAttribute("aria-expanded", "false");
+    button.setAttribute("aria-controls", panel.id);
+    // The ▾ itself is CSS content, so it stays out of the accessible name.
+    button.setAttribute(
+      "aria-label",
+      "Contents of " + link.textContent.trim()
+    );
+
+    button.addEventListener("click", function () {
+      const open = li.hasAttribute("data-toc-open");
+      if (open) li.removeAttribute("data-toc-open");
+      else li.setAttribute("data-toc-open", "");
+      button.setAttribute("aria-expanded", String(!open));
+    });
+
+    link.insertAdjacentElement("afterend", button);
   });
 });

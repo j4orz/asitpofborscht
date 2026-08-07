@@ -64,6 +64,28 @@ Both seem necessary for understanding. -->
 
 <!-- > Everything is vague to a degree you do not realize till you have tried to make it precise. -->
 
+<!-- SITP = SICP + CS:APP + ULAFF + TAOFHPC + TAODP -->
+
+<!-- https://docs.divio.com/documentation-system/
+
+there are lots of tutorials and how to guides,
+some explanations. not many references.
+at the limit, this is my attempt at creating a canonical reference.
+-->
+
+<!-- torch and vllm is the linux of AI
+
+where is the xv6?
+
+-->
+
+<!--
+
+the book's breadth is ambitious
+but we should expect ourselves to learn more with AI now.
+AI is the rocketship for our minds.
+
+-->
 
 Jeffrey Zhang<br>
 Waterloo, Ontario<br>
