@@ -715,6 +715,17 @@ html.ayu  .nb-out-img .nb-img-light { display: none; }
   opacity: 0.72;
 }
 
+/* The blurb arrives as the blockquote's own markup — a <p>, sometimes several —
+   so its paragraph margins are re-set to the panel's own spacing rather than
+   the body's. */
+.toc ul ul ul > .toc-blurb > p {
+  margin: 0;
+}
+
+.toc ul ul ul > .toc-blurb > p + p {
+  margin-top: 0.6rem;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .toc ul ul ul,
   .toc ul ul > li:hover > ul,

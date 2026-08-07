@@ -627,20 +627,34 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     if (!blurb) return;
 
-    // Previews are plain text, so the blurb is read rather than cloned — a
-    // clone would carry the original's ids (defnotes have been slugged by now)
-    // into a second copy. KaTeX renders every formula twice, once as HTML and
-    // once as invisible MathML, and textContent reads both; drop the MathML
-    // from a throwaway copy first so a blurb with math doesn't stutter.
+    // The preview keeps the blurb's markup rather than flattening it to text.
+    // KaTeX builds a formula out of ordinary characters wearing font classes —
+    // `\mathscr{L}` is a plain "L" under `.mathscr` — so reading the subtree as
+    // text silently demotes every formula to bare letters in the body face.
+    // (mdbook-katex here emits HTML-only KaTeX, no MathML twin, so there is no
+    // second copy of a formula to strip on the way through.)
+    //
+    // Cloning does mean minding what the listeners above have already annotated:
+    // defnotes have been slugged and sidenote markers numbered by document
+    // order, and a second copy of either would duplicate an id or shift the
+    // margin numbering. The margin apparatus is dropped outright — a floating
+    // panel has no margin to hold it, and the .defnote span only ever repeats a
+    // term that is already inline in the sentence — and any id that survives
+    // that is stripped.
     const source = blurb.cloneNode(true);
-    source.querySelectorAll(".katex-mathml").forEach(function (m) {
-      m.remove();
+    source
+      .querySelectorAll(".defnote, .sidenote, .sidenote-number")
+      .forEach(function (n) {
+        n.remove();
+      });
+    source.querySelectorAll("[id]").forEach(function (n) {
+      n.removeAttribute("id");
     });
 
-    // An <li>, because a <ul> may not hold a bare <p>.
+    // An <li>, because a <ul> may not hold the blurb's bare <p>.
     const note = document.createElement("li");
     note.className = "toc-blurb";
-    note.textContent = source.textContent.trim();
+    note.innerHTML = source.innerHTML.trim();
     panel.insertBefore(note, panel.firstChild);
   });
 });
