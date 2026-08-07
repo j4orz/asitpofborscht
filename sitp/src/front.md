@@ -5,11 +5,11 @@
 
 # Structure and Interpretation
 # of Tensor Programs
-### First Edition
+### First Edition 
 
 `A Whirlwind Tour to Deep Learning and Deep Learning Systems`<br>
-<small>*`Run`[`nanochat`](https://github.com/karpathy/nanochat)` by building `[`teenygrad`](https://github.com/j4orz/teenygrad)`from scratch: the bridge from` [`micrograd`](https://github.com/karpathy/micrograd)`to `[`tinygrad`](https://github.com/tinygrad/tinygrad)*</small><br/>
-<small>*`with the Lean, Python, Rust, and CUDA Rust programming languages!`*</small><br/>
+<small>*`Run`[`nanochat`](https://github.com/karpathy/nanochat)`by building` <img class="icon" src="./assets/borscht.png" alt="" style="aspect-ratio: 736 / 510;">[`borscht`](https://github.com/j4orz/teenygrad)`from scratch: a hackable subset of`[`torch`](https://pytorch.org/)*</small><span class="sidenote-number"></span><span class="sidenote">*[What's in a name?](https://en.wikipedia.org/wiki/A_rose_by_any_other_name_would_smell_as_sweet) Borscht is a sour soup with meat from Eastern Europe, most often associated with the variant originating in Ukraine with red beetroots <img class="icon" src="./assets/borscht.png" alt="" style="aspect-ratio: 736 / 510;">. It's a permutation-like pun on `torch`, given how the deep learning framework `borscht` aims to be a rough subset of PyTorch. You want a `torch.Tensor`? You get the <img class="icon" src="./assets/borscht.png" alt="" style="aspect-ratio: 736 / 510;">[`borscht`](https://github.com/j4orz/teenygrad) `borscht.Tensor`. My mother in law's borscht is to die for!* **Мне очень нравится ваш борщ, миссис Ким!**</span><br/>
+<small>*`with Python, Rust, and CUDA Rust programming languages!`*</small><br/>
 
 
 *Made with 🖤🪻 by [Jeffrey Zhang,](https://x.com/j4orz) [University of Waterloo (BMath)](https://academic-calendar-archive.uwaterloo.ca/undergraduate-studies/2022-2023/group/u-Waterloo-Faculty-of-Mathematics.html)*<br/>
