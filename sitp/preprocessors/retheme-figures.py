@@ -2,8 +2,8 @@
 """retheme-figures: give notebook matplotlib figures light+dark theme variants.
 
 Run this AFTER executing a notebook (which bakes a single opaque PNG per figure).
-For every code cell that draws a figure, it re-renders the cell's own plotting
-code twice and rewrites the image output so mdbook-nb's theme-swap can use it:
+For every code cell that draws a figure, it re-renders the cell's plotting code
+and rewrites the image output so mdbook-nb's theme-swap can use it:
 
   * light variant -> output["data"]["image/png"]        (transparent, dark ink)
   * dark  variant -> output["metadata"]["dark"]["image/png"] (transparent, light ink)
@@ -13,9 +13,16 @@ Both are transparent so the plot sits on the page color (works on mdBook's
 preserved — only default-colored elements (text/axes/ticks) follow the ink
 override — so an explicit `color="#0072B2"` bar stays that color in both.
 
-Why re-run instead of recolor the PNG? A raster recolor can't retint anti-aliased
-text/edges cleanly, and can't make an opaque background transparent. Re-running
-the cell under two rc contexts reproduces the figure exactly, themed.
+Each cell is executed exactly ONCE. The dark variant is produced by recoloring
+the live figure's default-colored artists and saving it again, not by re-running
+the cell. That matters for correctness as much as speed: a cell that trains a
+model or draws from an RNG mutates the shared namespace, so a second execution
+would render a *different* figure than the first — the two themes would silently
+disagree. One execution, two saves, identical geometry.
+
+Why not recolor the PNG instead? A raster recolor can't retint anti-aliased
+text/edges cleanly, and can't make an opaque background transparent. Recoloring
+the artists and re-saving is a genuine re-render, so both come out clean.
 
 Usage (with a Python that has the notebooks' imports, e.g. notebooks/.venv):
     python preprocessors/retheme-figures.py [notebook.ipynb ...]
@@ -23,9 +30,10 @@ With no args, processes every .ipynb under notebooks/ (skipping .venv and
 checkpoints, and notebooks that never import matplotlib).
 
 Caveat: it *executes* cell code (in the notebook's own directory, so relative
-paths resolve). Plot cells are run twice; keep them free of one-shot side effects.
-IPython magics and `!shell` lines are skipped, not run. A cell that raises is
-reported and skipped — the notebook's other figures still get done.
+paths resolve), so a notebook costs whatever its cells cost to run — a training
+loop is a training loop. IPython magics and `!shell` lines are skipped, not run.
+A cell that raises is reported and skipped — the notebook's other figures still
+get done.
 """
 import base64
 import contextlib
@@ -41,13 +49,6 @@ USES_MPL = re.compile(r"matplotlib|pyplot|\bplt\.")
 MAGIC_LINE = re.compile(r"^\s*[%!]")  # `%matplotlib inline`, `!pip install ...`
 
 
-def _ink_rc(color):
-    if not color:
-        return {}
-    return {k: color for k in ("text.color", "axes.labelcolor", "axes.edgecolor",
-                               "axes.titlecolor", "xtick.color", "ytick.color")}
-
-
 def _fig_pngs(plt):
     """Save every currently-open figure to a transparent PNG (base64)."""
     out = []
@@ -57,6 +58,80 @@ def _fig_pngs(plt):
                                 bbox_inches="tight", transparent=True)
         out.append(base64.b64encode(buf.getvalue()).decode("ascii"))
     return out
+
+
+def _default_ink(mpl):
+    """The rc colors an *unstyled* artist carries, i.e. the ones we may override.
+
+    Resolves the two indirections matplotlib allows: `axes.titlecolor: auto`
+    means "follow text.color", and `[xy]tick.labelcolor: inherit` means "follow
+    [xy]tick.color". Without resolving them, the comparison below would never
+    match and titles/tick labels would stay black on dark themes.
+    """
+    rc = mpl.rcParams
+
+    def deref(key, sentinel, fallback):
+        val = rc[key]
+        return rc[fallback] if str(val).lower() == sentinel else val
+
+    return {
+        "text": rc["text.color"],
+        "label": rc["axes.labelcolor"],
+        "edge": rc["axes.edgecolor"],
+        "legend_edge": rc["legend.edgecolor"],
+        "title": deref("axes.titlecolor", "auto", "text.color"),
+        "xtick": rc["xtick.color"],
+        "ytick": rc["ytick.color"],
+        "xticklabel": deref("xtick.labelcolor", "inherit", "xtick.color"),
+        "yticklabel": deref("ytick.labelcolor", "inherit", "ytick.color"),
+    }
+
+
+def _retint(artist, default, ink, to_rgba, get="get_color", set="set_color"):
+    """Recolor `artist` to `ink`, but only if it still wears the rc default.
+
+    This is what preserves the cell's own styling: an explicitly colored artist
+    doesn't match `default`, so it's left alone. Compared on RGB only — alpha is
+    the cell's business, not the theme's.
+    """
+    try:
+        current = getattr(artist, get)()
+        if to_rgba(current)[:3] == to_rgba(default)[:3]:
+            getattr(artist, set)(ink)
+    except (AttributeError, ValueError, TypeError):
+        pass  # exotic artist (3D axes, custom spine); not worth failing over
+
+
+def _recolor_dark(plt, mpl, ink):
+    """Walk every open figure and swap default-colored ink for `ink`."""
+    to_rgba = mpl.colors.to_rgba
+    d = _default_ink(mpl)
+    for num in plt.get_fignums():
+        fig = plt.figure(num)
+        for text in fig.texts:  # suptitle, fig.text(...)
+            _retint(text, d["text"], ink, to_rgba)
+        for ax in fig.axes:  # includes colorbar axes
+            _retint(ax.title, d["title"], ink, to_rgba)
+            _retint(ax.xaxis.label, d["label"], ink, to_rgba)
+            _retint(ax.yaxis.label, d["label"], ink, to_rgba)
+            for text in ax.texts:  # annotate(), ax.text(...)
+                _retint(text, d["text"], ink, to_rgba)
+            for spine in ax.spines.values():
+                _retint(spine, d["edge"], ink, to_rgba,
+                        "get_edgecolor", "set_edgecolor")
+            for axis, tick_c, label_c in ((ax.xaxis, d["xtick"], d["xticklabel"]),
+                                          (ax.yaxis, d["ytick"], d["yticklabel"])):
+                for tick in axis.get_major_ticks() + axis.get_minor_ticks():
+                    _retint(tick.tick1line, tick_c, ink, to_rgba)
+                    _retint(tick.tick2line, tick_c, ink, to_rgba)
+                    _retint(tick.label1, label_c, ink, to_rgba)
+                    _retint(tick.label2, label_c, ink, to_rgba)
+            legend = ax.get_legend()
+            if legend is not None:
+                for text in legend.get_texts():
+                    _retint(text, d["text"], ink, to_rgba)
+                _retint(legend.get_frame(), d["legend_edge"], ink, to_rgba,
+                        "get_edgecolor", "set_edgecolor")
 
 
 def _compile(src):
@@ -73,16 +148,12 @@ def _compile(src):
         return compile("\n".join(kept), "<cell>", "exec")
 
 
-def _run(src, ns, rc, plt):
-    """Exec a cell under an rc context; return PNGs of the figures it opened."""
+def _run(src, ns, plt):
+    """Exec a cell, leaving whatever figures it opened open for the caller."""
     plt.close("all")
-    with plt.rc_context(rc), contextlib.redirect_stdout(io.StringIO()), \
-            warnings.catch_warnings():
+    with contextlib.redirect_stdout(io.StringIO()), warnings.catch_warnings():
         warnings.simplefilter("ignore")  # e.g. Agg's non-interactive plt.show()
         exec(_compile(src), ns)
-        pngs = _fig_pngs(plt)
-    plt.close("all")
-    return pngs
 
 
 def process_notebook(path):
@@ -104,10 +175,14 @@ def process_notebook(path):
         for i, cell in enumerate(code, 1):
             src = "".join(cell.get("source", []))
             try:
-                light = _run(src, ns, _ink_rc(None), plt)  # also builds state
-                if not light:
-                    continue                                # not a plot cell
-                dark = _run(src, ns, _ink_rc(DARK_INK), plt)  # re-render, dark ink
+                _run(src, ns, plt)  # also builds state for later cells
+                if not plt.get_fignums():
+                    continue                              # not a plot cell
+                with warnings.catch_warnings():
+                    warnings.simplefilter("ignore")  # e.g. tight-bbox complaints
+                    light = _fig_pngs(plt)
+                    _recolor_dark(plt, matplotlib, DARK_INK)  # same fig, dark ink
+                    dark = _fig_pngs(plt)
             except Exception as e:
                 # One unrunnable cell shouldn't cost the notebook its other
                 # figures — report it and carry on. (Later cells may well fail
@@ -115,6 +190,8 @@ def process_notebook(path):
                 sys.stderr.write("  ! %s cell %d: %s: %s\n"
                                  % (os.path.basename(path), i, type(e).__name__, e))
                 continue
+            finally:
+                plt.close("all")
             img_outs = [o for o in cell.get("outputs", [])
                         if o.get("output_type") in ("display_data", "execute_result")
                         and "image/png" in o.get("data", {})]
