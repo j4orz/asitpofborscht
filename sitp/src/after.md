@@ -1,7 +1,7 @@
 # Afterword
 
 To continue deepening your knowledge on deep learning and deep learning systems,
-the following provide explicit offramps of SITP which bridge you from `nanochat` to `llama`
+the following provide explicit offramps from SITP bridging you from `nanochat` to `llama`
 and from `borscht` to `torch`.
 Once you feel comfortable, you should graduate towards contributing to
 state of the art network architecture and deep learning systems at the frontier.
