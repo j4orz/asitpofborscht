@@ -87,6 +87,12 @@ AI is the rocketship for our minds.
 
 -->
 
+<!--
+- alan kay, lisp's interpreter is like maxwells equations
+- everyone should also implement back propagation
+
+-->
+
 Jeffrey Zhang<br>
 Waterloo, Ontario<br>
 August 2026<br>
