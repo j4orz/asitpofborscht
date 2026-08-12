@@ -955,6 +955,29 @@ p:has(+ ul) {
   letter-spacing: 0.02em;
 }
 
+/* Headings h1-h4 in small caps, echoing the dropcap lead-in above. Scoped to
+   `main` so the sidebar/menu chrome is untouched, and it rides on the header
+   anchor mdBook wraps every heading title in (font-variant inherits).
+   New Computer Modern carries a real `smcp` feature (CMU did not, so these used
+   to be synthesized from scaled capitals) — the 0.02em tracking is the usual
+   small-caps courtesy. Inline code and KaTeX opt back out: identifiers are
+   case-bearing, and `borscht.forward()` in small caps reads as a typo. */
+main h1,
+main h2,
+main h3,
+main h4 {
+  font-variant-caps: small-caps;
+  font-variant: small-caps;
+  letter-spacing: 0.02em;
+}
+
+main h1 code, main h2 code, main h3 code, main h4 code,
+main h1 .katex, main h2 .katex, main h3 .katex, main h4 .katex {
+  font-variant-caps: normal;
+  font-variant: normal;
+  letter-spacing: normal;
+}
+
 /* Theme-dependent owl illustration. The default <img src> points at owl.png
    (used by the light/rust themes); these override the rendered image per theme
    via `content`. Paths are relative to this CSS file, which mdBook emits at
@@ -1128,18 +1151,19 @@ html.coal, html.navy, html.ayu {
 }
 
 /* URL-as-text links (wikipedia / SEP / nlab references, where the visible link
-   text IS the full URL) render in CMU Typewriter — the Latin Modern Mono /
-   Computer Modern typewriter face that arxiv.org/pdf/2311.04329 uses for URLs.
-   Code blocks stay on --mono-font (Source Code Pro), so URLs remain distinct.
-   Tagged by custom.js; scoped so it never touches code blocks or code-identifier
-   links like `nanochat`/`numpy`. `.url-mono code` wins over `code` on specificity. */
+   text IS the full URL) render in New Computer Modern Mono — the Latin Modern
+   Mono / Computer Modern typewriter face that arxiv.org/pdf/2311.04329 uses for
+   URLs. Code blocks stay on --mono-font (Source Code Pro), so URLs remain
+   distinct. Tagged by custom.js; scoped so it never touches code blocks or
+   code-identifier links like `nanochat`/`numpy`. `.url-mono code` wins over
+   `code` on specificity. */
 a.url-mono,
 a.url-mono code {
-  font-family: "CMU Typewriter", monospace;
+  font-family: "New Computer Modern Mono", monospace;
   font-weight: 400;
-  font-style: normal; /* -> CMU Typewriter Text Regular (cmuntt.ttf), upright like
-                          arxiv's Latin Modern Mono; `normal` overrides the italic
-                          inherited from the sidenotes' *…* wrapper. */
+  font-style: normal; /* -> NewCMMono10-Regular, upright like arxiv's Latin
+                          Modern Mono; `normal` overrides the italic inherited
+                          from the sidenotes' *…* wrapper. */
 }
 
 /* Definition/theorem "snackbars" in the style of arxiv.org/pdf/2311.04329:
@@ -1400,10 +1424,10 @@ html.ayu  :is(.definition,.theorem,.lemma,.example) > .refine-ladder-box {
 }
 .ref-list { display: block; margin: 0; padding-left: 0; } /* indent comes from .sidenote's gutter */
 .ref-item { display: block; padding-left: 1.5em; margin: 0.2em 0; line-height: 1.35; }
-/* Whole reference list in CMU Typewriter Text Regular, upright — matching
+/* Whole reference list in New Computer Modern Mono Regular, upright — matching
    arxiv's Latin Modern Mono URL style (deterministic; also covers the non-URL
    PCM citation, keeping the list uniform). */
-.ref-item a { font-family: "CMU Typewriter", monospace; font-weight: 400; font-style: normal; }
+.ref-item a { font-family: "New Computer Modern Mono", monospace; font-weight: 400; font-style: normal; }
 .ref-item a[href*="mathworld.wolfram.com"]::before,
 .ref-item a[href*="wikipedia.org"]::before,
 .ref-item a[href*="grokipedia.com"]::before,

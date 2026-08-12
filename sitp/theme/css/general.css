@@ -7,7 +7,7 @@
 }
 
 html {
-    font-family: "CMU Serif", "Latin Modern Roman", "Times New Roman", serif;
+    font-family: "New Computer Modern", "CMU Serif", "Latin Modern Roman", "Times New Roman", serif;
     color: var(--fg);
     background-color: var(--bg);
     text-size-adjust: none;
