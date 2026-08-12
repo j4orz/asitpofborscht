@@ -1,168 +1,220 @@
-/* Computer Modern Unicode (CMU) webfont setup
+/* New Computer Modern (NCM) webfont setup — Antonis Tsolomitis's successor to
+   Computer Modern Unicode, distributed on CTAN (fonts/newcomputermodern) under
+   the GUST Font License (see "GUST Font License.txt" beside the font files).
+
+   Replaces the old CMU cmun*.ttf set. Two things NCM buys us over CMU: real
+   OpenType features — `smcp`/`c2sc` small caps and `onum` oldstyle figures,
+   none of which CMU's TTFs carried, so `font-variant-caps` no longer has to be
+   synthesized by the browser — and a much wider, better-hinted glyph set.
+
+   Shipped as woff2 rather than the upstream .otf: the CFF outlines compress to
+   roughly half (e.g. NewCM10-Regular 701 KB otf -> 325 KB woff2), and every
+   browser that renders this book supports it. Files live in src/fonts/ and
+   mdBook copies them next to this stylesheet.
+
+   IMPORTANT — do not regenerate these from the upstream .otf by straight
+   conversion. NewCM10-Regular.otf and NewCM10-Italic.otf as published on CTAN
+   contain malformed CFF charstrings in the Phonetic Extensions block
+   (U+1D4D-U+1D5D): glyphs such as uni1D50 open with a `cntrmask` operator with
+   zero preceding stem hints and an empty mask. OTS — the font sanitiser in both
+   Chrome and Firefox — rejects the file outright with
+
+       OTS parsing error: CFF : Failed validating CharStrings INDEX
+
+   and the browser then silently falls back to Times for ALL body text and
+   italics. (The Bold and Book cuts declare `hstemhm` properly and are fine,
+   which makes the breakage easy to miss: headings look right.) These files are
+   therefore rebuilt with that range dropped:
+
+       pyftsubset NewCM10-Regular.otf --unicodes-file=<all cmap codepoints
+         minus U+1D4D-U+1D5D> --layout-features='*' --glyph-names
+         --flavor=woff2 --output-file=NewCM10-Regular.woff2
+
+   `--layout-features='*'` is what keeps smcp/c2sc/onum alive; pyftsubset's
+   default feature set would drop them. After regenerating, verify in a browser
+   that the face actually loads — a rejected font is invisible in the page,
+   it just quietly renders as Times.
+
    Files expected in the SAME folder as this CSS:
-   cmunrm.ttf  cmunti.ttf  cmunbx.ttf  cmunbi.ttf
-   cmunss.ttf  cmunsi.ttf  cmunsx.ttf  cmunso.ttf  cmunsl.ttf
-   cmunttb.ttf cmuntti.ttf cmunttx.ttf
-   (plus many others you have; we only wire the common ones)
+   NewCM10-{Regular,Italic,Bold,BoldItalic}.woff2
+   NewCMSans10-{Regular,Oblique,Bold,BoldOblique}.woff2
+   NewCMMono10-{Regular,Italic,Bold,BoldOblique}.woff2
 */
 
-/* ===== CMU Serif (Roman) ===== */
+/* ===== New Computer Modern (serif / roman) ===== */
 @font-face {
-  font-family: "CMU Serif";
+  font-family: "New Computer Modern";
   font-style: normal;
   font-weight: 400;
-  src: url("cmunrm.ttf") format("truetype");
+  src: url("NewCM10-Regular.woff2") format("woff2");
   font-display: swap;
 }
 @font-face {
-  font-family: "CMU Serif";
+  font-family: "New Computer Modern";
   font-style: italic;
   font-weight: 400;
-  src: url("cmunti.ttf") format("truetype"); /* CMU Serif Italic (true italic) */
+  src: url("NewCM10-Italic.woff2") format("woff2"); /* true italic, not slanted */
   font-display: swap;
 }
 @font-face {
-  font-family: "CMU Serif";
+  font-family: "New Computer Modern";
   font-style: normal;
   font-weight: 700;
-  src: url("cmunbx.ttf") format("truetype");
+  src: url("NewCM10-Bold.woff2") format("woff2");
   font-display: swap;
 }
 @font-face {
-  font-family: "CMU Serif";
+  font-family: "New Computer Modern";
   font-style: italic;
   font-weight: 700;
-  src: url("cmunbi.ttf") format("truetype"); /* CMU Serif Bold Italic */
+  src: url("NewCM10-BoldItalic.woff2") format("woff2");
   font-display: swap;
 }
-/* Optional: map 'oblique' requests to the slanted cuts you have */
+/* NCM's serif has no separate slanted cut (unlike CMU, where these pointed at
+   the Concrete italic), so an `oblique` request lands on the true italic. */
 @font-face {
-  font-family: "CMU Serif";
+  font-family: "New Computer Modern";
   font-style: oblique;
   font-weight: 400;
-  src: url("cmunoti.ttf") format("truetype");
+  src: url("NewCM10-Italic.woff2") format("woff2");
   font-display: swap;
 }
 @font-face {
-  font-family: "CMU Serif";
+  font-family: "New Computer Modern";
   font-style: oblique;
   font-weight: 700;
-  src: url("cmunoti.ttf") format("truetype");
+  src: url("NewCM10-BoldItalic.woff2") format("woff2");
   font-display: swap;
 }
 
-/* Optional: if mdBook asks for 300/600/800, alias to nearest real weight */
+/* If mdBook asks for 300/600/800, alias to nearest real weight. NCM also ships
+   a heavier "Book" optical cut meant for screens; swapping the 400 rules to
+   NewCM10-Book* is the one-line way to darken the page if the text ever reads
+   too thin. */
 @font-face {
-  font-family: "CMU Serif";
+  font-family: "New Computer Modern";
   font-style: normal;
   font-weight: 300;
-  src: url("cmunrm.ttf") format("truetype");
+  src: url("NewCM10-Regular.woff2") format("woff2");
   font-display: swap;
 }
 @font-face {
-  font-family: "CMU Serif";
+  font-family: "New Computer Modern";
   font-style: italic;
   font-weight: 300;
-  src: url("cmunti.ttf") format("truetype"); /* CMU Serif Italic (true italic) */
+  src: url("NewCM10-Italic.woff2") format("woff2");
   font-display: swap;
 }
 @font-face {
-  font-family: "CMU Serif";
+  font-family: "New Computer Modern";
   font-style: normal;
   font-weight: 600;
-  src: url("cmunbx.ttf") format("truetype");
+  src: url("NewCM10-Bold.woff2") format("woff2");
   font-display: swap;
 }
 @font-face {
-  font-family: "CMU Serif";
+  font-family: "New Computer Modern";
   font-style: italic;
   font-weight: 600;
-  src: url("cmunbi.ttf") format("truetype"); /* CMU Serif Bold Italic */
+  src: url("NewCM10-BoldItalic.woff2") format("woff2");
   font-display: swap;
 }
 @font-face {
-  font-family: "CMU Serif";
+  font-family: "New Computer Modern";
   font-style: normal;
   font-weight: 800;
-  src: url("cmunbx.ttf") format("truetype");
+  src: url("NewCM10-Bold.woff2") format("woff2");
   font-display: swap;
 }
 @font-face {
-  font-family: "CMU Serif";
+  font-family: "New Computer Modern";
   font-style: italic;
   font-weight: 800;
-  src: url("cmunbi.ttf") format("truetype"); /* CMU Serif Bold Italic */
+  src: url("NewCM10-BoldItalic.woff2") format("woff2");
   font-display: swap;
 }
 
-/* ===== CMU Sans Serif (optional, for UI bits) ===== */
+/* ===== New Computer Modern Sans (optional, for UI bits) =====
+   NCM's sans has no light cut, so the old CMU 300 (cmunsl) maps to Regular. */
 @font-face {
-  font-family: "CMU Sans";
+  font-family: "New Computer Modern Sans";
   font-style: normal;
-  font-weight: 300; /* Light */
-  src: url("cmunsl.ttf") format("truetype");
+  font-weight: 300;
+  src: url("NewCMSans10-Regular.woff2") format("woff2");
   font-display: swap;
 }
 @font-face {
-  font-family: "CMU Sans";
+  font-family: "New Computer Modern Sans";
   font-style: normal;
   font-weight: 400;
-  src: url("cmunss.ttf") format("truetype");
+  src: url("NewCMSans10-Regular.woff2") format("woff2");
   font-display: swap;
 }
+/* The sans is slanted rather than truly italic; both requests get that cut. */
 @font-face {
-  font-family: "CMU Sans";
+  font-family: "New Computer Modern Sans";
   font-style: italic;
   font-weight: 400;
-  src: url("cmunsi.ttf") format("truetype");
+  src: url("NewCMSans10-Oblique.woff2") format("woff2");
   font-display: swap;
 }
 @font-face {
-  font-family: "CMU Sans";
-  font-style: normal;
-  font-weight: 700; /* Bold */
-  src: url("cmunsx.ttf") format("truetype");
-  font-display: swap;
-}
-/* Some themes ask for oblique instead of italic */
-@font-face {
-  font-family: "CMU Sans";
+  font-family: "New Computer Modern Sans";
   font-style: oblique;
   font-weight: 400;
-  src: url("cmunso.ttf") format("truetype");
+  src: url("NewCMSans10-Oblique.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: "New Computer Modern Sans";
+  font-style: normal;
+  font-weight: 700;
+  src: url("NewCMSans10-Bold.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: "New Computer Modern Sans";
+  font-style: italic;
+  font-weight: 700;
+  src: url("NewCMSans10-BoldOblique.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: "New Computer Modern Sans";
+  font-style: oblique;
+  font-weight: 700;
+  src: url("NewCMSans10-BoldOblique.woff2") format("woff2");
   font-display: swap;
 }
 
-/* ===== CMU Typewriter (monospace) =====
-   File→face mappings verified from each TTF's name table. Previously the regular
-   cut pointed at cmuntx.ttf (actually Bold Italic) and italic at cmuntti.ttf
-   (nonexistent), so everything rendered heavy/faux. Correct cuts: */
+/* ===== New Computer Modern Mono (typewriter) =====
+   NCM names the bold slanted cut BoldOblique; there is no BoldItalic. */
 @font-face {
-  font-family: "CMU Typewriter";
+  font-family: "New Computer Modern Mono";
   font-style: normal;
   font-weight: 400;
-  src: url("cmuntt.ttf") format("truetype"); /* CMU Typewriter Text Regular */
+  src: url("NewCMMono10-Regular.woff2") format("woff2");
   font-display: swap;
 }
 @font-face {
-  font-family: "CMU Typewriter";
+  font-family: "New Computer Modern Mono";
   font-style: italic;
   font-weight: 400;
-  src: url("cmunit.ttf") format("truetype"); /* CMU Typewriter Text Italic */
+  src: url("NewCMMono10-Italic.woff2") format("woff2");
   font-display: swap;
 }
 @font-face {
-  font-family: "CMU Typewriter";
+  font-family: "New Computer Modern Mono";
   font-style: normal;
   font-weight: 700;
-  src: url("cmuntb.ttf") format("truetype"); /* CMU Typewriter Text Bold */
+  src: url("NewCMMono10-Bold.woff2") format("woff2");
   font-display: swap;
 }
 @font-face {
-  font-family: "CMU Typewriter";
+  font-family: "New Computer Modern Mono";
   font-style: italic;
   font-weight: 700;
-  src: url("cmuntx.ttf") format("truetype"); /* CMU Typewriter Text Bold Italic */
+  src: url("NewCMMono10-BoldOblique.woff2") format("woff2");
   font-display: swap;
 }
 

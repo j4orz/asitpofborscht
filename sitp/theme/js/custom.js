@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Tag links whose visible text IS a bare URL (e.g. wikipedia / SEP / nlab
 // references written as [`https://...`](...) or bare autolinks) so CSS can set
-// them in CMU Typewriter. Prose links like [probabilistic logic](...) and code
+// them in New Computer Modern Mono. Prose links like [probabilistic logic](...) and code
 // identifiers like `numpy` are untouched — their link text isn't a URL.
 document.addEventListener("DOMContentLoaded", function () {
   document.querySelectorAll("a[href]").forEach(function (a) {
