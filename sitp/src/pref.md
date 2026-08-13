@@ -64,7 +64,9 @@ Both seem necessary for understanding. -->
 
 <!-- > Everything is vague to a degree you do not realize till you have tried to make it precise. -->
 
-<!-- SITP = SICP + CS:APP + ULAFF + TAOFHPC + TAODP -->
+<!-- SITP = HTDP(JURAFSKY + BISHOP + SOLOMON + TAOHPC + TAODP + PMPP) -->
+<!-- SITP: DCIC -> HF SCALE + JAX SCALE -->
+<!-- the only misnomer is that this is a book about torch, not jax -->
 
 <!-- https://docs.divio.com/documentation-system/
 
