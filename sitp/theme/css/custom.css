@@ -1,14 +1,20 @@
 .katex-display, .box {
   /* background-color: var(--quote-bg); */
   /* border-radius: 4px; */
-  padding: 0.75em 1em;
-  margin: 1em 0;
-  overflow-x: auto;
+  /* padding: 0.75em 1em; */
+  /* margin: 1em 0;
+  overflow-x: auto; */
 }
 
-.katex-display>.katex {
-  text-align: left !important;
+/* KaTeX's second vlist row only measures depth, but it otherwise sits above
+   links in array cells and intercepts pointer events. */
+.katex .vlist-t2 > .vlist-r:nth-child(2) {
+  pointer-events: none;
 }
+
+/* .katex-display>.katex {
+  text-align: left !important;
+} */
 
 #first-edition {
   margin-top: 0;
@@ -1050,6 +1056,12 @@ html.coal img.jointmatrix,
 html.navy img.jointmatrix,
 html.ayu img.jointmatrix {
   content: url("../../assets/jointmatrix_dark.png");
+}
+
+html.coal img.stochastic_matrix,
+html.navy img.stochastic_matrix,
+html.ayu img.stochastic_matrix {
+  content: url("../../assets/stochastic_matrix_dark.png");
 }
 
 html.coal img.jointmatrixmarginal,

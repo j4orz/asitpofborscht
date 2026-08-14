@@ -12,7 +12,8 @@
 <small>*`with Python, Rust, and CUDA Rust programming languages!`*</small><br/>
 
 
-*Made with 🖤🪻 by [Jeffrey Zhang,](https://x.com/j4orz) [University of Waterloo (BMath)](https://academic-calendar-archive.uwaterloo.ca/undergraduate-studies/2022-2023/group/u-Waterloo-Faculty-of-Mathematics.html)*<br/>
+*Made with 🖤🪻 by [Jeffrey Zhang](https://x.com/j4orz)<span class="sidenote-number"></span><span class="sidenote">*All text was written by a human, for a human.*</span>, [University of Waterloo (BMath)](https://academic-calendar-archive.uwaterloo.ca/undergraduate-studies/2022-2023/group/u-Waterloo-Faculty-of-Mathematics.html)*
+<br/>
 *Made possible by [Lambda Labs Research Grant](https://lambda.ai/research)*<br/>
 <!-- *Contributing writers:*
 - foobarbaz -->
