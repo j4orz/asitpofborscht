@@ -190,6 +190,28 @@ document.addEventListener("DOMContentLoaded", function () {
   restack();
   window.addEventListener("load", restack);
   window.addEventListener("resize", restack);
+
+  // Embedded content — tweet iframes above all, but also images and KaTeX —
+  // finishes rendering after both of those events, and a note that measured
+  // ~100px as a placeholder ends up ~900px tall once the widget swaps in. The
+  // sweep above has already committed its margins by then, so the stack
+  // overlaps. Re-sweep whenever a note's own box changes size. No feedback
+  // loop: restack only writes margin-top, which is outside the border box
+  // ResizeObserver reports on.
+  if (typeof ResizeObserver === "function") {
+    let pending = false;
+    const observer = new ResizeObserver(function () {
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(function () {
+        pending = false;
+        restack();
+      });
+    });
+    defnotes.forEach(function (n) {
+      observer.observe(n);
+    });
+  }
 });
 
 // Inside a definition/theorem/lemma "snackbar", render sidenotes as footnotes at
