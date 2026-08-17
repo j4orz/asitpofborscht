@@ -1082,6 +1082,36 @@ html.ayu img.neuron {
   content: url("../../assets/neuron_dark.png");
 }
 
+html.coal img.neuron_linreg,
+html.navy img.neuron_linreg,
+html.ayu img.neuron_linreg {
+  content: url("../../assets/neuron_linreg_dark.png");
+}
+
+html.coal img.discriminant_decisionbad,
+html.navy img.discriminant_decisionbad,
+html.ayu img.discriminant_decisionbad {
+  content: url("../../assets/discriminant_decisionbad_dark.png");
+}
+
+html.coal img.discriminant_decision,
+html.navy img.discriminant_decision,
+html.ayu img.discriminant_decision {
+  content: url("../../assets/discriminant_decision_dark.png");
+}
+
+html.coal img.discriminant_weight_bad,
+html.navy img.discriminant_weight_bad,
+html.ayu img.discriminant_weight_bad {
+  content: url("../../assets/discriminant_weight_bad_dark.png");
+}
+
+html.coal img.discriminant_weight,
+html.navy img.discriminant_weight,
+html.ayu img.discriminant_weight {
+  content: url("../../assets/discriminant_weight_dark.png");
+}
+
 html.coal img.venn,
 html.navy img.venn,
 html.ayu img.venn {
