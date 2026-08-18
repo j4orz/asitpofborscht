@@ -1,4 +1,5 @@
 use pyo3::prelude::*;
+mod tensor;
 
 /// A Python module implemented in Rust.
 #[pymodule]

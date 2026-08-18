@@ -1,0 +1,140 @@
+# borscht: Rust checks + the differential test suite against torch.
+#
+# Deliberately NOT part of CI.yml -- that file is maturin-generated ("to update,
+# run maturin generate-ci github") and targets teeny/, so hand-written jobs
+# added there would be lost on the next regeneration.
+name: borscht
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'borscht/**'
+      - '.github/workflows/borscht.yml'
+  pull_request:
+    paths:
+      - 'borscht/**'
+      - '.github/workflows/borscht.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: borscht-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: borscht
+
+env:
+  # CPU-only index: the default PyPI linux torch wheel drags in ~2GB of
+  # nvidia-* deps that nothing here uses.
+  TORCH_INDEX: https://download.pytorch.org/whl/cpu
+
+jobs:
+  rust:
+    name: rust
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: borscht
+      - name: fmt
+        run: cargo fmt --check
+      - name: clippy
+        run: cargo clippy --all-targets -- -D warnings
+      - name: test
+        run: cargo test
+
+  oracle:
+    # The gate with teeth *today*.  borscht is still mostly todo!(), so the real
+    # suite below is all-skip and would go green no matter what.  This runs the
+    # same tests with borscht aliased to torch (see borscht/oracle/), which
+    # proves the suite encodes correct torch semantics as it grows.
+    # Needs no Rust build -- it never imports the compiled module.
+    name: oracle (suite vs torch)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Install deps
+        run: |
+          uv python install 3.14
+          uv venv --python 3.14
+          echo "VIRTUAL_ENV=$PWD/.venv" >> "$GITHUB_ENV"
+          echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
+          uv pip install pytest numpy
+          uv pip install torch --index-url "$TORCH_INDEX"
+      - name: Run suite with borscht := torch
+        env:
+          PYTHONPATH: ${{ github.workspace }}/borscht/oracle
+          BORSCHT_STRICT: '1'
+        run: pytest -q
+
+  tests:
+    name: tests (borscht vs torch)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: borscht
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Install deps
+        run: |
+          uv python install 3.14
+          uv venv --python 3.14
+          echo "VIRTUAL_ENV=$PWD/.venv" >> "$GITHUB_ENV"
+          echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
+          uv pip install pytest numpy maturin
+          uv pip install torch --index-url "$TORCH_INDEX"
+      # Note: not `uv run`. In a directory with pyproject.toml that enters uv's
+      # project mode and re-syncs .venv to the declared deps, which would evict
+      # the torch/pytest installed above. VIRTUAL_ENV + PATH is what maturin
+      # develop needs anyway.
+      - name: Build and install borscht
+        run: maturin develop
+      # Unimplemented ops skip rather than fail, so this stays green while
+      # borscht is built out -- it guards imports, collection, and every op
+      # already landed.  Set BORSCHT_STRICT=1 here once the suite is expected
+      # to pass outright, and skips become failures.
+      - name: pytest
+        shell: bash
+        run: pytest -q -rs 2>&1 | tee /tmp/pytest.out
+      - name: Progress summary
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo '## borscht vs torch'
+            echo
+            echo '| result | count |'
+            echo '| --- | --- |'
+            for k in passed failed skipped error; do
+              n=$(grep -oE "[0-9]+ $k" /tmp/pytest.out | tail -1 | grep -oE '^[0-9]+' || true)
+              [ -n "$n" ] && echo "| $k | $n |"
+            done
+            pending=$(grep -oE 'borscht missing: [a-zA-Z_, ]+' /tmp/pytest.out \
+                      | sed 's/borscht missing: //' | tr ',' '\n' \
+                      | sed 's/^ *//;s/ *$//' | sort -u | grep -v '^$' || true)
+            if [ -n "$pending" ]; then
+              echo
+              echo '<details><summary>ops still pending</summary>'
+              echo
+              echo '```'
+              echo "$pending"
+              echo '```'
+              echo '</details>'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

@@ -14,7 +14,12 @@ dynamic = ["version"]
 [project.optional-dependencies]
 tests = [
     "pytest",
+    "torch",  # reference implementation the linalg suite is checked against
+    "numpy",  # comparison/tolerance checks in conftest.py
 ]
+[tool.pytest.ini_options]
+testpaths = ["python/tests"]
+
 [tool.maturin]
 python-source = "python"
 exclude = [
