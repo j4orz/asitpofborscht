@@ -164,7 +164,11 @@ $$
 \end{array}
 \right\}
 &
-\href{https://www.youtube.com/playlist?list=PLoROMvodv4rOaMFbaqxPDoLWjDaRAdP9D}{\text{Stanford CS224N}} \\[0.6em]
+\href{https://www.youtube.com/playlist?list=PLoROMvodv4rOaMFbaqxPDoLWjDaRAdP9D}{\text{Stanford CS224N}},\ 
+\href{https://www.youtube.com/playlist?list=PLUl4u3cNGP63URZnh5iqBzDTDYPUTQT-8}{\text{MIT 6.7960}},\
+\href{https://www.youtube.com/playlist?list=PLUl4u3cNGP62EaLLH92E_VCN4izBKK6OE}{\text{MIT 18.S096}}
+
+\\[0.6em]
 
 \left.
 \begin{array}{ll}
