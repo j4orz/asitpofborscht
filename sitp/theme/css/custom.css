@@ -1082,6 +1082,12 @@ html.ayu img.neuron {
   content: url("../../assets/neuron_dark.png");
 }
 
+html.coal img.ffn,
+html.navy img.ffn,
+html.ayu img.ffn {
+  content: url("../../assets/ffn.png");
+}
+
 html.coal img.neuron_linreg,
 html.navy img.neuron_linreg,
 html.ayu img.neuron_linreg {
