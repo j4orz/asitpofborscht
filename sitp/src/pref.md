@@ -107,6 +107,7 @@ AI is the rocketship for our minds.
 <!--
 - alan kay, lisp's interpreter is like maxwells equations
 - everyone should also implement back propagation
+- and a mingpt https://karpathy.github.io/2026/02/12/microgpt/
 
 -->
 
