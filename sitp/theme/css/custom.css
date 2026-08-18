@@ -1085,7 +1085,19 @@ html.ayu img.neuron {
 html.coal img.ffn,
 html.navy img.ffn,
 html.ayu img.ffn {
-  content: url("../../assets/ffn.png");
+  content: url("../../assets/ffn_dark.png");
+}
+
+html.coal img.ffn_circuit,
+html.navy img.ffn_circuit,
+html.ayu img.ffn_circuit {
+  content: url("../../assets/ffn_circuit_dark.png");
+}
+
+html.coal img.ffn_matmul,
+html.navy img.ffn_matmul,
+html.ayu img.ffn_matmul {
+  content: url("../../assets/ffn_matmul_dark.png");
 }
 
 html.coal img.neuron_linreg,
