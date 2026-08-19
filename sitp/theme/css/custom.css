@@ -308,7 +308,12 @@ blockquote .sidenote {
   position: absolute;
   left: calc(-1 * var(--margin-note-offset));
   width: 35%;
-  margin-top: 0.3rem;
+  /* `--margin-note-raise` lifts one note off the line it would otherwise take,
+     for when a tall item hangs lower than the things it sits beside. Set it
+     per-note in the markdown (`style="--margin-note-raise: 48px"`); the restack
+     sweep in custom.js carries it through, which a plain inline `margin-top`
+     would not survive — the sweep clears that property on every pass. */
+  margin-top: calc(0.3rem - var(--margin-note-raise, 0px));
   margin-bottom: 0;
   font-size: 1.2rem;
   line-height: 1.3;
@@ -364,6 +369,55 @@ img.icon {
   /* Matches the muted weight of the caption line itself rather than competing
      with the link text it introduces. */
   opacity: 0.75;
+}
+
+/* == Gutter figures ========================================================
+   A picture hung out in a margin beside the passage it belongs to, rather than
+   set as a figure inside the measure. Same gutters the notes use, so a figure
+   shares their edge and the page keeps one margin: see the
+   `--margin-note-offset` comment above.
+
+   Left and right are built differently, and deliberately so — each side copies
+   the note that already lives there, which is what buys correct collision
+   behaviour for free. The left gutter is absolutely-positioned notes swept by
+   custom.js, so a left figure is absolute and joins that sweep. The right
+   gutter is floats stacked by `clear: right`, so a right figure is a float and
+   stacks with the sidenotes on its own.
+
+   Authored as inline spans on the line whose vertical position the figure
+   should take — for a figure flanking a section title, the `<small>` table-of-
+   contents line right under it. Deliberately NOT inside the heading itself:
+   mdBook slugs heading text into the anchor id, and a heading is not a place to
+   hide layout.
+
+       <small>[...](#i-table-of-contents)</small><span class="gutter-figure
+       gutter-figure-left"><img src="./assets/shannon.png" alt="..."></span>
+
+   Photographic cutouts on transparency need no `_dark` twin the way the drawn
+   `.png` figures do — a cutout carries no background to clash with the theme. */
+.gutter-figure {
+  width: 35%;
+  margin-top: calc(0.3rem - var(--margin-note-raise, 0px));
+  margin-bottom: 0;
+}
+
+.gutter-figure-left {
+  position: absolute;
+  left: calc(-1 * var(--margin-note-offset));
+}
+
+.gutter-figure-right {
+  float: right;
+  clear: right;
+  margin-right: calc(-1 * var(--margin-note-offset));
+}
+
+/* Beats the icon sizing in `.defnote img, img.icon` above, which exists for
+   glyphs riding inline with text — a gutter figure is a picture, not an icon. */
+.gutter-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 /* Clickable defnotes: behave like header anchors (click updates URL hash). */
@@ -632,7 +686,8 @@ html.ayu  .nb-out-img .nb-img-light { display: none; }
 @media (max-width: 1000px) {
   .sidenote,
   .defnote,
-  .lecnote {
+  .lecnote,
+  .gutter-figure {
     display: none;
   }
 

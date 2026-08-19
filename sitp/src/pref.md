@@ -51,7 +51,7 @@ to a frontier model report such as the frontier technical report of [The Llama 3
 $$
 \begin{aligned}
 \text{SITP}&: \href{https://dcic-world.org/}{\text{DCIC}} \times \href{https://rust-book.cs.brown.edu/}{\text{TRPL}} \to \href{https://arxiv.org/pdf/2407.21783}{\text{LLAMA3}} \times \href{https://huggingface.co/spaces/nanotron/ultrascale-playbook}{\text{USPB}} \\
-\text{SITP} &:= \href{https://htdp.org/}{\text{HTDP}}(\href{https://web.stanford.edu/~jurafsky/slp3/}{\text{SLP}}, \href{https://www.bishopbook.com/}{\text{DL}}, \href{https://people.csail.mit.edu/jsolomon/share/book/numerical_book.pdf}{\text{NA}}, \href{https://theartofhpc.com/}{\text{TAOHPC}}, \href{https://epubs.siam.org/doi/book/10.1137/1.9781611972078}{\text{TAODCP}}, \href{https://shop.elsevier.com/books/programming-massively-parallel-processors/hwu/978-0-443-43900-1}{\text{PMPP}})
+\text{SITP} &:= \href{https://htdp.org/}{\text{HTDP}}(\href{https://web.stanford.edu/~jurafsky/slp3/}{\text{SLP}}, \href{https://www.bishopbook.com/}{\text{DL}}, \href{http://incompleteideas.net/book/the-book-2nd.html}{\text{RL}}, \href{https://people.csail.mit.edu/jsolomon/share/book/numerical_book.pdf}{\text{NA}}, \href{https://theartofhpc.com/}{\text{TAOHPC}}, \href{https://epubs.siam.org/doi/book/10.1137/1.9781611972078}{\text{TAODCP}}, \href{https://shop.elsevier.com/books/programming-massively-parallel-processors/hwu/978-0-443-43900-1}{\text{PMPP}})
 \end{aligned}
 $$
 
@@ -111,6 +111,36 @@ AI is the rocketship for our minds.
 
 -->
 
+<br><br><br><br><br><br>
+
+<div class="dual">
+
+<div>
+
+[**Karpathy's LLM101n Syllabus**](https://github.com/karpathy/LLM101n)
+
+- Chapter 01 **Bigram Language Model** (language modeling)
+- Chapter 02 **Micrograd** (machine learning, backpropagation)
+- Chapter 03 **N-gram model** (multi-layer perceptron, matmul, gelu)
+- Chapter 04 **Attention** (attention, softmax, positional encoder)
+- Chapter 05 **Transformer** (transformer, residual, layernorm, GPT-2)
+- Chapter 06 **Tokenization** (minBPE, byte pair encoding)
+- Chapter 07 **Optimization** (initialization, optimization, AdamW)
+- Chapter 08 **Need for Speed I: Device** (device, CPU, GPU, ...)
+- Chapter 09 **Need for Speed II: Precision** (mixed precision training, fp16, bf16, fp8, ...)
+- Chapter 10 **Need for Speed III: Distributed** (distributed optimization, DDP, ZeRO)
+- Chapter 11 **Datasets** (datasets, data loading, synthetic data generation)
+- Chapter 12 **Inference I: kv-cache** (kv-cache)
+- Chapter 13 **Inference II: Quantization** (quantization)
+- Chapter 14 **Finetuning I: SFT** (supervised finetuning SFT, PEFT, LoRA, chat)
+- Chapter 15 **Finetuning II: RL** (reinforcement learning, RLHF, PPO, DPO)
+- Chapter 16 **Deployment** (API, web app)
+- Chapter 17 **Multimodal** (VQVAE, diffusion transformer)
+</div>
+
+<div>
+
+**SITP's Syllabus**
 
 $$
 \begin{array}{ll}
@@ -210,6 +240,9 @@ $$
 
 \end{array}
 $$
+</div>
+
+</div>
 
 
 Jeffrey Zhang<br>
