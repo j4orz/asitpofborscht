@@ -151,9 +151,16 @@ document.addEventListener("DOMContentLoaded", function () {
 // so the two tie on `top`; the sort below is stable, so document order breaks
 // the tie and the lecture lands directly under the label it belongs to. Write
 // the lecnote after the defnote and the pairing needs no other machinery.
+//
+// A .gutter-figure-left is swept too — it is the tallest thing the gutter
+// holds, and a term landing on top of a picture is the one collision here that
+// cannot be read around. The cost is that notes clearing a tall figure drift
+// from the lines of their terms, so hang a figure beside a passage with few
+// definitions in it. (The right gutter needs no equivalent: a
+// .gutter-figure-right is a float and stacks with the sidenotes by itself.)
 document.addEventListener("DOMContentLoaded", function () {
   const defnotes = Array.prototype.slice.call(
-    document.querySelectorAll(".defnote, .lecnote")
+    document.querySelectorAll(".defnote, .lecnote, .gutter-figure-left")
   );
   if (defnotes.length === 0) return;
 
@@ -187,7 +194,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const placedTop = Math.max(item.top, prevBottom + GAP);
       const delta = placedTop - item.top;
       if (delta > 0.5) {
-        item.note.style.marginTop = "calc(0.3rem + " + delta + "px)";
+        item.note.style.marginTop =
+          "calc(0.3rem - var(--margin-note-raise, 0px) + " + delta + "px)";
       }
       prevBottom = placedTop + item.height;
     });
