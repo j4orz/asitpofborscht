@@ -138,16 +138,22 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// Keep defnotes from overlapping in the margin. Each .defnote is absolutely
-// positioned at the static top of its term's line, so terms that sit on the
-// same line — or on close lines with multi-line labels — collide. We sweep the
-// notes top-to-bottom and push any note that would overlap the previous one
-// down to clear its bottom (plus a gap), using each label's real measured
-// height so tall multi-line labels reserve the space they need. Runs on load
-// and resize since wrapping changes which terms collide.
+// Keep left-margin notes from overlapping. Each .defnote and .lecnote is
+// absolutely positioned at the static top of its term's line, so terms that sit
+// on the same line — or on close lines with multi-line labels — collide. We
+// sweep the notes top-to-bottom and push any note that would overlap the
+// previous one down to clear its bottom (plus a gap), using each label's real
+// measured height so tall multi-line labels reserve the space they need. Runs
+// on load and resize since wrapping changes which terms collide.
+//
+// This sweep is also what attaches a lecture to its term. A .lecnote authored
+// right after a term's .defnote takes its static position from the same line,
+// so the two tie on `top`; the sort below is stable, so document order breaks
+// the tie and the lecture lands directly under the label it belongs to. Write
+// the lecnote after the defnote and the pairing needs no other machinery.
 document.addEventListener("DOMContentLoaded", function () {
   const defnotes = Array.prototype.slice.call(
-    document.querySelectorAll(".defnote")
+    document.querySelectorAll(".defnote, .lecnote")
   );
   if (defnotes.length === 0) return;
 
@@ -545,23 +551,41 @@ document.addEventListener("DOMContentLoaded", function () {
   const sidenotes = Array.prototype.slice
     .call(document.querySelectorAll(".sidenote"))
     .filter(function (sn) { return !sn.closest(".box-notes"); });
-  if (sidenotes.length === 0) return;
+  // Lectures hang in the left gutter, which mobile does not have. A .defnote
+  // may simply disappear there — it only repeats a term that is already inline
+  // in the sentence — but a lecture link is content with nowhere else to be, so
+  // it lands here instead. Its own list, not the sidenotes' <ol>: a lecture
+  // carries no marker in the text, and numbering it would walk that list out of
+  // step with the .sidenote-number markers the reader is actually tapping.
+  const lecnotes = Array.prototype.slice.call(
+    document.querySelectorAll(".lecnote")
+  );
+  if (sidenotes.length === 0 && lecnotes.length === 0) return;
+
+  function buildList(tag, notes) {
+    const list = document.createElement(tag);
+    notes.forEach(function (n) {
+      const li = document.createElement("li");
+      li.innerHTML = n.innerHTML;
+      list.appendChild(li);
+    });
+    return list;
+  }
 
   function buildSection() {
     const section = document.createElement("section");
     section.className = "mobile-sidenotes";
 
-    const heading = document.createElement("h6");
-    heading.textContent = "Sidenotes";
-    section.appendChild(heading);
+    function addBlock(title, tag, notes) {
+      if (notes.length === 0) return;
+      const heading = document.createElement("h6");
+      heading.textContent = title;
+      section.appendChild(heading);
+      section.appendChild(buildList(tag, notes));
+    }
 
-    const ol = document.createElement("ol");
-    sidenotes.forEach(function (sn) {
-      const li = document.createElement("li");
-      li.innerHTML = sn.innerHTML;
-      ol.appendChild(li);
-    });
-    section.appendChild(ol);
+    addBlock("Sidenotes", "ol", sidenotes);
+    addBlock("Lectures", "ul", lecnotes);
     return section;
   }
 
@@ -722,7 +746,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // that is stripped.
     const source = blurb.cloneNode(true);
     source
-      .querySelectorAll(".defnote, .sidenote, .sidenote-number")
+      .querySelectorAll(".defnote, .lecnote, .sidenote, .sidenote-number")
       .forEach(function (n) {
         n.remove();
       });

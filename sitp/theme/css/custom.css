@@ -293,7 +293,18 @@ blockquote .sidenote {
    Absolute + auto top keeps the note's vertical static position (the line
    where the span sits in flow), while left/width place it in the margin.
    Requires a positioned containing block: see `.content main` below. */
-.defnote {
+/* Pinned the same way, and deliberately the same shape: a `.lecnote` is the
+   lecture behind a term, hung in the same left gutter as the term itself.
+   Authored as the defnote's SIBLING, never nested inside it — a nested span
+   would land the refine ladder inside the note's first inner tag (mdbook-refine
+   closes a defnote at the next `</span>`) and would fold the lecture title into
+   the slugged anchor id in custom.js. Sharing the line is what connects the two:
+   both take their static position from the same line of text, so the restack
+   sweep below drops the lecture just under its label with nothing else to say
+   so. That is also why one class covers both cases — a lecnote with no defnote
+   beside it (the M.L.E. lecture in §1.2.4) simply stands on its own line. */
+.defnote,
+.lecnote {
   position: absolute;
   left: calc(-1 * var(--margin-note-offset));
   width: 35%;
@@ -306,7 +317,8 @@ blockquote .sidenote {
   opacity: 0.55;
 }
 
-blockquote .defnote {
+blockquote .defnote,
+blockquote .lecnote {
   left: calc(-1 * var(--margin-note-offset) - 20px);
 }
 
@@ -331,6 +343,27 @@ img.icon {
      supplies the gap. Adding margin here doubled it. An icon placed before
      plain prose instead needs its own space in the markdown. */
   margin-right: 0;
+}
+
+/* Lecture-video markers. mdBook 0.5 bundles Font Awesome Free 6.2.0 and inlines
+   it through the `{{fa}}` handlebars helper, but that helper only runs over the
+   theme templates — chapter markdown is rendered to HTML before it ever reaches
+   handlebars, so `{{fa}}` written in a `.md` comes out literally. The icon is
+   therefore pasted as a raw `<svg>` at each video caption, wrapped in the same
+   `.fa-svg` span mdBook's own chrome uses so its `width/height: 1em` and
+   `fill: currentColor` (css/general.css) apply for free. currentColor is the
+   point: unlike the `.png` icons this needs no `_dark` twin to survive ayu.
+   `.video-icon` only adds what the caption context needs — a touch more size
+   than the surrounding text and a real gap, since a caption is plain prose and
+   not the inline `code` span that `img.icon` leans on for its spacing. */
+.fa-svg.video-icon svg {
+  width: 1.1em;
+  height: 1.1em;
+  vertical-align: -0.18em;
+  margin-right: 0.4em;
+  /* Matches the muted weight of the caption line itself rather than competing
+     with the link text it introduces. */
+  opacity: 0.75;
 }
 
 /* Clickable defnotes: behave like header anchors (click updates URL hash). */
@@ -598,7 +631,8 @@ html.ayu  .nb-out-img .nb-img-light { display: none; }
 
 @media (max-width: 1000px) {
   .sidenote,
-  .defnote {
+  .defnote,
+  .lecnote {
     display: none;
   }
 
@@ -625,11 +659,24 @@ html.ayu  .nb-out-img .nb-img-light { display: none; }
     margin-bottom: 0.5rem;
   }
 
-  .mobile-sidenotes ol {
+  .mobile-sidenotes ol,
+  .mobile-sidenotes ul {
     font-size: 1.2rem;
     line-height: 1.4;
     padding-left: 1.5rem;
     margin: 0;
+  }
+
+  /* The lecture list follows the sidenote list under its own heading rather
+     than joining it: dropping unnumbered items into that <ol> would walk its
+     numbering out of step with the .sidenote-number markers in the text. */
+  .mobile-sidenotes h6 + ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .mobile-sidenotes ol + h6 {
+    margin-top: 1rem;
   }
 
   .dual {
@@ -1086,6 +1133,12 @@ html.coal img.ffn,
 html.navy img.ffn,
 html.ayu img.ffn {
   content: url("../../assets/ffn_dark.png");
+}
+
+html.coal img.transformer,
+html.navy img.transformer,
+html.ayu img.transformer {
+  content: url("../../assets/transformer_dark.png");
 }
 
 html.coal img.ffn_circuit,
