@@ -335,6 +335,29 @@ blockquote .lecnote {
   left: calc(-1 * var(--margin-note-offset) - 20px);
 }
 
+/* A third-party embed hung in the left gutter — so far only the tweet behind
+   the preface's research question. Written as a block `<div>` after the
+   paragraph rather than as an inline span on a line: the widget replaces the
+   authored `<blockquote>` with an iframe of its own, which cannot live inside
+   an inline box. It takes `.defnote`'s absolute placement in the gutter but
+   none of its prose treatment — a card is a picture, like a `.gutter-figure`,
+   so it keeps full opacity instead of the 0.55 muting the note apparatus wears,
+   and it hugs the gutter's right edge, against the measure, when the widget
+   renders narrower than the 35% column. `!important` beats the inline styles
+   the widget writes onto its own element. custom.js re-sweeps the stack once
+   the iframe swaps in (see the ResizeObserver in the restack block); the card
+   goes away with the rest of the gutter under 1000px, which is why the same
+   quote also stands as an ordinary numbered sidenote in the prose. */
+.defnote-embed {
+  opacity: 1;
+}
+
+.defnote-embed .twitter-tweet,
+.defnote-embed twitter-widget {
+  margin-left: auto !important;
+  margin-right: 0 !important;
+}
+
 /* An illustration set as an icon riding inline with the text rather than as a
    figure: images in a defnote (always icon-sized, the margin has no room for a
    figure) plus anything opting in with `class="icon"` in running prose. Height

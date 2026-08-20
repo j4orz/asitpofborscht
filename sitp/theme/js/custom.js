@@ -99,8 +99,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Give each defnote a slug id and make it clickable like an mdbook header,
 // so clicking it updates the URL hash to that id (and the id is linkable).
+// A `.defnote-embed` sits this out: it repeats no term, so its slug would be a
+// whole quotation, and the hijacked click would swallow taps on the links the
+// embed's own fallback markup carries before the widget swaps itself in.
 document.addEventListener("DOMContentLoaded", function () {
-  const defnotes = document.querySelectorAll(".defnote");
+  const defnotes = document.querySelectorAll(".defnote:not(.defnote-embed)");
   if (defnotes.length === 0) return;
 
   function slugify(text) {
