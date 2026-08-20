@@ -283,6 +283,14 @@ p.em-only {
   line-height: 1.3;
 }
 
+/* The title page's two notes hang off lines only a few rows apart, so they
+   float into the gutter back to back and read as one run-on block. Give them a
+   blank line between. Front matter only: in the chapters the prose between two
+   notes already spaces their floats apart. */
+.sidenote.front-note {
+  margin-bottom: 1rem;
+}
+
 /* A blockquote insets its own content, so its notes push out by that inset
    again to land back on the shared gutter edge. */
 blockquote .sidenote {
@@ -1044,33 +1052,30 @@ p:has(+ ul) {
 
    Only the FIRST paragraph's FIRST letter is styled; the letter must be an
    uppercase A-Z (the only glyphs yinit provides). `::first-letter` honors just
-   font/float/margin/color/line-height, which is all we need here. */
+   font/float/margin/color/line-height, which is all we need here.
+
+   Sized as a plain float rather than with `initial-letter`, gwern's technique.
+   The two engines that implement initial-letter disagree badly on how big an
+   N-line cap is: for a 4-line cap Blink scales the glyph so ~0.77em of it spans
+   the four lines, WebKit so 1.2em does (it goes off ascent+descent, and yinit
+   caps fill their em box). Same declaration, and Safari/iPadOS drew the cap
+   ~40% smaller than Chrome. An em font-size is the one sizing every engine
+   agrees on: measured across Blink and WebKit the glyph below lands within 2%.
+
+   The two numbers are a pair, tuned against the old Chrome rendering:
+   7.6em reproduces its glyph height (125px ink), and 0.74 line-height makes the
+   float box 5.62em, just under the 4 body lines (4 x 1.45em = 5.8em) it has to
+   clear, so exactly four lines wrap around the cap. Retune both together if the
+   body line-height ever moves off 1.45. */
 .dropcap > p:first-of-type::first-letter {
   font-family: "Yinit", serif;
   font-weight: normal;
   font-style: normal;
   color: var(--fg);
-  /* Fallback for browsers without initial-letter (e.g. Firefox): float the
-     oversized glyph. Top isn't baseline-snapped, but it's serviceable. */
   float: left;
-  font-size: 4.3em;
-  line-height: 0.78;
-  margin: 0.02em 0.12em 0 -0.06em;
-}
-
-/* gwern's actual technique: initial-letter snaps the cap squarely into the text
-   block — cap-height to the top of line 1, baseline to line 4 — so it reads as a
-   clean rectangle rather than a floated glyph poking above the first line.
-   Supported in Chrome/Safari; the float above covers the rest. */
-@supports (initial-letter: 4) or (-webkit-initial-letter: 4) {
-  .dropcap > p:first-of-type::first-letter {
-    float: none;
-    font-size: inherit;
-    line-height: 1;
-    -webkit-initial-letter: 4;
-    initial-letter: 4;
-    margin: 0 0.12em 0 -0.04em;
-  }
+  font-size: 7.6em;
+  line-height: 0.74;
+  margin: 0 0.12em 0 -0.04em;
 }
 
 /* gwern's signature lead-in: the first rendered line set in small caps. Because
