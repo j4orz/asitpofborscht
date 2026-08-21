@@ -19,7 +19,7 @@ and ending with programming their own programming languages with virtual interpr
 
 </div>
 
-My alma matter was amongst those which took the SICP approach<span class="sidenote-number"></span><span class="sidenote">*Actually it's Scheming dual, [HtDP](https://htdp.org/). Thank you [Professor. Vasiga](https://cs.uwaterloo.ca/~tmjvasig/), and [Professor Ragde](https://cs.uwaterloo.ca/~plragde/flaneries/) for bringing over HtDP to Waterloo.*</span>, and as intended,
+My alma matter was amongst those which took the SICP approach<span class="sidenote-number"></span><span class="sidenote">*Actually it's Scheming dual, [HtDP (Felleisen, Findler, Flatt, Krishnamurthi (2014))](https://htdp.org/). Thank you [Professor. Vasiga](https://cs.uwaterloo.ca/~tmjvasig/), and [Professor Ragde](https://cs.uwaterloo.ca/~plragde/flaneries/) for bringing over HtDP to Waterloo.*</span>, and as intended,
 for someone coming into first year college have taken computer science in high school, it blew my mind.
 After graduating college in 2022, I followed my curiosity for diving deeper into the souls of our machine by going on to developing industrial languages and
 runtimes.<span class="sidenote-number"></span><span class="sidenote">*"There is only one project, architecture, operating system and languages, compiler, it's only one project. It's all together." -- Boris Babayan*</span>.
@@ -42,6 +42,24 @@ The one thought I could not get out of my head was *where is the SICP for softwa
 While I found two excellent resources on building your own torch-like autograd by Tianqi Chen at Carnegie Mellon and Sasha Rush at Cornell,
 I personally would have enjoyed a more unified resource that took me from math, to deep learning, to deep learning systems in a single unbroken sequence of thought,
 and perhaps others would feel similarly. That is the genesis story for this book, whose central research question is the following: **What does the SICP for Deep Learning look like**?<span class="sidenote-number"></span><span class="sidenote">*"We really could use a SICP for DL. We have the Little Lisper for DL ([thelittlelearner.com](https://www.thelittlelearner.com/)) but that's a different type of book entirely." -- [@ShriramKMurthi, May 3, 2026](https://x.com/ShriramKMurthi/status/2051049923617968353)*</span>
+
+<div class="defnote defnote-embed"><blockquote class="twitter-tweet" data-conversation="none" data-width="300"><p lang="en" dir="ltr">We really could use a SICP for DL. We have the Little Lisper for DL (<a href="https://t.co/su31hFJeUe">https://t.co/su31hFJeUe</a>) but that&#39;s a different type of book entirely.</p>&mdash; Shriram Krishnamurthi (primary: Bluesky) (@ShriramKMurthi) <a href="https://x.com/ShriramKMurthi/status/2051049923617968353?ref_src=twsrc%5Etfw">May 3, 2026</a></blockquote></div>
+<script>
+  // Stamp the card dark before widgets.js renders it: the widget reads
+  // data-theme once, at render time, so a stylesheet cannot reach inside the
+  // iframe afterwards. mdBook has already put its theme class on <html> by the
+  // time this runs (see the head script in theme/index.hbs), and this script is
+  // synchronous while widgets.js is async, so the attribute is always in place
+  // first. Switching themes without a reload leaves the card as it was rendered.
+  (function () {
+    var t = document.documentElement.classList;
+    if (!t.contains("coal") && !t.contains("navy") && !t.contains("ayu")) return;
+    document.querySelectorAll(".defnote-embed .twitter-tweet").forEach(function (q) {
+      q.setAttribute("data-theme", "dark");
+    });
+  })();
+</script>
+<script async src="https://platform.x.com/widgets.js" charset="utf-8"></script>
 
 Put shortly, SITP as a book is a function that maps learners from the product type of
 an introductory computer science book such as [DCIC (Fisler, Krishnamurthi, Lerner, Politz)](https://dcic-world.org/) and an introductory systems programming book such as [TRPL (Klabnick, Nichols, Krycho)]()
