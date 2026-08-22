@@ -291,6 +291,18 @@ p.em-only {
   margin-bottom: 1rem;
 }
 
+/* A float whose parent is an *inline* box gets hit-tested as part of that
+   inline, so the inline's own fragment ends up over everything preceding the
+   float on that line. On the title page the "Jeffrey Zhang" link sits in the
+   same `<em>` as the sidenote that follows it, so the `<em>` swallowed every
+   click on it — the link was styled and hrefed, just unreachable. Positioned
+   descendants paint after floats, so giving those links a layer of their own
+   hands the clicks back. Only links *before* the note in the same inline are
+   affected; ones after it, or outside the emphasis, always worked. */
+:is(em, strong, small, b, i):has(.sidenote, .defnote, .lecnote, .gutter-figure) a {
+  position: relative;
+}
+
 /* A blockquote insets its own content, so its notes push out by that inset
    again to land back on the shared gutter edge. */
 blockquote .sidenote {
