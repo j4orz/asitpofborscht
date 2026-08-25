@@ -24,7 +24,7 @@
 
 
 [![GitHub Repo stars](https://img.shields.io/github/stars/j4orz/teenygrad)](https://github.com/j4orz/teenygrad)
-[![YouTube Channel Views](https://img.shields.io/youtube/channel/views/UChjlYGbn1bX7gXLq9c9dnBg)](https://www.youtube.com/@j4orz/videos)
+[![YouTube](https://img.shields.io/badge/YouTube-%40j4orz-red?logo=youtube&logoColor=white)](https://www.youtube.com/@j4orz/videos)
 [![](https://dcbadge.limes.pink/api/server/gpumode?style=flat)](https://discord.com/channels/1189498204333543425/1373414141427191809)
 
 <div class="mobile-only">
