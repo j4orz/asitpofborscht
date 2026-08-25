@@ -577,7 +577,7 @@ img.icon {
   --nb-code-lh: 1.15;
   --nb-hl-bleed: 1rem;
 }
-html.coal, html.navy, html.ayu {
+html.coal, html.navy, html.ayu, html.green {
   --nb-prompt: #6bb3d6;
   --nb-in-bg: #1f2733;
   --nb-in-border: #33404f;
@@ -741,10 +741,12 @@ html.coal, html.navy, html.ayu {
 .nb-out-img .nb-img-dark { display: none; }
 html.coal .nb-out-img .nb-img-dark,
 html.navy .nb-out-img .nb-img-dark,
-html.ayu  .nb-out-img .nb-img-dark { display: block; }
+html.ayu  .nb-out-img .nb-img-dark,
+html.green .nb-out-img .nb-img-dark { display: block; }
 html.coal .nb-out-img .nb-img-light,
 html.navy .nb-out-img .nb-img-light,
-html.ayu  .nb-out-img .nb-img-light { display: none; }
+html.ayu  .nb-out-img .nb-img-light,
+html.green .nb-out-img .nb-img-light { display: none; }
 .nb-out-html { color: inherit; }
 
 .nb-error {
@@ -1188,12 +1190,14 @@ html.coal img.owl {
 }
 
 html.navy img.owl,
-html.ayu img.owl {
+html.ayu img.owl,
+html.green img.owl {
   content: url("../../assets/owl3.png");
 }
 
 html.navy img.owl-forest,
 html.ayu img.owl-forest,
+html.green img.owl-forest,
 html.coal img.owl-forest {
   content: url("../../assets/owl_forest2.png");
 }
@@ -1201,163 +1205,197 @@ html.coal img.owl-forest {
 /* Theme-dependent probability-space diagram, mirroring the owl swap above. */
 html.coal img.probspace,
 html.navy img.probspace,
-html.ayu img.probspace {
+html.ayu img.probspace,
+html.green img.probspace {
   content: url("../../assets/probspace_dark.png");
 }
 
 html.coal img.vector,
 html.navy img.vector,
-html.ayu img.vector {
+html.ayu img.vector,
+html.green img.vector {
   content: url("../../assets/vector_dark.png");
 }
 
 html.coal img.tensors,
 html.navy img.tensors,
-html.ayu img.tensors {
+html.ayu img.tensors,
+html.green img.tensors {
   content: url("../../assets/tensors_dark.png");
 }
 
 html.coal img.randvar,
 html.navy img.randvar,
-html.ayu img.randvar {
+html.ayu img.randvar,
+html.green img.randvar {
   content: url("../../assets/randvar_dark.png");
 }
 
 html.coal img.randproc,
 html.navy img.randproc,
-html.ayu img.randproc {
+html.ayu img.randproc,
+html.green img.randproc {
   content: url("../../assets/randproc_dark.png");
 }
 
 html.coal img.chain,
 html.navy img.chain,
-html.ayu img.chain {
+html.ayu img.chain,
+html.green img.chain {
   content: url("../../assets/chain_dark.png");
 }
 
 html.coal img.conditional,
 html.navy img.conditional,
-html.ayu img.conditional {
+html.ayu img.conditional,
+html.green img.conditional {
   content: url("../../assets/conditional_dark.png");
 }
 
 html.coal img.jointbars,
 html.navy img.jointbars,
-html.ayu img.jointbars {
+html.ayu img.jointbars,
+html.green img.jointbars {
   content: url("../../assets/jointbars_dark.png");
 }
 
 html.coal img.jointmatrix,
 html.navy img.jointmatrix,
-html.ayu img.jointmatrix {
+html.ayu img.jointmatrix,
+html.green img.jointmatrix {
   content: url("../../assets/jointmatrix_dark.png");
 }
 
 html.coal img.stochastic_matrix,
 html.navy img.stochastic_matrix,
-html.ayu img.stochastic_matrix {
+html.ayu img.stochastic_matrix,
+html.green img.stochastic_matrix {
   content: url("../../assets/stochastic_matrix_dark.png");
 }
 
 html.coal img.jointmatrixmarginal,
 html.navy img.jointmatrixmarginal,
-html.ayu img.jointmatrixmarginal {
+html.ayu img.jointmatrixmarginal,
+html.green img.jointmatrixmarginal {
   content: url("../../assets/jointmatrixmarginal_dark.png");
 }
 
 html.coal img.broadcast,
 html.navy img.broadcast,
-html.ayu img.broadcast {
+html.ayu img.broadcast,
+html.green img.broadcast {
   content: url("../../assets/broadcast_dark.png");
 }
 
 html.coal img.neuron,
 html.navy img.neuron,
-html.ayu img.neuron {
+html.ayu img.neuron,
+html.green img.neuron {
   content: url("../../assets/neuron_dark.png");
 }
 
 html.coal img.multiclass_logisticregression,
 html.navy img.multiclass_logisticregression,
-html.ayu img.multiclass_logisticregression {
+html.ayu img.multiclass_logisticregression,
+html.green img.multiclass_logisticregression {
   content: url("../../assets/multiclass_logisticregression_dark.png");
 }
 
 html.coal img.multiclass_logisticregression_circuit,
 html.navy img.multiclass_logisticregression_circuit,
-html.ayu img.multiclass_logisticregression_circuit {
+html.ayu img.multiclass_logisticregression_circuit,
+html.green img.multiclass_logisticregression_circuit {
   content: url("../../assets/multiclass_logisticregression_circuit_dark.png");
 }
 
 html.coal img.ffn,
 html.navy img.ffn,
-html.ayu img.ffn {
+html.ayu img.ffn,
+html.green img.ffn {
   content: url("../../assets/ffn_dark.png");
 }
 
 html.coal img.transformer,
 html.navy img.transformer,
-html.ayu img.transformer {
+html.ayu img.transformer,
+html.green img.transformer {
   content: url("../../assets/transformer_dark.png");
+}
+
+html.coal img.cpugpu,
+html.navy img.cpugpu,
+html.ayu img.cpugpu,
+html.green img.cpugpu {
+  content: url("../../assets/cpugpu_dark.svg");
 }
 
 html.coal img.ffn_circuit,
 html.navy img.ffn_circuit,
-html.ayu img.ffn_circuit {
+html.ayu img.ffn_circuit,
+html.green img.ffn_circuit {
   content: url("../../assets/ffn_circuit_dark.png");
 }
 
 html.coal img.ffn_matmul,
 html.navy img.ffn_matmul,
-html.ayu img.ffn_matmul {
+html.ayu img.ffn_matmul,
+html.green img.ffn_matmul {
   content: url("../../assets/ffn_matmul_dark.png");
 }
 
 html.coal img.neuron_linreg,
 html.navy img.neuron_linreg,
-html.ayu img.neuron_linreg {
+html.ayu img.neuron_linreg,
+html.green img.neuron_linreg {
   content: url("../../assets/neuron_linreg_dark.png");
 }
 
 html.coal img.discriminant_decisionbad,
 html.navy img.discriminant_decisionbad,
-html.ayu img.discriminant_decisionbad {
+html.ayu img.discriminant_decisionbad,
+html.green img.discriminant_decisionbad {
   content: url("../../assets/discriminant_decisionbad_dark.png");
 }
 
 html.coal img.discriminant_decision,
 html.navy img.discriminant_decision,
-html.ayu img.discriminant_decision {
+html.ayu img.discriminant_decision,
+html.green img.discriminant_decision {
   content: url("../../assets/discriminant_decision_dark.png");
 }
 
 html.coal img.discriminant_weight_bad,
 html.navy img.discriminant_weight_bad,
-html.ayu img.discriminant_weight_bad {
+html.ayu img.discriminant_weight_bad,
+html.green img.discriminant_weight_bad {
   content: url("../../assets/discriminant_weight_bad_dark.png");
 }
 
 html.coal img.discriminant_weight,
 html.navy img.discriminant_weight,
-html.ayu img.discriminant_weight {
+html.ayu img.discriminant_weight,
+html.green img.discriminant_weight {
   content: url("../../assets/discriminant_weight_dark.png");
 }
 
 html.coal img.semanticgap,
 html.navy img.semanticgap,
-html.ayu img.semanticgap {
+html.ayu img.semanticgap,
+html.green img.semanticgap {
   content: url("../../assets/semanticgap_dark.png");
 }
 
 html.coal img.venn,
 html.navy img.venn,
-html.ayu img.venn {
+html.ayu img.venn,
+html.green img.venn {
   content: url("../../assets/venn_dark.png");
 }
 
 html.coal img.venn_disjoint,
 html.navy img.venn_disjoint,
-html.ayu img.venn_disjoint {
+html.ayu img.venn_disjoint,
+html.green img.venn_disjoint {
   content: url("../../assets/venn_disjoint_dark.png");
 }
 
@@ -1374,7 +1412,7 @@ html.ayu img.venn_disjoint {
   --okabe-green: #008662;
   --okabe-purple: #a36186;
 }
-html.coal, html.navy, html.ayu {
+html.coal, html.navy, html.ayu, html.green {
   --okabe-orange: #e69f00;
   --okabe-blue: #56b4e9;
   --okabe-green: #35c79a;
@@ -1417,7 +1455,7 @@ html[data-colorkey="off"] {
 :root {
   --blockquote-question-color: #c9791f;
 }
-html.coal, html.navy, html.ayu {
+html.coal, html.navy, html.ayu, html.green {
   --blockquote-question-color: #e0a458;
 }
 
@@ -1528,21 +1566,22 @@ a.url-mono code {
 .example > :last-child { margin-bottom: 0.75em; }
 
 /* Dark themes: dim the tints so they read as panels, not glare. */
-html.coal .definition, html.navy .definition, html.ayu .definition {
+html.coal .definition, html.navy .definition, html.ayu .definition, html.green .definition {
   --snack-accent: #7fb3bf; --snack-title-bg: #22333a; --snack-body-bg: #1a262c;
 }
-html.coal .theorem, html.navy .theorem, html.ayu .theorem {
+html.coal .theorem, html.navy .theorem, html.ayu .theorem, html.green .theorem {
   --snack-accent: #e2707e; --snack-title-color: #f6d3d7; --snack-title-bg: #3a171b; --snack-body-bg: #2a1014;
 }
-html.coal .lemma, html.navy .lemma, html.ayu .lemma {
+html.coal .lemma, html.navy .lemma, html.ayu .lemma, html.green .lemma {
   --snack-accent: #e0975a; --snack-title-color: #f0d3b4; --snack-title-bg: #3a2814; --snack-body-bg: #2c1d10;
 }
-html.coal .example, html.navy .example, html.ayu .example {
+html.coal .example, html.navy .example, html.ayu .example, html.green .example {
   --snack-accent: #d0a94e; --snack-title-color: #e8d9b0; --snack-title-bg: #322c1c; --snack-body-bg: #262117;
 }
 html.coal :is(.definition,.theorem,.lemma,.example)[data-title]::before,
 html.navy :is(.definition,.theorem,.lemma,.example)[data-title]::before,
-html.ayu  :is(.definition,.theorem,.lemma,.example)[data-title]::before {
+html.ayu  :is(.definition,.theorem,.lemma,.example)[data-title]::before,
+html.green :is(.definition,.theorem,.lemma,.example)[data-title]::before {
   border-bottom-color: rgba(255, 255, 255, 0.08);
 }
 
@@ -1582,7 +1621,7 @@ html.ayu  :is(.definition,.theorem,.lemma,.example)[data-title]::before {
   font-size: 0.75em;
   color: inherit;
 }
-html.coal .box-notes, html.navy .box-notes, html.ayu .box-notes {
+html.coal .box-notes, html.navy .box-notes, html.ayu .box-notes, html.green .box-notes {
   border-top-color: rgba(255, 255, 255, 0.18);
 }
 
@@ -1658,7 +1697,8 @@ a.refine-dot:hover { opacity: 0.9; transform: scale(1.25); }
 .example > .refine-ladder-box + * { margin-top: 0.75em; }
 html.coal :is(.definition,.theorem,.lemma,.example) > .refine-ladder-box,
 html.navy :is(.definition,.theorem,.lemma,.example) > .refine-ladder-box,
-html.ayu  :is(.definition,.theorem,.lemma,.example) > .refine-ladder-box {
+html.ayu  :is(.definition,.theorem,.lemma,.example) > .refine-ladder-box,
+html.green :is(.definition,.theorem,.lemma,.example) > .refine-ladder-box {
   border-bottom-color: rgba(255, 255, 255, 0.08);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
@@ -1726,7 +1766,8 @@ html.ayu  :is(.definition,.theorem,.lemma,.example) > .refine-ladder-box {
 /* Dark themes: the black Wikipedia W would vanish — flip it to white. */
 html.coal .ref-item a[href*="wikipedia.org"]::before,
 html.navy .ref-item a[href*="wikipedia.org"]::before,
-html.ayu  .ref-item a[href*="wikipedia.org"]::before { filter: invert(1) brightness(1.7); }
+html.ayu  .ref-item a[href*="wikipedia.org"]::before,
+html.green .ref-item a[href*="wikipedia.org"]::before { filter: invert(1) brightness(1.7); }
 
 /* --------------------------------------------------------------------------
    Hover previews for numpy documentation links (behavior in theme/js/custom.js).
@@ -1779,4 +1820,354 @@ html.ayu  .ref-item a[href*="wikipedia.org"]::before { filter: invert(1) brightn
   font-size: 1.1rem;
   font-family: var(--mono-font, "Source Code Pro", monospace);
   opacity: 0.65;
+}
+
+
+/* == `green` theme ==========================================================
+   A sixth theme alongside mdBook's light / rust / coal / navy / ayu, styled
+   after Modal's GPU Glossary (https://modal.com/gpu-glossary): one bright
+   phosphor green on a near-black green ground, everything else a transparency
+   of that same green. The hexes below are lifted from the glossary's own
+   inline styles — #7FEE64 on #0D180A, with the 80% / 60% / 20% / 5% tints it
+   uses for secondary text, disabled text, hover, and surfaces.
+
+   Wiring: book.js builds its theme list from the buttons inside
+   #mdbook-theme-list, so the only other change needed is the <li> in
+   theme/index.hbs. There is no theme/css/variables.css in this repo — mdBook
+   ships its own, and this file is loaded after it, so `html.green` (which
+   outranks the built-in `.ayu`-style class selectors) is where the theme
+   lives. That also means every rule here must be written `html.green`, not
+   `.green`: the dark-theme groups further up this file are `html.coal,
+   html.navy, html.ayu, html.green`, and a bare `.green` would lose to them.
+
+   The green theme is a *dark* theme as far as the rest of this file is
+   concerned — it is listed in each of those groups, so it inherits the dark
+   figure swaps and dark component palettes, and then re-tints the ones that
+   would otherwise read as blue/amber panels floating on green.
+   -------------------------------------------------------------------------- */
+html.green {
+  --g-bg: #0d180a;
+  --g-fg: #7fee64;
+  --g-fg-80: rgba(127, 238, 100, 0.8);
+  --g-fg-60: rgba(127, 238, 100, 0.6);
+  --g-fg-40: rgba(127, 238, 100, 0.4);
+  --g-fg-20: rgba(127, 238, 100, 0.2);
+  --g-fg-10: rgba(127, 238, 100, 0.1);
+  --g-fg-05: rgba(127, 238, 100, 0.05);
+  /* The two non-green accents Modal's own palette allows itself. */
+  --g-pale: #c8f9b6;
+  --g-amber: #ffab5e;
+
+  /* --- mdBook's theme variables (same set as its .ayu block) ------------- */
+  --bg: var(--g-bg);
+  --fg: var(--g-fg);
+
+  --sidebar-bg: var(--g-bg);
+  --sidebar-fg: var(--g-fg-80);
+  --sidebar-non-existant: var(--g-fg-40);
+  --sidebar-active: var(--g-fg);
+  --sidebar-spacer: var(--g-fg-20);
+
+  --scrollbar: var(--g-fg-40);
+
+  --icons: var(--g-fg-60);
+  --icons-hover: var(--g-fg);
+
+  --links: var(--g-pale);
+
+  --inline-code-color: var(--g-amber);
+
+  --theme-popup-bg: var(--g-bg);
+  --theme-popup-border: var(--g-fg);
+  --theme-hover: var(--g-fg-20);
+
+  --quote-bg: var(--g-fg-05);
+  --quote-border: var(--g-fg-40);
+
+  --warning-border: var(--g-amber);
+
+  --table-border-color: var(--g-fg-40);
+  --table-header-bg: var(--g-fg-20);
+  --table-alternate-bg: var(--g-fg-05);
+
+  --searchbar-border-color: var(--g-fg-60);
+  --searchbar-bg: var(--g-bg);
+  --searchbar-fg: var(--g-fg);
+  --searchbar-shadow-color: var(--g-fg);
+  --searchresults-header-fg: var(--g-fg-60);
+  --searchresults-border-color: var(--g-fg-40);
+  --searchresults-li-bg: var(--g-fg-05);
+  --search-mark-bg: rgba(127, 238, 100, 0.35);
+
+  --color-scheme: dark;
+
+  /* The clipboard icon is recolored below by swapping the SVG's fill rather
+     than by an invert()/hue-rotate() stack, so these are inert. */
+  --copy-button-filter: none;
+  --copy-button-filter-hover: none;
+
+  --footnote-highlight: var(--g-fg-60);
+
+  --overlay-bg: rgba(13, 24, 10, 0.6);
+
+  --blockquote-note-color: var(--g-pale);
+  --blockquote-tip-color: var(--g-fg);
+  --blockquote-important-color: #ff8de6;
+  --blockquote-warning-color: var(--g-amber);
+  --blockquote-caution-color: #f87171;
+  --blockquote-question-color: var(--g-amber);
+
+  --sidebar-header-border-color: var(--g-fg-40);
+
+  /* Notebook cells (the coal/navy/ayu block above is blue-and-amber). */
+  --nb-prompt: var(--g-fg-60);
+  --nb-in-bg: var(--g-fg-05);
+  --nb-in-border: var(--g-fg-20);
+  --nb-out-color: var(--g-amber);
+  --nb-error-bg: #2a1113;
+  --nb-error-color: #f0a0a0;
+  --nb-stderr-bg: #241012;
+  --nb-hl-bg: rgba(127, 238, 100, 0.14);
+}
+
+html.green ::selection {
+  background-color: rgba(127, 238, 100, 0.2);
+}
+
+/* The glossary is drawn with 1px hairlines and hard corners throughout — no
+   rounding anywhere — so flatten the surfaces mdBook rounds by default. */
+html.green :is(pre,
+               code,
+               kbd,
+               .theme-popup,
+               #searchbar,
+               .searchresults-outer,
+               .definition,
+               .theorem,
+               .lemma,
+               .example,
+               .nb-in-code,
+               .nb-cell pre,
+               .doc-preview,
+               .quiz) {
+  border-radius: 0;
+}
+
+/* Menu bar and sidebar are separated from the text column by hairlines, and
+   the sidebar's own edge is the glossary's dashed rule: a 1px column of 6-on,
+   6-off green, painted as a repeating gradient rather than `border-style:
+   dashed` so the dash length doesn't drift between browsers. */
+html.green #mdbook-menu-bar {
+  border-bottom: 1px solid var(--g-fg-20);
+}
+
+html.green .sidebar {
+  background-image: linear-gradient(to bottom, var(--g-fg-40) 50%, transparent 50%);
+  background-size: 1px 12px;
+  background-position: right top;
+  background-repeat: repeat-y;
+}
+
+/* The active chapter is a filled chip — green ground, background-colored text —
+   the way the glossary marks the term you are reading. */
+html.green .chapter-link-wrapper:has(> a.active) {
+  background-color: var(--g-fg);
+}
+html.green .chapter li a.active {
+  color: var(--g-bg);
+}
+
+/* Everything in one typewriter face, the way the glossary sets its whole page
+   in degular-mono — here it is VS Code's default editor font, Menlo, with the
+   rest of that stack behind it for platforms that don't ship it. Prose,
+   chrome, and code all share the face, so the theme reads as one terminal
+   document. Redefining --mono-font rather than only `body` is what carries it
+   into code blocks and the `.nb-*` cells, which set that variable directly.
+
+   Math is unaffected: KaTeX renders from its own KaTeX_* faces and never
+   inherits `font-family` from the page. */
+html.green {
+  --mono-font: Menlo, Monaco, "Courier New", monospace;
+}
+
+html.green body {
+  font-family: var(--mono-font);
+}
+
+/* Clipboard button: mdBook's octicon has no `fill`, so it paints black and the
+   theme recolors it with a filter. Restating the icon with the fill baked in
+   is exact where a filter chain is an approximation. Path data is mdBook's
+   (octicons v2.0.0, MIT). */
+html.green pre > .buttons button.clip-button::before {
+  content: url('data:image/svg+xml,<svg width="21" height="20" viewBox="0 0 24 25" \
+xmlns="http://www.w3.org/2000/svg" fill="%237fee64" aria-label="Copy to clipboard">\
+<path d="M18 20h2v3c0 1-1 2-2 2H2c-.998 0-2-1-2-2V5c0-.911.755-1.667 1.667-1.667h5A3.323 3.323 0 \
+0110 0a3.323 3.323 0 013.333 3.333h5C19.245 3.333 20 4.09 20 5v8.333h-2V9H2v14h16v-3zM3 \
+7h14c0-.911-.793-1.667-1.75-1.667H13.5c-.957 0-1.75-.755-1.75-1.666C11.75 2.755 10.957 2 10 \
+2s-1.75.755-1.75 1.667c0 .911-.793 1.666-1.75 1.666H4.75C3.793 5.333 3 6.09 3 7z"/>\
+<path d="M4 19h6v2H4zM12 11H4v2h8zM4 17h4v-2H4zM15 15v-3l-4.5 4.5L15 21v-3l8.027-.032L23 15z"/>\
+</svg>');
+  opacity: 0.6;
+}
+html.green pre > .buttons button.clip-button:hover::before {
+  opacity: 1;
+}
+
+/* Snackbars: the shared dark palette tints these blue / red / amber, which
+   fights the monochrome. Here they are all the same green panel, told apart by
+   the accent stripe alone (pale green, green, amber, and the one non-green the
+   glossary uses for its "deprecated" chips). */
+html.green :is(.definition, .theorem, .lemma, .example) {
+  --snack-title-bg: var(--g-fg-10);
+  --snack-body-bg: var(--g-fg-05);
+  --snack-title-color: var(--g-pale);
+}
+html.green .definition { --snack-accent: var(--g-pale); }
+html.green .theorem    { --snack-accent: var(--g-fg); }
+html.green .lemma      { --snack-accent: var(--g-amber); }
+html.green .example    { --snack-accent: #ff8de6; }
+html.green :is(.definition, .theorem, .lemma, .example)[data-title]::before {
+  border-bottom-color: var(--g-fg-20);
+}
+html.green .box-notes {
+  border-top-color: var(--g-fg-20);
+}
+html.green :is(.definition, .theorem, .lemma, .example) > .refine-ladder-box {
+  border-bottom-color: var(--g-fg-20);
+  box-shadow: inset 0 1px 0 var(--g-fg-10);
+}
+
+/* Syntax highlighting. mdBook only swaps in tomorrow-night / ayu-highlight for
+   the themes it knows are dark (coal, navy, ayu); everything else gets the
+   light highlight.css, so `green` would otherwise render code as dark text on
+   a #f6f7f6 slab. Rather than teach book.js about a sixth theme, override the
+   token colors here — they need to be green-keyed anyway. Selector list
+   mirrors highlight.css's groups. */
+html.green .hljs {
+  background: var(--g-fg-05);
+  color: var(--g-fg);
+}
+html.green :is(.hljs-comment, .hljs-quote) {
+  color: var(--g-fg-40);
+  font-style: italic;
+}
+html.green :is(.hljs-variable,
+               .hljs-template-variable,
+               .hljs-attribute,
+               .hljs-attr,
+               .hljs-tag,
+               .hljs-name,
+               .hljs-regexp,
+               .hljs-link,
+               .hljs-selector-id,
+               .hljs-selector-class) {
+  color: var(--g-pale);
+}
+html.green :is(.hljs-number,
+               .hljs-meta,
+               .hljs-built_in,
+               .hljs-builtin-name,
+               .hljs-literal,
+               .hljs-type,
+               .hljs-params) {
+  color: #decb6c;
+}
+html.green :is(.hljs-string, .hljs-symbol, .hljs-bullet) {
+  color: var(--g-amber);
+}
+html.green :is(.hljs-title, .hljs-section) {
+  color: #e9ffe2;
+}
+html.green :is(.hljs-keyword, .hljs-selector-tag) {
+  color: var(--g-pale);
+  font-weight: bold;
+}
+html.green .hljs-addition {
+  color: var(--g-fg);
+  background-color: rgba(127, 238, 100, 0.12);
+}
+html.green .hljs-deletion {
+  color: #f87171;
+  background-color: rgba(248, 113, 113, 0.12);
+}
+
+/* Links, the glossary's way: no underline and no color shift — the link is
+   marked by a translucent green chip behind the words (its #7FEE6433, i.e.
+   --g-fg-20). The negative inline margin cancels the padding so adding the
+   chip doesn't move the surrounding text, and box-decoration-break keeps the
+   chip on both halves of a link that wraps across lines.
+
+   Scoped to `.content main` — the prev/next chevrons live outside <main>, so
+   they are excluded automatically — and then opted back out for the links
+   that are chrome rather than prose: heading self-links, the notebook's
+   filename label, and the bibliography's URL-as-text entries, which carry
+   their own styling. */
+html.green .content main a {
+  color: inherit;
+  text-decoration: none;
+  background-color: var(--g-fg-20);
+  padding-inline: 0.25em;
+  margin-inline: -0.25em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  transition: background-color 0.12s ease;
+}
+
+html.green .content main a:hover {
+  background-color: var(--g-fg-40);
+}
+
+html.green .content main :is(a.header, .nb-file a, .ref-item a, .refine-ladder a) {
+  background-color: transparent;
+  padding-inline: 0;
+  margin-inline: 0;
+}
+html.green .content main :is(a.header, .nb-file a, .ref-item a):hover {
+  color: inherit;
+  text-decoration: underline;
+}
+
+/* Sidebar rows take the same treatment: a chip on hover, the solid green
+   chip when active (set further up). */
+html.green .chapter-link-wrapper:hover {
+  background-color: var(--g-fg-20);
+}
+
+/* --- Cursors --------------------------------------------------------------
+   The glossary swaps the pointer for terminal-drawn glyphs: a crosshair over
+   the page, a blocky hand over anything clickable, an I-beam while dragging a
+   selection. These are our own drawings in that idiom — dark-green fill,
+   bright-green hairline — not Modal's asset files.
+
+   Each url() carries its hotspot (the two numbers after it) and a keyword
+   fallback for browsers that reject the image. `#` has to be written %23
+   inside a data: URI or it starts a fragment; angle brackets are fine raw
+   (mdBook's own clip-button icon is written the same way). */
+html.green body {
+  cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" \
+viewBox="0 0 24 24"><path d="M11 4 H13 V11 H20 V13 H13 V20 H11 V13 H4 V11 H11 Z" \
+fill="%232e5524" stroke="%237fee64" stroke-width="1"/></svg>') 12 12, crosshair;
+}
+
+html.green :is(a, button, summary, label[for], .chapter-fold-toggle, .icon-button, .clip-button) {
+  cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="18" height="22" \
+viewBox="0 0 18 22"><g fill="%232e5524" stroke="%237fee64" stroke-width="1">\
+<rect x="3.5" y="1.5" width="3" height="9"/><rect x="6.5" y="6.5" width="3" height="4"/>\
+<rect x="9.5" y="6.5" width="3" height="4"/><rect x="12.5" y="6.5" width="3" height="4"/>\
+<rect x="3.5" y="10.5" width="12" height="8"/></g></svg>') 5 2, pointer;
+}
+
+html.green body:active {
+  cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="24" \
+viewBox="0 0 12 24"><g fill="%232e5524" stroke="%237fee64" stroke-width="1">\
+<rect x="4.5" y="2.5" width="3" height="19"/><rect x="1.5" y="2.5" width="9" height="3"/>\
+<rect x="1.5" y="18.5" width="9" height="3"/></g></svg>') 6 12, text;
+}
+
+/* Text inputs keep a real I-beam rather than the crosshair. */
+html.green :is(input, textarea) {
+  cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="24" \
+viewBox="0 0 12 24"><g fill="%232e5524" stroke="%237fee64" stroke-width="1">\
+<rect x="4.5" y="2.5" width="3" height="19"/><rect x="1.5" y="2.5" width="9" height="3"/>\
+<rect x="1.5" y="18.5" width="9" height="3"/></g></svg>') 6 12, text;
 }
