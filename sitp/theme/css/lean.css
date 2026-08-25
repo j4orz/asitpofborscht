@@ -42,6 +42,23 @@ pre.lean .unknown          { color: inherit; }
 .navy pre.lean .doc-comment, .coal pre.lean .doc-comment, .ayu pre.lean .doc-comment { color: #7ec9a0; }
 .navy pre.lean .built-in.delim, .coal pre.lean .built-in.delim, .ayu pre.lean .built-in.delim { color: #c678dd; }
 
+/* The green theme (see the `green` block in custom.css) is monochrome, so it
+   gets its own keying rather than joining the group above: pale green for the
+   binding forms, amber for literals, and dimmed green for everything the eye
+   should skip. Written `html.green` to outrank the three-theme group. */
+html.green pre.lean .keyword         { color: #c8f9b6; font-weight: bold; }
+html.green pre.lean .const           { color: #e9ffe2; }
+html.green pre.lean .var             { color: #7fee64; }
+html.green pre.lean .sort            { color: #decb6c; }
+html.green pre.lean .literal.string  { color: #ffab5e; }
+html.green pre.lean .literal.number  { color: #decb6c; }
+html.green pre.lean .literal.char    { color: #ffab5e; }
+html.green pre.lean .comment         { color: rgba(127, 238, 100, 0.4); }
+html.green pre.lean .doc-comment     { color: rgba(200, 249, 182, 0.65); }
+html.green pre.lean .punctuation     { color: rgba(127, 238, 100, 0.6); }
+html.green pre.lean .built-in.delim  { color: #c8f9b6; }
+html.green pre.lean .option          { color: #ffab5e; }
+
 /* --- hover card (JS-positioned; content is rendered HTML) --------------- */
 pre.lean [data-hover] { cursor: help; }
 
