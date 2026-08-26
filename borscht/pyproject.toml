@@ -11,6 +11,9 @@ classifiers = [
     "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dynamic = ["version"]
+dependencies = [
+    "torch>=2.13.0",
+]
 [project.optional-dependencies]
 tests = [
     "pytest",
