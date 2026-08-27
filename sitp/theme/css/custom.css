@@ -299,7 +299,7 @@ p.em-only {
    descendants paint after floats, so giving those links a layer of their own
    hands the clicks back. Only links *before* the note in the same inline are
    affected; ones after it, or outside the emphasis, always worked. */
-:is(em, strong, small, b, i):has(.sidenote, .defnote, .lecnote, .gutter-figure) a {
+:is(em, strong, small, b, i):has(.sidenote, .defnote, .lecnote, .cppnote, .gutter-figure) a {
   position: relative;
 }
 
@@ -345,6 +345,70 @@ blockquote .sidenote {
 blockquote .defnote,
 blockquote .lecnote {
   left: calc(-1 * var(--margin-note-offset) - 20px);
+}
+
+/* == C++ notes ============================================================
+   A remark that holds for the reference implementation and not for borscht's
+   own — what `std::vector<T>` does here, what the chapter's code does instead.
+   Same gutter, same shape and same 0.55 muting as a `.defnote`/`.lecnote`, and
+   swept by the same restack pass in custom.js, so a C++ note cannot land on top
+   of a definition. Authored the same way too: an inline span on the line whose
+   vertical position the note should take, and a SIBLING of any defnote sharing
+   that line rather than nested inside it.
+
+       <span class="cppnote">*`std::vector<T>` copies on assignment ...*</span>
+
+   The icon is the one thing done differently from a `.lecnote`, which pastes
+   its Font Awesome `<svg>` into the markdown. A lecture's icon is furniture the
+   author picks per note; a C++ note's icon *is* the note's type, so CSS supplies
+   it and authoring stays a bare span.
+
+   The logo rides as a `mask-image` painted with `background-color: currentColor`
+   rather than as an `<img>`. That is what lets one file serve both themes: the
+   mark takes the note's own color and muting, exactly like the `.fa-svg` lecture
+   icon does, so ./assets/cpp.svg needs none of the `_dark` twin that every drawn
+   `.png` figure there carries. Dropping the brand blue is the point and not a
+   shortcut — a saturated hexagon would be the one loud thing in a margin built
+   entirely out of muted gray. */
+.cppnote {
+  position: absolute;
+  left: calc(-1 * var(--margin-note-offset));
+  width: 35%;
+  margin-top: calc(0.3rem - var(--margin-note-raise, 0px));
+  margin-bottom: 0;
+  font-size: 1.2rem;
+  line-height: 1.3;
+  text-align: right;
+  opacity: 0.55;
+}
+
+blockquote .cppnote {
+  left: calc(-1 * var(--margin-note-offset) - 20px);
+}
+
+/* `.cppnote-item` is the mobile echo: under 1000px there is no gutter, and
+   custom.js rebuilds these notes as list items at the foot of the chapter. The
+   marker cannot ride along in the copied innerHTML the way a lecture's inline
+   icon does, so the list item is given a class of its own and hangs the same
+   mask here.
+
+   `../../assets/` because a url() in a stylesheet resolves against the
+   stylesheet, and an `additional-css` entry keeps its theme/css/ path in the
+   built book while src/assets is copied to /assets at the root — the same two
+   hops every `_dark` figure swap further down this file makes. */
+.cppnote::before,
+.cppnote-item::before {
+  content: "";
+  display: inline-block;
+  width: 1.3em;
+  height: 1.3em;
+  /* Sits the mark on the cap height rather than the baseline, the same way
+     `.defnote img, img.icon` seats an inline illustration. */
+  vertical-align: -0.3em;
+  margin-right: 0.4em;
+  background-color: currentColor;
+  -webkit-mask: url("../../assets/cpp.svg") center / contain no-repeat;
+  mask: url("../../assets/cpp.svg") center / contain no-repeat;
 }
 
 /* A third-party embed hung in the left gutter — so far only the tweet behind
@@ -830,6 +894,7 @@ html.green .nb-out-img .nb-img-light { display: none; }
   .sidenote,
   .defnote,
   .lecnote,
+  .cppnote,
   .gutter-figure {
     display: none;
   }
@@ -873,8 +938,17 @@ html.green .nb-out-img .nb-img-light { display: none; }
     padding-left: 0;
   }
 
-  .mobile-sidenotes ol + h6 {
+  /* Every list but the first is preceded by its own heading, whichever kind
+     of list it is — sidenotes come as an <ol>, lectures and C++ notes as
+     <ul>s. */
+  .mobile-sidenotes :is(ol, ul) + h6 {
     margin-top: 1rem;
+  }
+
+  /* The margin's muting is the gutter's business: down here the note is body
+     content in its own section, which already carries a 0.7 of its own. */
+  .mobile-sidenotes .cppnote-item::before {
+    opacity: 0.75;
   }
 
   .dual {

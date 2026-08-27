@@ -15,7 +15,7 @@
 *A new breadth of computer science for the world of software 2.0*<br/>
 *Made with 🖤🪻 by [Jeffrey Zhang](https://x.com/j4orz), [University of Waterloo (BMath)](https://academic-calendar-archive.uwaterloo.ca/undergraduate-studies/2022-2023/group/u-Waterloo-Faculty-of-Mathematics.html)*
 <br/>
-*Made possible by [Lambda Labs Research Grant](https://lambda.ai/research)*<br/>
+*Made possible by [Lambda Labs Research Grant](https://lambda.ai/research) and [Netlify](https://www.netlify.com/).*<br/>
 <!-- *Contributing writers:*
 - foobarbaz -->
 

@@ -1,0 +1,12 @@
+<!-- The ISO C++ logo, by Jeremy Kratz, CC BY-SA 4.0 (github.com/isocpp/logos).
+     Flattened to one stencil: the upstream art is a hexagon tiled out of three
+     shades of blue with the "C" and the two "+" laid over it in white, and here
+     the hexagon's outline plus those three glyphs share a single `evenodd` path,
+     so the letters are holes rather than white fill. That makes the file an
+     alpha silhouette, which is what `.cppnote` masks to paint the mark in
+     currentColor (see "Language notes" in theme/css/custom.css) — and why
+     there is no `_dark` twin here the way the drawn .png figures need one. The
+     brand blue is dropped on purpose: the margin is uniformly muted gray. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 306 344.35" width="306" height="344.35">
+  <path fill-rule="evenodd" d="M153,0L306,86.0875L306,258.2625L153,344.35L0,258.2625L0,86.0875ZM153,274.175c-56.243,0-102-45.757-102-102s45.757-102,102-102c36.292,0,70.139,19.53,88.331,50.968l-44.143,25.544c-9.105-15.736-26.038-25.512-44.188-25.512c-28.122,0-51,22.878-51,51c0,28.121,22.878,51,51,51c18.152,0,35.085-9.776,44.191-25.515l44.143,25.543C223.142,254.644,189.294,274.175,153,274.175zM255,166.508L243.666,166.508L243.666,155.175L232.334,155.175L232.334,166.508L221,166.508L221,177.841L232.334,177.841L232.334,189.175L243.666,189.175L243.666,177.841L255,177.841ZM297.5,166.508L286.166,166.508L286.166,155.175L274.834,155.175L274.834,166.508L263.5,166.508L263.5,177.841L274.834,177.841L274.834,189.175L286.166,189.175L286.166,177.841L297.5,177.841Z"/>
+</svg>

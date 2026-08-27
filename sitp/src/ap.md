@@ -217,7 +217,7 @@ This is what the Turing Test posited and predicted in 195X (todo, read computing
 <span class="defnote">**computational linguistics**</span>**computational linguistics**. And this is why we have ChatGPT.
 
 In this book we embark on a quest to build from scratch our own deep neural network like ChatGPT by implementing [`nanochat`](http://github.com/karpathy/nanochat)
-and our own deep learning framework like PyTorch by implementing [`teenygrad`](https://github.com/j4orz/teenygrad) capable of running nanochat itself.
+and our own deep learning framework like PyTorch by implementing [`teenygrad`](https://github.com/j4orz/asitpofborscht) capable of running nanochat itself.
 These systems by nature are *stochastic and infintely<span class="sidenote-number"></span><span class="sidenote">*Turns out not quite infinte, as we will see in chapter 3.*</span> continuous*
 software 2.0 rather than the *logical and finitely discrete* software 1.0 and are implemented not by programming algorithms and their procedures line by line with sets, maps, lists, trees, and graphs,
 but rather, by searching the space of programs by providing a goal to calculus, which then optimizes said goal — in the case of ChatGPT, producing a probability distribution over tokens — with the linear algebra of tensors.

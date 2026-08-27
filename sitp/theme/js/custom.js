@@ -161,9 +161,16 @@ document.addEventListener("DOMContentLoaded", function () {
 // from the lines of their terms, so hang a figure beside a passage with few
 // definitions in it. (The right gutter needs no equivalent: a
 // .gutter-figure-right is a float and stacks with the sidenotes by itself.)
+//
+// A .cppnote is absolutely positioned in this same gutter, so it joins the
+// sweep for the same reason a .lecnote does — and gains the same pairing for
+// free: one written right after a term's defnote ties with it on `top` and the
+// stable sort drops it directly under that label.
 document.addEventListener("DOMContentLoaded", function () {
   const defnotes = Array.prototype.slice.call(
-    document.querySelectorAll(".defnote, .lecnote, .gutter-figure-left")
+    document.querySelectorAll(
+      ".defnote, .lecnote, .cppnote, .gutter-figure-left"
+    )
   );
   if (defnotes.length === 0) return;
 
@@ -571,12 +578,24 @@ document.addEventListener("DOMContentLoaded", function () {
   const lecnotes = Array.prototype.slice.call(
     document.querySelectorAll(".lecnote")
   );
-  if (sidenotes.length === 0 && lecnotes.length === 0) return;
+  // C++ notes come down here for the same reason: an aside about the reference
+  // implementation is a remark of its own, not a repetition of something
+  // already in the sentence.
+  const cppnotes = Array.prototype.slice.call(
+    document.querySelectorAll(".cppnote")
+  );
+  if (sidenotes.length === 0 && lecnotes.length === 0 && cppnotes.length === 0)
+    return;
 
   function buildList(tag, notes) {
     const list = document.createElement(tag);
     notes.forEach(function (n) {
       const li = document.createElement("li");
+      // A lecture's icon is inline in its markup and rides along in the copied
+      // innerHTML; a C++ note's is hung by CSS off the class, which the copy
+      // leaves behind. Mark the list item so it can hang the same marker (see
+      // `.cppnote-item` in custom.css).
+      if (n.classList.contains("cppnote")) li.className = "cppnote-item";
       li.innerHTML = n.innerHTML;
       list.appendChild(li);
     });
@@ -597,6 +616,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     addBlock("Sidenotes", "ol", sidenotes);
     addBlock("Lectures", "ul", lecnotes);
+    addBlock("C++ notes", "ul", cppnotes);
     return section;
   }
 
@@ -757,7 +777,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // that is stripped.
     const source = blurb.cloneNode(true);
     source
-      .querySelectorAll(".defnote, .lecnote, .sidenote, .sidenote-number")
+      .querySelectorAll(
+        ".defnote, .lecnote, .cppnote, .sidenote, .sidenote-number"
+      )
       .forEach(function (n) {
         n.remove();
       });
