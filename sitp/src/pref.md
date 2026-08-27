@@ -114,6 +114,18 @@ where is the xv6?
 
 -->
 
+<!-- curriculum engineering
+- drscheme (racket): https://cs.brown.edu/people/sk/Publications/Papers/Published/fffkf-drscheme-journal/
+- pyret: https://pyret.org/pyret-code/
+
+-->
+
+<!--
+
+mark sarofim, golden age of systems,
+linear algebra, numpy, and torch stood the test of time
+ -->
+
 <!--
 
 the book's breadth is ambitious
