@@ -1,0 +1,4 @@
+[submodule "sitp/vendor/aquascope"]
+	path = sitp/vendor/aquascope
+	url = https://github.com/cognitive-engineering-lab/aquascope.git
+	shallow = true

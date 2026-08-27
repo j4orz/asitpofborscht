@@ -1,5 +1,37 @@
 [build]
-command = "rustup toolchain install nightly-2026-05-01 --component rust-src --component rustc-dev --component llvm-tools-preview --component miri && cargo install mdbook --version 0.5.2 --locked && cargo install mdbook-katex --git https://github.com/lzanini/mdbook-katex && cargo install mdbook-aquascope --locked && cargo install mdbook-quiz --locked && cargo +nightly-2026-05-01 install aquascope_front --git https://github.com/cognitive-engineering-lab/aquascope && cargo install mdbook-repl --git https://github.com/j4orz/mdbook-repl && curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none && export PATH=\"$HOME/.elan/bin:$PATH\" && cd sitp && mdbook build"
+# The sitp toolchain is pinned by aquascope: sitp/vendor/aquascope is a
+# submodule, and sitp/rust-toolchain.toml is a symlink into it. Read the
+# channel out of that file rather than repeating it here, so bumping the
+# submodule is the only edit a toolchain upgrade needs.
+command = '''
+set -euo pipefail
+
+TOOLCHAIN=$(grep -m1 "^channel" sitp/rust-toolchain.toml 2>/dev/null | cut -d\" -f2) || TOOLCHAIN=""
+if [ -z "$TOOLCHAIN" ]; then
+  echo "netlify: could not read channel from sitp/rust-toolchain.toml" >&2
+  echo "netlify: is the sitp/vendor/aquascope submodule initialized?" >&2
+  exit 1
+fi
+echo "netlify: sitp toolchain is $TOOLCHAIN"
+
+# Bare `rustup toolchain install` installs the active toolchain, which
+# inside sitp/ means the channel and components from rust-toolchain.toml.
+(cd sitp && rustup toolchain install --no-self-update)
+
+# The mdbook preprocessors build against the default stable toolchain;
+# only aquascope_front needs the rustc-dev nightly that sitp is pinned to.
+cargo install mdbook --version 0.5.2 --locked
+cargo install mdbook-katex --git https://github.com/lzanini/mdbook-katex
+cargo install mdbook-aquascope --locked
+cargo install mdbook-quiz --locked
+cargo install mdbook-repl --git https://github.com/j4orz/mdbook-repl
+cargo "+$TOOLCHAIN" install aquascope_front --git https://github.com/cognitive-engineering-lab/aquascope
+
+curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+export PATH="$HOME/.elan/bin:$PATH"
+
+cd sitp && mdbook build
+'''
 publish = "sitp/book"
 
 # Same-origin passthrough for the doc hover previews in theme/js/custom.js.

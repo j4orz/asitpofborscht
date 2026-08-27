@@ -2,31 +2,58 @@
 
 # a sitpofborscht
 
-The source for the Structure and Interpretation of Tensor Programs (SITP) book at [https://sitp.ai/](https://sitp.ai/)
-which implements the `borscht` teaching autograd from scratch, whose source is also included in tree.
-This provides a smooth graduation path for both users and producers of `torch`.
-By the end of the book, readers will have a working implementation of `borscht` capable of running
-distributed training and inference for [`nanochat`](http://github.com/karpathy/nanochat/),
-which can be easily modified, extended, and hacked on thereafter.
+If you want to read the book in order to develop `nanochat` and `borscht` from scratch, head on over to https://sitp.ai/ on your preferred reading device. It looks great on all displays! Additionally, if you try out the `borscht` autograd in order to run training and inference for neural nets,
+install `borscht` with your preferred package manager:
 
-Such extension of `borscht` is being dogfed at the Singularity Systems (singsys) blog at [https://j4orz.ai/](https://j4orz.ai/),
-which covers frontier state of the art concepts that are out of SITP's scope
-given that `nanochat` doesn't require any advanced parallelism strategies past data parallelism.
-The blog explores, the excellent scaling books by the [Jax](https://jax-ml.github.io/scaling-book/) and [HuggingFace](https://huggingface.co/spaces/nanotron/ultrascale-playbook) teams with
-newer abstractions for distributed, namely `borscht.DTensor` and `borscht.DeviceMesh`.
-Perhaps such blog can turn into a follow up book to SITP complementing the aforementioned books. Similar to how
-LLVM has [Cornell's 6120](https://www.cs.cornell.edu/courses/cs6120/) with [Bril](https://capra.cs.cornell.edu/bril/),
-and the way Linux has [MIT's 6.1810](https://pdos.csail.mit.edu/6.1810/2025/overview.html) with [xv6](https://pdos.csail.mit.edu/6.1810/2024/xv6.html).
+```sh
+uv add borscht
+```
 
-## Installing the `borscht` Teaching Language
+If you are looking to *contribute* or *modify* the SITP book or `borscht` teaching language, continue reading the quick start instructions found below.
 
-## Installing the SITP book
+## Quick Start: `borscht` Teaching Language
 
-1. Install [mdbook](https://rust-lang.github.io/mdBook/guide/installation.html), the Rust ecosystems static site generator for markdown.
-2. ```sh
-   cd sitp/
-   mdbook serve
-   ```
+```sh
+cd borscht
+maturin develop
+python (todo)
+import borscht
+device=gpu (todo)
+```
+
+## Quick Start: SITP Book
+
+If you want to *modify* the SITP book, follow the installation instructions below:
+
+The book is built with [mdbook](https://rust-lang.github.io/mdBook/), the Rust ecosystem's standard static site generator for markdown. The steps below install the whole set, and mirror the Netlify
+build in `netlify.toml` — that file is the source of truth for what production uses, so keep the two
+in sync when you change either.
+
+```sh
+# asitpofborscht vendors aquascope, an mdbook preprocessor from the Cognitive Engineering Lab
+# (see https://willcrichton.net/#cgk:ownership-conceptual-model) which conceptually visualizes Rust ownership.
+# Specifically, it vendors aquascope as git submodule in order to pin SITP's mdbook rust toolchain to aquascope's
+# (currently `nightly-2026-05-01`) via symlink asitpofborscht/sitp/rust-toolchain.toml -> asitpofborscht/vendor/aquascope/rust-toolchain.toml
+
+git clone --recurse-submodules https://github.com/j4orz/asitpofborscht.git # git submodule
+git submodule update --init sitp/vendor/aquascope # (or use this if you've already cloned)
+
+cd asitpofborscht
+cd sitp/ && rustup toolchain install # installs the toolchain pinned by rust-toolchain.toml
+
+cargo install mdbook --version 0.5.2 --locked
+cargo install mdbook-katex --git https://github.com/lzanini/mdbook-katex
+cargo install mdbook-aquascope --locked
+cargo install mdbook-quiz --locked
+cargo install aquascope_front --git https://github.com/cognitive-engineering-lab/aquascope
+
+mdbook serve # make your edits to markdown
+             # preview with http://localhost:3000/
+             # and cut a PR
+```
+
+Expect the first build to be slow: aquascope runs every annotated Rust block through Miri, and Lean
+elaborates every `{{#lean}}` example. Both cache afterwards, aquascope in `sitp/.aquascope-cache`.
 
 ## License
 
@@ -37,4 +64,4 @@ The license adapts the Open RAIL-S structure and adds one specific use restricti
 
 If you train on it, you let us generate.
 
-Covered AI model and service providers may not use this project while imposing terms that prevent SITP and teenygrad project contributors, or authorized researchers from generating outputs, evaluating models, benchmarking, publishing research, or exploring their own research ideas on materially equal terms to ordinary users.
+Covered AI model and service providers may not use this project while imposing terms that prevent SITP and borscht project contributors, or authorized researchers from generating outputs, evaluating models, benchmarking, publishing research, or exploring their own research ideas on materially equal terms to ordinary users.
