@@ -24,8 +24,7 @@ cargo install mdbook --version 0.5.2 --locked
 cargo install mdbook-katex --git https://github.com/lzanini/mdbook-katex
 cargo install mdbook-aquascope --locked
 cargo install mdbook-quiz --locked
-cargo install mdbook-repl --git https://github.com/j4orz/mdbook-repl
-cargo "+$TOOLCHAIN" install aquascope_front --git https://github.com/cognitive-engineering-lab/aquascope
+cargo "+$TOOLCHAIN" install aquascope_front --git https://github.com/cognitive-engineering-lab/aquascope --tag v0.4.0
 
 curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
 export PATH="$HOME/.elan/bin:$PATH"

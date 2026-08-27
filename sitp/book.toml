@@ -41,7 +41,7 @@ command = "python3 preprocessors/mdbook-nb"
 nb-dir = "notebooks"
 # Filename labels link here (directive path appended), so a reader can open the
 # executed notebook itself.
-src-url = "https://github.com/j4orz/ateenysitp/blob/master/sitp/notebooks/"
+src-url = "https://github.com/j4orz/asitpofborscht/blob/master/sitp/notebooks/"
 
 [preprocessor.quiz]
 

@@ -27,7 +27,9 @@ If you want to *modify* the SITP book, follow the installation instructions belo
 
 The book is built with [mdbook](https://rust-lang.github.io/mdBook/), the Rust ecosystem's standard static site generator for markdown. The steps below install the whole set, and mirror the Netlify
 build in `netlify.toml` — that file is the source of truth for what production uses, so keep the two
-in sync when you change either.
+in sync when you change either. Beyond the Rust and Lean toolchains below, you need `python3` on
+PATH: the `nb`, `refine`, and `lean` preprocessors are Python scripts under `sitp/preprocessors/`
+(standard library only, so there is nothing to `pip install`).
 
 ```sh
 # asitpofborscht vendors aquascope, an mdbook preprocessor from the Cognitive Engineering Lab
@@ -35,21 +37,32 @@ in sync when you change either.
 # Specifically, it vendors aquascope as git submodule in order to pin SITP's mdbook rust toolchain to aquascope's
 # (currently `nightly-2026-05-01`) via symlink asitpofborscht/sitp/rust-toolchain.toml -> asitpofborscht/vendor/aquascope/rust-toolchain.toml
 
-git clone --recurse-submodules https://github.com/j4orz/asitpofborscht.git # git submodule
-git submodule update --init sitp/vendor/aquascope # (or use this if you've already cloned)
-
+git clone --recurse-submodules https://github.com/j4orz/asitpofborscht.git
 cd asitpofborscht
-cd sitp/ && rustup toolchain install # installs the toolchain pinned by rust-toolchain.toml
+git submodule update --init sitp/vendor/aquascope # (if you cloned without --recurse-submodules)
 
+TOOLCHAIN=$(grep -m1 '^channel' sitp/rust-toolchain.toml | cut -d\" -f2)
+(cd sitp && rustup toolchain install) # installs the toolchain pinned by rust-toolchain.toml
+
+# preprocessors build on default stable
 cargo install mdbook --version 0.5.2 --locked
 cargo install mdbook-katex --git https://github.com/lzanini/mdbook-katex
 cargo install mdbook-aquascope --locked
 cargo install mdbook-quiz --locked
-cargo install aquascope_front --git https://github.com/cognitive-engineering-lab/aquascope
+# only aquascope_front needs the rustc-dev nightly
+cargo "+$TOOLCHAIN" install aquascope_front --git https://github.com/cognitive-engineering-lab/aquascope --tag v0.4.0
 
-mdbook serve # make your edits to markdown
-             # preview with http://localhost:3000/
-             # and cut a PR
+# Lean, for the {{#lean}} examples in src/ap.md. Without `lake` on PATH the
+# lean preprocessor warns and no-ops, so the appendix renders with its
+# directives unsubstituted rather than failing the build.
+curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+export PATH="$HOME/.elan/bin:$PATH"
+
+git config core.hooksPath .githooks # retheme matplotlib figures on commit
+
+cd sitp && mdbook serve # make your edits to markdown
+                        # preview with http://localhost:3000/
+                        # and cut a PR
 ```
 
 Expect the first build to be slow: aquascope runs every annotated Rust block through Miri, and Lean
