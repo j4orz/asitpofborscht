@@ -715,9 +715,13 @@ html.coal, html.navy, html.ayu, html.green {
   border: none;
   padding: 0;
   margin: 0;
-  /* Cap height so a huge print() doesn't run down the page; scroll instead. */
-  max-height: var(--nb-out-max-height);
-  overflow: auto;
+  /* Sideways only. A vertical scroller here would be a wheel trap: the pointer
+     rests over an output for most of the page, and the browser latches the
+     gesture to the box under it, so the page stops moving with the reader's
+     fingers. The height cap lives in .nb-clamped below, which hides the
+     overflow instead of scrolling it. */
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 /* Text output: don't wrap long lines (a one-line list/array), scroll sideways.
    HTML output (pandas tables etc.) keeps normal wrapping so cells lay out. */
@@ -757,16 +761,57 @@ html.green .nb-out-img .nb-img-light { display: none; }
   padding: 0.3em 0.6em;
   border-radius: 3px;
   white-space: pre;
-  max-height: var(--nb-out-max-height);
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
-/* Opt out of the height cap on cells tagged `full-output`: show the whole
-   output, still horizontally scrollable. */
-.nb-cell.nb-full .nb-out-text,
-.nb-cell.nb-full .nb-out-html,
-.nb-cell.nb-full .nb-error {
-  max-height: none;
+/* The height cap on a tall output: clamp and offer a button, never a nested
+   scrollbar (see the overflow note on .nb-out-text above). theme/js/custom.js
+   measures every output and adds .nb-clamped to the .nb-out wrapper only where
+   the cap actually bites, so a two-line print() is left alone instead of being
+   quietly made unscrollable-past. Cells tagged `full-output` are skipped there,
+   which is what keeps .nb-full's opt-out working with no rule of its own.
+
+   The fade is a mask rather than an overlaid gradient: the clamped element is
+   the <pre> itself, and a ::after on it would be text at the end of the output
+   rather than a layer over it. A mask also fades .nb-out-stderr's and
+   .nb-error's tinted backgrounds along with their text, which an overlay in one
+   fixed color could not do across six themes. */
+.nb-out.nb-clamped > .nb-out-text,
+.nb-out.nb-clamped > .nb-out-html,
+.nb-out.nb-clamped > .nb-error {
+  max-height: var(--nb-out-max-height);
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 2.5em), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 2.5em), transparent);
+}
+
+/* Quiet and monospaced, matching the In[]/Out[] prompts and the .nb-file label
+   rather than reading as page furniture. */
+.nb-out-more {
+  display: block;
+  margin-top: 0.2rem;
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: var(--mono-font, "Source Code Pro", monospace);
+  font-size: 0.78em;
+  line-height: 1.5;
+  color: var(--nb-prompt);
+  opacity: 0.7;
+  cursor: pointer;
+  user-select: none;
+}
+
+.nb-out-more:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+/* `display: block` above outranks the UA sheet's `[hidden] { display: none }`,
+   so the attribute needs saying again — custom.js hides the button rather than
+   dropping it when a re-measure finds the output no longer overflows. */
+.nb-out-more[hidden] {
+  display: none;
 }
 
 /* Below the Tufte margin breakpoint the left gutter disappears: drop prompts

@@ -818,3 +818,97 @@ document.addEventListener("DOMContentLoaded", function () {
     link.insertAdjacentElement("afterend", button);
   });
 });
+
+// Tall notebook outputs: clamp them and hand the reader a button, instead of
+// capping them into little scroll boxes.
+//
+// The cap itself is wanted — a `print()` of a 400-row array should not run down
+// the page — but paying for it with `overflow: auto` made every Out[] a nested
+// vertical scroller, and a chapter like §1 carries twenty-odd of them. Scrolling
+// with the pointer over one latches the gesture to that box: the page stops
+// moving, and on macOS it stays stopped for the rest of the swipe even after the
+// box has bottomed out, which reads as the page freezing at random. Worse, the
+// cap was written in CSS, which cannot ask how tall anything is, so a two-line
+// output was a scroll trap as surely as a two-hundred-line one — with no
+// scrollbar visible to explain why the page had stopped.
+//
+// So the measuring happens here, and only outputs that actually exceed the cap
+// are clamped. `overflow-y: hidden` in custom.css means even those are never
+// vertically scrollable; the rest of the output arrives by button, expanded in
+// place, and stays expanded. Sideways scrolling is untouched — a one-line array
+// still scrolls horizontally, and a box that only scrolls horizontally does not
+// latch a vertical gesture.
+document.addEventListener("DOMContentLoaded", function () {
+  const outs = Array.prototype.slice
+    .call(document.querySelectorAll(".nb-out"))
+    // `full-output` cells opt out of the cap entirely (see mdbook-nb). Skipping
+    // them here is the whole of that opt-out now that no CSS rule caps them.
+    .filter(function (out) { return !out.closest(".nb-cell.nb-full"); });
+  if (outs.length === 0) return;
+
+  function bodyOf(out) {
+    return out.querySelector(
+      ":scope > .nb-out-text, :scope > .nb-out-html, :scope > .nb-error"
+    );
+  }
+
+  function label(out, expanded) {
+    const button = out.querySelector(":scope > .nb-out-more");
+    if (!button) return;
+    button.textContent = expanded ? "show less" : "show all output";
+    button.setAttribute("aria-expanded", String(expanded));
+  }
+
+  function measure(out) {
+    const body = bodyOf(out);
+    if (!body) return;
+    // A reader who opened this one has said what they want; a re-measure on
+    // resize or on late-loading fonts must not fold it back up.
+    if (out.dataset.nbExpanded === "true") return;
+
+    out.classList.add("nb-clamped");
+    // The clamp is on, so clientHeight is the cap and scrollHeight the content.
+    // A pixel of slack: subpixel line heights make these differ by a hair on
+    // outputs that fit exactly.
+    const overflows = body.scrollHeight > body.clientHeight + 1;
+    if (!overflows) out.classList.remove("nb-clamped");
+
+    let button = out.querySelector(":scope > .nb-out-more");
+    if (overflows && !button) {
+      button = document.createElement("button");
+      button.type = "button";
+      button.className = "nb-out-more";
+      button.addEventListener("click", function () {
+        const expanded = out.dataset.nbExpanded === "true";
+        out.dataset.nbExpanded = String(!expanded);
+        out.classList.toggle("nb-clamped", expanded);
+        label(out, !expanded);
+      });
+      out.appendChild(button); // after the output; the prompt is the first child
+    }
+    if (button) button.hidden = !overflows;
+    label(out, false);
+  }
+
+  function measureAll() {
+    outs.forEach(measure);
+  }
+
+  measureAll();
+
+  // The first pass runs in the body face and in whatever the browser has cached;
+  // the mono face landing afterwards reflows every output by a line or two,
+  // which is the difference between clamping and not for the ones sitting near
+  // the cap. Measure again once the fonts are actually in.
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(measureAll).catch(function () {});
+  }
+
+  // Width changes rewrap .nb-out-html (a pandas table relaying out) and move the
+  // Tufte breakpoint, so what overflowed at one width may not at another.
+  let resizeTimer;
+  window.addEventListener("resize", function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(measureAll, 150);
+  });
+});

@@ -96,8 +96,25 @@ html:not(.js) .page-wrapper,
     transition: margin-right 0.3s ease, transform 0.3s ease; /* Animation: slide away */
 }
 
+/* mdBook ships `overflow-y: auto` here, which quietly makes the whole reading
+   column a scroll container: `visible` on the other axis is forced to `auto`
+   too, so #mdbook-content ends up scrollable in both directions. On this book it
+   has range to spare — a .gutter-figure near the end of a chapter hangs ~85px
+   past the bottom edge, and .full-bleed's 90vw is ~84px wider than the column —
+   so a box 69,000px tall, sitting under the pointer everywhere a reader reads,
+   catches every wheel gesture. It scrolls its own few dozen pixels, hits the
+   end, and rubber-bands; macOS latches the gesture to it for the rest of the
+   swipe, so the page behind simply stops. That is the "scrolling gets locked"
+   bug, and it fires over plain prose with nothing scrollable in sight.
+
+   `clip` clips at exactly the same place `auto` did — the rendering is
+   unchanged, including the clipped edges of full-bleed video — but a clipped box
+   is not a scroll container, so there is nothing left to latch onto.
+   `display: flow-root` keeps the block formatting context that `overflow: auto`
+   was also providing; `clip` alone would let floats escape the column. */
 .content {
-    overflow-y: auto;
+    display: flow-root;
+    overflow: clip;
     padding: 0 5px 50px 5px;
 }
 .content main {
