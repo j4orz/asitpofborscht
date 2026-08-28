@@ -78,68 +78,37 @@ where the function $HTDP(\cdot)$ is the systematic and principled design of a cu
 1. *the concreteness fading [(Fyfe et al., 2014)](https://eric.ed.gov/?id=EJ1036777) of declarative concepts in mathematics [(Hestenes et al., 1992)](https://gwern.net/doc/science/physics/1992-hestenes.pdf)* by presenting  notions just in time by defining them by their context, and iteratively refining such concepts from the informal to formal ending in HtDP-style Intermezzos<span class="sidenote-number"></span><span class="sidenote">*Which present the formal syntax and semantics of a language.*</span>.
 2. that *transfer [(Bransford, Shwartz 1999)](https://journals.sagepub.com/doi/abs/10.3102/0091732x024001061) to procedural skills of computation* [(Price et al., 2021)](https://www.lifescied.org/doi/pdf/10.1187/cbe.20-12-0276) in the context of deep learning. Such transfer is possible because the computational discipline of deep learning has lots of structural similarity with mathematics, and is why we have books such as [Deisenroth et al., (2020)](https://mml-book.github.io/), and subsequent courses follwing such book, for instance [Princeton's](https://www.cs.princeton.edu/courses/archive/spring21/cos302/) [COS302](https://www.youtube.com/playlist?list=PLCO4cUaBLHFEHo42HVIVWaSOvbAiH30uc)<span class="sidenote-number"></span><span class="sidenote">*"Offered by Ryan Adams, who's lab led by Matthew Johnson, Dougal Maclaurin, and David Duvenaud created [HIPS/autograd](https://github.com/hips/autograd), which inspired PyTorch. See [https://soumith.ch/blog/2023-12-17-pytorch-design-origins.md.html#/origins](https://soumith.ch/blog/2023-12-17-pytorch-design-origins.md.html#/origins)*</span>.
 
-<!-- explicit instruction, and a process for performing procedural skills*. -->
-
-<!-- Well, the good news is that we stand on the shoulders of giants, namely
-the position paper by [Krishnamurthi and Fisler (2020)]() which has been operationalized at the school-level with [Bootstrap:Data Science](https://www.bootstrapworld.org/materials/data-science/) and at the collegiate-level with [Data Centric Introduction to Computing](https://dcic-world.org/). -->
-
-<!-- the only misnomer is that this is a book about torch, not jax -->
 
 
-<!-- ![](./assets/lisp.png) -->
 
-<!-- https://www.paulgraham.com/desres.html
 
-> The difference between design and research seems to be a question of new versus good. Design doesn't have to be new, but it has to be good. Research doesn't have to be good, but it has to be new. -->
-<!-- problem of exposition (3B1B quote) -->
-
-<!-- sicp compiler chapter doesn't get into pratt parsing, SSA or SON IRs, graph coloring register allocation -->
-
-<!-- > Everything is vague to a degree you do not realize till you have tried to make it precise. -->
-
-<!-- SITP = HTDP(JURAFSKY + BISHOP + SOLOMON + TAOHPC + TAODP + PMPP) -->
-<!-- SITP: DCIC -> HF SCALE + JAX SCALE -->
-<!-- the only misnomer is that this is a book about torch, not jax -->
-
-<!-- https://docs.divio.com/documentation-system/
-
-there are lots of tutorials and how to guides,
-some explanations. not many references.
-at the limit, this is my attempt at creating a canonical reference.
--->
-
-<!-- torch and vllm is the linux of AI
-
-where is the xv6?
-
--->
-
-<!-- curriculum engineering
-- drscheme (racket): https://cs.brown.edu/people/sk/Publications/Papers/Published/fffkf-drscheme-journal/
-- pyret: https://pyret.org/pyret-code/
-
--->
 
 <!--
 
-mark sarofim, golden age of systems,
+- the what (math) the how (computation) are equally important,
+  moore's law, hardware software codesign, researchers writing kernels
+  chapter 1 and 3 seem quite different than chapters 2 and 4, but they are really unified in this era of deep learning systems
+  for research engineers, chapters 2 and 4 might be "the how", but they are really "the what" because performance matters.
+- position paper by [Krishnamurthi and Fisler (2020)]() which has been operationalized at the school-level with [Bootstrap:Data Science](https://www.bootstrapworld.org/materials/data-science/) and at the collegiate-level with [Data Centric Introduction to Computing](https://dcic-world.org/)
+- explicit instruction, and a process for performing procedural skills
+- The difference between design and research seems to be a question of new versus good. Design doesn't have to be new, but it has to be good. Research doesn't have to be good, but it has to be new.
+- problem of exposition (3B1B quote)
+- https://www.paulgraham.com/desres.html
+
+- https://docs.divio.com/documentation-system/, there are lots of tutorials and how to guides,
+some explanations. not many references. at the limit, this is my attempt at creating a canonical reference.
+  - https://docs.python.org/3/ and https://docs.astral.sh/uv/guides/
+  - https://doc.rust-lang.org/stable/
+  - https://lean-lang.org/learn/
+
+
+- torch and vllm is the linux of AI, where is the xv6?
+- curriculum engineering, drscheme (racket): https://cs.brown.edu/people/sk/Publications/Papers/Published/fffkf-drscheme-journal/, pyret: https://pyret.org/pyret-code/
+- the book's breadth is ambitious but we should expect ourselves to learn more with AI now. AI is the rocketship for our minds.
+- alan kay, lisp's interpreter is like maxwells equations, everyone should also implement back propagation and a mingpt https://karpathy.github.io/2026/02/12/microgpt/, ./assets/lisp.png
+- mark sarofim, golden age of systems,
 linear algebra, numpy, and torch stood the test of time
- -->
-
-<!--
-
-the book's breadth is ambitious
-but we should expect ourselves to learn more with AI now.
-AI is the rocketship for our minds.
-
--->
-
-<!--
-- alan kay, lisp's interpreter is like maxwells equations
-- everyone should also implement back propagation
-- and a mingpt https://karpathy.github.io/2026/02/12/microgpt/
-
--->
+- the only misnomer is that this is a book about torch, not jax  -->
 
 <br><br><br><br><br><br>
 
