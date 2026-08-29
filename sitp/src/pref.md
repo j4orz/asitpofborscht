@@ -30,7 +30,9 @@ As someone programming for some time, I could not believe this at all.
 After two more years of hacking on cloud languages and runtimes, I started my transition from
 domain specific cloud compilers from GPS to Terraform to domain specific tensor compilers from PyTorch to Triton.
 
-The transition started with a tweet<span class="sidenote-number"></span><span class="sidenote">*"1.5k lines of rust and 100 commits later, we can now inference the FFN neural language model from (Bengio et al. 2003) straight from Karpathy's Zero to Hero. all you have to do is replace the single "import torch" line with "import picograd" 😎" -- [@j4orz, April 2, 2025](https://x.com/j4orz/status/1907452857248350421)*</span> showcasing the beginnings of a tensor library evaluating the forward pass of a feed forward network
+<div class="defnote defnote-embed"><blockquote class="twitter-tweet" data-conversation="none" data-width="300"><p lang="en" dir="ltr">1.5k lines of rust and 100 commits later, we can now inference the FFN neural language model from (Bengio et al. 2003) straight from Karpathy&#39;s Zero to Hero. all you have to do is replace the single &quot;import torch&quot; line with &quot;import picograd&quot; 😎</p>&mdash; j4orz (@j4orz) <a href="https://x.com/j4orz/status/1907452857248350421?ref_src=twsrc%5Etfw">April 2, 2025</a></blockquote></div>
+
+The transition started with a tweet showcasing the beginnings of a tensor library evaluating the forward pass of a feed forward network
 from Andrej Karpathy's [Neural Networks: Zero to Hero](https://karpathy.ai/zero-to-hero.html) course.
 While it was illuminating to start implementing each individual torch call that the nets from `makemore` were making,
 my knowledge felt quite fragmented as I personally forgot lots of foundation from college<span class="sidenote-number"></span><span class="sidenote">*I had the defiition of a basis in the basement of my subconscious at best. Thank you [Professor. Wolczuk](https://wolczuk.com/)!*</span>,
@@ -41,7 +43,7 @@ Hastie et al.,, Murphy, Goodfellow et al.,, you name it.
 The one thought I could not get out of my head was *where is the SICP for software 2.0*?
 While I found two excellent resources on building your own torch-like autograd by Tianqi Chen at Carnegie Mellon and Sasha Rush at Cornell,
 I personally would have enjoyed a more unified resource that took me from math, to deep learning, to deep learning systems in a single unbroken sequence of thought,
-and perhaps others would feel similarly. That is the genesis story for this book, whose central research question is the following: **What does the SICP for Deep Learning look like**?<span class="sidenote-number"></span><span class="sidenote">*"We really could use a SICP for DL. We have the Little Lisper for DL ([thelittlelearner.com](https://www.thelittlelearner.com/)) but that's a different type of book entirely." -- [@ShriramKMurthi, May 3, 2026](https://x.com/ShriramKMurthi/status/2051049923617968353)*</span>
+and perhaps others would feel similarly. That is the genesis story for this book, whose central research question is the following: **What does the SICP for Deep Learning look like**?
 
 <div class="defnote defnote-embed"><blockquote class="twitter-tweet" data-conversation="none" data-width="300"><p lang="en" dir="ltr">We really could use a SICP for DL. We have the Little Lisper for DL (<a href="https://t.co/su31hFJeUe">https://t.co/su31hFJeUe</a>) but that&#39;s a different type of book entirely.</p>&mdash; Shriram Krishnamurthi (primary: Bluesky) (@ShriramKMurthi) <a href="https://x.com/ShriramKMurthi/status/2051049923617968353?ref_src=twsrc%5Etfw">May 3, 2026</a></blockquote></div>
 <script>
