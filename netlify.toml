@@ -18,12 +18,19 @@ echo "netlify: sitp toolchain is $TOOLCHAIN"
 # inside sitp/ means the channel and components from rust-toolchain.toml.
 (cd sitp && rustup toolchain install --no-self-update)
 
-# The mdbook preprocessors build against the default stable toolchain;
-# only aquascope_front needs the rustc-dev nightly that sitp is pinned to.
-cargo install mdbook --version 0.5.2 --locked
-cargo install mdbook-katex --git https://github.com/lzanini/mdbook-katex
-cargo install mdbook-aquascope --locked
-cargo install mdbook-quiz --locked
+# That install ran under sitp/'s rust-toolchain.toml override, and rustup does
+# not set a default when it installs under an override. The image ships without
+# one, so a bare `cargo` at the repo root has no toolchain to dispatch to
+# ("could not choose a version of cargo to run"). Every cargo call below names
+# its toolchain, so none of this depends on a default being configured.
+rustup toolchain install --no-self-update stable
+
+# The mdbook preprocessors build against stable; only aquascope_front needs the
+# rustc-dev nightly that sitp is pinned to.
+cargo +stable install mdbook --version 0.5.2 --locked
+cargo +stable install mdbook-katex --git https://github.com/lzanini/mdbook-katex
+cargo +stable install mdbook-aquascope --locked
+cargo +stable install mdbook-quiz --locked
 cargo "+$TOOLCHAIN" install aquascope_front --git https://github.com/cognitive-engineering-lab/aquascope --tag v0.4.0
 
 curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none

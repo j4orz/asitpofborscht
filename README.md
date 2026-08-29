@@ -44,11 +44,13 @@ git submodule update --init sitp/vendor/aquascope # (if you cloned without --rec
 TOOLCHAIN=$(grep -m1 '^channel' sitp/rust-toolchain.toml | cut -d\" -f2)
 (cd sitp && rustup toolchain install) # installs the toolchain pinned by rust-toolchain.toml
 
-# preprocessors build on default stable
-cargo install mdbook --version 0.5.2 --locked
-cargo install mdbook-katex --git https://github.com/lzanini/mdbook-katex
-cargo install mdbook-aquascope --locked
-cargo install mdbook-quiz --locked
+# the toolchain install above ran under sitp/'s override, which does not set a
+# rustup default, so every cargo call below names its toolchain explicitly
+rustup toolchain install --no-self-update stable
+cargo +stable install mdbook --version 0.5.2 --locked
+cargo +stable install mdbook-katex --git https://github.com/lzanini/mdbook-katex
+cargo +stable install mdbook-aquascope --locked
+cargo +stable install mdbook-quiz --locked
 # only aquascope_front needs the rustc-dev nightly
 cargo "+$TOOLCHAIN" install aquascope_front --git https://github.com/cognitive-engineering-lab/aquascope --tag v0.4.0
 
