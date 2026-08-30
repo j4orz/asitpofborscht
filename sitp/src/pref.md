@@ -110,7 +110,10 @@ some explanations. not many references. at the limit, this is my attempt at crea
 - alan kay, lisp's interpreter is like maxwells equations, everyone should also implement back propagation and a mingpt https://karpathy.github.io/2026/02/12/microgpt/, ./assets/lisp.png
 - mark sarofim, golden age of systems,
 linear algebra, numpy, and torch stood the test of time
-- the only misnomer is that this is a book about torch, not jax  -->
+- the only misnomer is that this is a book about torch, not jax
+- use MIT and Standford because they are the standard when it comes to open course ware. i.e some MIT speedrunning Scott Young.
+- lot of conceptual baggage
+-->
 
 <br><br><br><br><br><br>
 
