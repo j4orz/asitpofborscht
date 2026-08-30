@@ -35,7 +35,7 @@ domain specific cloud compilers from GPS to Terraform to domain specific tensor 
 The transition started with a tweet showcasing the beginnings of a tensor library evaluating the forward pass of a feed forward network
 from Andrej Karpathy's [Neural Networks: Zero to Hero](https://karpathy.ai/zero-to-hero.html) course.
 While it was illuminating to start implementing each individual torch call that the nets from `makemore` were making,
-my knowledge felt quite fragmented as I personally forgot lots of foundation from college<span class="sidenote-number"></span><span class="sidenote">*I had the defiition of a basis in the basement of my subconscious at best. Thank you [Professor. Wolczuk](https://wolczuk.com/)!*</span>,
+my knowledge felt quite fragmented as I personally forgot lots of foundation from college<span class="sidenote-number"></span><span class="sidenote">*I had the defiition of a gradient and basis in the basement of my subconscious at best. Thank you [Professor.West](https://www.math.uwaterloo.ca/%7Ejjwest/OfficeHours.htm) for sharing your [juggling](https://www.youtube.com/watch?v=sy4g2W6NU1M), and [Professor. Wolczuk](https://wolczuk.com/) for sharing your [Ukrainian floor dancing](https://www.youtube.com/results?search_query=dan+wolczuk+dancing)*</span>,
 and I wasn't sure how to bridge myself to industrial deep learning systems like `tinygrad`<span class="sidenote-number"></span><span class="sidenote">*Here's a PR I was able to land in tinygrad [making logsumexp numerically stable](https://github.com/tinygrad/tinygrad/pull/6921). It felt like I was contributing to LLVM without having taken a course on compiler construction to learn the basics of parsing, optimization, and lowering.*</span>, `torch`, `jax`, `vllm`, and `sglang`.
 
 Shortly after, I decided to take the plunge and started drinking from the firehose of deep learning canon:
@@ -113,6 +113,8 @@ linear algebra, numpy, and torch stood the test of time
 - the only misnomer is that this is a book about torch, not jax
 - use MIT and Standford because they are the standard when it comes to open course ware. i.e some MIT speedrunning Scott Young.
 - lot of conceptual baggage
+- karpathy as sensei. it's memey but it's the same as calling aristotle the first teacher.
+this is why SITP heavily uses LLM101n
 -->
 
 <br><br><br><br><br><br>
