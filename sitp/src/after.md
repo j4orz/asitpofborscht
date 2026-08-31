@@ -9,9 +9,20 @@ state of the art neural net architecture and deep learning systems at the fronti
 Good luck on your journey.<br>
 I'll see you at work.
 
-## From `nanochat` to `llama` and `deepseek`
+## Afterword Table of Contents
 
-## From `borscht` to `torch` and `jax`
+<div class="toc">
+
+- [1. Architecture: From `nanochat` to `llama` and `deepseek`](#1-from-nanochat-to-llama-and-deepseek)
+- [2. Systems: From `borscht` to `torch`](#2-from-borscht-to-torch)
+
+</div>
+
+## 1. Architecture: From `nanochat` to `llama` and `deepseek`
+
+- moe
+
+## 2. Systems: From `borscht` to `torch`
 
 <div class="toc">
 
