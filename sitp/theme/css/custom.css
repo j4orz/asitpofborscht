@@ -1264,7 +1264,11 @@ p:has(+ ul) {
   float: left;
   font-size: 7.6em;
   line-height: 0.74;
-  margin: 0 0.12em 0 -0.04em;
+  /* No negative left margin: em here resolves against the cap's own 7.6em, so
+     even -0.04em pulls the glyph ~0.3em of body text out past the column edge
+     and the yinit flourishes bleed into the left gutter. Zero flushes the
+     glyph's left side bearing with the text column. */
+  margin: 0 0.12em 0 0;
 }
 
 /* gwern's signature lead-in: the first rendered line set in small caps. Because
@@ -1610,6 +1614,32 @@ a.url-mono code {
   font-style: normal; /* -> NewCMMono10-Regular, upright like arxiv's Latin
                           Modern Mono; `normal` overrides the italic inherited
                           from the sidenotes' *…* wrapper. */
+}
+
+/* Module/atom names — Linear, Embed, Conv2D — in New Computer Modern Sans, the
+   sans companion of the body roman. This is the `\textsf{}` those names are set
+   in in the papers they come from (Large et al. 2024): a family swap inside one
+   superfamily, so the name reads as an identifier without --mono-font's
+   typewriter color, and without spending `code`, which the book reserves for
+   things a reader could actually type. The four NCM Sans cuts are already
+   loaded by theme/fonts/fonts.css — this is the first rule to use them.
+
+   Usage: <span class="mod">Linear</span>. */
+.mod {
+  font-family: "New Computer Modern Sans", sans-serif;
+  font-size: 0.97em;  /* NCM Sans runs optically larger than the roman at an
+                         equal em (x-height 444/1000 vs 431, caps 694 vs 683),
+                         so 0.97 sits its x-height on the body's. */
+  font-style: normal; /* NCM Sans is slanted, not truly italic; keep the name
+                         upright inside emphasized runs and sidenotes. */
+}
+
+/* The `green` theme deliberately puts prose, chrome, and code in one typewriter
+   face (see html.green below). A sans identifier would be the one thing
+   breaking that, so there it follows the theme's face instead. */
+html.green .mod {
+  font-family: var(--mono-font);
+  font-size: 1em;
 }
 
 /* Definition/theorem "snackbars" in the style of arxiv.org/pdf/2311.04329:
