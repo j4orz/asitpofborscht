@@ -99,9 +99,9 @@ html:not(.js) .page-wrapper,
 /* mdBook ships `overflow-y: auto` here, which quietly makes the whole reading
    column a scroll container: `visible` on the other axis is forced to `auto`
    too, so #mdbook-content ends up scrollable in both directions. On this book it
-   has range to spare — a .gutter-figure near the end of a chapter hangs ~85px
-   past the bottom edge, and .full-bleed's 90vw is ~84px wider than the column —
-   so a box 69,000px tall, sitting under the pointer everywhere a reader reads,
+   has range to spare — .full-bleed's 90vw is ~84px wider than the column, and a
+   tall margin note near the end of a chapter can hang past the bottom edge — so
+   a box 69,000px tall, sitting under the pointer everywhere a reader reads,
    catches every wheel gesture. It scrolls its own few dozen pixels, hits the
    end, and rubber-bands; macOS latches the gesture to it for the rest of the
    swipe, so the page behind simply stops. That is the "scrolling gets locked"

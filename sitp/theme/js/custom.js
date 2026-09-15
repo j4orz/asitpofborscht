@@ -155,22 +155,13 @@ document.addEventListener("DOMContentLoaded", function () {
 // the tie and the lecture lands directly under the label it belongs to. Write
 // the lecnote after the defnote and the pairing needs no other machinery.
 //
-// A .gutter-figure-left is swept too — it is the tallest thing the gutter
-// holds, and a term landing on top of a picture is the one collision here that
-// cannot be read around. The cost is that notes clearing a tall figure drift
-// from the lines of their terms, so hang a figure beside a passage with few
-// definitions in it. (The right gutter needs no equivalent: a
-// .gutter-figure-right is a float and stacks with the sidenotes by itself.)
-//
 // A .cppnote is absolutely positioned in this same gutter, so it joins the
 // sweep for the same reason a .lecnote does — and gains the same pairing for
 // free: one written right after a term's defnote ties with it on `top` and the
 // stable sort drops it directly under that label.
 document.addEventListener("DOMContentLoaded", function () {
   const defnotes = Array.prototype.slice.call(
-    document.querySelectorAll(
-      ".defnote, .lecnote, .cppnote, .gutter-figure-left"
-    )
+    document.querySelectorAll(".defnote, .lecnote, .cppnote")
   );
   if (defnotes.length === 0) return;
 
