@@ -1160,7 +1160,8 @@ p:has(+ ul) {
   justify-self: center;
 }
 
-/* Opt-in yinit drop cap (gwern-style). Wrap a paragraph in a `.dropcap` div in
+/* Opt-in Goudy Initialen drop cap (gwern-style, with a Renaissance woodcut
+   initial in place of gwern's yinit). Wrap a paragraph in a `.dropcap` div in
    the Markdown — keep blank lines inside so mdBook renders the contents:
 
        <div class="dropcap">
@@ -1170,40 +1171,63 @@ p:has(+ ul) {
        </div>
 
    Only the FIRST paragraph's FIRST letter is styled; the letter must be an
-   uppercase A-Z (the only glyphs yinit provides). `::first-letter` honors just
-   font/float/margin/color/line-height, which is all we need here.
+   uppercase A-Z (the only glyphs the font provides). `::first-letter` honors
+   just font/float/margin/color/line-height, which is all we need here.
 
-   Sized as a plain float rather than with `initial-letter`, gwern's technique.
-   The two engines that implement initial-letter disagree badly on how big an
-   N-line cap is: for a 4-line cap Blink scales the glyph so ~0.77em of it spans
-   the four lines, WebKit so 1.2em does (it goes off ascent+descent, and yinit
-   caps fill their em box). Same declaration, and Safari/iPadOS drew the cap
-   ~40% smaller than Chrome. An em font-size is the one sizing every engine
-   agrees on: measured across Blink and WebKit the glyph below lands within 2%.
+   Sized as a plain float rather than with `initial-letter`: the two engines
+   that implement initial-letter disagree badly on how big an N-line cap is
+   (Blink and WebKit measured ~40% apart for the same declaration), while an em
+   font-size is the one sizing every engine agrees on.
 
-   The two numbers are a pair, tuned against the old Chrome rendering:
-   7.6em reproduces its glyph height (125px ink), and 0.74 line-height makes the
-   float box 5.62em, just under the 4 body lines (4 x 1.45em = 5.8em) it has to
-   clear, so exactly four lines wrap around the cap. Retune both together if the
-   body line-height ever moves off 1.45. */
+   Unlike a free-form cap, the boxed initial shows any misalignment, so the
+   numbers are derived, not tuned. Every glyph is an 800x800 square sitting on
+   the baseline. The square should run from line 1's cap height down to line
+   4's baseline.
+
+   The catch: line metrics come from the "first available font", the first
+   family whose unicode-range covers U+0020. None of the per-letter Goudy files
+   does, so the cap's ascent/descent are the FALLBACK's, not Goudy's. With a
+   bare `serif` that meant each platform's Times, and the square sat ~9px high
+   in Chrome on macOS. Naming New Computer Modern as the fallback pins the
+   metrics to a font that is already loaded and has identical hhea/win metrics
+   everywhere (ascent 1.127, descent 0.290).
+
+   Body text (NCM, `.content p` line-height 1.45em), in body ems:
+
+       half-leading                 = (1.45 - 1.127 - 0.290) / 2 = 0.0165
+       line-1 cap height            = 0.0165 + 1.127 - 0.683     = 0.4605  below p top
+       line-1 cap -> line-4 baseline = 3 x 1.45 + 0.683          = 5.033
+
+   so font-size = 5.033 / 0.8 = 6.29em. The cap, in its own ems (margins on the
+   pseudo-element resolve against ITS font-size), with line-height 0.8:
+
+       baseline below float top = 0.8/2 + (1.127 - 0.290)/2 = 0.8185
+       square top below float top = 0.8185 - 0.8           = 0.0185
+       margin-top = 0.4605 / 6.29 - 0.0185                 = 0.0547em
+
+   The float's margin box ends at 0.0547 + 0.8 = 0.855 (5.38em of body text),
+   between line 4's top (4.35) and line 5's (5.8), so exactly four lines wrap.
+   Measured in Chrome: square top 7.5px (7.37 derived), bottom on line 4's
+   baseline to the pixel. For three lines use 2 x 1.45 + 0.683 in place of
+   5.033 and rederive font-size and margin-top.
+
+   No left margin: the glyph's left side bearing is 0, so the rule sits flush
+   with the text column. The right side bearing is 40/1000 (0.25em of body
+   text); margin-right adds another 0.25em for a half-em gutter. */
 .dropcap > p:first-of-type::first-letter {
-  font-family: "Yinit", serif;
+  font-family: "Goudy Initialen", "New Computer Modern", serif;
   font-weight: normal;
   font-style: normal;
   color: var(--fg);
   float: left;
-  font-size: 7.6em;
-  line-height: 0.74;
-  /* No negative left margin: em here resolves against the cap's own 7.6em, so
-     even -0.04em pulls the glyph ~0.3em of body text out past the column edge
-     and the yinit flourishes bleed into the left gutter. Zero flushes the
-     glyph's left side bearing with the text column. */
-  margin: 0 0.12em 0 0;
+  font-size: 6.29em;
+  line-height: 0.8;
+  margin: 0.0547em 0.04em 0 0;
 }
 
 /* gwern's signature lead-in: the first rendered line set in small caps. Because
    it's ::first-line (not a fixed word count), it reflows with the column and
-   breaks at the wrap, exactly like gwern's. The yinit ::first-letter above wins
+   breaks at the wrap, exactly like gwern's. The ::first-letter above wins
    for the initial glyph, so only the trailing text on line 1 is affected. */
 .dropcap > p:first-of-type::first-line {
   font-variant-caps: small-caps;

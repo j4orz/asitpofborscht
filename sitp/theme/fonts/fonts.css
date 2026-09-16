@@ -218,215 +218,228 @@
   font-display: swap;
 }
 
-/* ===== Yinit drop-cap initials (gwern-style) =====
+/* ===== Goudy Initialen drop caps =====
+   Frederic W. Goudy's floriated initials (Lanston Monotype No. 296, c. 1918):
+   a roman capital on a vine-and-leaf ground inside a ruled square, after the
+   woodcut initials of 15th/16th-century printing. Digitized by Dieter Steffmann
+   and distributed on CTAN (fonts/initials) under the LPPL.
+
+   Upstream ships only Type 1 (GoudyIn.pfb), which browsers can't load, so each
+   capital was converted to a CFF woff2 of its own: outlines copied through
+   fontTools (t1Lib glyph -> T2CharStringPen -> FontBuilder), no other changes,
+   and checked with OTS (`ots.sanitize`, the sanitizer Chrome and Firefox run).
+   Every glyph is the same 800x800 box on the baseline with an 840 advance, and
+   the vertical metrics are set to exactly that box (ascent 800, descent 0) so
+   the dropcap geometry in custom.css can be computed rather than eyeballed.
+
    26 single-glyph files, one per capital. unicode-range makes the browser
    fetch ONLY the letter a page actually starts with. Used by the opt-in
    `.dropcap` wrapper class (see custom.css). */
 @font-face {
-  font-family: "Yinit";
+  font-family: "Goudy Initialen";
   font-style: normal;
   font-weight: 400;
-  src: url("Yinit-A.ttf") format("truetype");
+  src: url("GoudyInitialen-A.woff2") format("woff2");
   unicode-range: U+0041;
   font-display: swap;
 }
 @font-face {
-  font-family: "Yinit";
+  font-family: "Goudy Initialen";
   font-style: normal;
   font-weight: 400;
-  src: url("Yinit-B.ttf") format("truetype");
+  src: url("GoudyInitialen-B.woff2") format("woff2");
   unicode-range: U+0042;
   font-display: swap;
 }
 @font-face {
-  font-family: "Yinit";
+  font-family: "Goudy Initialen";
   font-style: normal;
   font-weight: 400;
-  src: url("Yinit-C.ttf") format("truetype");
+  src: url("GoudyInitialen-C.woff2") format("woff2");
   unicode-range: U+0043;
   font-display: swap;
 }
 @font-face {
-  font-family: "Yinit";
+  font-family: "Goudy Initialen";
   font-style: normal;
   font-weight: 400;
-  src: url("Yinit-D.ttf") format("truetype");
+  src: url("GoudyInitialen-D.woff2") format("woff2");
   unicode-range: U+0044;
   font-display: swap;
 }
 @font-face {
-  font-family: "Yinit";
+  font-family: "Goudy Initialen";
   font-style: normal;
   font-weight: 400;
-  src: url("Yinit-E.ttf") format("truetype");
+  src: url("GoudyInitialen-E.woff2") format("woff2");
   unicode-range: U+0045;
   font-display: swap;
 }
 @font-face {
-  font-family: "Yinit";
+  font-family: "Goudy Initialen";
   font-style: normal;
   font-weight: 400;
-  src: url("Yinit-F.ttf") format("truetype");
+  src: url("GoudyInitialen-F.woff2") format("woff2");
   unicode-range: U+0046;
   font-display: swap;
 }
 @font-face {
-  font-family: "Yinit";
+  font-family: "Goudy Initialen";
   font-style: normal;
   font-weight: 400;
-  src: url("Yinit-G.ttf") format("truetype");
+  src: url("GoudyInitialen-G.woff2") format("woff2");
   unicode-range: U+0047;
   font-display: swap;
 }
 @font-face {
-  font-family: "Yinit";
+  font-family: "Goudy Initialen";
   font-style: normal;
   font-weight: 400;
-  src: url("Yinit-H.ttf") format("truetype");
+  src: url("GoudyInitialen-H.woff2") format("woff2");
   unicode-range: U+0048;
   font-display: swap;
 }
 @font-face {
-  font-family: "Yinit";
+  font-family: "Goudy Initialen";
   font-style: normal;
   font-weight: 400;
-  src: url("Yinit-I.ttf") format("truetype");
+  src: url("GoudyInitialen-I.woff2") format("woff2");
   unicode-range: U+0049;
   font-display: swap;
 }
 @font-face {
-  font-family: "Yinit";
+  font-family: "Goudy Initialen";
   font-style: normal;
   font-weight: 400;
-  src: url("Yinit-J.ttf") format("truetype");
+  src: url("GoudyInitialen-J.woff2") format("woff2");
   unicode-range: U+004A;
   font-display: swap;
 }
 @font-face {
-  font-family: "Yinit";
+  font-family: "Goudy Initialen";
   font-style: normal;
   font-weight: 400;
-  src: url("Yinit-K.ttf") format("truetype");
+  src: url("GoudyInitialen-K.woff2") format("woff2");
   unicode-range: U+004B;
   font-display: swap;
 }
 @font-face {
-  font-family: "Yinit";
+  font-family: "Goudy Initialen";
   font-style: normal;
   font-weight: 400;
-  src: url("Yinit-L.ttf") format("truetype");
+  src: url("GoudyInitialen-L.woff2") format("woff2");
   unicode-range: U+004C;
   font-display: swap;
 }
 @font-face {
-  font-family: "Yinit";
+  font-family: "Goudy Initialen";
   font-style: normal;
   font-weight: 400;
-  src: url("Yinit-M.ttf") format("truetype");
+  src: url("GoudyInitialen-M.woff2") format("woff2");
   unicode-range: U+004D;
   font-display: swap;
 }
 @font-face {
-  font-family: "Yinit";
+  font-family: "Goudy Initialen";
   font-style: normal;
   font-weight: 400;
-  src: url("Yinit-N.ttf") format("truetype");
+  src: url("GoudyInitialen-N.woff2") format("woff2");
   unicode-range: U+004E;
   font-display: swap;
 }
 @font-face {
-  font-family: "Yinit";
+  font-family: "Goudy Initialen";
   font-style: normal;
   font-weight: 400;
-  src: url("Yinit-O.ttf") format("truetype");
+  src: url("GoudyInitialen-O.woff2") format("woff2");
   unicode-range: U+004F;
   font-display: swap;
 }
 @font-face {
-  font-family: "Yinit";
+  font-family: "Goudy Initialen";
   font-style: normal;
   font-weight: 400;
-  src: url("Yinit-P.ttf") format("truetype");
+  src: url("GoudyInitialen-P.woff2") format("woff2");
   unicode-range: U+0050;
   font-display: swap;
 }
 @font-face {
-  font-family: "Yinit";
+  font-family: "Goudy Initialen";
   font-style: normal;
   font-weight: 400;
-  src: url("Yinit-Q.ttf") format("truetype");
+  src: url("GoudyInitialen-Q.woff2") format("woff2");
   unicode-range: U+0051;
   font-display: swap;
 }
 @font-face {
-  font-family: "Yinit";
+  font-family: "Goudy Initialen";
   font-style: normal;
   font-weight: 400;
-  src: url("Yinit-R.ttf") format("truetype");
+  src: url("GoudyInitialen-R.woff2") format("woff2");
   unicode-range: U+0052;
   font-display: swap;
 }
 @font-face {
-  font-family: "Yinit";
+  font-family: "Goudy Initialen";
   font-style: normal;
   font-weight: 400;
-  src: url("Yinit-S.ttf") format("truetype");
+  src: url("GoudyInitialen-S.woff2") format("woff2");
   unicode-range: U+0053;
   font-display: swap;
 }
 @font-face {
-  font-family: "Yinit";
+  font-family: "Goudy Initialen";
   font-style: normal;
   font-weight: 400;
-  src: url("Yinit-T.ttf") format("truetype");
+  src: url("GoudyInitialen-T.woff2") format("woff2");
   unicode-range: U+0054;
   font-display: swap;
 }
 @font-face {
-  font-family: "Yinit";
+  font-family: "Goudy Initialen";
   font-style: normal;
   font-weight: 400;
-  src: url("Yinit-U.ttf") format("truetype");
+  src: url("GoudyInitialen-U.woff2") format("woff2");
   unicode-range: U+0055;
   font-display: swap;
 }
 @font-face {
-  font-family: "Yinit";
+  font-family: "Goudy Initialen";
   font-style: normal;
   font-weight: 400;
-  src: url("Yinit-V.ttf") format("truetype");
+  src: url("GoudyInitialen-V.woff2") format("woff2");
   unicode-range: U+0056;
   font-display: swap;
 }
 @font-face {
-  font-family: "Yinit";
+  font-family: "Goudy Initialen";
   font-style: normal;
   font-weight: 400;
-  src: url("Yinit-W.ttf") format("truetype");
+  src: url("GoudyInitialen-W.woff2") format("woff2");
   unicode-range: U+0057;
   font-display: swap;
 }
 @font-face {
-  font-family: "Yinit";
+  font-family: "Goudy Initialen";
   font-style: normal;
   font-weight: 400;
-  src: url("Yinit-X.ttf") format("truetype");
+  src: url("GoudyInitialen-X.woff2") format("woff2");
   unicode-range: U+0058;
   font-display: swap;
 }
 @font-face {
-  font-family: "Yinit";
+  font-family: "Goudy Initialen";
   font-style: normal;
   font-weight: 400;
-  src: url("Yinit-Y.ttf") format("truetype");
+  src: url("GoudyInitialen-Y.woff2") format("woff2");
   unicode-range: U+0059;
   font-display: swap;
 }
 @font-face {
-  font-family: "Yinit";
+  font-family: "Goudy Initialen";
   font-style: normal;
   font-weight: 400;
-  src: url("Yinit-Z.ttf") format("truetype");
+  src: url("GoudyInitialen-Z.woff2") format("woff2");
   unicode-range: U+005A;
   font-display: swap;
 }
