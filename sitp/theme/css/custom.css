@@ -1916,11 +1916,14 @@ html.ayu  .ref-item a[href*="wikipedia.org"]::before,
 html.green .ref-item a[href*="wikipedia.org"]::before { filter: invert(1) brightness(1.7); }
 
 /* --------------------------------------------------------------------------
-   Hover previews for numpy documentation links (behavior in theme/js/custom.js).
-   A small floating card showing the fetched function signature + summary. Reuses
-   the notebook palette (cream in light, dark in the dark themes) so it reads as
-   part of the same surface family; the signature line borrows the In[]/Out[]
-   prompt color and the book's --mono-font.
+   Hover previews (behavior in theme/js/custom.js). One small floating card,
+   shared by both kinds of peek: `.doc-preview-docs` for a library documentation
+   link, showing the fetched function signature + summary, and
+   `.doc-preview-xref` for a cross-reference into the book, showing the target
+   block quoted out of its own page. Reuses the notebook palette (cream in
+   light, dark in the dark themes) so it reads as part of the same surface
+   family; the signature line borrows the In[]/Out[] prompt color and the book's
+   --mono-font.
    -------------------------------------------------------------------------- */
 .doc-preview {
   position: fixed;
@@ -1966,6 +1969,66 @@ html.green .ref-item a[href*="wikipedia.org"]::before { filter: invert(1) bright
   font-size: 1.1rem;
   font-family: var(--mono-font, "Source Code Pro", monospace);
   opacity: 0.65;
+}
+
+/* A cross-reference card quotes the book's own markup — math, emphasis, inline
+   icons — rather than text pulled out of a foreign page, so it is set in the
+   body face at the card's size and mostly just needs its page-level margins
+   taken off. It runs a little wider than a signature card because it holds
+   whole sentences. */
+.doc-preview-xref {
+  max-width: min(460px, calc(100vw - 24px));
+}
+/* Where the quote comes from: the section heading, or a box's own title when
+   the quote is a box. It names a heading, so it is set like one — the same
+   real small caps and 0.02em tracking as `main h1`-`h4` above, in the body
+   face — and is held apart from the prose under it by color rather than by
+   size. (`text-transform: uppercase` would defeat this: `smcp` needs real
+   lowercase letters to lower, and pre-uppercased text comes through as plain
+   capitals.) */
+.doc-preview-xref .xref-title {
+  font-variant-caps: small-caps;
+  font-variant: small-caps;
+  letter-spacing: 0.02em;
+  font-size: 1.25rem;
+  color: var(--nb-prompt);
+  margin-bottom: 0.45rem;
+}
+/* A long paragraph is cut off rather than allowed to fill the screen: this is a
+   peek, and the link is right there for the rest of it. */
+.doc-preview-xref .xref-body {
+  position: relative;
+  max-height: 14em;
+  overflow: hidden;
+}
+/* Drawn only when the quote really does run past the card (the class is set by
+   measurement in theme/js/custom.js), so a short quote gets no phantom fade. */
+.doc-preview-xref .xref-body.xref-clipped::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3em;
+  background: linear-gradient(to bottom, transparent, var(--nb-in-bg));
+}
+.doc-preview-xref .xref-body p { margin: 0 0 0.5em; }
+.doc-preview-xref .xref-body > :first-child { margin-top: 0; }
+.doc-preview-xref .xref-body > :last-child { margin-bottom: 0; }
+.doc-preview-xref .xref-body img { max-width: 100%; }
+/* A quoted definition box keeps its own border and numbered title bar — it
+   should look like the thing the reader is about to jump to — and only loses
+   the page margins it would otherwise press against the card's padding. */
+.doc-preview-xref .xref-body :is(.definition, .theorem, .lemma, .example) {
+  margin: 0;
+}
+/* The word the link was pointing at, banded in the same wash the notebooks use
+   to point at a line of code. */
+.doc-preview-xref .xref-term {
+  background: var(--nb-hl-bg);
+  border-radius: 2px;
+  padding: 0 0.15em;
+  margin: 0 -0.15em;
 }
 
 

@@ -59,9 +59,15 @@ document.addEventListener("DOMContentLoaded", function () {
 // (numbering runs continuously through a section's subheadings).
 // Authoring is unchanged — data-title="Definition: Name" -> "Definition 0.1: Name".
 // To number each type separately instead, key `n` by `word` (a per-type map).
-document.addEventListener("DOMContentLoaded", function () {
+//
+// Takes the document to number rather than assuming the page's own, and is
+// exposed, because these numbers exist only at runtime: no build step writes
+// them into the HTML. The cross-reference previews further down fetch *other*
+// chapters as bare documents, and a box quoted out of one has to carry the
+// number the reader will see when they arrive.
+window.sitpNumberBoxes = function (doc) {
   var BOX = "div.definition, div.theorem, div.lemma";
-  var root = document.querySelector(".content") || document.body;
+  var root = doc.querySelector(".content") || doc.body || doc;
   var section = null; // section prefix: "0" for prelude, "1".. per intermezzo
   var inter = 0;      // intermezzo ordinal (1st intermezzo -> 1)
   var n = 0;          // running counter within the current section
@@ -82,6 +88,10 @@ document.addEventListener("DOMContentLoaded", function () {
                                        : word + " " + num);
     el.dataset.numbered = "1";
   });
+};
+
+document.addEventListener("DOMContentLoaded", function () {
+  window.sitpNumberBoxes(document);
 });
 
 // Tag paragraphs whose entire content IS an <em> (standalone italic lines like
@@ -102,10 +112,12 @@ document.addEventListener("DOMContentLoaded", function () {
 // A `.defnote-embed` sits this out: it repeats no term, so its slug would be a
 // whole quotation, and the hijacked click would swallow taps on the links the
 // embed's own fallback markup carries before the widget swaps itself in.
-document.addEventListener("DOMContentLoaded", function () {
-  const defnotes = document.querySelectorAll(".defnote:not(.defnote-embed)");
-  if (defnotes.length === 0) return;
-
+//
+// The id-assigning half takes a document and is exposed, for the same reason
+// `sitpNumberBoxes` above is: nothing in the build writes these ids, so a
+// chapter fetched for a cross-reference preview has none until this is run over
+// it, and a link like `#vector` cannot be resolved inside it.
+window.sitpDefnoteIds = function (doc) {
   function slugify(text) {
     return text
       .trim()
@@ -115,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   const seen = Object.create(null);
-  defnotes.forEach(function (note) {
+  doc.querySelectorAll(".defnote:not(.defnote-embed)").forEach(function (note) {
     let slug = slugify(note.textContent);
     if (!slug) return;
     if (seen[slug] !== undefined) {
@@ -127,6 +139,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     note.id = slug;
     note.classList.add("defnote-link");
+  });
+};
+
+document.addEventListener("DOMContentLoaded", function () {
+  window.sitpDefnoteIds(document);
+  document.querySelectorAll(".defnote-link").forEach(function (note) {
     note.addEventListener("click", function (e) {
       // A refinement ladder (see preprocessors/mdbook-refine) lives inside the
       // note and carries its own links; let those navigate instead of being
@@ -136,7 +154,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // headers. Clearing the hash first guarantees navigation fires even when
       // the hash already equals this slug.
       history.replaceState(null, "", location.pathname + location.search);
-      location.hash = slug;
+      location.hash = note.id;
     });
   });
 });
@@ -256,61 +274,40 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// Hover previews for library documentation links. These sites publish
-// Sphinx-generated pages, so on hover we fetch the target page, pull out just
-// the object's signature + one-line summary, and float them in a small popup —
-// no iframe, no build step. Results are cached per URL, and a hover-intent
-// delay keeps incidental mouse passes from firing fetches.
+// ===========================================================================
+// Hover previews. Two kinds of link get a peek before the reader commits to
+// the jump, and both are the same popup, the same hover-intent delay and the
+// same touch model; they differ only in where the content comes from, which is
+// all the two PROVIDERS below define.
 //
-// SITES lists what to preview and how to reach it. numpy.org serves
-// `access-control-allow-origin: *`, so its pages are readable cross-origin and
-// are fetched directly. matplotlib.org sends no CORS header at all, so a direct
-// read is blocked by the browser; its fetches are rewritten onto this site's own
-// origin, where the /docs-proxy/ rule in netlify.toml forwards them upstream.
-// The links themselves are never rewritten — clicking still goes to the real
-// docs, and the proxy only ever carries these previews. (The proxy is a Netlify
-// rule, so under a local `mdbook serve` the matplotlib fetch 404s and the popup
-// falls back to "Preview unavailable"; numpy previews still work locally.)
+//   docs — links into library documentation (numpy, matplotlib). Those sites
+//          publish Sphinx-generated pages, so on hover we fetch the target
+//          page, pull out just the object's signature + one-line summary, and
+//          float them in the popup — no iframe, no build step.
 //
-// To add another pydata-Sphinx site (scipy, pandas), add a SITES entry — the
-// extraction below keys off the `dt[id]` / `dd` structure every such page shares
-// — and check whether it needs a proxy: `curl -sI <page> | grep -i access-control`.
+//   xref — links into the book itself: "see §1.3.1", a chapter link, a
+//          refinement dot. The target is one of our own pages, so rather than
+//          summarize it we clone the very block the anchor lands on — math,
+//          emphasis, inline icons and all — and show that. A cross-reference
+//          then costs a glance instead of a jump, and the reader who does jump
+//          knows what they are jumping to.
 //
-// A finger has no hover, so on touch the same popup is driven by taps instead:
-// the first tap on a link peeks (its navigation is cancelled), a second tap on
-// the link or on the popup follows through to the docs, and a tap anywhere else
-// dismisses. Which mode is live is asked per event rather than once at load, so
-// an iPad that acquires a trackpad — or a laptop whose reader is using the
-// touchscreen — is never stuck with the wrong one.
+// Results are cached (per URL for docs, per parsed page for xrefs) and a
+// hover-intent delay keeps incidental mouse passes from firing fetches.
+//
+// A finger has no hover, so on touch the popup is driven by taps instead: the
+// first tap on a link peeks (its navigation is cancelled), a second tap on the
+// link or on the popup follows through, and a tap anywhere else dismisses.
+// Which mode is live is asked per event rather than once at load, so an iPad
+// that acquires a trackpad — or a laptop whose reader is using the touchscreen
+// — is never stuck with the wrong one.
+//
+// Styling for both lives in theme/css/custom.css (`.doc-preview*`).
+// ===========================================================================
 document.addEventListener("DOMContentLoaded", function () {
-  var SITES = [
-    { match: 'a[href*="numpy.org/doc"]', proxy: null },
-    {
-      match: 'a[href*="matplotlib.org/"]',
-      proxy: { from: /^https?:\/\/matplotlib\.org\//, to: "/docs-proxy/matplotlib/" },
-    },
-  ];
-
-  var links = document.querySelectorAll(
-    SITES.map(function (s) {
-      return s.match;
-    }).join(", ")
-  );
-  if (links.length === 0) return;
-
-  // Where to actually fetch a link's page from: itself, unless its site needs
-  // the same-origin proxy to get past a missing CORS header.
-  function fetchUrl(href) {
-    for (var i = 0; i < SITES.length; i++) {
-      var p = SITES[i].proxy;
-      if (p && p.from.test(href)) return href.replace(p.from, p.to);
-    }
-    return href;
-  }
-
   var HOVER_DELAY = 250; // ms of hover intent before fetching
   var HIDE_DELAY = 160;  // ms grace so the cursor can travel link -> popup
-  var cache = new Map(); // href -> Promise<{sig, summary}>
+
   var pop = null;        // single shared popup element
   var anchor = null;     // link the popup currently belongs to
   var peeked = null;     // link whose peek a tap has already paid for (touch)
@@ -323,69 +320,6 @@ document.addEventListener("DOMContentLoaded", function () {
   // open and close on the same tap.
   function touch() {
     return window.matchMedia("(hover: none)").matches;
-  }
-
-  // The anchor a doc page hangs its content on: numpy.argsort.html documents
-  // the id "numpy.argsort". Prefer an explicit #fragment when the link has one.
-  function targetId(href) {
-    try {
-      var u = new URL(href, location.href);
-      if (u.hash) return decodeURIComponent(u.hash.slice(1));
-      var last = u.pathname.split("/").pop() || "";
-      return last.replace(/\.html?$/, "");
-    } catch (e) {
-      return "";
-    }
-  }
-
-  // Text of a node minus Sphinx's "¶" headerlink anchors, whitespace-collapsed.
-  function cleanText(node) {
-    var c = node.cloneNode(true);
-    // Drop Sphinx chrome: the "¶" headerlink and the "[source]" viewcode link.
-    c.querySelectorAll(".headerlink, .viewcode-link").forEach(function (x) {
-      x.remove();
-    });
-    return c.textContent
-      .replace(/¶/g, "")
-      .replace(/\[source\]/g, "")
-      .replace(/\s+/g, " ")
-      .trim();
-  }
-
-  function extract(doc, href) {
-    var id = targetId(href);
-    var dt = id ? doc.getElementById(id) : null;
-    var sig, summary;
-    if (dt && dt.tagName === "DT") {
-      // The signature <dt> and its description <dd> are siblings under one <dl>.
-      sig = cleanText(dt);
-      var dl = dt.closest("dl");
-      var dd = dl ? dl.querySelector(":scope > dd") : null;
-      var p = dd ? dd.querySelector(":scope > p") : null;
-      if (p) summary = cleanText(p);
-    }
-    if (!sig) {
-      // Fallback for pages without a single documented object (e.g. topic pages).
-      var h1 = doc.querySelector("h1");
-      if (h1) sig = cleanText(h1);
-      var mp = doc.querySelector("main p, [role=main] p, .body p, article p");
-      if (mp) summary = cleanText(mp);
-    }
-    return { sig: sig || "", summary: summary || "" };
-  }
-
-  function load(href) {
-    if (cache.has(href)) return cache.get(href);
-    var p = fetch(fetchUrl(href), { credentials: "omit" })
-      .then(function (r) {
-        if (!r.ok) throw new Error(r.status);
-        return r.text();
-      })
-      .then(function (html) {
-        return extract(new DOMParser().parseFromString(html, "text/html"), href);
-      });
-    cache.set(href, p);
-    return p;
   }
 
   function ensurePop() {
@@ -403,8 +337,11 @@ document.addEventListener("DOMContentLoaded", function () {
       scheduleHide();
     });
     // Under tap-to-peek the popup is the second half of the link: tapping it is
-    // the same "yes, take me there" as tapping the link again.
-    pop.addEventListener("click", function () {
+    // the same "yes, take me there" as tapping the link again. An xref preview
+    // quotes real prose, so it can carry links of its own — those are the
+    // reader's to follow, and are left alone.
+    pop.addEventListener("click", function (e) {
+      if (e.target.closest("a")) return;
       if (touch() && anchor) window.location.href = anchor.href;
     });
     document.body.appendChild(pop);
@@ -432,52 +369,57 @@ document.addEventListener("DOMContentLoaded", function () {
     pop.style.display = "";
   }
 
-  function fill(html) {
-    ensurePop().innerHTML = html;
-  }
-
-  function render(data, href) {
-    // Always the link's own host, never the proxy path the fetch went through.
-    var host;
-    try {
-      host = new URL(href, location.href).host;
-    } catch (e) {
-      host = "";
-    }
-    var parts = [];
-    if (data.sig) parts.push('<div class="doc-preview-sig"></div>');
-    if (data.summary) parts.push('<p class="doc-preview-summary"></p>');
-    parts.push('<div class="doc-preview-src"></div>');
-    fill(parts.join(""));
-    // Assign as text (not HTML) so page content can't inject markup.
-    if (data.sig) pop.querySelector(".doc-preview-sig").textContent = data.sig;
-    if (data.summary)
-      pop.querySelector(".doc-preview-summary").textContent = data.summary;
-    pop.querySelector(".doc-preview-src").textContent = host;
+  // The popup's one-line states: "Loading…", "Preview unavailable", or a link's
+  // own text when its target turned out to hold nothing worth quoting. Assigned
+  // as text, never as HTML — some of it comes from a fetched page.
+  function message(p, text) {
+    p.replaceChildren();
+    var d = document.createElement("div");
+    d.className = "doc-preview-loading";
+    d.textContent = text;
+    p.appendChild(d);
   }
 
   function show(a) {
     anchor = a;
-    var href = a.href;
-    ensurePop();
-    fill('<div class="doc-preview-loading">Loading…</div>');
-    pop.classList.add("visible");
-    position();
-    load(href)
-      .then(function (data) {
-        if (anchor !== a) return; // hovered elsewhere meanwhile
-        if (!data.sig && !data.summary) {
-          fill('<div class="doc-preview-loading">' + a.textContent + "</div>");
-        } else {
-          render(data, href);
-        }
-        position();
-      })
-      .catch(function () {
-        if (anchor !== a) return;
-        fill('<div class="doc-preview-loading">Preview unavailable</div>');
-        position();
-      });
+    var provider = a.__peek;
+    var p = ensurePop();
+    p.className = "doc-preview " + provider.cls;
+
+    function done(data) {
+      if (anchor !== a) return; // hovered elsewhere meanwhile
+      if (!data) {
+        message(p, "Preview unavailable");
+      } else {
+        provider.fill(p, a, data);
+      }
+      p.classList.add("visible");
+      position();
+    }
+    function failed() {
+      if (anchor !== a) return;
+      message(p, "Preview unavailable");
+      p.classList.add("visible");
+      position();
+    }
+
+    var data;
+    try {
+      data = provider.load(a);
+    } catch (e) {
+      failed();
+      return;
+    }
+    if (data && typeof data.then === "function") {
+      // Only a fetch is slow enough to be worth a "Loading…" frame; a preview
+      // taken from the page the reader is already on is in hand already.
+      message(p, "Loading…");
+      p.classList.add("visible");
+      position();
+      data.then(done, failed);
+    } else {
+      done(data);
+    }
   }
 
   function scheduleHide() {
@@ -491,7 +433,444 @@ document.addEventListener("DOMContentLoaded", function () {
     }, HIDE_DELAY);
   }
 
-  links.forEach(function (a) {
+  /* -- provider: library documentation links ------------------------------- */
+  // SITES lists what to preview and how to reach it. numpy.org serves
+  // `access-control-allow-origin: *`, so its pages are readable cross-origin and
+  // are fetched directly. matplotlib.org sends no CORS header at all, so a direct
+  // read is blocked by the browser; its fetches are rewritten onto this site's own
+  // origin, where the /docs-proxy/ rule in netlify.toml forwards them upstream.
+  // The links themselves are never rewritten — clicking still goes to the real
+  // docs, and the proxy only ever carries these previews. (The proxy is a Netlify
+  // rule, so under a local `mdbook serve` the matplotlib fetch 404s and the popup
+  // falls back to "Preview unavailable"; numpy previews still work locally.)
+  //
+  // To add another pydata-Sphinx site (scipy, pandas), add a SITES entry — the
+  // extraction below keys off the `dt[id]` / `dd` structure every such page shares
+  // — and check whether it needs a proxy: `curl -sI <page> | grep -i access-control`.
+  var docs = (function () {
+    var SITES = [
+      { match: 'a[href*="numpy.org/doc"]', proxy: null },
+      {
+        match: 'a[href*="matplotlib.org/"]',
+        proxy: { from: /^https?:\/\/matplotlib\.org\//, to: "/docs-proxy/matplotlib/" },
+      },
+    ];
+
+    var cache = new Map(); // href -> Promise<{sig, summary}>
+
+    // Where to actually fetch a link's page from: itself, unless its site needs
+    // the same-origin proxy to get past a missing CORS header.
+    function fetchUrl(href) {
+      for (var i = 0; i < SITES.length; i++) {
+        var p = SITES[i].proxy;
+        if (p && p.from.test(href)) return href.replace(p.from, p.to);
+      }
+      return href;
+    }
+
+    // The anchor a doc page hangs its content on: numpy.argsort.html documents
+    // the id "numpy.argsort". Prefer an explicit #fragment when the link has one.
+    function targetId(href) {
+      try {
+        var u = new URL(href, location.href);
+        if (u.hash) return decodeURIComponent(u.hash.slice(1));
+        var last = u.pathname.split("/").pop() || "";
+        return last.replace(/\.html?$/, "");
+      } catch (e) {
+        return "";
+      }
+    }
+
+    // Text of a node minus Sphinx's "¶" headerlink anchors, whitespace-collapsed.
+    function cleanText(node) {
+      var c = node.cloneNode(true);
+      // Drop Sphinx chrome: the "¶" headerlink and the "[source]" viewcode link.
+      c.querySelectorAll(".headerlink, .viewcode-link").forEach(function (x) {
+        x.remove();
+      });
+      return c.textContent
+        .replace(/¶/g, "")
+        .replace(/\[source\]/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function extract(doc, href) {
+      var id = targetId(href);
+      var dt = id ? doc.getElementById(id) : null;
+      var sig, summary;
+      if (dt && dt.tagName === "DT") {
+        // The signature <dt> and its description <dd> are siblings under one <dl>.
+        sig = cleanText(dt);
+        var dl = dt.closest("dl");
+        var dd = dl ? dl.querySelector(":scope > dd") : null;
+        var p = dd ? dd.querySelector(":scope > p") : null;
+        if (p) summary = cleanText(p);
+      }
+      if (!sig) {
+        // Fallback for pages without a single documented object (e.g. topic pages).
+        var h1 = doc.querySelector("h1");
+        if (h1) sig = cleanText(h1);
+        var mp = doc.querySelector("main p, [role=main] p, .body p, article p");
+        if (mp) summary = cleanText(mp);
+      }
+      return { sig: sig || "", summary: summary || "" };
+    }
+
+    return {
+      cls: "doc-preview-docs",
+
+      links: function () {
+        return document.querySelectorAll(
+          SITES.map(function (s) {
+            return s.match;
+          }).join(", ")
+        );
+      },
+
+      load: function (a) {
+        var href = a.href;
+        if (cache.has(href)) return cache.get(href);
+        var p = fetch(fetchUrl(href), { credentials: "omit" })
+          .then(function (r) {
+            if (!r.ok) throw new Error(r.status);
+            return r.text();
+          })
+          .then(function (html) {
+            return extract(new DOMParser().parseFromString(html, "text/html"), href);
+          });
+        cache.set(href, p);
+        return p;
+      },
+
+      fill: function (p, a, data) {
+        if (!data.sig && !data.summary) {
+          message(p, a.textContent);
+          return;
+        }
+        // Always the link's own host, never the proxy path the fetch went through.
+        var host;
+        try {
+          host = new URL(a.href, location.href).host;
+        } catch (e) {
+          host = "";
+        }
+        p.replaceChildren();
+        // Assigned as text (not HTML) so a fetched page can't inject markup.
+        if (data.sig) {
+          var sig = document.createElement("div");
+          sig.className = "doc-preview-sig";
+          sig.textContent = data.sig;
+          p.appendChild(sig);
+        }
+        if (data.summary) {
+          var sum = document.createElement("p");
+          sum.className = "doc-preview-summary";
+          sum.textContent = data.summary;
+          p.appendChild(sum);
+        }
+        var src = document.createElement("div");
+        src.className = "doc-preview-src";
+        src.textContent = host;
+        p.appendChild(src);
+      },
+    };
+  })();
+
+  /* -- provider: cross-references inside the book -------------------------- */
+  // A link is a cross-reference when it resolves to a fragment of this page or
+  // to another chapter of this book. Its anchor comes in one of three shapes,
+  // and each wants a different slice of the target:
+  //
+  //   a heading (#13-parameterizing-classification-...) — the section: its
+  //        title, then the opening blocks of prose under it.
+  //   a box — the `.definition`/`.theorem` itself, quoted whole, since it
+  //        already draws its own numbered title bar.
+  //   anything else — a defnote slug (#vector), a refinement rung
+  //        (#refine-vector-2) — the sentence the term sits in, titled by the
+  //        section it belongs to, with the term marked so the reader can see
+  //        what they were sent to look at.
+  //
+  // A link into another chapter fetches it once and keeps the parsed document,
+  // so it costs one round trip per chapter per session rather than one per
+  // hover, and re-runs the two runtime passes (box numbers, defnote ids) over
+  // it so that its anchors resolve and its boxes are numbered as they will be
+  // on arrival.
+  var xref = (function () {
+    var HERE = location.pathname;
+    var pages = Object.create(null); // pathname -> Document | Promise<Document>
+
+    // Margin apparatus and heavy embeds. All of it is positioned against the
+    // page — the gutter, the notebook column — so it has nowhere to go in a
+    // card, and the note the reader is being shown often *is* one of them.
+    var STRIP =
+      ".defnote, .lecnote, .cppnote, .sidenote, .sidenote-number, .refine-ladder," +
+      " .quiz, .nb-cell, .mobile-only, script, iframe, video, audio";
+    // What counts, under a heading, as prose worth quoting.
+    var PROSE = /^(P|UL|OL|BLOCKQUOTE|DL)$/;
+    var HEADING = /^H[1-6]$/;
+    var BOX = ".definition, .theorem, .lemma, .example";
+    var MAX_BLOCKS = 3;
+    var MAX_CHARS = 500;
+
+    // {path, id, cross, url} for a link into the book, or null for anything else.
+    function where(a) {
+      // A placeholder link ([text]() — a forward reference not yet written) has
+      // nothing to preview, and a heading's own "¶" link points at itself.
+      if (!a.getAttribute("href")) return null;
+      if (a.classList.contains("header")) return null;
+      var u;
+      try {
+        u = new URL(a.href, location.href);
+      } catch (e) {
+        return null;
+      }
+      if (u.origin !== location.origin) return null;
+      if (u.pathname !== HERE && !/\.html$/.test(u.pathname)) return null;
+      var id = u.hash ? decodeURIComponent(u.hash.slice(1)) : "";
+      if (u.pathname === HERE && !id) return null; // "back to the top of this page"
+      return { path: u.pathname, id: id, cross: u.pathname !== HERE, url: u.href };
+    }
+
+    function page(path) {
+      if (path === HERE) return document;
+      if (pages[path]) return pages[path];
+      var p = fetch(path, { credentials: "omit" })
+        .then(function (r) {
+          if (!r.ok) throw new Error(r.status);
+          return r.text();
+        })
+        .then(function (html) {
+          var d = new DOMParser().parseFromString(html, "text/html");
+          window.sitpNumberBoxes(d);
+          window.sitpDefnoteIds(d);
+          pages[path] = d; // later hovers into this chapter resolve with no round trip
+          return d;
+        });
+      pages[path] = p;
+      return p;
+    }
+
+    function text(node) {
+      return node ? (node.textContent || "").replace(/\s+/g, " ").trim() : "";
+    }
+
+    // Text of the nearest heading above `el`. mdBook flattens a chapter into a
+    // single <main>, so "above" means: climb to the top-level block `el` sits
+    // in, then walk back through its siblings.
+    function section(el, root) {
+      if (!root.contains(el)) return "";
+      var node = el;
+      while (node.parentElement && node.parentElement !== root) node = node.parentElement;
+      while (node) {
+        if (HEADING.test(node.tagName)) return text(node);
+        node = node.previousElementSibling;
+      }
+      return "";
+    }
+
+    // A card's worth of prose, starting at `from` and stopping at the next
+    // heading — the section's opening, which is what a reader following a
+    // section link wants to see.
+    function blocks(from) {
+      var out = [];
+      var chars = 0;
+      for (var n = from; n && out.length < MAX_BLOCKS && chars < MAX_CHARS; n = n.nextElementSibling) {
+        if (HEADING.test(n.tagName)) break;
+        if (!PROSE.test(n.tagName)) continue;
+        if (isNav(n)) continue;
+        out.push(n);
+        chars += text(n).length;
+      }
+      return out;
+    }
+
+    // A heading that introduces a table of contents: the book writes each one
+    // as a `<div class="toc">` directly under its heading.
+    function isContents(el) {
+      var n = HEADING.test(el.tagName) ? el.nextElementSibling : null;
+      return !!(n && n.classList.contains("toc"));
+    }
+
+    // A paragraph that is nothing but one link is navigation, not prose: every
+    // section heading in this book is followed by a "↩ Table of Contents" line,
+    // and quoting that back at the reader says nothing about the section.
+    function isNav(n) {
+      var links = n.querySelectorAll("a");
+      return links.length === 1 && text(n) === text(links[0]);
+    }
+
+    // The word the reader was sent to look at. A rung's anchor lives inside the
+    // margin note that trails the term, and the term is the bold run just
+    // before that note.
+    function term(el) {
+      var note = el.classList.contains("defnote") ? el : el.closest(".defnote");
+      if (!note) return null;
+      var prev = note.previousElementSibling;
+      return prev && /^(STRONG|EM|CODE)$/.test(prev.tagName) ? prev : null;
+    }
+
+    function card(title, where, nodes, mark, w) {
+      if (!nodes.length) return null;
+      return {
+        title: title,
+        where: where,
+        nodes: nodes,
+        mark: mark,
+        // Relative URLs inside a block quoted out of another chapter are
+        // resolved against that chapter, not against this page.
+        base: w.cross ? w.url : null,
+      };
+    }
+
+    function extract(d, w) {
+      var root = d.querySelector(".content main") || d.querySelector("main");
+      if (!root) return null;
+      var h1 = root.querySelector("h1:not(.menu-title)");
+      var chapter = text(h1);
+
+      if (!w.id) {
+        // A bare chapter link: the chapter's title and its opening prose.
+        return card(chapter, "", blocks(h1 ? h1.nextElementSibling : root.firstElementChild), null, w);
+      }
+
+      var el = d.getElementById(w.id);
+      if (!el) return null; // a stale or not-yet-written anchor
+
+      if (HEADING.test(el.tagName)) {
+        return card(text(el), w.cross ? chapter : "", blocks(el.nextElementSibling), null, w);
+      }
+
+      var box = el.closest(BOX);
+      if (box) {
+        // The box carries its own numbered title bar, so the card adds none.
+        var place = [section(box, root), w.cross ? chapter : ""].filter(Boolean).join(" · ");
+        return card("", place, [box], term(el), w);
+      }
+
+      var blk = el.closest("p, li, blockquote, dd, figcaption, td") || el;
+      return card(section(blk, root) || chapter, w.cross ? chapter : "", [blk], term(el), w);
+    }
+
+    function rebase(url, base) {
+      try {
+        return new URL(url, base).href;
+      } catch (e) {
+        return url;
+      }
+    }
+
+    // One block, copied out of the book: margin apparatus taken out, ids dropped
+    // (they would be duplicates of the real ones, and would capture
+    // getElementById and :target), and relative URLs re-based when the block
+    // came from another chapter.
+    function snippet(node, mark, base) {
+      // `mark` is a node in the source tree, so flag it before copying and
+      // unflag it straight after — the flag rides along into the copy, which is
+      // the only handle we have on it there.
+      if (mark) mark.setAttribute("data-peek-term", "");
+      var c = document.importNode(node, true);
+      if (mark) mark.removeAttribute("data-peek-term");
+
+      c.querySelectorAll(STRIP).forEach(function (x) {
+        x.remove();
+      });
+      c.querySelectorAll("[id]").forEach(function (x) {
+        x.removeAttribute("id");
+      });
+      if (base) {
+        c.querySelectorAll("a[href]").forEach(function (x) {
+          x.setAttribute("href", rebase(x.getAttribute("href"), base));
+        });
+        c.querySelectorAll("img[src]").forEach(function (x) {
+          x.setAttribute("src", rebase(x.getAttribute("src"), base));
+        });
+      }
+      var t = c.hasAttribute("data-peek-term") ? c : c.querySelector("[data-peek-term]");
+      if (t) {
+        t.removeAttribute("data-peek-term");
+        t.classList.add("xref-term");
+      }
+      return c;
+    }
+
+    return {
+      cls: "doc-preview-xref",
+
+      links: function () {
+        var out = [];
+        document.querySelectorAll(".content main a[href]").forEach(function (a) {
+          var w = where(a);
+          if (!w) return;
+          // None of the contents apparatus gets a peek: an entry in a table of
+          // contents is already the title of the section it leads to, so a card
+          // would only say it twice, and the "↩ Table of Contents" line under
+          // every heading is a step the reader is already taking — whether it
+          // goes to the contents list itself (where the card would quote a list
+          // of links back at them) or up to the section's own heading. A
+          // paragraph that is nothing but one link is that back-link and, in
+          // this book, only ever that.
+          if (a.closest(".toc")) return;
+          var p = a.closest("p");
+          if (p && isNav(p)) return;
+          var t = w.id && !w.cross ? document.getElementById(w.id) : null;
+          if (t && (t.closest(".toc") || isContents(t))) return;
+          // A refinement dot already says which rung it leads to in a native
+          // `title` tooltip. The popup says that and shows the rung itself, so
+          // it takes the tooltip over — two tooltips for one dot is one too
+          // many — and keeps the label for its own footer. The dot's
+          // aria-label is untouched, so assistive tech loses nothing.
+          if (a.classList.contains("refine-dot") && a.title) {
+            a.dataset.peekLabel = a.title;
+            a.removeAttribute("title");
+          }
+          out.push(a);
+        });
+        return out;
+      },
+
+      load: function (a) {
+        var w = where(a);
+        var d = page(w.path);
+        if (d && typeof d.then === "function") {
+          return d.then(function (doc) {
+            return extract(doc, w);
+          });
+        }
+        return extract(d, w);
+      },
+
+      fill: function (p, a, data) {
+        p.replaceChildren();
+        if (data.title) {
+          var h = document.createElement("div");
+          h.className = "xref-title";
+          h.textContent = data.title;
+          p.appendChild(h);
+        }
+        var body = document.createElement("div");
+        body.className = "xref-body";
+        data.nodes.forEach(function (n) {
+          body.appendChild(snippet(n, data.mark, data.base));
+        });
+        p.appendChild(body);
+
+        var place = [data.where, a.dataset.peekLabel].filter(Boolean).join(" · ");
+        if (place) {
+          var src = document.createElement("div");
+          src.className = "doc-preview-src";
+          src.textContent = place;
+          p.appendChild(src);
+        }
+        // The fade at the foot of the body is only honest when the quote really
+        // does run past the card, so it is switched on by measurement.
+        body.classList.toggle("xref-clipped", body.scrollHeight - body.clientHeight > 4);
+      },
+    };
+  })();
+
+  /* -- wiring -------------------------------------------------------------- */
+  function attach(a) {
     a.addEventListener("mouseenter", function () {
       if (touch()) return;
       clearTimeout(hideTimer);
@@ -519,7 +898,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // tap focuses the link before it clicks it, so the `focus` handler above has
     // already opened this very popup by the time the click arrives. Reading the
     // popup's state here would see the peek the tap itself caused and wave the
-    // first tap straight through to numpy.
+    // first tap straight through to the target.
     a.addEventListener("click", function (e) {
       if (!touch() || peeked === a) return;
       e.preventDefault();
@@ -527,6 +906,14 @@ document.addEventListener("DOMContentLoaded", function () {
       clearTimeout(hideTimer);
       clearTimeout(showTimer);
       show(a);
+    });
+  }
+
+  [docs, xref].forEach(function (provider) {
+    Array.prototype.forEach.call(provider.links(), function (a) {
+      if (a.__peek) return; // the first provider to claim a link owns it
+      a.__peek = provider;
+      attach(a);
     });
   });
 
