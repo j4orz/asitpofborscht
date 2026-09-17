@@ -8,5 +8,11 @@ name = "subverso"
 git = "https://github.com/leanprover/subverso.git"
 rev = "main"
 
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.31.0"   # this tag matches your lean-toolchain
+
 [[lean_lib]]
 name = "SitpLean"
+

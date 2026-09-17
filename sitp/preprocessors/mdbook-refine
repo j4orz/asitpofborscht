@@ -22,8 +22,21 @@ so a vaguer definition simply comes earlier in the text.
 Any `<span>` or `<div>` carrying `data-refine` becomes a rung. A `.defnote` gets
 a compact ladder of dots inside the margin label; every other element gets a
 full strip (`< vaguer  ○●○  preciser >`) injected as its first child, which for
-a `.definition`/`.theorem`/`.lemma`/`.example` box renders as a second header
-bar under the title. A key with only one rung emits nothing.
+a `.theorem`/`.lemma`/`.example` box renders as a second header bar under the
+title. A key with only one rung emits nothing.
+
+Definition boxes
+----------------
+Every `.definition` box is also given a margin label, so a term defined in a box
+hangs in the left gutter like a term defined in prose. The first **bold** term
+in the box is written out exactly as an author would in prose,
+
+    A **probability law**<span class="defnote">**probability law**</span> is ...
+
+so the label pins to that term's line. A box that already holds a `.defnote`
+keeps the author's, and a box with no bold term gets none. A refined definition
+box keeps its rung but hangs the dots in that label instead of a strip; only a
+box left without a label falls back to the strip.
 
 Each rung is given `id="refine-<key>-<n>"`, so rungs are linkable by hand too,
 and the injected links are relative URLs — a ladder may span chapters.
@@ -44,6 +57,40 @@ KEY_ATTR, CLASS_ATTR, TITLE_ATTR = ATTR("data-refine"), ATTR("class"), ATTR("dat
 HEADING = re.compile(r"^(#{1,6})\s+(.*)$", re.MULTILINE)
 # Markdown/HTML noise to strip out of a heading before using it in a tooltip.
 INLINE_MD = re.compile(r"<[^>]+>|[*_`$\\]")
+DIV_TAG = re.compile(r"<(/?)div\b[^>]*>", re.IGNORECASE)
+DEFNOTE = re.compile(r'<span\b[^>]*\bclass="[^"]*\bdefnote\b[^"]*"[^>]*>', re.IGNORECASE)
+BOLD = re.compile(r"\*\*(?=\S)(.+?)(?<=\S)\*\*")
+
+
+def classes(attrs):
+    m = CLASS_ATTR.search(attrs)
+    return m.group(1).split() if m else []
+
+
+def box_end(content, start):
+    """Offset of the `</div>` closing the box whose opening tag ends at `start`."""
+    depth = 1
+    for t in DIV_TAG.finditer(content, start):
+        depth += -1 if t.group(1) else 1
+        if depth == 0:
+            return t.start()
+    return len(content)
+
+
+def label_definitions(content):
+    """Write a margin label after the first bold term of each definition box."""
+    edits = []
+    for m in MARKER.finditer(content):
+        if m.group("tag").lower() != "div" or "definition" not in classes(m.group("attrs")):
+            continue
+        body = content[m.end():box_end(content, m.end())]
+        term = BOLD.search(body)
+        if term is None or DEFNOTE.search(body):
+            continue
+        edits.append((m.end() + term.end(), '<span class="defnote">%s</span>' % term.group(0)))
+    for at, text in reversed(edits):
+        content = content[:at] + text + content[at:]
+    return content
 
 
 def chapters(items):
@@ -73,7 +120,11 @@ def section_of(hs, offset):
 
 
 def find_rungs(content):
-    """[(match, key, is_note, label)] for one chapter, in document order."""
+    """[(at, key, is_note, label)] for one chapter, in document order.
+
+    `at` is where the rung's ladder goes: for a note, the end of the note's
+    opening tag; for anything else, the end of the element's own opening tag.
+    """
     hs = headings(content)
     found = []
     for m in MARKER.finditer(content):
@@ -81,12 +132,18 @@ def find_rungs(content):
         key = KEY_ATTR.search(attrs)
         if not key:
             continue
-        classes = (CLASS_ATTR.search(attrs).group(1) if CLASS_ATTR.search(attrs) else "").split()
+        cls = classes(attrs)
         title = TITLE_ATTR.search(attrs)
         # Prefer a box's own title as the tooltip label; fall back to the
         # enclosing section, which is all a bare margin note has.
         label = title.group(1).strip() if title else section_of(hs, m.start())
-        found.append((m, key.group(1), "defnote" in classes, label))
+        at, is_note = m.end(), "defnote" in cls
+        if "definition" in cls:
+            # A definition box carries its rung in its margin label.
+            note = DEFNOTE.search(content, m.end(), box_end(content, m.end()))
+            if note:
+                at, is_note = note.end(), True
+        found.append((at, key.group(1), is_note, label))
     return found
 
 
@@ -143,6 +200,8 @@ def main():
 
     _context, book = json.load(sys.stdin)
     chs = [c for c in chapters(book.get("items", [])) if c.get("content") and c.get("path")]
+    for ch in chs:
+        ch["content"] = label_definitions(ch["content"])
 
     # Pass 1 — index every rung in reading order, so a ladder can point at
     # chapters that have not been rewritten yet (or were rewritten already).
@@ -150,7 +209,7 @@ def main():
     for ch in chs:
         found = find_rungs(ch["content"])
         per_chapter.append(found)
-        for m, key, is_note, label in found:
+        for _at, key, is_note, label in found:
             rungs = index.setdefault(key, [])
             rungs.append({
                 "path": ch["path"],
@@ -158,12 +217,12 @@ def main():
                 "anchor": "refine-%s-%d" % (key, len(rungs) + 1),
             })
 
-    # Pass 2 — inject, right to left so earlier match offsets stay valid.
+    # Pass 2 — inject, right to left so earlier offsets stay valid.
     counters = {}
     for ch, found in zip(chs, per_chapter):
         content = ch["content"]
         edits = []
-        for m, key, is_note, _label in found:
+        for at, key, is_note, _label in found:
             i = counters.get(key, 0)
             counters[key] = i + 1
             rungs = index[key]
@@ -173,7 +232,7 @@ def main():
             if is_note:
                 # Inside the margin label, after its text. Notes hold plain
                 # emphasis, so the next </span> is this note's closing tag.
-                close = content.find("</span>", m.end())
+                close = content.find("</span>", at)
                 if close == -1:
                     sys.stderr.write("mdbook-refine: unclosed defnote for %r in %s\n" % (key, ch["path"]))
                     continue
@@ -182,8 +241,10 @@ def main():
                 # First child of the block. The newline keeps it in the same
                 # raw-HTML block as the opening tag; the author's blank line
                 # still ends that block, so the body renders as Markdown.
-                edits.append((m.end(), m.end(), "\n" + widget))
-        for start, end, text in reversed(edits):
+                edits.append((at, at, "\n" + widget))
+        # Sorted, not just reversed: a box's label sits past any rung opened
+        # before it inside the box.
+        for start, end, text in sorted(edits, key=lambda e: e[0], reverse=True):
             content = content[:start] + text + content[end:]
         ch["content"] = content
 

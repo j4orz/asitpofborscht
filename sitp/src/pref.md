@@ -5,7 +5,10 @@
 
 ## The Structure and Interpretation of The AI Curriculum
 
-<br>
+todo
+- curriculum. nanochat. muon optimizer. muon kernels.
+- progressive closure, knuth's deliberate lying.
+
 
 <div class="dropcap">
 
@@ -76,8 +79,6 @@ The [How to Design Programs](https://htdp.org/) <span class="smallcaps">HTDP</sp
 
 *the concreteness fading [(Fyfe et al., 2014)](https://eric.ed.gov/?id=EJ1036777) of declarative concepts in mathematics [(Hestenes et al., 1992)](https://gwern.net/doc/science/physics/1992-hestenes.pdf)* by presenting  notions just in time by defining them by their context, and iteratively refining (progressive disclosure) such concepts from the informal to formal ending in HtDP-style Intermezzos<span class="sidenote-number"></span><span class="sidenote">*Which present the formal syntax and semantics of a language.*</span>.
 
-todo: progressive closure, knuth's deliberate lying.
-
 that *transfer [(Bransford, Shwartz 1999)](https://journals.sagepub.com/doi/abs/10.3102/0091732x024001061) to procedural skills of computation* [(Price et al., 2021)](https://www.lifescied.org/doi/pdf/10.1187/cbe.20-12-0276) in the context of deep learning. Such transfer is possible because the computational discipline of deep learning has lots of structural similarity with mathematics, and is why we have books such as [Deisenroth et al., (2020)](https://mml-book.github.io/), and subsequent courses follwing such book.
 
 <iframe height="400px" width="100%" loading="lazy" src="https://www.youtube.com/embed/5c0BvOlR5gs?si=WpT3iVQbpjMMB6Ku"  title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -122,10 +123,6 @@ unity/intertwined mathematics and programming
 For instance, the traditional ordering one might approach to the discipline of deep learning is to *synthetically deduce* definitions starting from what is considered to be elementary (i.e your choice of foundations which you pay lip service to as a working mathematician: ZFC or DTT). The benefits of this approach is that the *transfer [(Bransford, Shwartz 1999)](https://journals.sagepub.com/doi/abs/10.3102/0091732x024001061)* of concepts is maximized — afterall, studying mathematics is simply generic programming. While this is no doubt the standard for most mathematical texts, this is what was special about the textbook How to Design Programs, an explicitly curriculum designed and engineered for transfer [(Felleisen, Findler, Flatt, Krishnamurthi 2004)](https://cs.brown.edu/people/sk/Publications/Papers/Published/fffk-htdp-vs-sicp-journal/) expositing programming based off the principles of set theory (whatever that may mean).
 
 all in the context of autoregressive language modeling, culminating in the transformers architecture
-
-<div class="defnote defnote-embed"><blockquote class="twitter-tweet" data-conversation="none" data-width="300"><p lang="en" dir="ltr">if your bread-and-butter consists solely of:<br><br>- tuning hyperparams/config files<br><br>- fitting points on a log-log plot<br><br>- tweaking a few lines in <a href="https://t.co/vrRjs7gH5m">https://t.co/vrRjs7gH5m</a>, <a href="https://t.co/iQsuN4ByoO">https://t.co/iQsuN4ByoO</a>, <a href="https://t.co/2IJGCXpQ4L">https://t.co/2IJGCXpQ4L</a>, <a href="https://t.co/hZfCBXeGKv">https://t.co/hZfCBXeGKv</a><br><br>- waiting a week for &lt;= 512 chips to…</p>&mdash; Susan Zhang (@suchenzang) <a href="https://x.com/suchenzang/status/2063606910285488616?ref_src=twsrc%5Etfw">June 7, 2026</a></blockquote></div>
-
-<div class="defnote defnote-embed"><blockquote class="twitter-tweet" data-conversation="none" data-width="300"><p lang="en" dir="ltr">and if you &quot;just&quot; do infra, you&#39;re SOL on having any impact, RIP <a href="https://t.co/EX0IQp0U84">https://t.co/EX0IQp0U84</a></p>&mdash; Susan Zhang (@suchenzang) <a href="https://x.com/suchenzang/status/2082609362212995197?ref_src=twsrc%5Etfw">July 29, 2026</a></blockquote></div>
 
 during a crisis, it's the Kairos (καιρός). the opportune moment.
 we are living in the eye of the storm, and it's hard to predict what comes next.

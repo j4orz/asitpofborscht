@@ -1235,6 +1235,37 @@ p:has(+ ul) {
   letter-spacing: 0.02em;
 }
 
+/* == Section ornament ======================================================
+   A Markdown `---` sets a Vectorian ornament in place of a hairline, the way
+   Bernstein & Newhouse's "Old Optimizer, New Norm: An Anthology"
+   (arXiv:2409.20325) closes each story with `\pgfornament[width=0.3\columnwidth]{82}`.
+   Same ornament, same 30% of the measure, centered.
+
+   The shape is ./assets/ornament.svg, the pgfornament path data converted to
+   SVG (provenance and license in that file's header). It rides as a mask
+   painted in currentColor, like the C++ note's logo, so it takes the text color
+   in every theme with no `_dark` twin. `aspect-ratio` gives the empty `hr` its
+   height from its width, and the minimum keeps the eye legible on a phone,
+   where 30% of the column is a sliver.
+
+   `../../assets/` for the same reason as `.cppnote`: url() resolves against
+   this stylesheet, which keeps its theme/css/ path in the built book. Print
+   drops backgrounds by default, and the ornament *is* a background. */
+main hr {
+  width: 30%;
+  min-width: 12rem;
+  height: auto;
+  aspect-ratio: 454 / 24;
+  margin: 2em auto;
+  border: 0;
+  color: var(--fg);
+  background-color: currentColor;
+  -webkit-mask: url("../../assets/ornament.svg") center / contain no-repeat;
+  mask: url("../../assets/ornament.svg") center / contain no-repeat;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
 /* Headings h1-h4 in small caps, echoing the dropcap lead-in above. Scoped to
    `main` so the sidebar/menu chrome is untouched, and it rides on the header
    anchor mdBook wraps every heading title in (font-variant inherits).
@@ -1745,10 +1776,12 @@ html.coal .box-notes, html.navy .box-notes, html.ayu .box-notes, html.green .box
    others linking to their rung. Injected by preprocessors/mdbook-refine from
    `data-refine="<key>"`; see that file for the authoring syntax.
 
-   Two forms. `.refine-ladder-box` is a strip inside a definition/theorem box,
+   Two forms. `.refine-ladder-box` is a strip inside a theorem/lemma/example box,
    reading as a second header bar under the title, with worded steps. Inside a
    margin `.defnote` the label has no room for words, so `.refine-ladder-note`
-   is dots alone, hung under the term. */
+   is dots alone, hung under the term. A definition box takes the note form: it
+   is given a margin label of its own, and its ladder hangs there rather than
+   across the box. */
 .refine-ladder {
   display: flex;
   align-items: center;
