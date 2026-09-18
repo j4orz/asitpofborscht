@@ -591,6 +591,11 @@ document.addEventListener("DOMContentLoaded", function () {
   //        section it belongs to, with the term marked so the reader can see
   //        what they were sent to look at.
   //
+  // Whichever shape it is, the quote is shown with the prose block just above
+  // it ghosted in over a gradient — the page the reader would be arriving out
+  // of, fading up into the card's edge — so that a peek lands somewhere in a
+  // chapter instead of arriving out of nowhere.
+  //
   // A link into another chapter fetches it once and keeps the parsed document,
   // so it costs one round trip per chapter per session rather than one per
   // hover, and re-runs the two runtime passes (box numbers, defnote ids) over
@@ -700,6 +705,58 @@ document.addEventListener("DOMContentLoaded", function () {
       return links.length === 1 && text(n) === text(links[0]);
     }
 
+    // What a block would actually show if it were quoted: its text with the
+    // margin apparatus taken out, since `snippet` takes that out of the copy. A
+    // paragraph can be nothing but a figure's label and a sidenote hanging off
+    // it, and on the card that is a label alone.
+    function shown(n) {
+      var c = n.cloneNode(true);
+      c.querySelectorAll(STRIP).forEach(function (x) {
+        x.remove();
+      });
+      return text(c);
+    }
+
+    // A figure's label — the short "Figure 1.2.2" line the book sets under an
+    // image. It names a figure rather than saying anything, so as a run-up it
+    // would be a line of nothing.
+    function isCaption(n, t) {
+      return n.tagName === "P" && t.length < 40 && /^(figure|table|listing)\b/i.test(t);
+    }
+
+    // The prose the quote is arriving out of: the nearest paragraph above it,
+    // shown ghosted under a gradient so that a card reads as a place in a
+    // chapter rather than a fragment cut loose from it.
+    //
+    // The walk starts at the top-level block the quote sits in and steps back
+    // over everything with nothing to say: a standalone image, a figure's
+    // label, a "↩ Table of Contents" back-link, an empty wrapper. The sentence
+    // above those is still the one the reader is arriving out of. It ends with
+    // nothing at a heading — the card's own title already says what the quote
+    // sits under — and at anything that shows something of its own, a box, a
+    // notebook cell, a contents list, which is left where it is rather than
+    // quoted in ghost form.
+    function leadIn(from, root) {
+      if (!from || !root.contains(from)) return null;
+      var node = from;
+      while (node.parentElement && node.parentElement !== root) node = node.parentElement;
+      for (var n = node.previousElementSibling; n; n = n.previousElementSibling) {
+        if (HEADING.test(n.tagName)) return null;
+        // A section's opening paragraph is wrapped in a `.dropcap` div for its
+        // initial. The paragraph inside is ordinary prose, and quoted out of
+        // that wrapper it sets as ordinary prose too.
+        var q = n.classList.contains("dropcap") ? n.querySelector("p") : n;
+        if (!q || !PROSE.test(q.tagName) || q.classList.contains("toc")) {
+          if (text(n)) return null;
+          continue; // an image, a rule, an empty wrapper: keep looking above it
+        }
+        var t = shown(q);
+        if (!t || isNav(q) || isCaption(q, t)) continue;
+        return q;
+      }
+      return null;
+    }
+
     // The word the reader was sent to look at. A rung's anchor lives inside the
     // margin note that trails the term, and the term is the bold run just
     // before that note.
@@ -710,13 +767,19 @@ document.addEventListener("DOMContentLoaded", function () {
       return prev && /^(STRONG|EM|CODE)$/.test(prev.tagName) ? prev : null;
     }
 
-    function card(title, where, nodes, mark, w) {
+    // `lead` is the ghosted run-up from leadIn(), or null: {node, overTitle},
+    // where overTitle says the run-up belongs above the card's title rather
+    // than under it. The title is sometimes the target heading itself — prose
+    // from before that heading precedes it — and sometimes only the name of the
+    // section the quote sits in, which the run-up sits inside too.
+    function card(title, where, nodes, mark, w, lead) {
       if (!nodes.length) return null;
       return {
         title: title,
         where: where,
         nodes: nodes,
         mark: mark,
+        lead: lead || null,
         // Relative URLs inside a block quoted out of another chapter are
         // resolved against that chapter, not against this page.
         base: w.cross ? w.url : null,
@@ -738,18 +801,25 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!el) return null; // a stale or not-yet-written anchor
 
       if (HEADING.test(el.tagName)) {
-        return card(text(el), w.cross ? chapter : "", blocks(el.nextElementSibling), null, w);
+        // The run-up here is the tail of the section above, which comes before
+        // the heading on the page and so comes before it on the card too.
+        var upH = leadIn(el, root);
+        return card(text(el), w.cross ? chapter : "", blocks(el.nextElementSibling), null, w,
+                    upH && { node: upH, overTitle: true });
       }
 
       var box = el.closest(BOX);
       if (box) {
         // The box carries its own numbered title bar, so the card adds none.
         var place = [section(box, root), w.cross ? chapter : ""].filter(Boolean).join(" · ");
-        return card("", place, [box], term(el), w);
+        var upB = leadIn(box, root);
+        return card("", place, [box], term(el), w, upB && { node: upB, overTitle: false });
       }
 
       var blk = el.closest("p, li, blockquote, dd, figcaption, td") || el;
-      return card(section(blk, root) || chapter, w.cross ? chapter : "", [blk], term(el), w);
+      var upP = leadIn(blk, root);
+      return card(section(blk, root) || chapter, w.cross ? chapter : "", [blk], term(el), w,
+                  upP && { node: upP, overTitle: false });
     }
 
     function rebase(url, base) {
@@ -842,12 +912,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
       fill: function (p, a, data) {
         p.replaceChildren();
+        // The run-up is scenery: it is there to show that the quote has a page
+        // above it, it is clipped and faded past reading, and the same prose is
+        // one link away in full. So it is kept out of the accessibility tree and
+        // out of the way of the pointer (`.xref-lead` in the stylesheet), and
+        // assistive tech is given the quote alone, as before.
+        var ghost = null;
+        if (data.lead) {
+          ghost = document.createElement("div");
+          ghost.className = "xref-lead";
+          ghost.setAttribute("aria-hidden", "true");
+          ghost.appendChild(snippet(data.lead.node, null, data.base));
+          if (data.lead.overTitle) p.appendChild(ghost);
+        }
         if (data.title) {
           var h = document.createElement("div");
           h.className = "xref-title";
           h.textContent = data.title;
           p.appendChild(h);
         }
+        if (ghost && !data.lead.overTitle) p.appendChild(ghost);
         var body = document.createElement("div");
         body.className = "xref-body";
         data.nodes.forEach(function (n) {

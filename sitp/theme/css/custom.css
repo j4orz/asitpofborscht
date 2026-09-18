@@ -1994,6 +1994,31 @@ html.green .ref-item a[href*="wikipedia.org"]::before { filter: invert(1) bright
   color: var(--nb-prompt);
   margin-bottom: 0.45rem;
 }
+/* The run-up: the prose block just above the quote, clipped to the last line or
+   two of it and faded out towards the top of the card, so that the quote reads
+   as a place in a chapter rather than a fragment cut loose from it.
+
+   A fixed-height flex column pinned to its end is what shows a paragraph's
+   *tail*: the overflow is thrown off the top of the box, which is the end the
+   fade is over. The fade itself is a mask rather than the overlay the foot of
+   the card uses (`.xref-clipped` below) — the ink has to thin out, not be
+   painted over, because in a card whose title names the section this run-up sits
+   directly under that title, where an opaque wash would band the type above it.
+   Scenery, so it takes no clicks and is `aria-hidden` in theme/js/custom.js. */
+.doc-preview-xref .xref-lead {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 2.7em;
+  overflow: hidden;
+  margin-bottom: 0.3rem;
+  opacity: 0.6;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 1.7em);
+  mask-image: linear-gradient(to bottom, transparent, #000 1.7em);
+  pointer-events: none;
+}
+.doc-preview-xref .xref-lead > * { margin: 0; }
+
 /* A long paragraph is cut off rather than allowed to fill the screen: this is a
    peek, and the link is right there for the rest of it. */
 .doc-preview-xref .xref-body {
