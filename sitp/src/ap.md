@@ -8,7 +8,11 @@
 
 <div class="toc">
 
-- [A. From Symbolic Software 1.0 to Stochastic Software 2.0](#b-from-symbolic-software-10-to-stochastic-software-20)
+- [A. From Problems to Proof]()
+  - [I1.1.1 The Monoid of Naturals](#i111-the-monoid-of-naturals)
+  - [I1.1.2 The Ring of Integers](#i112-the-ring-of-integers)
+  - [I1.1.3 The Field of Reals](#i113-the-field-of-reals)
+- [B. From Symbolic Software 1.0 to Stochastic Software 2.0](#b-from-symbolic-software-10-to-stochastic-software-20)
   - [A.1 From Psychology to Artificial Intelligence](#01-from-psychology-to-artificial-intelligence)
   - [A.2 Weizenbaum's Turing Test Cheater](#02-weizenbaum-cheats-turings-test-with-the-pattern-matching-of-eliza) <!-- with the Pattern Matching of `ELIZA` -->
   - [A.3 Wood's Winograd Challenge](#03-woods-winograd-challenge-with-the-translation-of-lunar) <!-- with the Translation of `LUNAR` -->
@@ -18,8 +22,7 @@
   - [A.6 Summary](#06-summary)
   - [A.7 Bibliographic Notes](#07-bibiliographic-notes)
   - [A.8 Problems](#08-problems)
-- [B. From Non-Parametric to Parametric Models]()
-- [C. From Virtual Machines to Physical Machines]()
+- [C. From Non-Parametric to Parametric Models]()
 <!-- - [D. From Python to Rust]() -->
 <!-- - [E. From Sequential to Parallel Processors](#c-from-sequential-to-parallel-processors)
   - [E.1 Instruction Sets, Processor Pipelines, Memory Hierarchies]()
@@ -166,6 +169,49 @@ then in the part 2 will be semi-automated semantic sequence learning -->
 - sequence: https://arxiv.org/abs/1810.04805, https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf -->
 
 
+
+
+
+
+<!-- ### I1.1 Monoids, Rings, and Fields -->
+<small>[$\hookleftarrow$ Table of Contents (Intermezzo One)](#intermezzo-one-the-language-of-continuous-mathematics)</small>
+
+<div class="dropcap">
+
+Large language models like <span class="smallcaps">GPT-2</span> are specified with the dimensionality of linear algebra and evaluated on next-token prediction with the stochastics of probability theory or equally, the compression of information theory. Particularly, in [§1. Self-Supervised Sequence Learning with Single-Layer Networks](#1-sequence-learning), we've explored single-layer network architectures. That is, parameterized functions of the form $f(\mathbf{x}) := \text{softmax}(\mathbf{w}^{\top}\mathbf{x})$ which take in one-hot vectors $\mathbf{x} \in \reals^n$ and map them to a distribution $p_{\mathbf{Y | X}}(\mathbf{y})$ over a sentence's next possible token $\mathbf{y}$ with the standard inner product which is the matrix-vector multiplication of the dot product. These one-hot vector representations are in turn mapped from and to the string representations $V$. Let us first begin by formalizing the *dimensional* objects from the language of linear algebra used in specifying the architecture such as *vectors* which live in *vector spaces*, followed by the *stochastic* ones from the language of probability theory such as *distributions* which come from *probability spaces*.
+
+$$
+\begin{aligned}
+\N &\stackrel{\triangle}{=} \{0, 1, 2, \dots \} \\
+\Z &\stackrel{\triangle}{=} \{\dots, -2, -1, 0, 1, 2, \dots \} \\
+\mathbb{Q} &\stackrel{\triangle}{=} \{\dots, -2, -1, -\frac{1}{2}, 0, \frac{1}{2}, 1, 2, \dots \} \\
+\R &\stackrel{\triangle}{=} \{\dots, -2, -1, -\frac{1}{2}, 0, \frac{1}{2}, 1, \sqrt{2}, 2, e, \pi, \dots \} \\
+\end{aligned}
+$$
+
+But before we can define $\R^{d}$<span class="defnote">$\R^d$</span> we need to define **reals**<span class="defnote">$\R$</span>. Morever, it's easier to define $\reals$ once you've defined discrete number systems like the **naturals**<span class="defnote">$\N$</span>, **integers**<span class="defnote">$\Z$</span>, and **quotients**<span class="defnote">$\mathbb{Q}$</span>.
+
+[(Tao 2006)](https://terrytao.wordpress.com/books/analysis-i/) or for a terser lecture notes [(New 2016)](https://www.math.uwaterloo.ca/~snew/MATH145/chap1.pdf)
+
+</div>
+
+The core mechanism of $f$
+
+**vector**<span class="defnote">**vector**</span>
+
+### I1.1.1 The Monoid of Naturals
+<small>[$\hookleftarrow$ Table of Contents (Intermezzo 1.1 Monoids, Rings, and Fields)](#i11-monoids-rings-and-fields)</small>
+
+{{#lean SitpLean.Examples}}
+
+### I1.1.2 The Ring of Integers
+<small>[$\hookleftarrow$ Table of Contents (Intermezzo 1.1 Monoids, Rings, and Fields)](#i11-monoids-rings-and-fields)</small>
+
+### I1.1.2 The Field of Rationals
+<small>[$\hookleftarrow$ Table of Contents (Intermezzo 1.1 Monoids, Rings, and Fields)](#i11-monoids-rings-and-fields)</small>
+
+### I1.1.3 The Field of Reals
+<small>[$\hookleftarrow$ Table of Contents (Intermezzo 1.1 Monoids, Rings, and Fields)](#i11-monoids-rings-and-fields)</small>
 
 ## B. From Symbolic Software 1.0 to Stochastic Software 2.0
 <small>[$\hookleftarrow$ Table of Contents](#table-of-contents)</small>
@@ -1093,10 +1139,3 @@ of software 2.0, let's review the symbolic and logical methods of GOFAI that wer
 ### 0.8 Problems
 
 ## C. From Non-Parametric to Parametric Models
-
-## D. From Sequential to Parallel Processors
-
-> In which we historically retrace the development of processors from sequential to parallel processors
-
-![](./assets/io-sodor-pipeline.png)
-![](./assets/oooboom-pipeline.webp)
