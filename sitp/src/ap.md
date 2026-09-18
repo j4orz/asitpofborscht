@@ -173,7 +173,7 @@ then in the part 2 will be semi-automated semantic sequence learning -->
 
 
 
-<!-- ### I1.1 Monoids, Rings, and Fields -->
+### I1.1 Monoids, Rings, and Fields
 <small>[$\hookleftarrow$ Table of Contents (Intermezzo One)](#intermezzo-one-the-language-of-continuous-mathematics)</small>
 
 <div class="dropcap">
