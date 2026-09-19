@@ -682,10 +682,15 @@ document.addEventListener("DOMContentLoaded", function () {
       var chars = 0;
       for (var n = from; n && out.length < MAX_BLOCKS && chars < MAX_CHARS; n = n.nextElementSibling) {
         if (HEADING.test(n.tagName)) break;
-        if (!PROSE.test(n.tagName)) continue;
-        if (isNav(n)) continue;
-        out.push(n);
-        chars += text(n).length;
+        // A section's opening paragraph is wrapped in a `.dropcap` div for its
+        // initial, and it is the first prose a reader following the link would
+        // meet — so the card starts there too. The paragraph inside is ordinary
+        // prose, and quoted out of that wrapper it sets as ordinary prose.
+        var q = n.classList.contains("dropcap") ? n.querySelector("p") : n;
+        if (!q || !PROSE.test(q.tagName)) continue;
+        if (isNav(q)) continue;
+        out.push(q);
+        chars += text(q).length;
       }
       return out;
     }
@@ -935,7 +940,16 @@ document.addEventListener("DOMContentLoaded", function () {
         var body = document.createElement("div");
         body.className = "xref-body";
         data.nodes.forEach(function (n) {
-          body.appendChild(snippet(n, data.mark, data.base));
+          var c = snippet(n, data.mark, data.base);
+          // A section's opening paragraph is quoted out of the `.dropcap` div
+          // that carries its initial on the page (see `blocks` above), so the
+          // selector that draws the cap no longer reaches it. The class is the
+          // handle the card's own, smaller cap hangs on; the ghosted run-up
+          // gets none, being scenery rather than an opening.
+          if (n.parentElement && n.parentElement.classList.contains("dropcap")) {
+            c.classList.add("xref-dropcap");
+          }
+          body.appendChild(c);
         });
         p.appendChild(body);
 

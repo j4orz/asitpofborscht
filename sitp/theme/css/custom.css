@@ -1214,22 +1214,57 @@ p:has(+ ul) {
    No left margin: the glyph's left side bearing is 0, so the rule sits flush
    with the text column. The right side bearing is 40/1000 (0.25em of body
    text); margin-right adds another 0.25em for a half-em gutter. */
-.dropcap > p:first-of-type::first-letter {
+.dropcap > p:first-of-type::first-letter,
+.xref-dropcap::first-letter {
   font-family: "Goudy Initialen", "New Computer Modern", serif;
   font-weight: normal;
   font-style: normal;
   color: var(--fg);
   float: left;
-  font-size: 6.29em;
   line-height: 0.8;
+}
+.dropcap > p:first-of-type::first-letter {
+  font-size: 6.29em;
   margin: 0.0547em 0.04em 0 0;
+}
+
+/* The same cap on a hover preview card (`.xref-dropcap`, set in
+   theme/js/custom.js on a quoted section opening). A card quotes the book, so
+   it should open the way the page does — but it is a peek, ~10 lines tall at
+   most, and a four-line initial in it would be the card rather than an opening
+   to it. Three lines, and the numbers rederived by the method above, because
+   the card sets its prose at a different leading: `.doc-preview` is
+   line-height 1.4 (unitless, so it applies to the quoted paragraph) where the
+   page is 1.45em, and the geometry is built out of that number.
+
+       half-leading                  = (1.4 - 1.127 - 0.290) / 2 = -0.0085
+       line-1 cap height             = -0.0085 + 1.127 - 0.683   =  0.4355  below p top
+       line-1 cap -> line-3 baseline = 2 x 1.4 + 0.683           =  3.483
+
+   so font-size = 3.483 / 0.8 = 4.354em, and in the cap's own ems
+
+       margin-top = 0.4355 / 4.354 - 0.0185 = 0.0815em
+
+   The float's margin box ends at 0.0815 + 0.8 = 0.8815 (3.838em of card text),
+   between line 3's top (2.8) and line 4's (4.2), so exactly three lines wrap.
+   margin-right is the same half-em gutter as on the page — 0.25em of body text,
+   which at this size is 0.25 / 4.354 = 0.057 cap ems. For two lines use
+   1 x 1.4 + 0.683 in place of 3.483 and rederive both numbers.
+
+   The cap is drawn in the card and nowhere else in the preview: the ghosted
+   run-up above a quote is the tail of the paragraph before it, clipped to a
+   line or two, and an initial has no business there. */
+.xref-dropcap::first-letter {
+  font-size: 4.354em;
+  margin: 0.0815em 0.057em 0 0;
 }
 
 /* gwern's signature lead-in: the first rendered line set in small caps. Because
    it's ::first-line (not a fixed word count), it reflows with the column and
    breaks at the wrap, exactly like gwern's. The ::first-letter above wins
    for the initial glyph, so only the trailing text on line 1 is affected. */
-.dropcap > p:first-of-type::first-line {
+.dropcap > p:first-of-type::first-line,
+.xref-dropcap::first-line {
   font-variant-caps: small-caps;
   font-variant: small-caps;
   letter-spacing: 0.02em;
