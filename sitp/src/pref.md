@@ -19,7 +19,7 @@ as it's goal is to serve a similar role for software 2.0 as
 Written by Harold Abelson and Gerald Sussman with Julie Sussman, <span class="smallcaps">SICP</span> took learners on a whimsical whirlwind tour throughout the essence of computation
 starting with the elements of programs with functional programming, higher order functions, data abstraction, streams,
 and ending with programming their own programming languages with virtual interpreters and compilers to register machines.
-Although perhaps not as well-known, there also exists [*The Structure and Interpretation of Classical Mechanics*](https://groups.csail.mit.edu/mac/users/gjs/6946/sicm-html/book.html) <span class="smallcaps">(SICM)</span> (Sussman et al., 2001) and [*Functional Differential Geometry*](https://library.oapen.org/handle/20.500.12657/26057) <span class="smallcaps">(FDM)</span> (Sussman et al., 2013) which cover classical and quantum mechanics of physics respectively.
+Although perhaps somewhat more inconspicuous, there also exists [*The Structure and Interpretation of Classical Mechanics*](https://groups.csail.mit.edu/mac/users/gjs/6946/sicm-html/book.html) <span class="smallcaps">(SICM)</span> (Sussman et al., 2001) and [*Functional Differential Geometry*](https://library.oapen.org/handle/20.500.12657/26057) <span class="smallcaps">(FDM)</span> (Sussman et al., 2013) which cover classical and quantum mechanics of physics respectively.
 We'd like to imagine if Sussman and other Schemers had more energy, the next text would perhaps not cover thermodynamics,
 but rather deep learning.
 We thus present [*The Structure and Interpretation of Tensor Programs*](./front.md) (<span class="smallcaps">SITP</span>).
