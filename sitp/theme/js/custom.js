@@ -594,7 +594,11 @@ document.addEventListener("DOMContentLoaded", function () {
   // Whichever shape it is, the quote is shown with the prose block just above
   // it ghosted in over a gradient — the page the reader would be arriving out
   // of, fading up into the card's edge — so that a peek lands somewhere in a
-  // chapter instead of arriving out of nowhere.
+  // chapter instead of arriving out of nowhere. And from wherever it starts it
+  // reads on: the card takes the blocks after it too, through the next heading
+  // and the one after that, and scrolls. A peek is what the card opens on; how
+  // far it goes from there is the reader's to decide, and the ones who decide
+  // to keep going never have to leave the page they are on to do it.
   //
   // A link into another chapter fetches it once and keeps the parsed document,
   // so it costs one round trip per chapter per session rather than one per
@@ -610,13 +614,20 @@ document.addEventListener("DOMContentLoaded", function () {
     // card, and the note the reader is being shown often *is* one of them.
     var STRIP =
       ".defnote, .lecnote, .cppnote, .sidenote, .sidenote-number, .refine-ladder," +
-      " .quiz, .nb-cell, .mobile-only, script, iframe, video, audio";
-    // What counts, under a heading, as prose worth quoting.
+      " .quiz, .nb-cell, .mobile-only, script, iframe, video, audio," +
+      // mdBook hangs copy/run buttons off every code block at load. They act on
+      // the page's own block, and a card is a quotation of one.
+      " pre > .buttons";
+    // What counts as prose worth quoting (see `quotable` for the rest).
     var PROSE = /^(P|UL|OL|BLOCKQUOTE|DL)$/;
     var HEADING = /^H[1-6]$/;
     var BOX = ".definition, .theorem, .lemma, .example";
-    var MAX_BLOCKS = 3;
-    var MAX_CHARS = 500;
+    // How far a card will read on past the block it was opened for. Not a
+    // measure of the card, which is a fixed 14em and scrolls: a measure of how
+    // much of a chapter is worth carrying into one, past which the reader who
+    // is still going wants the chapter itself and the link is right there.
+    var MAX_BLOCKS = 40;
+    var MAX_CHARS = 8000;
 
     // {path, id, cross, url} for a link into the book, or null for anything else.
     function where(a) {
@@ -674,25 +685,69 @@ document.addEventListener("DOMContentLoaded", function () {
       return "";
     }
 
-    // A card's worth of prose, starting at `from` and stopping at the next
-    // heading — the section's opening, which is what a reader following a
-    // section link wants to see.
+    // One top-level block as a card would take it, or null for one it won't.
+    //
+    // A section's opening paragraph is wrapped in a `.dropcap` div carrying its
+    // initial; the paragraph inside is ordinary prose and sets as such once
+    // quoted out of that wrapper, so that is what comes back for one.
+    function quotable(n) {
+      var q = n.classList.contains("dropcap") ? n.querySelector("p") : n;
+      if (!q) return null;
+      // Apparatus with nowhere to stand in a card. STRIP takes these out of a
+      // block's insides (see `snippet`); a block that *is* one has nothing left
+      // once they are out, so it is dropped whole. A contents list, and the
+      // heading over it, say only what the card's own title already says.
+      if (q.matches(STRIP) || q.matches(".toc") || isContents(q)) return null;
+      // A heading is exempt from the isNav() test below: mdBook wraps every
+      // heading's title in its own `.header` anchor, so one looks exactly like
+      // a block that is nothing but a link — which is what that test throws
+      // out. The test never saw a heading while the walk stopped at them.
+      if (HEADING.test(q.tagName)) return q;
+      if (PROSE.test(q.tagName) || q.matches(BOX)) return isNav(q) ? null : q;
+      // A figure, a table, a code block: not prose, but stepping over one in
+      // silence would run together two paragraphs that do not follow each
+      // other — and in a book like this one a section can be mostly code, which
+      // used to leave its card with nothing to show at all. Kept when a card
+      // can show something of it, which an interactive embed cannot be.
+      if (q.matches(".table-wrapper") || q.tagName === "PRE") return q;
+      if (q.querySelector("img") && !q.querySelector(STRIP)) return q;
+      return null;
+    }
+
+    // A card's worth of the chapter, walking forward from `from`.
+    //
+    // This used to stop at the next heading: a card held a section's opening
+    // and no more, because a fixed card was all there was to hold it. A card
+    // that scrolls can carry the reader on past that boundary, so the walk goes
+    // through the headings and takes them along — they are what tells a reader
+    // scrolling down that the run has crossed into the next section — and stops
+    // at the end of the chapter or at the budget above, whichever comes first.
     function blocks(from) {
       var out = [];
       var chars = 0;
       for (var n = from; n && out.length < MAX_BLOCKS && chars < MAX_CHARS; n = n.nextElementSibling) {
-        if (HEADING.test(n.tagName)) break;
-        // A section's opening paragraph is wrapped in a `.dropcap` div for its
-        // initial, and it is the first prose a reader following the link would
-        // meet — so the card starts there too. The paragraph inside is ordinary
-        // prose, and quoted out of that wrapper it sets as ordinary prose.
-        var q = n.classList.contains("dropcap") ? n.querySelector("p") : n;
-        if (!q || !PROSE.test(q.tagName)) continue;
-        if (isNav(q)) continue;
+        var q = quotable(n);
+        if (!q) continue;
         out.push(q);
         chars += text(q).length;
       }
+      // A run that happens to stop on a heading ends the card with a title and
+      // nothing under it — an invitation to scroll that goes nowhere.
+      while (out.length && HEADING.test(out[out.length - 1].tagName)) out.pop();
       return out;
+    }
+
+    // The chapter continuing from just after the block a card is quoting: the
+    // mirror of leadIn() below, which walks back to the prose the reader would
+    // be arriving out of. Both walk top-level blocks, so a quote taken from
+    // inside a list or a table resumes after the whole list rather than after
+    // the row — "and then" is a relation between blocks of a page, not between
+    // the cells of one.
+    function readOn(from, root) {
+      if (!from || !root.contains(from)) return [];
+      var node = from;
+      while (node.parentElement && node.parentElement !== root) node = node.parentElement;
+      return blocks(node.nextElementSibling);
     }
 
     // A heading that introduces a table of contents: the book writes each one
@@ -818,12 +873,14 @@ document.addEventListener("DOMContentLoaded", function () {
         // The box carries its own numbered title bar, so the card adds none.
         var place = [section(box, root), w.cross ? chapter : ""].filter(Boolean).join(" · ");
         var upB = leadIn(box, root);
-        return card("", place, [box], term(el), w, upB && { node: upB, overTitle: false });
+        return card("", place, [box].concat(readOn(box, root)), term(el), w,
+                    upB && { node: upB, overTitle: false });
       }
 
       var blk = el.closest("p, li, blockquote, dd, figcaption, td") || el;
       var upP = leadIn(blk, root);
-      return card(section(blk, root) || chapter, w.cross ? chapter : "", [blk], term(el), w,
+      return card(section(blk, root) || chapter, w.cross ? chapter : "",
+                  [blk].concat(readOn(blk, root)), term(el), w,
                   upP && { node: upP, overTitle: false });
     }
 
@@ -960,9 +1017,19 @@ document.addEventListener("DOMContentLoaded", function () {
           src.textContent = place;
           p.appendChild(src);
         }
-        // The fade at the foot of the body is only honest when the quote really
-        // does run past the card, so it is switched on by measurement.
-        body.classList.toggle("xref-clipped", body.scrollHeight - body.clientHeight > 4);
+        // A quote too long for the card is capped, not cut off — the rest of
+        // it scrolls in place (`.xref-body` in the stylesheet) — and the fade
+        // at its foot is only honest while there is something below the fold.
+        // So it is measured on the way in and re-measured as the reader scrolls,
+        // and it comes off at the bottom of the quote.
+        function fade() {
+          body.classList.toggle(
+            "xref-clipped",
+            body.scrollHeight - body.scrollTop - body.clientHeight > 4
+          );
+        }
+        body.addEventListener("scroll", fade);
+        fade();
       },
     };
   })();
@@ -1019,6 +1086,27 @@ document.addEventListener("DOMContentLoaded", function () {
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") scheduleHide();
   });
+  // Keyboard parity for the wheel. A card opened by focusing its link has no
+  // route into it — the popup is appended to the end of the body, so Tab leads
+  // past it into the page, not in — and the scrolling keys would only slide the
+  // link away and dismiss the card mid-sentence. So while such a card is up and
+  // has more to show, those keys drive the quote instead. Anything else falls
+  // through untouched: a card with nothing below the fold, a card the pointer
+  // opened (the wheel is already over it), a shortcut carrying a modifier.
+  var SCROLL_KEYS = { ArrowDown: 1, ArrowUp: -1, PageDown: 1, PageUp: -1 };
+  document.addEventListener("keydown", function (e) {
+    if (!(e.key in SCROLL_KEYS)) return;
+    if (e.metaKey || e.ctrlKey || e.altKey || e.shiftKey) return;
+    if (!pop || !pop.classList.contains("visible")) return;
+    if (!anchor || document.activeElement !== anchor) return;
+    var body = pop.querySelector(".xref-body");
+    if (!body || body.scrollHeight - body.clientHeight <= 4) return;
+    // A page key moves a cardful less an overlapping line, so the reader keeps
+    // their place across the jump; an arrow moves about a line.
+    var step = /^Page/.test(e.key) ? Math.max(body.clientHeight - 24, 24) : 28;
+    body.scrollTop += SCROLL_KEYS[e.key] * step;
+    e.preventDefault();
+  });
   // Touch's stand-in for "the pointer left": a tap that landed on neither the
   // popup nor the link it belongs to. Runs after the handlers above, so the
   // second tap on a link has already claimed its own event.
@@ -1028,10 +1116,17 @@ document.addEventListener("DOMContentLoaded", function () {
     if (e.target.closest && e.target.closest("a") === anchor) return;
     scheduleHide();
   });
+  // The page scrolling out from under a card dismisses it: the card is placed
+  // against the link's viewport rect and has no way to follow it there. A scroll
+  // *inside* the card is the reader reading it and must not, and it arrives here
+  // all the same — a capturing listener on window sees scrolls that never bubble
+  // out of the element they happened in.
   window.addEventListener(
     "scroll",
-    function () {
-      if (pop && pop.classList.contains("visible")) scheduleHide();
+    function (e) {
+      if (!pop || !pop.classList.contains("visible")) return;
+      if (pop.contains(e.target)) return;
+      scheduleHide();
     },
     true
   );

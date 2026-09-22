@@ -2035,11 +2035,12 @@ html.green .ref-item a[href*="wikipedia.org"]::before { filter: invert(1) bright
 
    A fixed-height flex column pinned to its end is what shows a paragraph's
    *tail*: the overflow is thrown off the top of the box, which is the end the
-   fade is over. The fade itself is a mask rather than the overlay the foot of
-   the card uses (`.xref-clipped` below) — the ink has to thin out, not be
-   painted over, because in a card whose title names the section this run-up sits
-   directly under that title, where an opaque wash would band the type above it.
-   Scenery, so it takes no clicks and is `aria-hidden` in theme/js/custom.js. */
+   fade is over. The fade itself is a mask, as at the foot of the card
+   (`.xref-clipped` below) — the ink has to thin out, not be painted over,
+   because in a card whose title names the section this run-up sits directly
+   under that title, where an opaque wash would band the type above it. Unlike
+   the foot, there is nothing to scroll back to here: the run-up is scenery, so
+   it takes no clicks and is `aria-hidden` in theme/js/custom.js. */
 .doc-preview-xref .xref-lead {
   display: flex;
   flex-direction: column;
@@ -2054,33 +2055,104 @@ html.green .ref-item a[href*="wikipedia.org"]::before { filter: invert(1) bright
 }
 .doc-preview-xref .xref-lead > * { margin: 0; }
 
-/* A long paragraph is cut off rather than allowed to fill the screen: this is a
-   peek, and the link is right there for the rest of it. */
+/* A long quote is capped rather than allowed to fill the screen — this is a
+   peek, and the link is right there for the rest of it — but capped is not cut
+   off: the rest of it scrolls in place. `overscroll-behavior` keeps that wheel
+   off the page underneath, which matters twice over here, since a page scroll
+   is what dismisses the card (see theme/js/custom.js). */
 .doc-preview-xref .xref-body {
-  position: relative;
   max-height: 14em;
-  overflow: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
 }
-/* Drawn only when the quote really does run past the card (the class is set by
-   measurement in theme/js/custom.js), so a short quote gets no phantom fade. */
-.doc-preview-xref .xref-body.xref-clipped::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 3em;
-  background: linear-gradient(to bottom, transparent, var(--nb-in-bg));
+/* The "there is more below" fade, drawn only while there really is: the class is
+   set by measurement in theme/js/custom.js and re-set as the card is scrolled,
+   so a short quote gets no phantom fade and a reader who has scrolled to the
+   foot of a long one sees its last line plainly.
+
+   A mask rather than the absolutely-positioned overlay this was before it
+   scrolled. An overlay inside a scroll container is painted in the *content*
+   box and slides up out of view with the first wheel click; a mask is applied
+   to the element's own box, so it stays at the bottom edge where the cut is. */
+.doc-preview-xref .xref-body.xref-clipped {
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 3em), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 3em), transparent);
 }
 .doc-preview-xref .xref-body p { margin: 0 0 0.5em; }
 .doc-preview-xref .xref-body > :first-child { margin-top: 0; }
 .doc-preview-xref .xref-body > :last-child { margin-bottom: 0; }
 .doc-preview-xref .xref-body img { max-width: 100%; }
+
+/* A heading the reader has scrolled down onto. The card's quote runs on past
+   the section it was opened for (see `blocks` in theme/js/custom.js), so these
+   are the boundaries it crosses on the way, and they are set like the card's
+   own title one size down — same real small caps, same tracking, same color —
+   so that a section met halfway down the card reads as the same kind of thing
+   as the one named at the top of it. The rule above each is what a heading's
+   whitespace does on the page: `h2, h3` carry a 2.5em block start in
+   general.css, which inside a 14em card would be a screenful of nothing. */
+.doc-preview-xref .xref-body :is(h1, h2, h3, h4, h5, h6) {
+  font-variant-caps: small-caps;
+  font-variant: small-caps;
+  letter-spacing: 0.02em;
+  font-size: 1.2rem;
+  color: var(--nb-prompt);
+  margin: 0 0 0.45em;
+  padding-top: 0.9em;
+  border-top: 1px solid var(--nb-in-border);
+}
+/* Nothing to rule off at the very top of the card: the first heading in a run
+   is either the card's opening or right under its title. */
+.doc-preview-xref .xref-body > :is(h1, h2, h3, h4, h5, h6):first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+/* Identifiers are case-bearing, so they opt back out — `borscht.forward()` in
+   small caps reads as a typo. (The same courtesy `main h1`-`h4` extends above.) */
+.doc-preview-xref .xref-body :is(h1, h2, h3, h4, h5, h6) :is(code, .katex) {
+  font-variant-caps: normal;
+  font-variant: normal;
+  letter-spacing: normal;
+}
+/* mdBook wraps every heading's title in its own anchor. On the page that anchor
+   is invisible — a heading is not blue — and in the card it stays that way; it
+   is still live, so a reader who has scrolled to a section can click into it. */
+.doc-preview-xref .xref-body :is(h1, h2, h3, h4, h5, h6) a {
+  color: inherit;
+  text-decoration: none;
+}
+/* A code block quoted mid-run, set a notch down so a card's worth of it is a
+   useful amount. It keeps its own horizontal scroll — a card is narrower than
+   the text column, and wrapping code to fit would misrepresent it. */
+.doc-preview-xref .xref-body pre {
+  font-size: 0.88em;
+  margin: 0 0 0.5em;
+  padding: 0.5em 0.6em;
+  overflow-x: auto;
+}
+/* A side-by-side pair, met in a card that is narrower than one of the two
+   columns it wants. It stacks, which is what it already does on a phone (the
+   `.dual` rule in the mobile block above). */
+.doc-preview-xref .xref-body :is(.dual, .dual-margin) {
+  grid-template-columns: 1fr;
+  gap: 0.6rem;
+}
+/* A figure quoted mid-run. `.full-bleed` widens itself to 90vw and pulls left
+   by half of that, which in a 460px card would hang most of the image off the
+   side of the screen; in here it is simply as wide as the card. */
+.doc-preview-xref .xref-body .full-bleed {
+  width: auto;
+  left: auto;
+  margin-left: 0;
+}
 /* A quoted definition box keeps its own border and numbered title bar — it
-   should look like the thing the reader is about to jump to — and only loses
-   the page margins it would otherwise press against the card's padding. */
+   should look like the thing the reader is about to jump to — and loses the
+   page margins it would otherwise press against the card's padding. It keeps a
+   little below it: a box is no longer the last thing in a card, and the prose
+   that now follows it needs to be off it. */
 .doc-preview-xref .xref-body :is(.definition, .theorem, .lemma, .example) {
-  margin: 0;
+  margin: 0 0 0.6em;
 }
 /* The word the link was pointing at, banded in the same wash the notebooks use
    to point at a line of code. */
