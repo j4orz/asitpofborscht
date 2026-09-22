@@ -24,7 +24,7 @@ macros = "katex_macros.txt"
 [output.html]
 additional-css = ["theme/css/custom.css", "theme/css/lean.css"]
 additional-js = ["theme/js/highlight-lean.min.js", "theme/js/custom.js", "theme/js/lean.js"]
-default-theme = "light"
+default-theme = "rust"
 preferred-dark-theme = "ayu"
 
 # Embeds committed, already-executed Jupyter notebooks as static In[]/Out[]
