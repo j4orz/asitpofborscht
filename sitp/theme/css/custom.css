@@ -2014,8 +2014,10 @@ html.green .ref-item a[href*="wikipedia.org"]::before { filter: invert(1) bright
 .doc-preview-xref {
   max-width: min(460px, calc(100vw - 24px));
 }
-/* Where the quote comes from: the section heading, or a box's own title when
-   the quote is a box. It names a heading, so it is set like one — the same
+/* Where the quote comes from: the name of the section it sits in, or a chapter's
+   own title for a bare chapter link. A quote that carries its own heading — a
+   section, a numbered box — gets none, since that heading rides in the run
+   itself. It names a heading, so it is set like one — the same
    real small caps and 0.02em tracking as `main h1`-`h4` above, in the body
    face — and is held apart from the prose under it by color rather than by
    size. (`text-transform: uppercase` would defeat this: `smcp` needs real
@@ -2029,56 +2031,56 @@ html.green .ref-item a[href*="wikipedia.org"]::before { filter: invert(1) bright
   color: var(--nb-prompt);
   margin-bottom: 0.45rem;
 }
-/* The run-up: the prose block just above the quote, clipped to the last line or
-   two of it and faded out towards the top of the card, so that the quote reads
-   as a place in a chapter rather than a fragment cut loose from it.
+/* A run too long for the card is capped rather than allowed to fill the screen
+   — this is a peek, and the link is right there for the rest of it — but capped
+   is not cut off: the chapter either side of the quote scrolls in place, and the
+   card opens scrolled to the quote rather than to the top of the run (`fill` in
+   theme/js/custom.js). `overscroll-behavior` keeps that wheel off the page
+   underneath, which matters twice over here, since a page scroll is what
+   dismisses the card.
 
-   A fixed-height flex column pinned to its end is what shows a paragraph's
-   *tail*: the overflow is thrown off the top of the box, which is the end the
-   fade is over. The fade itself is a mask, as at the foot of the card
-   (`.xref-clipped` below) — the ink has to thin out, not be painted over,
-   because in a card whose title names the section this run-up sits directly
-   under that title, where an opaque wash would band the type above it. Unlike
-   the foot, there is nothing to scroll back to here: the run-up is scenery, so
-   it takes no clicks and is `aria-hidden` in theme/js/custom.js. */
-.doc-preview-xref .xref-lead {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  height: 2.7em;
-  overflow: hidden;
-  margin-bottom: 0.3rem;
-  opacity: 0.6;
-  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 1.7em);
-  mask-image: linear-gradient(to bottom, transparent, #000 1.7em);
-  pointer-events: none;
-}
-.doc-preview-xref .xref-lead > * { margin: 0; }
+   Both ends fade while there is more past them, and both fades are cut into the
+   element's own box by one mask. A mask rather than the absolutely-positioned
+   overlay this was before it scrolled: an overlay inside a scroll container is
+   painted in the *content* box and slides out of view with the first wheel
+   click. One mask rather than two, because two would be two declarations of one
+   property and the second would win — so the ends are the custom properties
+   below, and at 0 a gradient's two stops meet, which leaves that end simply
+   opaque and costs an unclipped card nothing.
 
-/* A long quote is capped rather than allowed to fill the screen — this is a
-   peek, and the link is right there for the rest of it — but capped is not cut
-   off: the rest of it scrolls in place. `overscroll-behavior` keeps that wheel
-   off the page underneath, which matters twice over here, since a page scroll
-   is what dismisses the card (see theme/js/custom.js). */
+   The head fade doubles as the run-up the card used to draw as its own ghosted
+   strip above the scroller: `fill` leaves the last 2.4em of the block before the
+   quote showing over this 1.2em fade, so the page still thins out into the
+   card's edge, and that block's last line sits below the fade, legible, with the
+   quote itself under it at full ink. */
 .doc-preview-xref .xref-body {
-  max-height: 14em;
+  --fade-top: 0px;
+  --fade-bottom: 0px;
+  max-height: 16em;
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: thin;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 var(--fade-top),
+    #000 calc(100% - var(--fade-bottom)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 var(--fade-top),
+    #000 calc(100% - var(--fade-bottom)),
+    transparent 100%
+  );
 }
-/* The "there is more below" fade, drawn only while there really is: the class is
-   set by measurement in theme/js/custom.js and re-set as the card is scrolled,
-   so a short quote gets no phantom fade and a reader who has scrolled to the
-   foot of a long one sees its last line plainly.
-
-   A mask rather than the absolutely-positioned overlay this was before it
-   scrolled. An overlay inside a scroll container is painted in the *content*
-   box and slides up out of view with the first wheel click; a mask is applied
-   to the element's own box, so it stays at the bottom edge where the cut is. */
-.doc-preview-xref .xref-body.xref-clipped {
-  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 3em), transparent);
-  mask-image: linear-gradient(to bottom, #000 calc(100% - 3em), transparent);
-}
+/* Drawn only where there really is more, by measurement in theme/js/custom.js
+   and re-measured as the card is scrolled: a short quote gets no phantom fade, a
+   reader who has scrolled to the foot of a long one sees its last line plainly,
+   and one who has scrolled to the head of the run sees its first the same way. */
+.doc-preview-xref .xref-body.xref-clipped { --fade-bottom: 3em; }
+.doc-preview-xref .xref-body.xref-clipped-top { --fade-top: 1.2em; }
 .doc-preview-xref .xref-body p { margin: 0 0 0.5em; }
 .doc-preview-xref .xref-body > :first-child { margin-top: 0; }
 .doc-preview-xref .xref-body > :last-child { margin-bottom: 0; }
@@ -2091,7 +2093,7 @@ html.green .ref-item a[href*="wikipedia.org"]::before { filter: invert(1) bright
    so that a section met halfway down the card reads as the same kind of thing
    as the one named at the top of it. The rule above each is what a heading's
    whitespace does on the page: `h2, h3` carry a 2.5em block start in
-   general.css, which inside a 14em card would be a screenful of nothing. */
+   general.css, which inside a 16em card would be a screenful of nothing. */
 .doc-preview-xref .xref-body :is(h1, h2, h3, h4, h5, h6) {
   font-variant-caps: small-caps;
   font-variant: small-caps;

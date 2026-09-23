@@ -582,8 +582,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // to another chapter of this book. Its anchor comes in one of three shapes,
   // and each wants a different slice of the target:
   //
-  //   a heading (#13-parameterizing-classification-...) — the section: its
-  //        title, then the opening blocks of prose under it.
+  //   a heading (#13-parameterizing-classification-...) — the section: the
+  //        heading itself, then the blocks of prose under it.
   //   a box — the `.definition`/`.theorem` itself, quoted whole, since it
   //        already draws its own numbered title bar.
   //   anything else — a defnote slug (#vector), a refinement rung
@@ -591,14 +591,17 @@ document.addEventListener("DOMContentLoaded", function () {
   //        section it belongs to, with the term marked so the reader can see
   //        what they were sent to look at.
   //
-  // Whichever shape it is, the quote is shown with the prose block just above
-  // it ghosted in over a gradient — the page the reader would be arriving out
-  // of, fading up into the card's edge — so that a peek lands somewhere in a
-  // chapter instead of arriving out of nowhere. And from wherever it starts it
-  // reads on: the card takes the blocks after it too, through the next heading
-  // and the one after that, and scrolls. A peek is what the card opens on; how
-  // far it goes from there is the reader's to decide, and the ones who decide
-  // to keep going never have to leave the page they are on to do it.
+  // Whichever shape it is, the card is a window onto the chapter rather than a
+  // fragment cut out of it: it takes the blocks either side of the quote as
+  // well, through the heading above and the one below and the ones past those,
+  // and it scrolls both ways. It opens scrolled to the quote, with the tail of
+  // the block before it showing above and fading up into the card's edge — the
+  // page the reader would be arriving out of — so that a peek lands somewhere
+  // in a chapter instead of arriving out of nowhere, and a reader who wants the
+  // sentence before the one they were sent to has it without leaving the page.
+  // A peek is what the card opens on; how far it goes from there, and which
+  // way, is the reader's to decide, and the ones who decide to keep going never
+  // have to leave the page they are on to do it.
   //
   // A link into another chapter fetches it once and keeps the parsed document,
   // so it costs one round trip per chapter per session rather than one per
@@ -622,10 +625,11 @@ document.addEventListener("DOMContentLoaded", function () {
     var PROSE = /^(P|UL|OL|BLOCKQUOTE|DL)$/;
     var HEADING = /^H[1-6]$/;
     var BOX = ".definition, .theorem, .lemma, .example";
-    // How far a card will read on past the block it was opened for. Not a
-    // measure of the card, which is a fixed 14em and scrolls: a measure of how
-    // much of a chapter is worth carrying into one, past which the reader who
-    // is still going wants the chapter itself and the link is right there.
+    // How far a card will read out from the block it was opened for, in each
+    // direction. Not a measure of the card, which is a fixed 16em and scrolls: a
+    // measure of how much of a chapter is worth carrying into one, past which
+    // the reader who is still going wants the chapter itself and the link is
+    // right there.
     var MAX_BLOCKS = 40;
     var MAX_CHARS = 8000;
 
@@ -671,13 +675,11 @@ document.addEventListener("DOMContentLoaded", function () {
       return node ? (node.textContent || "").replace(/\s+/g, " ").trim() : "";
     }
 
-    // Text of the nearest heading above `el`. mdBook flattens a chapter into a
-    // single <main>, so "above" means: climb to the top-level block `el` sits
-    // in, then walk back through its siblings.
+    // Text of the nearest heading above `el`: from the top-level block it sits
+    // in (see `outer`), walk back through the siblings.
     function section(el, root) {
       if (!root.contains(el)) return "";
-      var node = el;
-      while (node.parentElement && node.parentElement !== root) node = node.parentElement;
+      var node = outer(el, root);
       while (node) {
         if (HEADING.test(node.tagName)) return text(node);
         node = node.previousElementSibling;
@@ -714,40 +716,72 @@ document.addEventListener("DOMContentLoaded", function () {
       return null;
     }
 
-    // A card's worth of the chapter, walking forward from `from`.
+    // A card's worth of the chapter, taking `step` siblings from `from` until
+    // the chapter runs out or the budget above does, whichever comes first.
     //
     // This used to stop at the next heading: a card held a section's opening
     // and no more, because a fixed card was all there was to hold it. A card
-    // that scrolls can carry the reader on past that boundary, so the walk goes
+    // that scrolls can carry the reader past that boundary, so the walk goes
     // through the headings and takes them along — they are what tells a reader
-    // scrolling down that the run has crossed into the next section — and stops
-    // at the end of the chapter or at the budget above, whichever comes first.
-    function blocks(from) {
+    // who has scrolled out of the quote that the run has crossed into another
+    // section.
+    function run(from, step) {
       var out = [];
       var chars = 0;
-      for (var n = from; n && out.length < MAX_BLOCKS && chars < MAX_CHARS; n = n.nextElementSibling) {
+      for (var n = from; n && out.length < MAX_BLOCKS && chars < MAX_CHARS; n = n[step]) {
         var q = quotable(n);
         if (!q) continue;
+        // A prose block whose text is all apparatus has nothing left once that
+        // is out (see `snippet`), and an empty paragraph in a card is a gap the
+        // reader has to scroll over — a run-up made of one would open the card
+        // on a blank strip. A paragraph carrying a figure shows the figure, and
+        // the blocks that are not prose at all are not asked.
+        if (PROSE.test(q.tagName) && !shown(q) && !q.querySelector("img")) continue;
         out.push(q);
         chars += text(q).length;
       }
+      return out;
+    }
+
+    // The chapter from the quote onwards.
+    function blocks(from) {
+      var out = run(from, "nextElementSibling");
       // A run that happens to stop on a heading ends the card with a title and
       // nothing under it — an invitation to scroll that goes nowhere.
       while (out.length && HEADING.test(out[out.length - 1].tagName)) out.pop();
       return out;
     }
 
-    // The chapter continuing from just after the block a card is quoting: the
-    // mirror of leadIn() below, which walks back to the prose the reader would
-    // be arriving out of. Both walk top-level blocks, so a quote taken from
-    // inside a list or a table resumes after the whole list rather than after
-    // the row — "and then" is a relation between blocks of a page, not between
-    // the cells of one.
+    // The chapter up to it, in reading order too: the walk goes back, the card
+    // reads down, so the run is turned around before it is handed over. Nothing
+    // is trimmed off its head the way `blocks` trims its tail — a heading is
+    // exactly what a reader arriving at the top of the run wants to find, and it
+    // has its whole section under it.
+    function blocksBack(from) {
+      return run(from, "previousElementSibling").reverse();
+    }
+
+    // The top-level block a quote sits in. mdBook flattens a chapter into a
+    // single <main>, so the run either side of a quote is found among that
+    // block's siblings — a quote taken from inside a list or a table resumes
+    // after the whole list rather than after the row, and is preceded by what
+    // came before the list rather than by the row above it. "And then" is a
+    // relation between the blocks of a page, not between the cells of one.
+    function outer(el, root) {
+      var node = el;
+      while (node.parentElement && node.parentElement !== root) node = node.parentElement;
+      return node;
+    }
+
+    // The chapter continuing from just after the block a card is quoting, and
+    // the chapter running up to just before it.
     function readOn(from, root) {
       if (!from || !root.contains(from)) return [];
-      var node = from;
-      while (node.parentElement && node.parentElement !== root) node = node.parentElement;
-      return blocks(node.nextElementSibling);
+      return blocks(outer(from, root).nextElementSibling);
+    }
+    function readBack(from, root) {
+      if (!from || !root.contains(from)) return [];
+      return blocksBack(outer(from, root).previousElementSibling);
     }
 
     // A heading that introduces a table of contents: the book writes each one
@@ -777,46 +811,6 @@ document.addEventListener("DOMContentLoaded", function () {
       return text(c);
     }
 
-    // A figure's label — the short "Figure 1.2.2" line the book sets under an
-    // image. It names a figure rather than saying anything, so as a run-up it
-    // would be a line of nothing.
-    function isCaption(n, t) {
-      return n.tagName === "P" && t.length < 40 && /^(figure|table|listing)\b/i.test(t);
-    }
-
-    // The prose the quote is arriving out of: the nearest paragraph above it,
-    // shown ghosted under a gradient so that a card reads as a place in a
-    // chapter rather than a fragment cut loose from it.
-    //
-    // The walk starts at the top-level block the quote sits in and steps back
-    // over everything with nothing to say: a standalone image, a figure's
-    // label, a "↩ Table of Contents" back-link, an empty wrapper. The sentence
-    // above those is still the one the reader is arriving out of. It ends with
-    // nothing at a heading — the card's own title already says what the quote
-    // sits under — and at anything that shows something of its own, a box, a
-    // notebook cell, a contents list, which is left where it is rather than
-    // quoted in ghost form.
-    function leadIn(from, root) {
-      if (!from || !root.contains(from)) return null;
-      var node = from;
-      while (node.parentElement && node.parentElement !== root) node = node.parentElement;
-      for (var n = node.previousElementSibling; n; n = n.previousElementSibling) {
-        if (HEADING.test(n.tagName)) return null;
-        // A section's opening paragraph is wrapped in a `.dropcap` div for its
-        // initial. The paragraph inside is ordinary prose, and quoted out of
-        // that wrapper it sets as ordinary prose too.
-        var q = n.classList.contains("dropcap") ? n.querySelector("p") : n;
-        if (!q || !PROSE.test(q.tagName) || q.classList.contains("toc")) {
-          if (text(n)) return null;
-          continue; // an image, a rule, an empty wrapper: keep looking above it
-        }
-        var t = shown(q);
-        if (!t || isNav(q) || isCaption(q, t)) continue;
-        return q;
-      }
-      return null;
-    }
-
     // The word the reader was sent to look at. A rung's anchor lives inside the
     // margin note that trails the term, and the term is the bold run just
     // before that note.
@@ -827,19 +821,18 @@ document.addEventListener("DOMContentLoaded", function () {
       return prev && /^(STRONG|EM|CODE)$/.test(prev.tagName) ? prev : null;
     }
 
-    // `lead` is the ghosted run-up from leadIn(), or null: {node, overTitle},
-    // where overTitle says the run-up belongs above the card's title rather
-    // than under it. The title is sometimes the target heading itself — prose
-    // from before that heading precedes it — and sometimes only the name of the
-    // section the quote sits in, which the run-up sits inside too.
-    function card(title, where, nodes, mark, w, lead) {
+    // `nodes` is the quote and the chapter after it, `back` the chapter before
+    // it — one run, handed over in two pieces because the card is scrolled to
+    // the seam between them on the way in (see `fill`). `back` is empty where
+    // there is nothing above the quote to scroll to: a chapter's own opening.
+    function card(title, where, nodes, mark, w, back) {
       if (!nodes.length) return null;
       return {
         title: title,
         where: where,
         nodes: nodes,
+        back: back || [],
         mark: mark,
-        lead: lead || null,
         // Relative URLs inside a block quoted out of another chapter are
         // resolved against that chapter, not against this page.
         base: w.cross ? w.url : null,
@@ -853,7 +846,8 @@ document.addEventListener("DOMContentLoaded", function () {
       var chapter = text(h1);
 
       if (!w.id) {
-        // A bare chapter link: the chapter's title and its opening prose.
+        // A bare chapter link: the chapter's title and its opening prose. The
+        // title is the top of the chapter, so nothing precedes the quote here.
         return card(chapter, "", blocks(h1 ? h1.nextElementSibling : root.firstElementChild), null, w);
       }
 
@@ -861,27 +855,30 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!el) return null; // a stale or not-yet-written anchor
 
       if (HEADING.test(el.tagName)) {
-        // The run-up here is the tail of the section above, which comes before
-        // the heading on the page and so comes before it on the card too.
-        var upH = leadIn(el, root);
-        return card(text(el), w.cross ? chapter : "", blocks(el.nextElementSibling), null, w,
-                    upH && { node: upH, overTitle: true });
+        // The heading rides in the run rather than being lifted out of it into
+        // the card's title, the way it did when a section's opening was all a
+        // card could hold. It is the seam the card is pinned to, and the reader
+        // who scrolls up off the top of the section has to be able to see where
+        // the section began — so the card adds no title of its own, as with a
+        // box below, and the heading rules itself off in the run instead.
+        var under = blocks(el.nextElementSibling);
+        if (!under.length) return null; // a heading with nothing quotable under it
+        return card("", w.cross ? chapter : "", [el].concat(under), null, w,
+                    readBack(el, root));
       }
 
       var box = el.closest(BOX);
       if (box) {
         // The box carries its own numbered title bar, so the card adds none.
         var place = [section(box, root), w.cross ? chapter : ""].filter(Boolean).join(" · ");
-        var upB = leadIn(box, root);
         return card("", place, [box].concat(readOn(box, root)), term(el), w,
-                    upB && { node: upB, overTitle: false });
+                    readBack(box, root));
       }
 
       var blk = el.closest("p, li, blockquote, dd, figcaption, td") || el;
-      var upP = leadIn(blk, root);
       return card(section(blk, root) || chapter, w.cross ? chapter : "",
                   [blk].concat(readOn(blk, root)), term(el), w,
-                  upP && { node: upP, overTitle: false });
+                  readBack(blk, root));
     }
 
     function rebase(url, base) {
@@ -974,39 +971,35 @@ document.addEventListener("DOMContentLoaded", function () {
 
       fill: function (p, a, data) {
         p.replaceChildren();
-        // The run-up is scenery: it is there to show that the quote has a page
-        // above it, it is clipped and faded past reading, and the same prose is
-        // one link away in full. So it is kept out of the accessibility tree and
-        // out of the way of the pointer (`.xref-lead` in the stylesheet), and
-        // assistive tech is given the quote alone, as before.
-        var ghost = null;
-        if (data.lead) {
-          ghost = document.createElement("div");
-          ghost.className = "xref-lead";
-          ghost.setAttribute("aria-hidden", "true");
-          ghost.appendChild(snippet(data.lead.node, null, data.base));
-          if (data.lead.overTitle) p.appendChild(ghost);
-        }
         if (data.title) {
           var h = document.createElement("div");
           h.className = "xref-title";
           h.textContent = data.title;
           p.appendChild(h);
         }
-        if (ghost && !data.lead.overTitle) p.appendChild(ghost);
         var body = document.createElement("div");
         body.className = "xref-body";
-        data.nodes.forEach(function (n) {
+        function add(n) {
           var c = snippet(n, data.mark, data.base);
           // A section's opening paragraph is quoted out of the `.dropcap` div
-          // that carries its initial on the page (see `blocks` above), so the
+          // that carries its initial on the page (see `quotable` above), so the
           // selector that draws the cap no longer reaches it. The class is the
-          // handle the card's own, smaller cap hangs on; the ghosted run-up
-          // gets none, being scenery rather than an opening.
+          // handle the card's own, smaller cap hangs on.
           if (n.parentElement && n.parentElement.classList.contains("dropcap")) {
             c.classList.add("xref-dropcap");
           }
           body.appendChild(c);
+          return c;
+        }
+        // The chapter before the quote, then the quote and the chapter after it,
+        // all of it one scroller and all of it real prose. The run above used to
+        // be a ghost of a single paragraph pinned outside the scroller, which is
+        // why a card would only ever scroll down.
+        data.back.forEach(add);
+        var opening = null;
+        data.nodes.forEach(function (n) {
+          var c = add(n);
+          opening = opening || c;
         });
         p.appendChild(body);
 
@@ -1017,19 +1010,65 @@ document.addEventListener("DOMContentLoaded", function () {
           src.textContent = place;
           p.appendChild(src);
         }
-        // A quote too long for the card is capped, not cut off — the rest of
-        // it scrolls in place (`.xref-body` in the stylesheet) — and the fade
-        // at its foot is only honest while there is something below the fold.
-        // So it is measured on the way in and re-measured as the reader scrolls,
-        // and it comes off at the bottom of the quote.
+
+        // A run too long for the card is capped, not cut off — it scrolls in
+        // place (`.xref-body` in the stylesheet) — and the fade at each end is
+        // only honest while there is something past it. So both are measured on
+        // the way in and re-measured as the reader scrolls, and each comes off at
+        // its own end of the run.
         function fade() {
+          body.classList.toggle("xref-clipped-top", body.scrollTop > 4);
           body.classList.toggle(
             "xref-clipped",
             body.scrollHeight - body.scrollTop - body.clientHeight > 4
           );
         }
-        body.addEventListener("scroll", fade);
-        fade();
+
+        // Where the card opens: on the quote, not at the top of the run, with
+        // the tail of the block before it left showing above. That much is what
+        // the head fade is drawn over (`--fade-top` in the stylesheet), so the
+        // run-up still thins out into the card's edge the way the ghost it
+        // replaces did, and the quote starts below the fade at full ink.
+        //
+        // LEAD is measured from the *bottom of that block's last line*, not from
+        // the top of the quote, because what is between them is whitespace: a
+        // paragraph's margin, and over a heading its rule and the 0.9em that
+        // holds the rule off it. Measured from the quote, a heading's own
+        // padding would push the whole run-up up into the fade and the card
+        // would open on a blank strip.
+        var LEAD = 2.4; // em of run-up left showing, over a 1.2em fade
+        var placed = 0; // where we last put the scroll, to tell ours from theirs
+        function pin() {
+          if (!opening) return;
+          var em = parseFloat(getComputedStyle(body).fontSize) || 16;
+          var up = opening.previousElementSibling; // last block of the run-up
+          var r = (up || opening).getBoundingClientRect();
+          var edge = body.getBoundingClientRect().top - body.scrollTop;
+          body.scrollTop = Math.max(0, (up ? r.bottom - LEAD * em : r.top) - edge);
+          placed = body.scrollTop;
+          fade();
+        }
+        // The reader's place, once they have one, is theirs: the pin is only
+        // re-taken while the card is still sitting where it was put. Layout above
+        // the quote settles after the card is up — an image arriving at its real
+        // height would slide the quote out of view — and WebKit has no scroll
+        // anchoring to catch that for us.
+        var held = true;
+        body.addEventListener("scroll", function () {
+          if (Math.abs(body.scrollTop - placed) > 2) held = false;
+          fade();
+        });
+        pin();
+        body.querySelectorAll("img").forEach(function (img) {
+          if (img.complete) return;
+          img.addEventListener(
+            "load",
+            function () {
+              if (held) pin();
+            },
+            { once: true }
+          );
+        });
       },
     };
   })();
